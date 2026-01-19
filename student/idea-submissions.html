@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>IFT Idea Submission Form</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&amp;family=Noto+Sans:wght@100..900&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2f0df2",
+                        "background-light": "#f6f5f8",
+                        "background-dark": "#131022",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: { "DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white antialiased">
+    <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+        <!-- Navigation -->
+        <header
+            class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-[#e9e7f4] dark:border-slate-800 bg-white dark:bg-[#1a162e] px-4 md:px-10 py-3 shadow-sm">
+            <div class="flex items-center gap-4 text-[#0f0d1c] dark:text-white">
+                <div class="size-6 text-primary">
+                    <svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_6_330)">
+                            <path clip-rule="evenodd"
+                                d="M24 0.757355L47.2426 24L24 47.2426L0.757355 24L24 0.757355ZM21 35.7574V12.2426L9.24264 24L21 35.7574Z"
+                                fill="currentColor" fill-rule="evenodd"></path>
+                        </g>
+                        <defs>
+                            <clippath id="clip0_6_330">
+                                <rect fill="white" height="48" width="48"></rect>
+                            </clippath>
+                        </defs>
+                    </svg>
+                </div>
+                <h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">IFT – India’s Future Tycoon</h2>
+            </div>
+            <div class="hidden md:flex flex-1 justify-end gap-8">
+                <div class="flex items-center gap-9">
+                    <a class="text-slate-500 hover:text-primary dark:text-slate-300 dark:hover:text-primary text-sm font-medium leading-normal transition-colors"
+                        href="#">Dashboard</a>
+                    <a class="text-primary text-sm font-bold leading-normal border-b-2 border-primary" href="#">My
+                        Ideas</a>
+                    <a class="text-slate-500 hover:text-primary dark:text-slate-300 dark:hover:text-primary text-sm font-medium leading-normal transition-colors"
+                        href="#">Resources</a>
+                    <a class="text-slate-500 hover:text-primary dark:text-slate-300 dark:hover:text-primary text-sm font-medium leading-normal transition-colors"
+                        href="#">Profile</a>
+                </div>
+                <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-white shadow-sm cursor-pointer"
+                    data-alt="User profile avatar showing a smiling student"
+                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA2s8qjUM7LN_K9HMbGIHwNYI8E1aawgmRys1JG2IXbvK_DRpS7mNXLVqStDgqRG2K8hu34ySQ8ODapf49l6RxN1AWjoLTvnhcCFYaNQ8d2I_RWrBFqBZioqarDTvAqUAD2ZePH1naFoz9x99rnRwVprFLcw0rFnH6QQSGJWmbpiCinMobQT668md0zWbIgAMibaceVt8RxdC85-nCpCNBXwlEZrA3degXOS0r_5eYiLRCqnNcAChcp1Gr4wfUh0EHNdj3SR3RHkn4");'>
+                </div>
+            </div>
+            <div class="md:hidden">
+                <span class="material-symbols-outlined text-2xl cursor-pointer">menu</span>
+            </div>
+        </header>
+        <!-- Main Content Layout -->
+        <main class="flex-1 flex justify-center py-8 px-4 sm:px-6 md:px-10 lg:px-20">
+            <div class="flex flex-col w-full max-w-[960px] gap-6">
+                <!-- Page Heading & Progress -->
+                <div class="flex flex-col gap-6">
+                    <div class="flex flex-wrap items-end justify-between gap-4">
+                        <div class="flex flex-col gap-2">
+                            <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-[#0f0d1c] dark:text-white">
+                                Idea Submission</h1>
+                            <p class="text-[#56499c] dark:text-[#a095e8] text-sm font-medium">Step 3 of 4: Review &amp;
+                                Finalize</p>
+                        </div>
+                        <div
+                            class="flex items-center gap-2 text-[#56499c] dark:text-[#a095e8] bg-white dark:bg-[#1e1a34] px-3 py-1.5 rounded-full shadow-sm border border-slate-100 dark:border-slate-800">
+                            <span class="material-symbols-outlined text-sm">cloud_done</span>
+                            <p class="text-xs font-medium">Auto-saved: Just now</p>
+                        </div>
+                    </div>
+                    <!-- Progress Bar -->
+                    <div class="flex flex-col gap-2">
+                        <div class="flex justify-between text-xs font-medium text-slate-500 dark:text-slate-400 px-1">
+                            <span>Basic Info</span>
+                            <span>Questionnaire</span>
+                            <span class="text-primary font-bold">Detailed Input</span>
+                            <span>Review</span>
+                        </div>
+                        <div class="h-2.5 w-full rounded-full bg-[#d2cee8] dark:bg-slate-700 overflow-hidden">
+                            <div class="h-full rounded-full bg-primary transition-all duration-500" style="width: 75%;">
+                            </div>
+                        </div>
+                        <div class="flex justify-end">
+                            <p class="text-primary text-xs font-bold">75% Completed</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Main Form Card -->
+                <div
+                    class="bg-white dark:bg-[#1a162e] rounded-xl shadow-sm border border-slate-100 dark:border-slate-800 p-6 md:p-10 flex flex-col gap-10">
+                    <!-- Section 1: Idea Details -->
+                    <section class="flex flex-col gap-6">
+                        <div class="flex items-center gap-3 border-b border-slate-100 dark:border-slate-700 pb-2">
+                            <div class="p-2 bg-primary/10 rounded-lg text-primary">
+                                <span class="material-symbols-outlined">lightbulb</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-[#0f0d1c] dark:text-white">Idea Details</h3>
+                        </div>
+                        <div class="grid gap-6">
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-semibold text-slate-700 dark:text-slate-300"
+                                    for="project-title">Project Title <span class="text-red-500">*</span></label>
+                                <input
+                                    class="w-full rounded-lg border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 px-4 py-3 text-slate-900 dark:text-white focus:border-primary focus:ring-primary dark:focus:ring-primary sm:text-sm shadow-sm transition-shadow"
+                                    id="project-title" placeholder="e.g. Solar-Powered Water Purification System"
+                                    type="text" />
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-sm font-semibold text-slate-700 dark:text-slate-300"
+                                    for="one-line-pitch">One-line Pitch <span class="text-red-500">*</span></label>
+                                <input
+                                    class="w-full rounded-lg border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 px-4 py-3 text-slate-900 dark:text-white focus:border-primary focus:ring-primary dark:focus:ring-primary sm:text-sm shadow-sm transition-shadow"
+                                    id="one-line-pitch" placeholder="Describe your idea in one catchy sentence"
+                                    type="text" />
+                                <p class="text-xs text-slate-400 text-right">0/120 characters</p>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- Section 2: Tycoon Questionnaire -->
+                    <section class="flex flex-col gap-6">
+                        <div
+                            class="flex items-center justify-between border-b border-slate-100 dark:border-slate-700 pb-2">
+                            <div class="flex items-center gap-3">
+                                <div class="p-2 bg-primary/10 rounded-lg text-primary">
+                                    <span class="material-symbols-outlined">quiz</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-[#0f0d1c] dark:text-white">The Tycoon Questionnaire
+                                </h3>
+                            </div>
+                            <span
+                                class="text-xs font-medium bg-green-100 text-green-700 px-2 py-1 rounded dark:bg-green-900/30 dark:text-green-400">All
+                                questions required</span>
+                        </div>
+                        <div class="flex flex-col gap-8">
+                            <!-- Q1 -->
+                            <div class="flex flex-col gap-3 group">
+                                <div class="flex justify-between items-center">
+                                    <label class="text-sm font-semibold text-slate-700 dark:text-slate-300" for="q1">1.
+                                        What specific problem are you solving? <span
+                                            class="text-red-500">*</span></label>
+                                    <div class="group relative flex items-center justify-center">
+                                        <span
+                                            class="material-symbols-outlined text-slate-400 text-lg cursor-help hover:text-primary transition-colors">info</span>
+                                        <div
+                                            class="absolute bottom-full mb-2 hidden w-48 rounded bg-slate-800 p-2 text-xs text-white shadow-lg group-hover:block z-10">
+                                            Focus on the pain points of your target user.
+                                        </div>
+                                    </div>
+                                </div>
+                                <textarea
+                                    class="w-full rounded-lg border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 px-4 py-3 text-slate-900 dark:text-white focus:border-primary focus:ring-primary dark:focus:ring-primary sm:text-sm shadow-sm transition-shadow resize-y"
+                                    id="q1" placeholder="Explain the core issue clearly..." rows="4"></textarea>
+                                <p class="text-xs text-slate-400 text-right group-focus-within:text-primary">0/500
+                                    characters</p>
+                            </div>
+                            <!-- Q2 -->
+                            <div class="flex flex-col gap-3 group">
+                                <div class="flex justify-between items-center">
+                                    <label class="text-sm font-semibold text-slate-700 dark:text-slate-300" for="q2">2.
+                                        Who is your target audience? <span class="text-red-500">*</span></label>
+                                </div>
+                                <textarea
+                                    class="w-full rounded-lg border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 px-4 py-3 text-slate-900 dark:text-white focus:border-primary focus:ring-primary dark:focus:ring-primary sm:text-sm shadow-sm transition-shadow resize-y"
+                                    id="q2" placeholder="e.g. High school students in urban areas..."
+                                    rows="3"></textarea>
+                            </div>
+                            <!-- Q3 -->
+                            <div class="flex flex-col gap-3 group">
+                                <div class="flex justify-between items-center">
+                                    <label class="text-sm font-semibold text-slate-700 dark:text-slate-300" for="q3">3.
+                                        How is your idea innovative? <span class="text-red-500">*</span></label>
+                                </div>
+                                <textarea
+                                    class="w-full rounded-lg border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 px-4 py-3 text-slate-900 dark:text-white focus:border-primary focus:ring-primary dark:focus:ring-primary sm:text-sm shadow-sm transition-shadow resize-y"
+                                    id="q3" placeholder="What makes your solution different from existing ones?"
+                                    rows="4"></textarea>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- Section 3: Supporting Materials -->
+                    <section class="flex flex-col gap-6">
+                        <div class="flex items-center gap-3 border-b border-slate-100 dark:border-slate-700 pb-2">
+                            <div class="p-2 bg-primary/10 rounded-lg text-primary">
+                                <span class="material-symbols-outlined">folder_open</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-[#0f0d1c] dark:text-white">Supporting Materials</h3>
+                        </div>
+                        <div class="flex flex-col gap-4">
+                            <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Upload Pitch Deck or
+                                Video</label>
+                            <div
+                                class="relative flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-primary/40 bg-slate-50 dark:bg-slate-800/50 hover:bg-primary/5 hover:border-primary transition-colors px-6 py-10 text-center cursor-pointer group">
+                                <input class="absolute inset-0 z-10 h-full w-full cursor-pointer opacity-0"
+                                    type="file" />
+                                <div
+                                    class="mb-4 rounded-full bg-primary/10 p-4 text-primary group-hover:scale-110 transition-transform duration-200">
+                                    <span class="material-symbols-outlined text-3xl">cloud_upload</span>
+                                </div>
+                                <p class="text-sm font-medium text-slate-900 dark:text-white">
+                                    <span class="text-primary hover:underline">Click to upload</span> or drag and drop
+                                </p>
+                                <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">PPT, PDF, MP4 (Max 25MB)</p>
+                            </div>
+                            <!-- Uploaded File Item Example -->
+                            <div
+                                class="flex items-center justify-between rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-3 shadow-sm">
+                                <div class="flex items-center gap-3 overflow-hidden">
+                                    <div
+                                        class="flex size-10 shrink-0 items-center justify-center rounded bg-red-100 text-red-600 dark:bg-red-900/20 dark:text-red-400">
+                                        <span class="material-symbols-outlined">picture_as_pdf</span>
+                                    </div>
+                                    <div class="flex flex-col truncate">
+                                        <span
+                                            class="truncate text-sm font-medium text-slate-900 dark:text-white">Project_Proposal_Draft_v3.pdf</span>
+                                        <span class="text-xs text-slate-500">2.4 MB • Uploaded just now</span>
+                                    </div>
+                                </div>
+                                <button
+                                    class="flex size-8 shrink-0 items-center justify-center rounded-full text-slate-400 hover:bg-slate-100 hover:text-red-500 dark:hover:bg-slate-700 transition-colors">
+                                    <span class="material-symbols-outlined text-lg">delete</span>
+                                </button>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- Actions Footer -->
+                    <div
+                        class="sticky bottom-0 -mx-6 -mb-6 md:-mx-10 md:-mb-10 bg-white/95 dark:bg-[#1a162e]/95 backdrop-blur-sm border-t border-slate-100 dark:border-slate-800 p-6 md:px-10 flex flex-col-reverse md:flex-row items-center justify-between gap-4 mt-4 z-20 rounded-b-xl">
+                        <div class="flex w-full md:w-auto gap-3">
+                            <button
+                                class="flex-1 md:flex-none flex items-center justify-center gap-2 rounded-lg border border-slate-300 dark:border-slate-600 px-5 py-2.5 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                                <span class="material-symbols-outlined text-lg">save</span>
+                                Save as Draft
+                            </button>
+                            <button
+                                class="flex-1 md:flex-none flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-medium text-primary hover:bg-primary/10 transition-colors">
+                                <span class="material-symbols-outlined text-lg">visibility</span>
+                                Preview
+                            </button>
+                        </div>
+                        <button
+                            class="w-full md:w-auto flex items-center justify-center gap-2 rounded-lg bg-primary px-8 py-3 text-sm font-bold text-white shadow-lg shadow-primary/30 hover:bg-primary/90 hover:-translate-y-0.5 transition-all duration-200">
+                            Publish Submission
+                            <span class="material-symbols-outlined text-lg">arrow_forward</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Footer Meta -->
+                <div class="flex justify-center pb-8 pt-4">
+                    <p class="text-slate-400 text-xs text-center max-w-lg">
+                        By submitting your idea, you agree to the <a class="underline hover:text-primary" href="#">Terms
+                            &amp; Conditions</a> of the IFT Competition. Need help? <a
+                            class="underline hover:text-primary" href="#">Contact Support</a>.
+                    </p>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

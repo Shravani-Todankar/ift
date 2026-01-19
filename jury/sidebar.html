@@ -1,12 +1,187 @@
+<style>
+    /* Sidebar Styles */
+    .sidebar {
+        width: 280px;
+        background: #FFFFFF;
+        border-right: 1px solid #EEEEEE;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        position: sticky;
+        top: 0;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .sidebar-header {
+        border-bottom: 1px solid #F7F7F7;
+    }
+
+    .logo-img {
+        width: 2.5rem;
+        height: 2.5rem;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        border-radius: 0.5rem;
+        flex-shrink: 0;
+        border: 1px solid #EEEEEE;
+    }
+
+    .sidebar-title {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #222222;
+        margin: 0;
+        line-height: 1.2;
+    }
+
+    .sidebar-subtitle {
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: #5E2A97;
+        margin: 0;
+        line-height: 1.2;
+    }
+
+    /* Navigation Items */
+    .nav-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        color: #222222;
+        transition: all 0.2s ease;
+        cursor: pointer;
+        margin-bottom: 0.25rem;
+    }
+
+    .nav-item:hover {
+        background: #F7F7F7;
+        color: #222222;
+    }
+
+    .nav-item .material-symbols-outlined {
+        font-size: 24px;
+        color: #666666;
+        transition: all 0.2s ease;
+    }
+
+    .nav-item.nav-item-active {
+        background: rgba(94, 42, 151, 0.1);
+        color: #5E2A97;
+        border-left: 4px solid #5E2A97;
+        padding-left: calc(1rem - 4px);
+    }
+
+    .nav-item.nav-item-active .material-symbols-outlined {
+        color: #5E2A97;
+        font-variation-settings: 'FILL' 1;
+    }
+
+    .nav-item .material-symbols-outlined.filled {
+        font-variation-settings: 'FILL' 1;
+    }
+
+    .nav-text {
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+
+    /* Sidebar Footer */
+    .sidebar-footer {
+        border-top: 1px solid #EEEEEE;
+        margin-top: auto;
+    }
+
+    .user-profile {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+        transition: all 0.2s ease;
+        cursor: pointer;
+    }
+
+    .user-profile:hover {
+        background: #F7F7F7;
+    }
+
+    .user-avatar {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        overflow: hidden;
+        flex-shrink: 0;
+        border: 2px solid #EEEEEE;
+    }
+
+    .user-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .user-info {
+        flex: 1;
+    }
+
+    .user-name {
+        font-size: 0.875rem;
+        font-weight: 700;
+        color: #222222;
+        margin: 0 0 0.125rem 0;
+        line-height: 1.2;
+    }
+
+    .user-role {
+        font-size: 0.75rem;
+        color: #666666;
+        margin: 0;
+        line-height: 1.2;
+    }
+
+    .logout-btn {
+        background: none;
+        border: none;
+        color: #666666;
+        cursor: pointer;
+        padding: 0.5rem;
+        border-radius: 0.375rem;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .logout-btn:hover {
+        background: rgba(94, 42, 151, 0.1);
+        color: #5E2A97;
+    }
+
+    .logout-btn .material-symbols-outlined {
+        font-size: 20px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .sidebar {
+            display: none !important;
+        }
+    }
+</style>
+
 <!-- Sidebar -->
 <aside class="sidebar d-none d-md-flex flex-column">
     <div class="sidebar-header p-4 pb-2">
         <div class="d-flex align-items-center gap-3 mb-4">
             <div class="logo-img"
-                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB7rQ2LhvR3kyOHF0KAOScrfNCObr-XX_Hx99cMGvsRqD7bCLZ1p56CzJWsQAcDbTs5Mxj8Ya4TNYTEUu4nyBJAe0f_gXQk0I9S3U8y_CaA9Fm85pI_Y6K0oYWWO_6WTolfD3mQ3Pbq5iTY3bbTKVZaxdY-3sfFbuxFayL_r0KBLKWdUxQy-4eZL6YzVM_qZiCu2egpJN9z8DiPu7uC-QFzUZqUzI8-JUatTVqtDQZNLQ9G1vZ8QN08WUjcb8W9ubFYkssAlsTLaIc");'>
+                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB-XQB8IVDSkxX6ICyWiVD4C6kIJrFTsCgpUZGCdQM5WFe6P3gfVH5-93n9QVGW5gEVCw4V-NsF0jJlGNe5udZsWL93wpf0yI3kxGwdIdopGqFzZBKpMH0H3f4obSlg1n0Musb5YruVr1h0nSlogbgBFxS9UOhgIEor2VgzaqybbHNlwfheDQiF25FxXxEh76SthI-04vFrqg49Kzo1bK4AYodC1_otA1G5Rq5SuALrMgwwSg-BmZ8vUbiJIbLEyEnyMGU_ZQ-_1Q0");'>
             </div>
             <div class="d-flex flex-column">
-                <h1 class="sidebar-title">IFT</h1>
+                <h1 class="sidebar-title">IFT Jury Panel</h1>
                 <p class="sidebar-subtitle">India's Future Tycoon</p>
             </div>
         </div>
@@ -17,41 +192,32 @@
             <span class="material-symbols-outlined filled">dashboard</span>
             <span class="nav-text">Dashboard</span>
         </a>
-        <a class="nav-item" href="#">
-            <span class="material-symbols-outlined">person</span>
-            <span class="nav-text">My Profile</span>
-        </a>
-        <a class="nav-item" href="team-management.html">
-            <span class="material-symbols-outlined">group</span>
-            <span class="nav-text">Team</span>
-        </a>
-        <a class="nav-item" href="idea-submissions.html">
+        <a class="nav-item" href="assigned-ideas.html">
             <span class="material-symbols-outlined">lightbulb</span>
-            <span class="nav-text">Idea Submission</span>
+            <span class="nav-text">Assigned Ideas</span>
         </a>
         <a class="nav-item" href="#">
-            <span class="material-symbols-outlined">folder_open</span>
-            <span class="nav-text">My Idea</span>
+            <span class="material-symbols-outlined">assignment</span>
+            <span class="nav-text">Evaluations</span>
         </a>
         <a class="nav-item" href="#">
-            <span class="material-symbols-outlined">forum</span>
-            <span class="nav-text">Idea Corner</span>
+            <span class="material-symbols-outlined">star</span>
+            <span class="nav-text">Shortlisted Ideas</span>
         </a>
         <a class="nav-item" href="#">
-            <span class="material-symbols-outlined">notifications</span>
-            <span class="nav-text">Notifications</span>
-            <span class="notification-badge">3</span>
+            <span class="material-symbols-outlined">history</span>
+            <span class="nav-text">Evaluation History</span>
         </a>
     </nav>
     <div class="sidebar-footer p-3 mt-auto">
         <div class="user-profile">
             <div class="user-avatar">
-                <img alt="Student Profile Avatar"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAY6iaiuM97ukhXnkazQO4ZEzVdkIlgOyUQ0xIW_ZYSRjhORA4PvjrpGUSehGXjXjaRFLQ227P1dyOoIB5EmUt1fSgTZgJ9qdSUGdyS3RfS3dKbzonPwrp9ENytz14BwcvT_ooy5rrq8RdJUUJAGSM40jDW0kzhk0BmETKlnnf4iA8CZtLcqtXs89sn0ZToW5seXzTbLU3esfQXCgMSOr0Oe-sq-g6DuIYwgAGqg2xOV4hjJGirhWM8L7hk34VKsuti0EQYb5IehuM" />
+                <img alt="User Profile Picture"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuvM4h22-G2QJVfQTcNUIEkq41Xunl8wpGK2jUUAu1aPfGpxMyu9nIHKPfFL9ubW7jB_SNhu36Y0R_JZKln8oxW-kLtMx7bFkPpcDJGj8S3-cEZUar5_XyCsUeXbxGAMApRQNx5Pmch6G_kpZ1Iovfm-lhUFqL5YE8DTyTXppH1Bvgj1IElUzBt3-UBgCcTe9x5mK4ipf8KjfSK8vzW4H_awp6bjKWG7ziak6vUxK4E3_0jOND2-QqTIxDY1vLP1u2pBUPtryYKwM" />
             </div>
             <div class="user-info flex-grow-1">
-                <p class="user-name">Rohan Sharma</p>
-                <p class="user-role">Student • Grade 11</p>
+                <p class="user-name">Dr. A. Sharma</p>
+                <p class="user-role">Senior Juror</p>
             </div>
             <button class="logout-btn" id="logoutBtn">
                 <span class="material-symbols-outlined">logout</span>
@@ -111,7 +277,7 @@
                             sessionStorage.clear();
                             localStorage.removeItem('userToken');
 
-                            // Redirect to login page (adjust URL as needed)
+                            // Redirect to login page
                             window.location.href = '../index.html';
                         }, 300);
                     }
@@ -144,66 +310,12 @@
             });
         }
 
-        // Notification badge animation
-        function animateNotificationBadge() {
-            const badge = document.querySelector('.notification-badge');
-            if (badge) {
-                // Add pulse animation
-                setInterval(() => {
-                    badge.style.animation = 'none';
-                    setTimeout(() => {
-                        badge.style.animation = 'pulse 0.5s ease';
-                    }, 10);
-                }, 3000);
-            }
-        }
-
-        // Add click ripple effect to nav items
-        function addRippleEffect(e, element) {
-            const ripple = document.createElement('span');
-            const rect = element.getBoundingClientRect();
-            const size = Math.max(rect.width, rect.height);
-            const x = e.clientX - rect.left - size / 2;
-            const y = e.clientY - rect.top - size / 2;
-
-            ripple.style.width = ripple.style.height = size + 'px';
-            ripple.style.left = x + 'px';
-            ripple.style.top = y + 'px';
-            ripple.style.position = 'absolute';
-            ripple.style.borderRadius = '50%';
-            ripple.style.backgroundColor = 'rgba(47, 13, 242, 0.3)';
-            ripple.style.transform = 'scale(0)';
-            ripple.style.animation = 'ripple 0.6s ease-out';
-            ripple.style.pointerEvents = 'none';
-
-            element.style.position = 'relative';
-            element.style.overflow = 'hidden';
-            element.appendChild(ripple);
-
-            setTimeout(() => ripple.remove(), 600);
-        }
-
-        function attachRippleEffects() {
-            const navItems = document.querySelectorAll('.nav-item');
-            navItems.forEach(item => {
-                item.addEventListener('click', function(e) {
-                    addRippleEffect(e, this);
-                });
-            });
-        }
-
-        // Add CSS for pulse animation
+        // Add CSS for animations
         const style = document.createElement('style');
         style.textContent = `
             @keyframes pulse {
                 0%, 100% { transform: scale(1); }
                 50% { transform: scale(1.1); }
-            }
-            @keyframes ripple {
-                to {
-                    transform: scale(4);
-                    opacity: 0;
-                }
             }
         `;
         document.head.appendChild(style);
@@ -214,16 +326,12 @@
                 setActiveNavItem();
                 handleLogout();
                 addNavHoverEffects();
-                animateNotificationBadge();
-                attachRippleEffects();
             });
         } else {
             // DOM already loaded
             setActiveNavItem();
             handleLogout();
             addNavHoverEffects();
-            animateNotificationBadge();
-            attachRippleEffects();
         }
     })();
 </script>

@@ -1,0 +1,641 @@
+<!-- Header -->
+<header class="header-bar">
+    <div class="container-fluid h-100">
+        <div class="row h-100 align-items-center">
+            <div class="col">
+                <div class="d-flex justify-content-between align-items-center">
+                    <!-- Page Title Section -->
+                    <div class="header-title-section">
+                        <h1 class="header-title">Welcome back, Juror</h1>
+                        <p class="header-subtitle">You have <span class="pending-count">12 evaluations</span> pending completion.</p>
+                    </div>
+
+                    <!-- Right Actions Section -->
+                    <div class="header-actions d-flex align-items-center gap-2">
+                        <!-- Search Bar -->
+                        <div class="search-container">
+                            <span class="material-symbols-outlined search-icon">search</span>
+                            <input type="text" class="search-input" placeholder="Search assigned ideas..." />
+                        </div>
+
+                        <!-- Notification Button -->
+                        <button class="icon-btn notification-btn" id="notificationBtn">
+                            <span class="material-symbols-outlined">notifications</span>
+                            <span class="notification-badge"></span>
+                        </button>
+
+                        <!-- Profile Avatar -->
+                        <div class="profile-avatar-btn" id="profileAvatarBtn">
+                            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuvM4h22-G2QJVfQTcNUIEkq41Xunl8wpGK2jUUAu1aPfGpxMyu9nIHKPfFL9ubW7jB_SNhu36Y0R_JZKln8oxW-kLtMx7bFkPpcDJGj8S3-cEZUar5_XyCsUeXbxGAMApRQNx5Pmch6G_kpZ1Iovfm-lhUFqL5YE8DTyTXppH1Bvgj1IElUzBt3-UBgCcTe9x5mK4ipf8KjfSK8vzW4H_awp6bjKWG7ziak6vUxK4E3_0jOND2-QqTIxDY1vLP1u2pBUPtryYKwM"
+                                 alt="Profile" class="profile-avatar-img" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Notification Panel -->
+<div class="notification-panel" id="notificationPanel">
+    <div class="notification-header">
+        <h5 class="notification-title">Notifications</h5>
+        <button class="notification-close" id="closeNotificationPanel">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+    </div>
+    <div class="notification-body">
+        <div class="notification-item">
+            <div class="notification-icon bg-primary">
+                <span class="material-symbols-outlined">lightbulb</span>
+            </div>
+            <div class="notification-content">
+                <p class="notification-text">New idea assigned for evaluation</p>
+                <span class="notification-time">2 hours ago</span>
+            </div>
+        </div>
+        <div class="notification-item">
+            <div class="notification-icon bg-warning">
+                <span class="material-symbols-outlined">schedule</span>
+            </div>
+            <div class="notification-content">
+                <p class="notification-text">3 evaluations due tomorrow</p>
+                <span class="notification-time">5 hours ago</span>
+            </div>
+        </div>
+        <div class="notification-item">
+            <div class="notification-icon bg-success">
+                <span class="material-symbols-outlined">check_circle</span>
+            </div>
+            <div class="notification-content">
+                <p class="notification-text">Evaluation submitted successfully</p>
+                <span class="notification-time">1 day ago</span>
+            </div>
+        </div>
+    </div>
+    <div class="notification-footer">
+        <a href="#" class="view-all-link">View all notifications</a>
+    </div>
+</div>
+
+<!-- Profile Dropdown -->
+<div class="profile-dropdown" id="profileDropdown">
+    <div class="profile-dropdown-header">
+        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuvM4h22-G2QJVfQTcNUIEkq41Xunl8wpGK2jUUAu1aPfGpxMyu9nIHKPfFL9ubW7jB_SNhu36Y0R_JZKln8oxW-kLtMx7bFkPpcDJGj8S3-cEZUar5_XyCsUeXbxGAMApRQNx5Pmch6G_kpZ1Iovfm-lhUFqL5YE8DTyTXppH1Bvgj1IElUzBt3-UBgCcTe9x5mK4ipf8KjfSK8vzW4H_awp6bjKWG7ziak6vUxK4E3_0jOND2-QqTIxDY1vLP1u2pBUPtryYKwM"
+             alt="Profile" class="profile-dropdown-avatar" />
+        <div class="profile-dropdown-info">
+            <p class="profile-dropdown-name">Dr. A. Sharma</p>
+            <p class="profile-dropdown-role">Senior Juror</p>
+        </div>
+    </div>
+    <div class="profile-dropdown-divider"></div>
+    <div class="profile-dropdown-menu">
+        <a href="#" class="profile-dropdown-item">
+            <span class="material-symbols-outlined">person</span>
+            <span>My Profile</span>
+        </a>
+        <a href="#" class="profile-dropdown-item">
+            <span class="material-symbols-outlined">assignment</span>
+            <span>My Evaluations</span>
+        </a>
+        <a href="#" class="profile-dropdown-item">
+            <span class="material-symbols-outlined">history</span>
+            <span>Evaluation History</span>
+        </a>
+        <a href="#" class="profile-dropdown-item">
+            <span class="material-symbols-outlined">settings</span>
+            <span>Settings</span>
+        </a>
+    </div>
+    <div class="profile-dropdown-divider"></div>
+    <div class="profile-dropdown-footer">
+        <button class="profile-dropdown-logout" id="headerLogoutBtn">
+            <span class="material-symbols-outlined">logout</span>
+            <span>Logout</span>
+        </button>
+    </div>
+</div>
+
+<style>
+    /* Header Styles */
+    .header-bar {
+        background: #FFFFFF;
+        border-bottom: 1px solid #EEEEEE;
+        padding: 1rem 0;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .header-title-section {
+        flex: 1;
+    }
+
+    .header-title {
+        font-size: 1.75rem;
+        font-weight: 900;
+        color: #222222;
+        margin: 0;
+        line-height: 1.2;
+    }
+
+    .header-subtitle {
+        font-size: 1rem;
+        color: #666666;
+        margin: 0.25rem 0 0 0;
+    }
+
+    .pending-count {
+        font-weight: 700;
+        color: #5E2A97;
+    }
+
+    .header-actions {
+        gap: 0.5rem;
+    }
+
+    /* Search Container */
+    .search-container {
+        position: relative;
+        width: 16rem;
+    }
+
+    .search-icon {
+        position: absolute;
+        left: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #94a3b8;
+        font-size: 20px;
+        pointer-events: none;
+    }
+
+    .search-input {
+        width: 100%;
+        padding: 0.5rem 0.75rem 0.5rem 2.5rem;
+        border: 1px solid #EEEEEE;
+        border-radius: 0.5rem;
+        font-size: 0.875rem;
+        background: #FFFFFF;
+        color: #222222;
+        outline: none;
+        transition: all 0.2s ease;
+    }
+
+    .search-input:focus {
+        border-color: #5E2A97;
+        box-shadow: 0 0 0 3px rgba(94, 42, 151, 0.1);
+    }
+
+    .search-input::placeholder {
+        color: #94a3b8;
+    }
+
+    /* Icon Button */
+    .icon-btn {
+        position: relative;
+        width: 2.5rem;
+        height: 2.5rem;
+        border: 1px solid #EEEEEE;
+        border-radius: 0.5rem;
+        background: #FFFFFF;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        color: #222222;
+    }
+
+    .icon-btn:hover {
+        background: #F7F7F7;
+        border-color: #5E2A97;
+    }
+
+    .icon-btn .material-symbols-outlined {
+        font-size: 24px;
+    }
+
+    .notification-badge {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        width: 0.5rem;
+        height: 0.5rem;
+        background: #ef4444;
+        border-radius: 50%;
+    }
+
+    /* Profile Avatar Button */
+    .profile-avatar-btn {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        overflow: hidden;
+        cursor: pointer;
+        border: 2px solid #EEEEEE;
+        transition: all 0.2s ease;
+    }
+
+    .profile-avatar-btn:hover {
+        border-color: #5E2A97;
+        transform: scale(1.05);
+    }
+
+    .profile-avatar-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Notification Panel */
+    .notification-panel {
+        position: fixed;
+        top: 4rem;
+        right: 1rem;
+        width: 22rem;
+        max-height: 28rem;
+        background: #FFFFFF;
+        border: 1px solid #EEEEEE;
+        border-radius: 0.75rem;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        z-index: 1000;
+        display: none;
+        animation: slideIn 0.2s ease;
+    }
+
+    .notification-panel.active {
+        display: block;
+    }
+
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .notification-header {
+        padding: 1rem 1.25rem;
+        border-bottom: 1px solid #EEEEEE;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .notification-title {
+        font-size: 1rem;
+        font-weight: 700;
+        color: #222222;
+        margin: 0;
+    }
+
+    .notification-close {
+        background: none;
+        border: none;
+        color: #666666;
+        cursor: pointer;
+        padding: 0;
+        width: 1.5rem;
+        height: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0.25rem;
+        transition: all 0.2s ease;
+    }
+
+    .notification-close:hover {
+        background: #F7F7F7;
+        color: #222222;
+    }
+
+    .notification-body {
+        max-height: 20rem;
+        overflow-y: auto;
+    }
+
+    .notification-item {
+        padding: 1rem 1.25rem;
+        display: flex;
+        gap: 0.75rem;
+        border-bottom: 1px solid #F7F7F7;
+        transition: background 0.2s ease;
+    }
+
+    .notification-item:hover {
+        background: #F7F7F7;
+    }
+
+    .notification-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #FFFFFF;
+        flex-shrink: 0;
+    }
+
+    .notification-icon .material-symbols-outlined {
+        font-size: 20px;
+    }
+
+    .notification-icon.bg-primary {
+        background: #5E2A97;
+    }
+
+    .notification-icon.bg-warning {
+        background: #DEDE50;
+        color: #222222;
+    }
+
+    .notification-icon.bg-success {
+        background: #22c55e;
+    }
+
+    .notification-content {
+        flex: 1;
+    }
+
+    .notification-text {
+        font-size: 0.875rem;
+        color: #222222;
+        margin: 0 0 0.25rem 0;
+        font-weight: 500;
+    }
+
+    .notification-time {
+        font-size: 0.75rem;
+        color: #666666;
+    }
+
+    .notification-footer {
+        padding: 0.75rem 1.25rem;
+        border-top: 1px solid #EEEEEE;
+        text-align: center;
+    }
+
+    .view-all-link {
+        font-size: 0.875rem;
+        color: #5E2A97;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .view-all-link:hover {
+        text-decoration: underline;
+    }
+
+    /* Profile Dropdown */
+    .profile-dropdown {
+        position: fixed;
+        top: 4rem;
+        right: 1rem;
+        width: 16rem;
+        background: #FFFFFF;
+        border: 1px solid #EEEEEE;
+        border-radius: 0.75rem;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        z-index: 1000;
+        display: none;
+        animation: slideIn 0.2s ease;
+    }
+
+    .profile-dropdown.active {
+        display: block;
+    }
+
+    .profile-dropdown-header {
+        padding: 1rem 1.25rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .profile-dropdown-avatar {
+        width: 3rem;
+        height: 3rem;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #EEEEEE;
+    }
+
+    .profile-dropdown-info {
+        flex: 1;
+    }
+
+    .profile-dropdown-name {
+        font-size: 0.875rem;
+        font-weight: 700;
+        color: #222222;
+        margin: 0 0 0.125rem 0;
+    }
+
+    .profile-dropdown-role {
+        font-size: 0.75rem;
+        color: #666666;
+        margin: 0;
+    }
+
+    .profile-dropdown-divider {
+        height: 1px;
+        background: #EEEEEE;
+        margin: 0;
+    }
+
+    .profile-dropdown-menu {
+        padding: 0.5rem 0;
+    }
+
+    .profile-dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.625rem 1.25rem;
+        color: #222222;
+        text-decoration: none;
+        font-size: 0.875rem;
+        transition: all 0.2s ease;
+    }
+
+    .profile-dropdown-item:hover {
+        background: #F7F7F7;
+        color: #5E2A97;
+    }
+
+    .profile-dropdown-item .material-symbols-outlined {
+        font-size: 20px;
+        color: #666666;
+    }
+
+    .profile-dropdown-item:hover .material-symbols-outlined {
+        color: #5E2A97;
+    }
+
+    .profile-dropdown-footer {
+        padding: 0.5rem;
+    }
+
+    .profile-dropdown-logout {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.625rem 1rem;
+        background: #FFFFFF;
+        border: 1px solid #EEEEEE;
+        border-radius: 0.5rem;
+        color: #ef4444;
+        font-size: 0.875rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .profile-dropdown-logout:hover {
+        background: #fef2f2;
+        border-color: #ef4444;
+    }
+
+    .profile-dropdown-logout .material-symbols-outlined {
+        font-size: 20px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .header-title {
+            font-size: 1.25rem;
+        }
+
+        .header-subtitle {
+            font-size: 0.875rem;
+        }
+
+        .search-container {
+            width: 12rem;
+        }
+
+        .notification-panel,
+        .profile-dropdown {
+            right: 0.5rem;
+            left: 0.5rem;
+            width: auto;
+        }
+    }
+</style>
+
+<script>
+    // Header JavaScript Functionality
+    (function() {
+        // Notification Panel Toggle
+        function setupNotificationPanel() {
+            const notificationBtn = document.getElementById('notificationBtn');
+            const notificationPanel = document.getElementById('notificationPanel');
+            const closeNotificationPanel = document.getElementById('closeNotificationPanel');
+            const profileDropdown = document.getElementById('profileDropdown');
+
+            if (notificationBtn && notificationPanel) {
+                notificationBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    notificationPanel.classList.toggle('active');
+
+                    // Close profile dropdown if open
+                    if (profileDropdown) {
+                        profileDropdown.classList.remove('active');
+                    }
+                });
+
+                if (closeNotificationPanel) {
+                    closeNotificationPanel.addEventListener('click', function() {
+                        notificationPanel.classList.remove('active');
+                    });
+                }
+            }
+        }
+
+        // Profile Dropdown Toggle
+        function setupProfileDropdown() {
+            const profileAvatarBtn = document.getElementById('profileAvatarBtn');
+            const profileDropdown = document.getElementById('profileDropdown');
+            const notificationPanel = document.getElementById('notificationPanel');
+
+            if (profileAvatarBtn && profileDropdown) {
+                profileAvatarBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    profileDropdown.classList.toggle('active');
+
+                    // Close notification panel if open
+                    if (notificationPanel) {
+                        notificationPanel.classList.remove('active');
+                    }
+                });
+            }
+        }
+
+        // Logout Functionality
+        function setupLogout() {
+            const headerLogoutBtn = document.getElementById('headerLogoutBtn');
+
+            if (headerLogoutBtn) {
+                headerLogoutBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    if (confirm('Are you sure you want to logout?')) {
+                        // Add fade out animation
+                        document.body.style.opacity = '0';
+                        document.body.style.transition = 'opacity 0.3s ease';
+
+                        setTimeout(() => {
+                            // Clear any stored user data
+                            sessionStorage.clear();
+                            localStorage.removeItem('userToken');
+
+                            // Redirect to login page
+                            window.location.href = '../index.html';
+                        }, 300);
+                    }
+                });
+            }
+        }
+
+        // Close dropdowns when clicking outside
+        function setupOutsideClick() {
+            document.addEventListener('click', function(e) {
+                const notificationPanel = document.getElementById('notificationPanel');
+                const profileDropdown = document.getElementById('profileDropdown');
+
+                if (notificationPanel && !e.target.closest('#notificationPanel') && !e.target.closest('#notificationBtn')) {
+                    notificationPanel.classList.remove('active');
+                }
+
+                if (profileDropdown && !e.target.closest('#profileDropdown') && !e.target.closest('#profileAvatarBtn')) {
+                    profileDropdown.classList.remove('active');
+                }
+            });
+        }
+
+        // Initialize all functionality when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                setupNotificationPanel();
+                setupProfileDropdown();
+                setupLogout();
+                setupOutsideClick();
+            });
+        } else {
+            // DOM already loaded
+            setupNotificationPanel();
+            setupProfileDropdown();
+            setupLogout();
+            setupOutsideClick();
+        }
+    })();
+</script>
