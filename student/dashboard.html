@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>IFT Student Dashboard</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet" />
+    <!-- Icons -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary: #2f0df2;
+            --primary-light: #e9e7f4;
+            --background-light: #f6f5f8;
+            --surface-light: #ffffff;
+            --border-light: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lexend', sans-serif;
+            background-color: var(--background-light);
+            color: #0f172a;
+            overflow: hidden;
+        }
+
+        .main-container {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow-y: auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            padding: 40px;
+            max-width: 1280px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Welcome Banner */
+        .welcome-banner {
+            margin-bottom: 32px;
+        }
+
+        .welcome-banner h2 {
+            font-size: 2.25rem;
+            font-weight: 900;
+            color: #0f172a;
+            margin-bottom: 8px;
+            letter-spacing: -0.025em;
+        }
+
+        .welcome-banner p {
+            color: #64748b;
+            font-size: 1rem;
+        }
+
+        .phase-badge {
+            text-align: right;
+        }
+
+        .phase-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .phase-value {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        /* Card Styles */
+        .card-custom {
+            background-color: var(--surface-light);
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            padding: 24px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .badge-draft {
+            background-color: #fff7ed;
+            color: #c2410c;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 6px;
+            border: 1px solid #fed7aa;
+            white-space: nowrap;
+        }
+
+        .icon-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(47, 13, 242, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+
+        .card-subtitle {
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        .progress-section {
+            margin-top: 24px;
+        }
+
+        .progress-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #475569;
+            margin-bottom: 8px;
+        }
+
+        .progress-percentage {
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .progress-bar-custom {
+            height: 10px;
+            background-color: #f1f5f9;
+            border-radius: 999px;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary);
+            border-radius: 999px;
+            width: 40%;
+            box-shadow: 0 0 10px rgba(47, 13, 242, 0.4);
+        }
+
+        .btn-primary-custom {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background-color: var(--primary);
+            color: white;
+            font-weight: 500;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 6px rgba(47, 13, 242, 0.2);
+        }
+
+        .btn-primary-custom:hover {
+            background-color: #1d4ed8;
+        }
+
+        /* Team Card */
+        .team-card {
+            position: relative;
+            overflow: hidden;
+            background-color: #0f172a;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            min-height: 260px;
+        }
+
+        .team-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            background-size: cover;
+            background-position: center;
+            transition: transform 0.7s;
+        }
+
+        .team-card:hover .team-bg {
+            transform: scale(1.05);
+        }
+
+        .team-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.5), transparent);
+        }
+
+        .team-content {
+            position: relative;
+            z-index: 10;
+        }
+
+        .team-label {
+            color: #93c5fd;
+            font-weight: 500;
+            font-size: 0.875rem;
+            margin-bottom: 4px;
+            letter-spacing: 0.05em;
+        }
+
+        .team-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .avatar-group {
+            display: flex;
+            align-items: center;
+            margin-top: 8px;
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid #0f172a;
+            background-color: #e2e8f0;
+            margin-left: -8px;
+        }
+
+        .avatar:first-child {
+            margin-left: 0;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .avatar-count {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid #0f172a;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #475569;
+            margin-left: -8px;
+        }
+
+        .join-code-box {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            border-radius: 8px;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .join-code-label {
+            color: #cbd5e1;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .join-code-value {
+            color: white;
+            font-family: monospace;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            font-size: 1.125rem;
+        }
+
+        .btn-copy {
+            background-color: white;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 0.875rem;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-copy:hover {
+            background-color: #f1f5f9;
+        }
+
+        /* Timeline */
+        .timeline-card {
+            background-color: var(--surface-light);
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            padding: 24px;
+        }
+
+        .timeline-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .timeline-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .timeline-link {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .timeline-link:hover {
+            text-decoration: underline;
+        }
+
+        .timeline-container {
+            position: relative;
+            padding-left: 8px;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 19px;
+            top: 8px;
+            bottom: 16px;
+            width: 2px;
+            background-color: #e2e8f0;
+        }
+
+        .timeline-item {
+            position: relative;
+            display: flex;
+            gap: 24px;
+            padding-bottom: 32px;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-item-past {
+            opacity: 0.6;
+        }
+
+        .timeline-icon {
+            margin-top: 4px;
+            position: relative;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .timeline-icon-past {
+            background-color: #f1f5f9;
+            border: 2px solid #cbd5e1;
+        }
+
+        .timeline-icon-current {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(47, 13, 242, 0.3);
+            border: 4px solid rgba(47, 13, 242, 0.1);
+        }
+
+        .timeline-icon-future {
+            background-color: white;
+            border: 2px solid #e2e8f0;
+        }
+
+        .timeline-content {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .timeline-content:hover {
+            background-color: #f8fafc;
+        }
+
+        .timeline-content-current {
+            background-color: rgba(47, 13, 242, 0.05);
+            border: 1px solid rgba(47, 13, 242, 0.1);
+            padding: 16px;
+            border-radius: 12px;
+        }
+
+        .timeline-event-title {
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+
+        .timeline-event-title-current {
+            color: var(--primary);
+        }
+
+        .timeline-desc {
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        .timeline-date {
+            font-size: 0.75rem;
+            font-weight: 700;
+            background-color: #f1f5f9;
+            color: #64748b;
+            padding: 4px 12px;
+            border-radius: 999px;
+            white-space: nowrap;
+        }
+
+        .timeline-date-current {
+            background-color: white;
+            color: var(--primary);
+            border: 1px solid rgba(47, 13, 242, 0.2);
+        }
+
+        .deadline-badge {
+            font-size: 10px;
+            font-weight: 700;
+            color: #f97316;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 4px;
+        }
+
+        /* Notifications */
+        .notifications-card {
+            background-color: var(--surface-light);
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .notifications-header {
+            padding: 20px;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .notifications-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .notifications-mark-read {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            transition: color 0.2s;
+        }
+
+        .notifications-mark-read:hover {
+            color: var(--primary);
+        }
+
+        .notifications-body {
+            flex: 1;
+            padding: 8px;
+            overflow-y: auto;
+        }
+
+        .notification-item {
+            display: flex;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .notification-item:hover {
+            background-color: #f8fafc;
+        }
+
+        .notification-item-priority {
+            background-color: rgba(47, 13, 242, 0.05);
+            border-left: 2px solid var(--primary);
+        }
+
+        .notification-icon {
+            margin-top: 4px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .notification-icon-green {
+            background-color: #dcfce7;
+            color: #16a34a;
+        }
+
+        .notification-icon-primary {
+            background-color: rgba(47, 13, 242, 0.2);
+            color: var(--primary);
+        }
+
+        .notification-icon-purple {
+            background-color: #f3e8ff;
+            color: #9333ea;
+        }
+
+        .notification-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .notification-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #1e293b;
+            line-height: 1.4;
+        }
+
+        .notification-text {
+            font-size: 0.75rem;
+            color: #64748b;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .notification-time {
+            font-size: 10px;
+            color: #94a3b8;
+            font-weight: 500;
+            margin-top: 4px;
+        }
+
+        .notifications-footer {
+            padding: 12px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .btn-view-all {
+            width: 100%;
+            padding: 8px;
+            text-align: center;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #64748b;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .btn-view-all:hover {
+            color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding: 24px;
+            }
+
+            .welcome-banner h2 {
+                font-size: 1.875rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+        <!-- Include Sidebar -->
+        <div id="sidebar-container"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Include Header -->
+            <div id="header-container"></div>
+
+            <div class="content-wrapper">
+                <!-- Welcome Banner -->
+                <div class="row align-items-start align-items-md-center mb-4 welcome-banner">
+                    <div class="col-12 col-md-8">
+                        <h2>Welcome back, Rohan!</h2>
+                        <p>Let's continue your innovation journey towards becoming a Future Tycoon.</p>
+                    </div>
+                    <div class="col-12 col-md-4 d-none d-md-block phase-badge">
+                        <p class="phase-label mb-1">Current Phase</p>
+                        <p class="phase-value mb-0">Regional Rounds</p>
+                    </div>
+                </div>
+
+                <!-- Top Grid: Status Cards -->
+                <div class="row g-4 mb-4">
+                    <!-- Submission Card -->
+                    <div class="col-12 col-lg-6">
+                        <div class="card-custom">
+                            <div>
+                                <div class="d-flex justify-content-between align-items-start mb-4">
+                                    <div>
+                                        <div class="d-flex align-items-center gap-2 mb-1">
+                                            <h3 class="card-title mb-0">Idea Submission</h3>
+                                            <span class="badge-draft">Draft Saved</span>
+                                        </div>
+                                        <p class="card-subtitle mb-0">Last edited 2 hours ago</p>
+                                    </div>
+                                    <div class="icon-circle">
+                                        <span class="material-symbols-outlined">edit_document</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="progress-section">
+                                <div class="d-flex justify-content-between align-items-end mb-2">
+                                    <span class="progress-label">Submission Completeness</span>
+                                    <span class="progress-percentage">40%</span>
+                                </div>
+                                <div class="progress-bar-custom">
+                                    <div class="progress-fill"></div>
+                                </div>
+                                <button class="btn-primary-custom">
+                                    <span class="material-symbols-outlined" style="font-size: 20px;">edit</span>
+                                    Resume Editing
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Team Card -->
+                    <div class="col-12 col-lg-6">
+                        <div class="team-card">
+                            <!-- Background Image with Overlay -->
+                            <div class="team-bg"
+                                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCBdz4MU7hl72n742-D1UTETHS1n-qkl2rjP__C37SdVz3ZgNcmDyLDXtWj8Nx9q5am5hwz5lSE1cDMiSFy-6hGw8-65TixXtPl5IvFb8Vft9kTl3xtA-YWrOg4oxcaFSpQecD7WEtSrj76zl0vOyhOspGhdIpklBqVtEbQzbu39FvJHQ0KavX5Kiba5oZysYQ-vwGvelgHDyiWHZGhWoVw5Mit_7iSQbFuPYx9IaH63AlRXlIoJuxDoAsxReh9Rfr2remyX95ZYVw");'>
+                            </div>
+                            <div class="team-overlay"></div>
+                            <div class="team-content">
+                                <div class="d-flex justify-content-between align-items-end">
+                                    <div>
+                                        <p class="team-label">YOUR SQUAD</p>
+                                        <h3 class="team-name">Team Innovators</h3>
+                                        <!-- Avatars -->
+                                        <div class="avatar-group">
+                                            <div class="avatar">
+                                                <img alt="Member 1"
+                                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVpsBZkMEcEwCX7euWDwS5Koo1BTCs5YsrewrEj4hgT5fVu75wrkq8b8uymMA1bkAKpD9TFg5_fFf7h-HFoU2NoHdaIoZz2VDymUqph2HNP4q3cXx9DzLkRtiWhe_JobOhbFIamJT9lTodUPf5BPTMQLfjh0iPl1LsmepX9E_WNhbe7iAUzjGluAIDMj5io_J2sJ__CN-R19_EYFWVWkqgU23p7XTOSrQY2Sxp8f4sQcV-Iu0L5hI_SzXilQP8XsWhaNbTPgJ23t0" />
+                                            </div>
+                                            <div class="avatar">
+                                                <img alt="Member 2"
+                                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZyTFo0aVLuWpaoowrDuDZlrjMM_Es3UpSKPvIETn2Tnz7TuGjcC6nzslHTlHR93YgG1TvSegLu5b2cMxL3hHcpiySB3up6gIguQgW8_gWL_Qwx-2Ve7_qnKkKoYV-yvsISCfi6_LKeDCf_cqxKbdKFYvUM1gfrU-ycsY-eiSYDL8LfQTm1tT37ASYp1pIFlxuwCMFDuC1Yi2_3Fg418j0nRLTUkqqwrmnKTf962Q8FNIJrodLQ7-7aGXHHjXYeewYogXdN77kess" />
+                                            </div>
+                                            <div class="avatar-count">
+                                                +1
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="join-code-box">
+                                    <div class="d-flex flex-column">
+                                        <span class="join-code-label">Join Code</span>
+                                        <span class="join-code-value">IFT-8829</span>
+                                    </div>
+                                    <button class="btn-copy">
+                                        <span class="material-symbols-outlined" style="font-size: 14px;">content_copy</span>
+                                        Copy
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Grid: Timeline & Notifications -->
+                <div class="row g-4">
+                    <!-- Important Dates Timeline -->
+                    <div class="col-12 col-lg-8">
+                        <div class="timeline-card">
+                            <div class="timeline-header">
+                                <h3 class="timeline-title mb-0">Important Dates</h3>
+                                <a class="timeline-link" href="#">View Calendar</a>
+                            </div>
+                            <div class="timeline-container">
+                                <!-- Connecting Line -->
+                                <div class="timeline-line"></div>
+
+                                <!-- Timeline Item: Past -->
+                                <div class="timeline-item timeline-item-past">
+                                    <div class="timeline-icon timeline-icon-past">
+                                        <span class="material-symbols-outlined" style="font-size: 18px; color: #64748b;">check</span>
+                                    </div>
+                                    <div class="timeline-content w-100">
+                                        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2">
+                                            <div>
+                                                <p class="timeline-event-title mb-1">Registration Ends</p>
+                                                <p class="timeline-desc mb-0">Registration closed successfully</p>
+                                            </div>
+                                            <span class="timeline-date">Oct 10, 2023</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Timeline Item: Current/Active -->
+                                <div class="timeline-item">
+                                    <div class="timeline-icon timeline-icon-current">
+                                        <span class="material-symbols-outlined" style="font-size: 18px;">edit</span>
+                                    </div>
+                                    <div class="timeline-content timeline-content-current w-100">
+                                        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2">
+                                            <div>
+                                                <p class="timeline-event-title timeline-event-title-current mb-1">Idea Submission Deadline</p>
+                                                <p class="timeline-desc mb-0">Submit your draft before this date</p>
+                                            </div>
+                                            <div class="d-flex flex-column align-items-end gap-1">
+                                                <span class="timeline-date timeline-date-current">Nov 15, 2023</span>
+                                                <span class="deadline-badge">UPCOMING</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Timeline Item: Future -->
+                                <div class="timeline-item">
+                                    <div class="timeline-icon timeline-icon-future">
+                                        <span class="material-symbols-outlined" style="font-size: 18px; color: #94a3b8;">emoji_events</span>
+                                    </div>
+                                    <div class="timeline-content w-100">
+                                        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2">
+                                            <div>
+                                                <p class="timeline-event-title mb-1">Grand Finale</p>
+                                                <p class="timeline-desc mb-0">Live event in New Delhi</p>
+                                            </div>
+                                            <span class="timeline-date">Jan 20, 2024</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notifications Panel -->
+                    <div class="col-12 col-lg-4">
+                        <div class="notifications-card">
+                            <div class="notifications-header">
+                                <h3 class="notifications-title mb-0">Notifications</h3>
+                                <button class="notifications-mark-read">
+                                    <span class="material-symbols-outlined">mark_email_read</span>
+                                </button>
+                            </div>
+                            <div class="notifications-body">
+                                <!-- Notification Item 1 -->
+                                <a class="notification-item" href="#">
+                                    <div class="notification-icon notification-icon-green">
+                                        <span class="material-symbols-outlined" style="font-size: 14px;">group_add</span>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p class="notification-title mb-0">New Teammate Joined</p>
+                                        <p class="notification-text mb-0">Priya Singh has joined "Team Innovators" using your code.</p>
+                                        <p class="notification-time mb-0">2 hours ago</p>
+                                    </div>
+                                </a>
+
+                                <!-- Notification Item 2 -->
+                                <a class="notification-item notification-item-priority" href="#">
+                                    <div class="notification-icon notification-icon-primary">
+                                        <span class="material-symbols-outlined" style="font-size: 14px;">priority_high</span>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p class="notification-title mb-0">Deadline Approaching</p>
+                                        <p class="notification-text mb-0">Your idea submission draft is incomplete. 5 days remaining.</p>
+                                        <p class="notification-time mb-0">1 day ago</p>
+                                    </div>
+                                </a>
+
+                                <!-- Notification Item 3 -->
+                                <a class="notification-item" href="#">
+                                    <div class="notification-icon notification-icon-purple">
+                                        <span class="material-symbols-outlined" style="font-size: 14px;">campaign</span>
+                                    </div>
+                                    <div class="notification-content">
+                                        <p class="notification-title mb-0">Webinar Alert</p>
+                                        <p class="notification-text mb-0">"How to Pitch Perfect" workshop starting tomorrow at 4 PM.</p>
+                                        <p class="notification-time mb-0">2 days ago</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="notifications-footer">
+                                <button class="btn-view-all">
+                                    View all notifications
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Load External Components -->
+    <script>
+        // Load sidebar
+        fetch('sidebar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('sidebar-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading sidebar:', error));
+
+        // Load header
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading header:', error));
+    </script>
+</body>
+
+</html>
