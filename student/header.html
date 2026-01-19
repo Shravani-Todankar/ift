@@ -1,10 +1,29 @@
-<!-- Top Mobile Header -->
-<div class="mobile-header d-md-none">
-    <div class="d-flex align-items-center gap-2">
-        <div class="mobile-logo"></div>
-        <span class="mobile-logo-text">IFT</span>
+<!-- Top Navigation Header -->
+<header class="top-header">
+
+    <!-- Desktop Navigation -->
+    <div class="header-nav d-none d-lg-flex flex-grow-1 justify-content-end gap-4">
+        <div class="d-flex align-items-center gap-4 me-4">
+            <a class="nav-link-header" href="dashboard.html">Dashboard</a>
+            <a class="nav-link-header" href="#">Challenges</a>
+            <a class="nav-link-header active" href="team-management.html">Team</a>
+            <a class="nav-link-header" href="#">Resources</a>
+        </div>
+        <div class="d-flex gap-2">
+            <button class="header-icon-btn">
+                <span class="material-symbols-outlined">notifications</span>
+            </button>
+            <button class="header-icon-btn">
+                <span class="material-symbols-outlined">help</span>
+            </button>
+        </div>
+        <div class="header-avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBjmsevs-ZsRszOHPAXJj0i4FzcVtWfKjpbgsjZuE5f57sKyUVBxVJZzXNcerOf8kAeRjiPR8sbDRxh6yZsPEkqBRsQuBCNKO6W2UUSvl4tGso_jAC5DOEIuAYDlnxS_POeaeIGpHCMCZzN4zKzMod48W6_yXLxVhR7jYbRpokBTt6XbkxWV5Jd1PFhFcQbGD_Gp6IBO4cHJhKTo5VHhVdRf7yXk5xU-vDDwYrnMst2nJZYu2eGTdeROYNudGxZ_OvdLotQ49jOWTg");'></div>
     </div>
-    <button class="menu-toggle">
-        <span class="material-symbols-outlined">menu</span>
-    </button>
-</div>
+
+    <!-- Mobile Menu Icon -->
+    <div class="d-lg-none d-flex align-items-center">
+        <button class="header-icon-btn">
+            <span class="material-symbols-outlined">menu</span>
+        </button>
+    </div>
+</header>

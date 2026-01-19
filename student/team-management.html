@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Team Management - India's Future Tycoon</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;900&display=swap"
+        rel="stylesheet" />
+    <!-- Material Symbols -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <!-- Custom CSS -->
+    <style>
+        /* Material Icons */
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* CSS Variables */
+        :root {
+            --primary: #2f0df2;
+            --background-light: #f6f5f8;
+            --background-dark: #131022;
+            --text-dark: #0f0d1c;
+            --text-light: #ffffff;
+            --text-muted-light: #56499c;
+            --text-muted-dark: #a09cc8;
+            --border-light: #e9e7f4;
+            --border-dark: #2a2640;
+            --card-bg-light: #ffffff;
+            --card-bg-dark: #1a1625;
+            --hover-bg-light: #f9f8fc;
+            --hover-bg-dark: #131022;
+        }
+
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lexend', sans-serif;
+            background-color: var(--background-light);
+            color: var(--text-dark);
+            overflow: hidden;
+        }
+
+        body.dark {
+            background-color: var(--background-dark);
+            color: var(--text-light);
+        }
+
+        .main-container {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+        }
+
+        /* Text Colors */
+        .text-primary-custom {
+            color: var(--primary) !important;
+        }
+
+        .text-muted-custom {
+            color: var(--text-muted-light);
+        }
+
+        body.dark .text-muted-custom {
+            color: var(--text-muted-dark);
+        }
+
+        .text-dark-custom {
+            color: var(--text-dark);
+        }
+
+        body.dark .text-dark-custom {
+            color: var(--text-light);
+        }
+
+        /* Border Colors */
+        .border-custom {
+            border-color: var(--border-light) !important;
+        }
+
+        body.dark .border-custom {
+            border-color: var(--border-dark) !important;
+        }
+
+        /* Background Colors */
+        .bg-card {
+            background-color: var(--card-bg-light);
+        }
+
+        body.dark .bg-card {
+            background-color: var(--card-bg-dark);
+        }
+
+        .bg-hover-custom {
+            transition: background-color 0.2s ease;
+        }
+
+        .bg-hover-custom:hover {
+            background-color: var(--hover-bg-light);
+        }
+
+        body.dark .bg-hover-custom:hover {
+            background-color: var(--hover-bg-dark);
+        }
+
+        .bg-primary-subtle-custom {
+            background-color: rgba(47, 13, 242, 0.05);
+        }
+
+        body.dark .bg-primary-subtle-custom {
+            background-color: rgba(47, 13, 242, 0.1);
+        }
+
+        /* Border Radius */
+        .rounded-custom-xl {
+            border-radius: 1rem !important;
+        }
+
+        .rounded-custom-2xl {
+            border-radius: 1.5rem !important;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 288px;
+            height: 100%;
+            background-color: var(--card-bg-light);
+            border-right: 1px solid var(--border-light);
+            overflow-y: auto;
+            z-index: 20;
+        }
+
+        body.dark .sidebar {
+            background-color: var(--card-bg-dark);
+            border-right-color: var(--border-dark);
+        }
+
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-title {
+            color: var(--text-dark);
+            font-size: 1.125rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin: 0;
+        }
+
+        body.dark .sidebar-title {
+            color: var(--text-light);
+        }
+
+        .sidebar-subtitle {
+            color: #64748b;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        body.dark .sidebar-subtitle {
+            color: var(--text-muted-dark);
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            color: #475569;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        body.dark .nav-item {
+            color: var(--text-muted-dark);
+        }
+
+        .nav-item:hover {
+            background-color: #f1f5f9;
+            color: #0f172a;
+        }
+
+        body.dark .nav-item:hover {
+            background-color: var(--border-dark);
+            color: var(--text-light);
+        }
+
+        .nav-item-active {
+            background-color: rgba(47, 13, 242, 0.1);
+            color: var(--primary);
+        }
+
+        .nav-item .material-symbols-outlined {
+            font-size: 20px;
+        }
+
+        .nav-item .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1;
+        }
+
+        .nav-text {
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .notification-badge {
+            margin-left: auto;
+            background-color: #ef4444;
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 999px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 12px;
+            background-color: #f8fafc;
+            border: 1px solid #f1f5f9;
+        }
+
+        body.dark .user-profile {
+            background-color: var(--border-dark);
+            border-color: var(--border-dark);
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #e2e8f0;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-info {
+            flex-grow: 1;
+            overflow: hidden;
+        }
+
+        .user-name {
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        body.dark .user-name {
+            color: var(--text-light);
+        }
+
+        .user-role {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        body.dark .user-role {
+            color: var(--text-muted-dark);
+        }
+
+        .logout-btn {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logout-btn:hover {
+            color: #475569;
+        }
+
+        body.dark .logout-btn:hover {
+            color: var(--text-light);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow-y: auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            padding: 2rem;
+        }
+
+        .max-w-1200 {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Breadcrumbs */
+        .breadcrumb-custom {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .breadcrumb-custom a {
+            color: var(--text-muted-light);
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        body.dark .breadcrumb-custom a {
+            color: var(--text-muted-dark);
+        }
+
+        .breadcrumb-custom a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb-custom .separator {
+            color: var(--text-muted-light);
+            font-weight: 500;
+        }
+
+        body.dark .breadcrumb-custom .separator {
+            color: var(--text-muted-dark);
+        }
+
+        .breadcrumb-custom .current {
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        body.dark .breadcrumb-custom .current {
+            color: var(--text-light);
+        }
+
+        /* Page Header */
+        .page-title {
+            font-size: 2rem;
+            font-weight: 900;
+            line-height: 1.2;
+            letter-spacing: -0.033em;
+            margin-bottom: 0.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Team Card */
+        .team-card {
+            background-color: var(--card-bg-light);
+            border: 1px solid var(--border-light);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+
+        body.dark .team-card {
+            background-color: var(--card-bg-dark);
+            border-color: var(--border-dark);
+        }
+
+        .team-logo {
+            width: 8rem;
+            height: 8rem;
+            border-radius: 1.5rem;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .team-logo-ring {
+            box-shadow: 0 0 0 4px var(--hover-bg-light);
+        }
+
+        body.dark .team-logo-ring {
+            box-shadow: 0 0 0 4px var(--background-dark);
+        }
+
+        .edit-icon-badge {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 9999px;
+            padding: 0.375rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border: 2px solid white;
+        }
+
+        body.dark .edit-icon-badge {
+            border-color: var(--card-bg-dark);
+        }
+
+        .status-dot {
+            height: 0.5rem;
+            width: 0.5rem;
+            border-radius: 9999px;
+            background-color: #22c55e;
+        }
+
+        .divider-custom {
+            width: 100%;
+            height: 1px;
+            background-color: var(--border-light);
+            margin: 1.5rem 0;
+        }
+
+        body.dark .divider-custom {
+            background-color: var(--border-dark);
+        }
+
+        .group-code-box {
+            background-color: var(--hover-bg-light);
+            border: 1px solid var(--border-light);
+            border-radius: 0.75rem;
+            padding: 0.25rem;
+            padding-left: 1rem;
+        }
+
+        body.dark .group-code-box {
+            background-color: var(--background-dark);
+            border-color: var(--border-dark);
+        }
+
+        .group-code-text {
+            font-family: 'Courier New', monospace;
+            font-size: 1.125rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+        }
+
+        .copy-btn {
+            width: 2.5rem;
+            height: 2.5rem;
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            color: var(--primary);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        body.dark .copy-btn {
+            background-color: var(--border-dark);
+        }
+
+        .copy-btn:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Tip Card */
+        .tip-card {
+            background-color: rgba(47, 13, 242, 0.05);
+            border: 1px solid rgba(47, 13, 242, 0.1);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        body.dark .tip-card {
+            background-color: rgba(47, 13, 242, 0.1);
+            border-color: rgba(47, 13, 242, 0.2);
+        }
+
+        /* Roster Card */
+        .roster-card {
+            background-color: var(--card-bg-light);
+            border: 1px solid var(--border-light);
+            border-radius: 1.5rem;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        body.dark .roster-card {
+            background-color: var(--card-bg-dark);
+            border-color: var(--border-dark);
+        }
+
+        .roster-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        body.dark .roster-header {
+            border-bottom-color: var(--border-dark);
+        }
+
+        .btn-primary-custom {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 700;
+            padding: 0.625rem 1.25rem;
+            border-radius: 0.5rem;
+            border: none;
+            box-shadow: 0 10px 15px -3px rgba(47, 13, 242, 0.25);
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary-custom:hover {
+            background-color: rgba(47, 13, 242, 0.9);
+        }
+
+        .btn-primary-custom:active {
+            transform: scale(0.95);
+        }
+
+        /* Member List */
+        .member-item {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-light);
+            transition: background-color 0.2s ease;
+        }
+
+        body.dark .member-item {
+            border-bottom-color: var(--border-dark);
+        }
+
+        .member-item:hover {
+            background-color: var(--hover-bg-light);
+        }
+
+        body.dark .member-item:hover {
+            background-color: var(--hover-bg-dark);
+        }
+
+        .member-item:last-child {
+            border-bottom: none;
+        }
+
+        .member-avatar {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .badge-icon-wrapper {
+            position: absolute;
+            bottom: -0.25rem;
+            right: -0.25rem;
+            background-color: white;
+            border-radius: 50%;
+            padding: 0.125rem;
+        }
+
+        body.dark .badge-icon-wrapper {
+            background-color: var(--card-bg-dark);
+        }
+
+        .badge-icon {
+            background-color: rgba(234, 179, 8, 0.1);
+            border-radius: 50%;
+            padding: 0.125rem;
+        }
+
+        body.dark .badge-icon {
+            background-color: rgba(234, 179, 8, 0.3);
+        }
+
+        .role-badge {
+            padding: 0.125rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.625rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        .role-badge-lead {
+            background-color: rgba(47, 13, 242, 0.1);
+            color: var(--primary);
+            border: 1px solid rgba(47, 13, 242, 0.2);
+        }
+
+        .role-badge-member {
+            background-color: rgba(156, 163, 175, 0.1);
+            color: #6b7280;
+        }
+
+        body.dark .role-badge-member {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #d1d5db;
+        }
+
+        .status-badge {
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.375rem;
+        }
+
+        .status-badge-active {
+            color: #16a34a;
+            background-color: rgba(34, 197, 94, 0.1);
+        }
+
+        body.dark .status-badge-active {
+            color: #4ade80;
+            background-color: rgba(34, 197, 94, 0.2);
+        }
+
+        .status-badge-pending {
+            color: #ea580c;
+            background-color: rgba(249, 115, 22, 0.1);
+        }
+
+        body.dark .status-badge-pending {
+            color: #fb923c;
+            background-color: rgba(249, 115, 22, 0.2);
+        }
+
+        .more-btn {
+            color: var(--text-muted-light);
+            background: transparent;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        body.dark .more-btn {
+            color: var(--text-muted-dark);
+        }
+
+        .more-btn:hover {
+            background-color: rgba(156, 163, 175, 0.1);
+        }
+
+        body.dark .more-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .pending-avatar {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            background-color: var(--hover-bg-light);
+            border: 2px dashed var(--text-muted-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted-light);
+        }
+
+        body.dark .pending-avatar {
+            background-color: var(--border-dark);
+            border-color: var(--text-muted-dark);
+            color: var(--text-muted-dark);
+        }
+
+        .resend-btn {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--primary);
+            background: transparent;
+            border: none;
+            padding: 0.25rem 0.5rem;
+            cursor: pointer;
+        }
+
+        .resend-btn:hover {
+            text-decoration: underline;
+        }
+
+        /* Header Styles */
+        .top-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 40px;
+            background-color: var(--card-bg-light);
+            border-bottom: 1px solid var(--border-light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        body.dark .top-header {
+            background-color: var(--card-bg-dark);
+            border-bottom-color: var(--border-dark);
+        }
+
+        .header-logo {
+            width: 32px;
+            height: 32px;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .header-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            letter-spacing: -0.015em;
+        }
+
+        body.dark .header-title {
+            color: var(--text-light);
+        }
+
+        .header-nav {
+            gap: 16px;
+        }
+
+        .nav-link-header {
+            color: var(--text-muted-light);
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        body.dark .nav-link-header {
+            color: var(--text-muted-dark);
+        }
+
+        .nav-link-header:hover {
+            color: var(--primary);
+        }
+
+        .nav-link-header.active {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .header-icon-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(47, 13, 242, 0.1);
+            border: none;
+            border-radius: 12px;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        body.dark .header-icon-btn {
+            background-color: var(--border-dark);
+            color: var(--text-light);
+        }
+
+        .header-icon-btn:hover {
+            background-color: rgba(47, 13, 242, 0.2);
+        }
+
+        .header-icon-btn .material-symbols-outlined {
+            font-size: 20px;
+        }
+
+        .header-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border: 2px solid var(--card-bg-light);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark .header-avatar {
+            border-color: var(--card-bg-dark);
+        }
+
+        .w-100 {
+            width: 100%;
+        }
+
+        .h-100 {
+            height: 100%;
+        }
+
+        @media (max-width: 991px) {
+            .top-header {
+                padding: 12px 16px;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 575.98px) {
+            .member-item {
+                flex-direction: column;
+                align-items: flex-start !important;
+            }
+
+            .member-actions {
+                width: 100%;
+                justify-content: space-between !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+        <!-- Include Sidebar -->
+        <div id="sidebar-container"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Include Header -->
+            <div id="header-container"></div>
+
+            <div class="content-wrapper">
+                <div class="max-w-1200">
+            <!-- Breadcrumbs -->
+            <div class="breadcrumb-custom">
+                <a href="#">Dashboard</a>
+                <span class="separator">/</span>
+                <span class="current">Team Management</span>
+            </div>
+
+            <!-- Header Section -->
+            <div class="d-flex flex-column flex-md-row align-items-md-end justify-content-between gap-3 mb-4">
+                <div class="d-flex flex-column gap-2">
+                    <h1 class="page-title text-dark-custom">My Team</h1>
+                    <p class="text-muted-custom mb-0">Manage your squad members, roles, and competition details.</p>
+                </div>
+            </div>
+
+            <!-- Content Grid: Team Info + Roster -->
+            <div class="row g-4 mt-2">
+                <!-- Left Column: Team Identity Card -->
+                <div class="col-12 col-lg-4">
+                    <div class="d-flex flex-column gap-4">
+                        <!-- Team Card -->
+                        <div class="team-card d-flex flex-column align-items-center text-center">
+                            <div class="position-relative mb-4" style="cursor: pointer;">
+                                <div class="team-logo team-logo-ring"
+                                    data-alt="Abstract geometric logo in blue and purple gradients representing innovation"
+                                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDh5d5svr3VjZuYwdZ9KhT2bW5NCGFEbo_ITp5s9dJPXTcsiOn1vRPLMoofPPyWhNByVinyIXYzN3iN-JRm2mGKTbJPfoGN-6X5MrplxY1TUf23GhFQML4RLNU__O210dBXjCLO6tSK6Yvq3An9Y9-v9Ct6nemjHHRTnNR1MtxZccVsvtdxZjfHZqvSPYm_UT-7NUL6ZM12RjqNtioDGAvfjLj9Bzwqxj_OmclerSloXo-Bh-mnGvQFbwP5BcV1-J4U80faTjnEedE");'>
+                                </div>
+                                <div class="edit-icon-badge">
+                                    <span class="material-symbols-outlined" style="font-size: 16px;">edit</span>
+                                </div>
+                            </div>
+                            <h2 class="text-dark-custom fs-5 fw-bold mb-1">Innovators Squad Alpha</h2>
+                            <p class="text-muted-custom small fw-medium mb-3">Track: Sustainable Energy</p>
+                            <div class="d-flex align-items-center gap-2 mb-4">
+                                <span class="status-dot"></span>
+                                <span class="small fw-medium" style="color: #16a34a;">Status: Active</span>
+                            </div>
+                            <div class="divider-custom"></div>
+                            <div class="w-100 d-flex flex-column gap-3">
+                                <label class="text-uppercase fw-bold text-muted-custom text-start"
+                                    style="font-size: 0.75rem; letter-spacing: 0.05em;">Group Code</label>
+                                <div class="group-code-box d-flex align-items-center gap-2">
+                                    <span class="flex-grow-1 group-code-text text-dark-custom">IFT-8829X</span>
+                                    <button class="copy-btn d-flex align-items-center justify-content-center"
+                                        title="Copy Code">
+                                        <span class="material-symbols-outlined" style="font-size: 20px;">content_copy</span>
+                                    </button>
+                                </div>
+                                <p class="text-muted-custom text-start mb-0" style="font-size: 0.75rem;">Share this code
+                                    to invite members.</p>
+                            </div>
+                        </div>
+
+                        <!-- Tip Card -->
+                        <div class="tip-card">
+                            <div class="d-flex align-items-start gap-3">
+                                <span class="material-symbols-outlined text-primary-custom mt-1">lightbulb</span>
+                                <div class="d-flex flex-column gap-1">
+                                    <h3 class="small fw-bold text-dark-custom mb-1">Pro Tip</h3>
+                                    <p class="small text-muted-custom mb-0" style="line-height: 1.6;">Ensure all members
+                                        have completed their profiles to unlock the submission portal for the next round.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Member Roster -->
+                <div class="col-12 col-lg-8">
+                    <div class="roster-card d-flex flex-column">
+                        <!-- Roster Header -->
+                        <div
+                            class="roster-header d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3">
+                            <div>
+                                <h3 class="fs-5 fw-bold text-dark-custom mb-1">Team Roster</h3>
+                                <p class="small text-muted-custom mb-0">3 Active Members, 1 Pending</p>
+                            </div>
+                            <button class="btn-primary-custom d-inline-flex align-items-center gap-2">
+                                <span class="material-symbols-outlined" style="font-size: 20px;">person_add</span>
+                                Invite Members
+                            </button>
+                        </div>
+
+                        <!-- Member List -->
+                        <div class="d-flex flex-column">
+                            <!-- Member 1: Lead -->
+                            <div class="member-item d-flex flex-column flex-sm-row align-items-start align-items-sm-center gap-3">
+                                <div class="position-relative">
+                                    <div class="member-avatar"
+                                        data-alt="Portrait of Aarav Patel, a young student looking confident"
+                                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuATmAvoZeYOTlIm4Nj8G9WWG6Ea7xqFg8w_YbJU7esuXLASPfUkM7uNlSyXOuNzP9Dg_7AGxVz6mMArFpxdbYpU196QDVrDHr8_NbZZSzqdFAqQhstrhhwv6irBXD5W91QMn9tTXzW1PgwaulJ0VEBuSAZNV51_zKnZF20txWjgMX5ZxMQeaZY_pFISdhmUA5GIvjt1cd7M9pWzkcZ6-Yb7fAmhGz3NNeYkKpeVWKr-USogLPQ3QqO5qKj6UUqd2rap8hxXSoE75Eg");'>
+                                    </div>
+                                    <div class="badge-icon-wrapper">
+                                        <span class="material-symbols-outlined badge-icon" style="font-size: 16px; color: #eab308;">workspace_premium</span>
+                                    </div>
+                                </div>
+                                <div class="flex-grow-1" style="min-width: 0;">
+                                    <div class="d-flex align-items-center gap-2 mb-1">
+                                        <h4 class="text-dark-custom fw-bold mb-0 text-truncate">Aarav Patel</h4>
+                                        <span class="role-badge role-badge-lead">Team Lead</span>
+                                    </div>
+                                    <p class="small text-muted-custom mb-0 text-truncate">aarav.patel@student.ift.org</p>
+                                </div>
+                                <div class="member-actions d-flex align-items-center gap-3 ms-sm-auto">
+                                    <span class="status-badge status-badge-active">Active</span>
+                                    <button class="more-btn">
+                                        <span class="material-symbols-outlined">more_vert</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Member 2 -->
+                            <div class="member-item d-flex flex-column flex-sm-row align-items-start align-items-sm-center gap-3">
+                                <div class="member-avatar"
+                                    data-alt="Portrait of Diya Sharma smiling"
+                                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuACcwscTNt2eW6TGpbeWSNMlXS0Er4xf-PWZxM_gdb_s-Z7jeRk3L40tB8ZfHhisaoGpUUJgQq3u1ZpqClPINZNPpu-gC0JTUUlyorySQd0P6cOWLxm91PwIOyvcxLn780rsk9wxIUphp981fBbpa9vhkqDoAeUG40aDW0oAUCcLUcybexWaK-XmYIUpRI3elegJCdccm-AhFnkGM1-Iruih4MeORoveq9_Ie57NxdR1y85OG8iEEVgLxkikOzrdhDu3uWVBahAvwc");'>
+                                </div>
+                                <div class="flex-grow-1" style="min-width: 0;">
+                                    <div class="d-flex align-items-center gap-2 mb-1">
+                                        <h4 class="text-dark-custom fw-bold mb-0 text-truncate">Diya Sharma</h4>
+                                        <span class="role-badge role-badge-member">Member</span>
+                                    </div>
+                                    <p class="small text-muted-custom mb-0 text-truncate">diya.s@student.ift.org</p>
+                                </div>
+                                <div class="member-actions d-flex align-items-center gap-3 ms-sm-auto">
+                                    <span class="status-badge status-badge-active">Active</span>
+                                    <button class="more-btn">
+                                        <span class="material-symbols-outlined">more_vert</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Member 3 -->
+                            <div class="member-item d-flex flex-column flex-sm-row align-items-start align-items-sm-center gap-3">
+                                <div class="member-avatar"
+                                    data-alt="Portrait of Rohan Gupta"
+                                    style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBoEOmGRJ9FnYC_B-yEXw4VJbnGEUbkTlvt6mbQduuv9NxBeWp-9Ujs5MuXhGkolC8T-N199WaVjoCzBQEQE9PCeeFCOVh2eF5lylY_aiQhG6gmNORKx_PMKi-iJdjLyAslDoi7APnyURpHfFLcVi86lmmChmZoyDvh9tlMJm9YNr0tZP8ufDRW9vY1lmGpInwTX2hvFCsQPNppDdj-nHEtzJF2k_DQMcbFXTldP3kviQ6co6bdBj6ZHENWQG_GoD2rECmo9LzMOXI");'>
+                                </div>
+                                <div class="flex-grow-1" style="min-width: 0;">
+                                    <div class="d-flex align-items-center gap-2 mb-1">
+                                        <h4 class="text-dark-custom fw-bold mb-0 text-truncate">Rohan Gupta</h4>
+                                        <span class="role-badge role-badge-member">Member</span>
+                                    </div>
+                                    <p class="small text-muted-custom mb-0 text-truncate">r.gupta99@student.ift.org</p>
+                                </div>
+                                <div class="member-actions d-flex align-items-center gap-3 ms-sm-auto">
+                                    <span class="status-badge status-badge-active">Active</span>
+                                    <button class="more-btn">
+                                        <span class="material-symbols-outlined">more_vert</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Member 4 (Pending) -->
+                            <div class="member-item d-flex flex-column flex-sm-row align-items-start align-items-sm-center gap-3">
+                                <div class="pending-avatar">
+                                    <span class="material-symbols-outlined" style="font-size: 20px;">mail</span>
+                                </div>
+                                <div class="flex-grow-1" style="min-width: 0;">
+                                    <div class="d-flex align-items-center gap-2 mb-1">
+                                        <h4 class="text-dark-custom fw-bold mb-0 text-truncate" style="opacity: 0.6;">Pending
+                                            Invitation</h4>
+                                    </div>
+                                    <p class="small text-muted-custom mb-0 text-truncate">k.verma@example.com</p>
+                                </div>
+                                <div class="member-actions d-flex align-items-center gap-3 ms-sm-auto">
+                                    <span class="status-badge status-badge-pending">Pending</span>
+                                    <div class="d-flex gap-2">
+                                        <button class="resend-btn">Resend</button>
+                                        <button class="more-btn">
+                                            <span class="material-symbols-outlined" style="color: #ef4444;">close</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+
+    <!-- Load External Components -->
+    <script>
+        // Load sidebar
+        fetch('sidebar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('sidebar-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading sidebar:', error));
+
+        // Load header
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header-container').innerHTML = data;
+            })
+            .catch(error => console.error('Error loading header:', error));
+    </script>
+</body>
+
+</html>
