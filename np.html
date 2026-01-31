@@ -1,0 +1,3380 @@
+<style>
+    span#partagali-majorFestivalsText {
+        background: #94773a;
+        padding: 8px 12px;
+        border-radius: 8px;
+        color: #fff;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    span#partagali-festivalsText {
+        background: #d4af37;
+        padding: 8px 12px;
+        border-radius: 8px;
+        color: #fff;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+
+    .partagali-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+    }
+
+    .partagali-header {
+        background: #5c4529;
+        color: white;
+        text-align: center;
+        padding: 15px 10px;
+        position: relative;
+    }
+
+    .partagali-header h1 {
+        font-size: 2rem;
+        margin-bottom: 8px;
+        color: #fff;
+        margin-top: 10px;
+    }
+
+    .partagali-header .partagali-subtitle {
+        font-size: 1rem;
+        opacity: 0.9;
+    }
+
+    .partagali-nav-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 10px;
+        background: #f8f9fa;
+        border-bottom: 2px solid #dee2e6;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .partagali-nav-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .partagali-nav-btn {
+        background: #fff;
+        color: #333;
+        border: 1px solid #ddd;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 40px;
+    }
+
+    .partagali-nav-btn:hover {
+        background: #f5f5f5;
+        border-color: #bbb;
+    }
+
+    .partagali-current-month {
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: #333;
+        text-align: center;
+        line-height: 1.3;
+        flex: 1;
+        min-width: 200px;
+    }
+
+    .partagali-nav-right {
+        display: flex;
+        gap: 4px;
+        flex-wrap: wrap;
+    }
+
+    .partagali-calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 1px;
+        background: #dee2e6;
+        overflow: hidden;
+        margin: 0;
+    }
+
+    .partagali-day-header {
+        background: #39200f;
+        color: white;
+        padding: 10px 5px;
+        text-align: center;
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+
+    .partagali-day-cell {
+        background: white;
+        min-height: 100px;
+        padding: 6px;
+        position: relative;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        overflow: hidden;
+    }
+
+    .partagali-day-cell:hover {
+        background: #f8f9fa;
+        transform: scale(1.01);
+    }
+
+    .partagali-day-number {
+        font-weight: bold;
+        font-size: 1rem;
+        margin-bottom: 4px;
+        line-height: 1;
+    }
+
+    .partagali-festival {
+        background: #D4AF37;
+        color: white;
+        padding: 2px 4px;
+        border-radius: 8px;
+        font-size: 0.7rem;
+        margin: 1px 0;
+        line-height: 1.1;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: block;
+        word-wrap: break-word;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .partagali-festival:hover {
+        transform: scale(1.02);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        white-space: normal;
+        z-index: 10;
+        position: relative;
+    }
+
+    .partagali-festival.partagali-major {
+        background: #94773a;
+        font-weight: bold;
+    }
+
+    .partagali-festival.partagali-ekadashi {
+        background: #CD7F32;
+    }
+
+    .partagali-other-month {
+        opacity: 0.3;
+    }
+
+    .partagali-today {
+        background: #fff3cd;
+        border: 2px solid #ffc107;
+    }
+
+    .partagali-modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 10px;
+    }
+
+    .partagali-modal-content {
+        background: white;
+        margin: 5% auto;
+        padding: 20px;
+        border-radius: 15px;
+        width: 90%;
+        max-width: 600px;
+        position: relative;
+        animation: partagali-modalSlideIn 0.3s ease;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    @keyframes partagali-modalSlideIn {
+        from {
+            transform: translateY(-50px);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .partagali-close {
+        position: absolute;
+        right: 15px;
+        top: 10px;
+        font-size: 24px;
+        font-weight: bold;
+        cursor: pointer;
+        color: #999;
+        z-index: 1001;
+    }
+
+    .partagali-close:hover {
+        color: #333;
+    }
+
+    .partagali-festival-details {
+        margin-top: 15px;
+    }
+
+    .partagali-festival-details h3 {
+        color: #ff6b35;
+        margin-bottom: 8px;
+        font-size: 1.1rem;
+    }
+
+    .partagali-festival-details .partagali-language {
+        margin: 8px 0;
+        padding: 8px;
+        background: #f8f9fa;
+        border-left: 4px solid #ff6b35;
+        border-radius: 4px;
+    }
+
+    .partagali-lang-btn {
+        background: #fff;
+        color: #333;
+        border: 1px solid #ddd;
+        padding: 6px 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.85rem;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+    }
+
+    .partagali-lang-btn:hover {
+        background: #f5f5f5;
+        border-color: #bbb;
+    }
+
+    .partagali-lang-btn.partagali-active {
+        background: #f0d981;
+        border-color: #f0d981;
+    }
+
+    .partagali-lunar-info {
+        background: #e3f2fd;
+        padding: 12px;
+        border-radius: 8px;
+        margin: 12px 0;
+        border-left: 4px solid #2196f3;
+    }
+
+    .partagali-lunar-info h4 {
+        color: #1976d2;
+        margin-bottom: 6px;
+        font-size: 1rem;
+    }
+
+    .partagali-lunar-info p {
+        margin: 3px 0;
+        font-size: 0.9rem;
+    }
+
+    .partagali-legend {
+        display: none;
+        justify-content: center;
+        gap: 15px;
+        padding: 15px;
+        background: #f8f9fa;
+        margin: 0;
+        border-radius: 0;
+        flex-wrap: wrap;
+    }
+
+    .partagali-legend-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        margin: 2px 0;
+    }
+
+    .partagali-legend-color {
+        width: 16px;
+        height: 12px;
+        border-radius: 6px;
+        flex-shrink: 0;
+    }
+
+    /* Mobile Responsive Styles */
+    @media (max-width: 768px) {
+        body {
+            padding: 5px;
+        }
+
+        .partagali-header h1 {
+            font-size: 1.6rem;
+        }
+
+        .partagali-nav-controls {
+            padding: 10px 5px;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .partagali-nav-left {
+            order: 2;
+        }
+
+        .partagali-current-month {
+            order: 1;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .partagali-nav-right {
+            order: 3;
+            justify-content: center;
+        }
+
+        .partagali-calendar-grid {
+            margin: 0;
+            gap: 0.5px;
+        }
+
+        .partagali-day-header {
+            padding: 8px 2px;
+            font-size: 0.8rem;
+        }
+
+        .partagali-day-cell {
+            min-height: 70px;
+            padding: 3px;
+        }
+
+        .partagali-day-number {
+            font-size: 0.9rem;
+            margin-bottom: 2px;
+        }
+
+        .partagali-festival {
+            font-size: 0.6rem;
+            padding: 1px 3px;
+            margin: 0.5px 0;
+            border-radius: 4px;
+        }
+
+        .partagali-modal-content {
+            width: 95%;
+            padding: 15px;
+            margin: 2% auto;
+        }
+
+        .partagali-legend {
+            gap: 8px;
+            padding: 10px 5px;
+        }
+
+        .partagali-legend-item {
+            font-size: 0.8rem;
+        }
+
+        .partagali-lang-btn {
+            padding: 5px 8px;
+            font-size: 0.8rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .partagali-header h1 {
+            font-size: 1.4rem;
+        }
+
+        .partagali-current-month {
+            font-size: 1rem;
+        }
+
+        .partagali-day-cell {
+            min-height: 60px;
+            padding: 2px;
+        }
+
+        .partagali-day-number {
+            font-size: 0.8rem;
+        }
+
+        .partagali-festival {
+            font-size: 0.55rem;
+            padding: 1px 2px;
+        }
+
+        .partagali-nav-btn {
+            width: 35px;
+            height: 35px;
+            font-size: 1rem;
+        }
+
+        .partagali-modal-content {
+            width: 98%;
+            padding: 10px;
+        }
+
+        .partagali-legend {
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .partagali-nav-right {
+            flex-direction: column;
+            gap: 5px;
+        }
+    }
+
+    /* Landscape orientation for tablets */
+    @media (max-width: 1024px) and (orientation: landscape) {
+        .partagali-day-cell {
+            min-height: 80px;
+        }
+
+        .partagali-festival {
+            font-size: 0.65rem;
+        }
+    }
+
+    /* Very small screens */
+    @media (max-width: 320px) {
+        .partagali-festival {
+            font-size: 0.5rem;
+            padding: 1px;
+        }
+
+        .partagali-day-cell {
+            min-height: 50px;
+            padding: 1px;
+        }
+
+        .partagali-day-number {
+            font-size: 0.7rem;
+        }
+    }
+</style>
+<div class="partagali-container">
+    <div class="partagali-header">
+        <h1>Nirnaya Patrika</h1>
+    </div>
+
+    <div class="partagali-nav-controls">
+        <div class="partagali-nav-left">
+            <button class="partagali-nav-btn" onclick="partagaliChangeMonth(-1)">‹</button>
+            <button class="partagali-nav-btn" onclick="partagaliChangeMonth(1)">›</button>
+        </div>
+        <div class="partagali-current-month" id="partagali-currentMonth"></div>
+        <div class="partagali-nav-right">
+            <button class="partagali-lang-btn partagali-active" onclick="partagaliChangeLanguage('english')"
+                data-lang="english">English</button>
+            <button class="partagali-lang-btn" onclick="partagaliChangeLanguage('marathi')"
+                data-lang="marathi">मराठी</button>
+            <button class="partagali-lang-btn" onclick="partagaliChangeLanguage('kannada')"
+                data-lang="kannada">ಕನ್ನಡ</button>
+        </div>
+    </div>
+
+    <div class="partagali-legend" id="partagali-legend">
+        <div class="partagali-legend-item">
+            <div class="partagali-legend-color" style="background: #94773a;"></div>
+            <span id="partagali-majorFestivalsText">Major Festivals</span>
+        </div>
+        <div class="partagali-legend-item">
+            <div class="partagali-legend-color" style="background: #D4AF37"></div>
+            <span id="partagali-festivalsText">Festivals</span>
+        </div>
+        <div class="partagali-legend-item">
+            <div class="partagali-legend-color" style="background: #CD7F32;"></div>
+            <span id="partagali-ekadasiText">Ekadashi</span>
+        </div>
+    </div>
+
+    <div class="partagali-calendar-grid" id="partagali-calendar"></div>
+</div>
+
+<!-- Modal -->
+<div id="partagali-festivalModal" class="partagali-modal">
+    <div class="partagali-modal-content">
+        <span class="partagali-close" onclick="partagaliCloseModal()">&times;</span>
+        <h2 id="partagali-modalDate"></h2>
+        <div id="partagali-modalFestivals" class="partagali-festival-details"></div>
+    </div>
+</div>
+<script>
+    let partagaliCurrentDate = new Date();
+    let partagaliCurrentLanguage = 'english';
+    const partagaliHinduMasas = {
+        2025: {
+            0: { english: 'Pousha Masa - Magha Masa', marathi: 'पौष मास - माघ मास', kannada: 'ಪೌಷ ಮಾಸ - ಮಾಘ ಮಾಸ' }, // January
+            1: { english: 'Magha Masa - Phalguna Masa', marathi: 'माघ मास - फाल्गुन मास', kannada: 'ಮಾಘ ಮಾಸ - ಫಾಲ್ಗುನ ಮಾಸ' }, // February
+            2: { english: 'Chaitra Masa - Vaishakh Masa', marathi: 'चैत्र मास - वैशाख मास', kannada: 'ಚೈತ್ರ ಮಾಸ - ವೈಶಾಖ ಮಾಸ' }, // March
+            3: { english: 'Chaitra Masa - Vaishakha Masa', marathi: 'चैत्र मास - वैशाख मास', kannada: 'ಚೈತ್ರ ಮಾಸ - ವೈಶಾಖ ಮಾಸ' }, // April
+            4: { english: 'Vaishakha Masa - Jyeshtha Masa', marathi: 'वैशाख मास - ज्येष्ठ मास', kannada: 'ವೈಶಾಖ ಮಾಸ - ಜ್ಯೇಷ್ಠ ಮಾಸ' }, // May
+            5: { english: 'Jyeshtha Masa - Ashadha Masa', marathi: 'ज्येष्ठ मास - आषाढ मास', kannada: 'ಜ್ಯೇಷ್ಠ ಮಾಸ - ಆಷಾಢ ಮಾಸ' }, // June
+            6: { english: 'Ashadha Masa - Shravana Masa', marathi: 'आषाढ मास - श्रावण मास', kannada: 'ಆಷಾಢ ಮಾಸ - ಶ್ರಾವಣ ಮಾಸ' }, // July
+            7: { english: 'Shravana Masa - Bhadrapad Masa', marathi: 'श्रावण मास - भाद्रपद मास', kannada: 'ಶ್ರಾವಣ ಮಾಸ - ಭಾದ್ರಪದ ಮಾಸ' }, // August
+            8: { english: 'Bhadrapad Masa - AshWina Masa', marathi: 'भाद्रपद मास - आश्विन मास', kannada: 'ಭಾದ್ರಪದ ಮಾಸ - ಅಶ್ವಿನ ಮಾಸ' }, // September
+            9: { english: 'Ashvina Masa - Kartika Masa', marathi: 'आश्विन मास - कार्तिक मास', kannada: 'ಅಶ್ವಿನ ಮಾಸ - ಕಾರ್ತಿಕ ಮಾಸ' }, // October
+            10: { english: 'Kartika Masa - Margasheersh Masa', marathi: 'कार्तिक मास - मार्गशीर्ष मास', kannada: 'ಕಾರ್ತಿಕ ಮಾಸ - ಮಾರ್ಗಶೀರ್ಷ ಮಾಸ' }, // November
+            11: { english: 'Margasheersh Masa - Pousha Masa', marathi: 'मार्गशीर्ष मास - पौष मास', kannada: 'ಮಾರ್ಗಶೀರ್ಷ ಮಾಸ - ಪೌಷ ಮಾಸ' } // December
+        },
+        2026: {
+            0: { english: 'Pousha Masa - Magha Masa', marathi: 'पौष मास - माघ मास', kannada: 'ಪೌಷ ಮಾಸ - ಮಾಘ ಮಾಸ' }, // January
+            1: { english: 'Magha Masa - Phalguna Masa', marathi: 'माघ मास - फाल्गुन मास', kannada: 'ಮಾಘ ಮಾಸ - ಫಾಲ್ಗುನ ಮಾಸ' }, // February
+            2: { english: 'Phalguna Masa - Chaitra Masa', marathi: 'फाल्गुन मास - चैत्र मास', kannada: 'ಫಾಲ್ಗುನ ಮಾಸ - ಚೈತ್ರ ಮಾಸ' }, // March
+            3: { english: 'Chaitra Masa - Vaishakha Masa', marathi: 'चैत्र मास - वैशाख मास', kannada: 'ಚೈತ್ರ ಮಾಸ - ವೈಶಾಖ ಮಾಸ' }, // April
+            4: { english: 'Vaishakha Masa - Jyeshtha Masa', marathi: 'वैशाख मास - ज्येष्ठ मास', kannada: 'ವೈಶಾಖ ಮಾಸ - ಜ್ಯೇಷ್ಠ ಮಾಸ' }, // May
+            5: { english: 'Jyeshtha Masa - Ashadha Masa', marathi: 'ज्येष्ठ मास - आषाढ मास', kannada: 'ಜ್ಯೇಷ್ಠ ಮಾಸ - ಆಷಾಢ ಮಾಸ' }, // June
+            6: { english: 'Ashadha Masa - Shravana Masa', marathi: 'आषाढ मास - श्रावण मास', kannada: 'ಆಷಾಢ ಮಾಸ - ಶ್ರಾವಣ ಮಾಸ' }, // July
+            7: { english: 'Shravana Masa - Bhadrapad Masa', marathi: 'श्रावण मास - भाद्रपद मास', kannada: 'ಶ್ರಾವಣ ಮಾಸ - ಭಾದ್ರಪದ ಮಾಸ' }, // August
+            8: { english: 'Bhadrapad Masa - Ashvina Masa', marathi: 'भाद्रपद मास - आश्विन मास', kannada: 'ಭಾದ್ರಪದ ಮಾಸ - ಅಶ್ವಿನ ಮಾಸ' }, // September
+            9: { english: 'Ashvina Masa - Kartika Masa', marathi: 'आश्विन मास - कार्तिक मास', kannada: 'ಅಶ್ವಿನ ಮಾಸ - ಕಾರ್ತಿಕ ಮಾಸ' }, // October
+            10: { english: 'Kartika Masa - Margasheersh Masa', marathi: 'कार्तिक मास - मार्गशीर्ष मास', kannada: 'ಕಾರ್ತಿಕ ಮಾಸ - ಮಾರ್ಗಶೀರ್ಷ ಮಾಸ' }, // November
+            11: { english: 'Margasheersh Masa - Pousha Masa', marathi: 'मार्गशीर्ष मास - पौष मास', kannada: 'ಮಾರ್ಗಶೀರ್ಷ ಮಾಸ - ಪೌಷ ಮಾಸ' } // December
+        },
+        2027: {
+            0: { english: 'Pousha Masa - Magha Masa', marathi: 'पौष मास - माघ मास', kannada: 'ಪೌಷ ಮಾಸ - ಮಾಘ ಮಾಸ' }, // January
+            1: { english: 'Magha Masa - Phalguna Masa', marathi: 'माघ मास - फाल्गुन मास', kannada: 'ಮಾಘ ಮಾಸ - ಫಾಲ್ಗುನ ಮಾಸ' }, // February
+            2: { english: 'Phalguna Masa - Chaitra Masa', marathi: 'फाल्गुन मास - चैत्र मास', kannada: 'ಫಾಲ್ಗುನ ಮಾಸ - ಚೈತ್ರ ಮಾಸ' }, // March
+            3: { english: 'Chaitra Masa - Vaishakha Masa', marathi: 'चैत्र मास - वैशाख मास', kannada: 'ಚೈತ್ರ ಮಾಸ - ವೈಶಾಖ ಮಾಸ' }, // April
+            4: { english: 'Vaishakha Masa - Jyeshtha Masa', marathi: 'वैशाख मास - ज्येष्ठ मास', kannada: 'ವೈಶಾಖ ಮಾಸ - ಜ್ಯೇಷ್ಠ ಮಾಸ' }, // May
+            5: { english: 'Jyeshtha Masa - Ashadha Masa', marathi: 'ज्येष्ठ मास - आषाढ मास', kannada: 'ಜ್ಯೇಷ್ಠ ಮಾಸ - ಆಷಾಢ ಮಾಸ' }, // June
+            6: { english: 'Ashadha Masa - Shravana Masa', marathi: 'आषाढ मास - श्रावण मास', kannada: 'ಆಷಾಢ ಮಾಸ - ಶ್ರಾವಣ ಮಾಸ' }, // July
+            7: { english: 'Shravana Masa - Bhadrapad Masa', marathi: 'श्रावण मास - भाद्रपद मास', kannada: 'ಶ್ರಾವಣ ಮಾಸ - ಭಾದ್ರಪದ ಮಾಸ' }, // August
+            8: { english: 'Bhadrapad Masa - Ashvina Masa', marathi: 'भाद्रपद मास - आश्विन मास', kannada: 'ಭಾದ್ರಪದ ಮಾಸ - ಅಶ್ವಿನ ಮಾಸ' }, // September
+            9: { english: 'Ashvina Masa - Kartika Masa', marathi: 'आश्विन मास - कार्तिक मास', kannada: 'ಅಶ್ವಿನ ಮಾಸ - ಕಾರ್ತಿಕ ಮಾಸ' }, // October
+            10: { english: 'Kartika Masa - Margasheersh Masa', marathi: 'कार्तिक मास - मार्गशीर्ष मास', kannada: 'ಕಾರ್ತಿಕ ಮಾಸ - ಮಾರ್ಗಶೀರ್ಷ ಮಾಸ' }, // November
+            11: { english: 'Margasheersh Masa - Pousha Masa', marathi: 'मार्गशीर्ष मास - पौष मास', kannada: 'ಮಾರ್ಗಶೀರ್ಷ ಮಾಸ - ಪೌಷ ಮಾಸ' } // December
+        }
+    };
+
+    const partagaliFestivals = {
+        // March 2025 - Chaitra Masa
+        '2025-03-30': [{
+            name: 'Ugadi New Year',
+            marathi: 'उगादी नववर्ष',
+            kannada: 'ಯುಗಾದಿ ಹೊಸ ವರ್ಷ',
+            type: 'major',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Pratipada (1st day)',
+            tithiMarathi: 'प्रतिपदा (१म दिन)',
+            tithiKannada: 'ಪ್ರತಿಪದ (೧ನೇ ದಿನ)',
+            masa: 'Chaitra Masa',
+            masaMarathi: 'चैत्र मास',
+            masaKannada: 'ಚೈತ್ರ ಮಾಸ'
+        }],
+        '2025-03-31': [{
+            name: 'Math Foundation Day (550), Shrimad Vidyadhiraj Teertha Swamijis (23) Pattabhisheka Day',
+            marathi: 'गणित स्थापना दिवस (५५०), श्रीमद् विद्याधिराज तीर्थ स्वामीजींचा (२३) पट्टाभिषेक दिवस',
+            kannada: 'ಗಣಿತ ಸ್ಥಾಪನೆ ದಿನ (೫೫೦), ಶ್ರೀಮದ್ ವಿದ್ಯಾಧಿರಾಜ ತೀರ್ಥ ಸ್ವಾಮೀಜಿಯ (೨೩) ಪಟ್ಟಾಭಿಷೇಕ ದಿನ',
+            type: 'normal',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Dwitiya (2nd day)',
+            tithiMarathi: 'द्वितीया (२रा दिन)',
+            tithiKannada: 'ದ್ವಿತೀಯ (೨ನೇ ದಿನ)',
+            masa: 'Chaitra Masa',
+            masaMarathi: 'चैत्र मास',
+            masaKannada: 'ಚೈತ್ರ ಮಾಸ'
+        }],
+        '2025-04-01': [{
+            name: 'Dhwajarohan at Shree Partagali Math',
+            marathi: 'श्री पर्तागली मठात ध्वजारोहण',
+            kannada: 'ಶ್ರೀ ಪರ್ತಾಗಲಿ ಮಠದಲ್ಲಿ ಧ್ವಜಾರೋಹಣ',
+            type: 'normal',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Tritiya (3rd day)',
+            tithiMarathi: 'तृतीया (३रा दिन)',
+            tithiKannada: 'ತೃತೀಯ (೩ನೇ ದಿನ)',
+            masa: 'Chaitra Masa',
+            masaMarathi: 'चैत्र मास',
+            masaKannada: 'ಚೈತ್ರ ಮಾಸ'
+        }],
+        '2025-04-06': [{
+            name: 'Shri Ramanavami Maharathotsava Shrimad Ramaanath Teerth Swamjis (15) Punyatithi (221)',
+            marathi: 'श्री रामनवमी महारथोत्सव श्रीमद् रामानाथ तीर्थ स्वामीजींची (१५) पुण्यतिथी (२२१)',
+            kannada: 'ಶ್ರೀ ರಾಮನವಮಿ ಮಹಾರಥೋತ್ಸವ ಶ್ರೀಮದ್ ರಾಮಾನಾಥ ತೀರ್ಥ ಸ್ವಾಮೀಜಿಯ (೧೫) ಪುಣ್ಯತಿಥಿ (೨೨೧)',
+            type: 'major',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Navami (9th day)',
+            tithiMarathi: 'नवमी (९वा दिन)',
+            tithiKannada: 'ನವಮಿ (೯ನೇ ದಿನ)',
+            masa: 'Chaitra Masa',
+            masaMarathi: 'चैत्र मास',
+            masaKannada: 'ಚೈತ್ರ ಮಾಸ'
+        }],
+        '2025-04-08': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Chaitra Masa',
+            masaMarathi: 'चैत्र मास',
+            masaKannada: 'ಚೈತ್ರ ಮಾಸ'
+        }],
+        '2025-04-09': [{
+            name: 'Shrimad Kamalanath Teerth Swamjis (21) Punyatithi (82)',
+            marathi: 'श्रीमद् कमलनाथ तीर्थ स्वामीजींची (२१) पुण्यतिथी (८२)',
+            kannada: 'ಶ್ರೀಮದ್ ಕಮಲನಾಥ ತೀರ್ಥ ಸ್ವಾಮೀಜಿಯ (೨೧) ಪುಣ್ಯತಿಥಿ (೮೨)',
+            type: 'normal',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Dwadashi (12th day)',
+            tithiMarathi: 'द्वादशी (१२वा दिन)',
+            tithiKannada: 'ದ್ವಾದಶಿ (೧೨ನೇ ದಿನ)',
+            masa: 'Chaitra Masa',
+            masaMarathi: 'चैत्र मास',
+            masaKannada: 'ಚೈತ್ರ ಮಾಸ'
+        }],
+        '2025-04-12': [{
+            name: 'Shri Hanuman Jayanti',
+            marathi: 'श्री हनुमान जयंती',
+            kannada: 'ಶ್ರೀ ಹನುಮಾನ್ ಜಯಂತಿ',
+            type: 'major',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Purnima (Full Moon)',
+            tithiMarathi: 'पूर्णिमा (पौर्णिमा)',
+            tithiKannada: 'ಪೂರ್ಣಿಮಾ (ಹುಣ್ಣಿಮೆ)',
+            masa: 'Chaitra Masa',
+            masaMarathi: 'चैत्र मास',
+            masaKannada: 'ಚೈತ್ರ ಮಾಸ'
+        }],
+        '2025-04-20': [{
+            name: 'Shrimad Indirakant Teerth Swamijis (20) Punyatithi (83)',
+            marathi: 'श्रीमद् इंदिराकांत तीर्थ स्वामीजींची (२०) पुण्यतिथी (८३)',
+            kannada: 'ಶ್ರೀಮದ್ ಇಂದಿರಾಕಾಂತ ತೀರ್ಥ ಸ್ವಾಮೀಜಿಯ (೨೦) ಪುಣ್ಯತಿಥಿ (೮೩)',
+            type: 'normal',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Saptami (7th day)',
+            tithiMarathi: 'सप्तमी (७वा दिन)',
+            tithiKannada: 'ಸಪ್ತಮಿ (೭ನೇ ದಿನ)',
+            masa: 'Chaitra Masa',
+            masaMarathi: 'चैत्र मास',
+            masaKannada: 'ಚೈತ್ರ ಮಾಸ'
+        }],
+        '2025-04-24': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Vaishakha Masa',
+            masaMarathi: 'वैशाख मास',
+            masaKannada: 'ವೈಶಾಖ ಮಾಸ'
+        }],
+        '2025-04-25': [{
+            name: 'Morning before 08:45 Dwadashi Parane to be observed',
+            marathi: 'सकाळी ०८:४५ द्वादशी पारणे पाळावे',
+            kannada: 'ಬೆಳಿಗ್ಗೆ ೦೮:೪೫ ದ್ವಾದಶಿ ಪಾರಣೆ ಮಾಡಬೇಕು',
+            type: 'normal',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Dwadashi (12th day)',
+            tithiMarathi: 'द्वादशी (१२वा दिन)',
+            tithiKannada: 'ದ್ವಾದಶಿ (೧೨ನೇ ದಿನ)',
+            masa: 'Vaishakha Masa',
+            masaMarathi: 'वैशाख मास',
+            masaKannada: 'ವೈಶಾಖ ಮಾಸ'
+        }],
+        '2025-04-27': [{
+            name: 'Shrimad Narayana Teerth Swamijis (1) Punyatithi (508)',
+            marathi: 'श्रीमद् नारायण तीर्थ स्वामीजींची (१) पुण्यतिथी (५०८)',
+            kannada: 'ಶ್ರೀಮದ್ ನಾರಾಯಣ ತೀರ್ಥ ಸ್ವಾಮೀಜಿಯ (೧) ಪುಣ್ಯತಿಥಿ (೫೦೮)',
+            type: 'normal',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Amavasya (New Moon)',
+            tithiMarathi: 'अमावस्या (अमावस)',
+            tithiKannada: 'ಅಮಾವಾಸ್ಯೆ (ಅಮಾವಸ್ಯೆ)',
+            masa: 'Vaishakha Masa',
+            masaMarathi: 'वैशाख मास',
+            masaKannada: 'ವೈಶಾಖ ಮಾಸ'
+        }],
+
+        // April 2025 - Vaishakha Masa
+        '2025-04-29': [{
+            name: 'Shri Parashuram Jayanti',
+            marathi: 'श्री परशुराम जयंती',
+            kannada: 'ಶ್ರೀ ಪರಶುರಾಮ ಜಯಂತಿ',
+            type: 'normal',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Tritiya (3rd day)',
+            tithiMarathi: 'तृतीया (३रा दिवस)',
+            tithiKannada: 'ತೃತೀಯಾ (೩ನೇ ದಿನ)',
+            masa: 'Vaishakha Masa',
+            masaMarathi: 'वैशाख मास',
+            masaKannada: 'ವೈಶಾಖ ಮಾಸ'
+        }],
+        '2025-04-30': [{
+            name: 'Akshaya Trutiya, Shrimad Vasudev Teerth Swamijis (2) Punyatithi (507)',
+            marathi: 'अक्षय तृतीया, श्रीमद् वासुदेव तीर्थ स्वामीजींची (२) पुण्यतिथी (५०७)',
+            kannada: 'ಅಕ್ಷಯ ತೃತೀಯ, ಶ್ರೀಮದ್ ವಾಸುದೇವ ತೀರ್ಥ ಸ್ವಾಮೀಜಿಯ (೨) ಪುಣ್ಯತಿಥಿ (೫೦೭)',
+            type: 'major',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Tritiya (3rd day)',
+            tithiMarathi: 'तृतीया (३रा दिन)',
+            tithiKannada: 'ತೃತೀಯ (೩ನೇ ದಿನ)',
+            masa: 'Vaishakha Masa',
+            masaMarathi: 'वैशाख मास',
+            masaKannada: 'ವೈಶಾಖ ಮಾಸ'
+        }],
+        '2025-05-08': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Vaishakha Masa',
+            masaMarathi: 'वैशाख मास',
+            masaKannada: 'ವೈಶಾಖ ಮಾಸ'
+        }],
+
+        '2025-05-11': [{
+            name: 'Shri Narasimha Jayanti',
+            marathi: 'श्री नरसिंह जयंती',
+            kannada: 'ಶ್ರೀ ನರಸಿಂಹ ಜಯಂತಿ',
+            type: 'major',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Chaturdashi (14th day)',
+            tithiMarathi: 'चतुर्दशी (१४वा दिन)',
+            tithiKannada: 'ಚತುರ್ದಶಿ (೧೪ನೇ ದಿನ)',
+            masa: 'Vaishakha Masa',
+            masaMarathi: 'वैशाख मास',
+            masaKannada: 'ವೈಶಾಖ ಮಾಸ'
+        }],
+        '2025-05-15': [{
+            name: 'Shrimad Ramachandra Teerth Swamjis (6) Punyatithi (360)',
+            marathi: 'श्रीमद् रामचंद्र तीर्थ स्वामीजींची (६) पुण्यतिथी (३६०)',
+            kannada: 'ಶ್ರೀಮದ್ ರಾಮಚಂದ್ರ ತೀರ್ಥ ಸ್ವಾಮೀಜಿಯ (೬) ಪುಣ್ಯತಿಥಿ (೩೬೦)',
+            type: 'major',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Tritiya (3rd day)',
+            tithiMarathi: 'तृतीया (३रा दिन)',
+            tithiKannada: 'ತೃತೀಯಾ (೩ನೇ ದಿನ)',
+            masa: 'Vaishakha Masa',
+            masaMarathi: 'वैशाख मास',
+            masaKannada: 'ವೈಶಾಖ ಮಾಸ'
+        }],
+        '2025-05-23': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Jyeshtha Masa',
+            masaMarathi: 'ज्येष्ठ मास',
+            masaKannada: 'ಜ್ಯೇಷ್ಠ ಮಾಸ'
+        }],
+        '2025-05-28': [{
+            name: 'Shrimad Poornaprajnya Teerth Swamijis (18) Punyatithi (146)',
+            marathi: 'श्रीमद् पूर्णप्रज्ञ तीर्थ स्वामीजींची (१८) पुण्यतिथी (१४६)',
+            kannada: 'ಶ್ರೀಮದ್ ಪೂರ್ಣಪ್ರಜ್ಞ ತೀರ್ಥ ಸ್ವಾಮೀಜಿಯ (೧೮) ಪುಣ್ಯತಿಥಿ (೧೪೬)',
+            type: 'ekadashi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Tritiya (3rd day)',
+            tithiMarathi: 'तृतीया (३रा दिवस)',
+            tithiKannada: 'ತೃತೀಯಾ (೩ನೇ ದಿನ)',
+            masa: 'Jyeshtha Masa',
+            masaMarathi: 'ज्येष्ठ मास',
+            masaKannada: 'ಜ್ಯೇಷ್ಠ ಮಾಸ'
+        }],
+
+        // June 2025 - Ashadha Masa
+        '2025-06-07': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Jyeshtha Masa',
+            masaMarathi: 'ज्येष्ठ मास',
+            masaKannada: 'ಜ್ಯೇಷ್ಠ ಮಾಸ'
+        }],
+        '2025-06-08': [{
+            name: 'Morning before 09:00 Dwadashi Parane to be observed',
+            marathi: 'सकाळी ०९:०० द्वादशीपूर्वी पारणे पाळावे',
+            kannada: 'ಬೆಳಿಗ್ಗೆ ೦೯:೦೦ ದ್ವಾದಶಿಯ ಮುಂಚೆ ಪಾರಣೆ ಮಾಡಬೇಕು',
+            type: 'ekadashi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Dwadashi (12th day)',
+            tithiMarathi: 'द्वादशी (१२वा दिन)',
+            tithiKannada: 'ದ್ವಾದಶಿ (೧೨ನೇ ದಿನ)',
+            masa: 'Jyeshtha Masa',
+            masaMarathi: 'ज्येष्ठ मास',
+            masaKannada: 'ಜ್ಯೇಷ್ಠ ಮಾಸ'
+        }],
+        '2025-06-10': [{
+            name: 'Vatasavitri Vrata',
+            marathi: 'वत्ससावित्री व्रत',
+            kannada: 'ವತ್ಸಸಾವಿತ್ರಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Chaturdashi (14th day)',
+            tithiMarathi: 'चतुर्दशी (१४वा दिन)',
+            tithiKannada: 'ಚತುರ್ದಶಿ (೧೪ನೇ ದಿನ)',
+            masa: 'Jyeshtha Masa',
+            masaMarathi: 'ज्येष्ठ मास',
+            masaKannada: 'ಜ್ಯೇಷ್ಠ ಮಾಸ'
+        }],
+        '2025-06-22': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Dwadashi (12th day)',
+            tithiMarathi: 'द्वादशी (१२वा दिन)',
+            tithiKannada: 'ದ್ವಾದಶಿ (೧೨ನೇ ದಿನ)',
+            masa: 'Jyeshtha Masa',
+            masaMarathi: 'ज्येष्ठ मास',
+            masaKannada: 'ಜ್ಯೇಷ್ಠ ಮಾಸ'
+        }],
+
+        // July 2025 - Shravana Masa
+        '2025-07-02': [{
+            name: 'Shrimad Padmanabh Teerth Swamiji\'s (19) Punyatithi (133)',
+            marathi: 'श्रीमद् पद्मनाभ तीर्थ स्वामीजी (१९) पुण्यतिथि (१३३)',
+            kannada: 'ಶ್ರೀಮದ್ ಪದ್ಮನಾಭ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೧೯) ಪುಣ್ಯತಿಥಿ (೧೩೩)',
+            type: 'punyatithi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Saptami (7th day)',
+            tithiMarathi: 'सप्तमी (७वा दिन)',
+            tithiKannada: 'ಸಪ್ತಮಿ (೭ನೇ ದಿನ)',
+            masa: 'Ashadha Masa',
+            masaMarathi: 'आषाढ मास',
+            masaKannada: 'ಆಷಾಢ ಮಾಸ'
+        }],
+
+        '2025-07-05': [{
+            name: 'Chaturmasya Shakavrat Starts & Shrimad Vidyadhiraj Teerth Swamiji\'s (23) Punyatithi (4)',
+            marathi: 'चातुर्मास्य शाकव्रत प्रारंभ आणि श्रीमद् विद्याधिराज तीर्थ स्वामीजी (२३) पुण्यतिथि (४)',
+            kannada: 'ಚಾತುರ್ಮಾಸ್ಯ ಶಾಕವ್ರತ ಪ್ರಾರಂಭ ಮತ್ತು ಶ್ರೀಮದ್ ವಿದ್ಯಾಧಿರಾಜ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೨೩) ಪುಣ್ಯತಿಥಿ (೪)',
+            type: 'vrata',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Dashami (10th day)',
+            tithiMarathi: 'दशमी (१०वा दिन)',
+            tithiKannada: 'ದಶಮಿ (೧೦ನೇ ದಿನ)',
+            masa: 'Ashadha Masa',
+            masaMarathi: 'आषाढ मास',
+            masaKannada: 'ಆಷಾಢ ಮಾಸ'
+        }],
+
+        '2025-07-06': [{
+            name: 'Ekadashi Vrata & Taptamudra Dharana',
+            marathi: 'एकादशी व्रत आणि तप्तमुद्रा धारणा',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ ಮತ್ತು ತಪ್ತಮುದ್ರಾ ಧಾರಣಾ',
+            type: 'ekadashi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Ashadha Masa',
+            masaMarathi: 'आषाढ मास',
+            masaKannada: 'ಆಷಾಢ ಮಾಸ'
+        }],
+
+        '2025-07-16': [{
+            name: 'Karkatak Sankranti',
+            marathi: 'कर्कटक संक्रांति',
+            kannada: 'ಕರ್ಕಟಕ ಸಂಕ್ರಾಂತಿ',
+            type: 'sankranti',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Shashthi (6th day)',
+            tithiMarathi: 'षष्ठी (६वा दिन)',
+            tithiKannada: 'ಷಷ್ಠಿ (೬ನೇ ದಿನ)',
+            masa: 'Ashadha Masa',
+            masaMarathi: 'आषाढ मास',
+            masaKannada: 'ಆಷಾಢ ಮಾಸ'
+        }],
+
+        '2025-07-17': [{
+            name: 'Shrimad Vidyadheesh Teerth Swamiji\'s (24) Pattabhishek Day, Evening Vyasapooja Poorvak Chaturmasya Vrata Sweekar',
+            marathi: 'श्रीमद् विद्याधीश तीर्थ स्वामीजी (२४) पट्टाभिषेक दिन, संध्याकाळी व्यासपूजा पूर्वक चातुर्मास्य व्रत स्वीकार',
+            kannada: 'ಶ್ರೀಮದ್ ವಿದ್ಯಾಧೀಶ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೨೪) ಪಟ್ಟಾಭಿಷೇಕ ದಿನ, ಸಂಜೆ ವ್ಯಾಸಪೂಜಾ ಪೂರ್ವಕ ಚಾತುರ್ಮಾಸ್ಯ ವ್ರತ ಸ್ವೀಕಾರ',
+            type: 'pattabhishek',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Saptami (7th day)',
+            tithiMarathi: 'सप्तमी (७वा दिन)',
+            tithiKannada: 'ಸಪ್ತಮಿ (೭ನೇ ದಿನ)',
+            masa: 'Ashadha Masa',
+            masaMarathi: 'आषाढ मास',
+            masaKannada: 'ಆಷಾಢ ಮಾಸ'
+        }],
+
+        '2025-07-19': [{
+            name: 'Shrimad Shrikanth Teerth Swamiji\'s (13) Punyatithi (239)',
+            marathi: 'श्रीमद् श्रीकांत तीर्थ स्वामीजी (१३) पुण्यतिथि (२३९)',
+            kannada: 'ಶ್ರೀಮದ್ ಶ್ರೀಕಾಂತ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೧೩) ಪುಣ್ಯತಿಥಿ (೨೩೯)',
+            type: 'punyatithi',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Navami (9th day)',
+            tithiMarathi: 'नवमी (९वा दिन)',
+            tithiKannada: 'ನವಮಿ (೯ನೇ ದಿನ)',
+            masa: 'Ashadha Masa',
+            masaMarathi: 'आषाढ मास',
+            masaKannada: 'ಆಷಾಢ ಮಾಸ'
+        }],
+
+        '2025-07-21': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Ashadha Masa',
+            masaMarathi: 'आषाढ मास',
+            masaKannada: 'ಆಷಾಢ ಮಾಸ'
+        }],
+
+        '2025-07-22': [{
+            name: 'Morning before 07:00 Dwadashi Parane to be observed',
+            marathi: 'सकाळी ०७:०० पूर्वी द्वादशी पारणे पाळावे',
+            kannada: 'ಬೆಳಿಗ್ಗೆ ೦೭:೦೦ ಮೊದಲು ದ್ವಾದಶಿ ಪಾರಣೆ ಆಚರಿಸಬೇಕು',
+            type: 'parane',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Dwadashi (12th day)',
+            tithiMarathi: 'द्वादशी (१२वा दिन)',
+            tithiKannada: 'ದ್ವಾದಶಿ (೧೨ನೇ ದಿನ)',
+            masa: 'Ashadha Masa',
+            masaMarathi: 'आषाढ मास',
+            masaKannada: 'ಆಷಾಢ ಮಾಸ'
+        }],
+
+        '2025-07-29': [{
+            name: 'Nagapanchami',
+            marathi: 'नागपंचमी',
+            kannada: 'ನಾಗಪಂಚಮಿ',
+            type: 'normal',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Panchami (5th day)',
+            tithiMarathi: 'पंचमी (५वा दिन)',
+            tithiKannada: 'ಪಂಚಮಿ (೫ನೇ ದಿನ)',
+            masa: 'Shravana Masa',
+            masaMarathi: 'श्रावण मास',
+            masaKannada: 'ಶ್ರಾವಣ ಮಾಸ'
+        }],
+        // August 2025 
+        '2025-08-03': [{
+            name: 'Shrimad Anand Teerth Swamiji\'s (17) Punyatithi (197)',
+            marathi: 'श्रीमद् आनंद तीर्थ स्वामीजी (१७) पुण्यतिथि (१९७)',
+            kannada: 'ಶ್ರೀಮದ್ ಆನಂದ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೧೭) ಪುಣ್ಯತಿಥಿ (೧೯೭)',
+            type: 'punyatithi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Navami (9th day)',
+            tithiMarathi: 'नवमी (९वा दिन)',
+            tithiKannada: 'ನವಮಿ (೯ನೇ ದಿನ)',
+            masa: 'Shravana Masa',
+            masaMarathi: 'श्रावण मास',
+            masaKannada: 'ಶ್ರಾವಣ ಮಾಸ'
+        }],
+
+        '2025-08-04': [{
+            name: 'Chaturmasya Dadhivrata Starts',
+            marathi: 'चातुर्मास्य दधिव्रत प्रारंभ',
+            kannada: 'ಚಾತುರ್ಮಾಸ್ಯ ದಧಿವ್ರತ ಪ್ರಾರಂಭ',
+            type: 'vrata',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Dashami (10th day)',
+            tithiMarathi: 'दशमी (१०वा दिन)',
+            tithiKannada: 'ದಶಮಿ (೧೦ನೇ ದಿನ)',
+            masa: 'Shravana Masa',
+            masaMarathi: 'श्रावण मास',
+            masaKannada: 'ಶ್ರಾವಣ ಮಾಸ'
+        }],
+
+        '2025-08-05': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Shravana Masa',
+            masaMarathi: 'श्रावण मास',
+            masaKannada: 'ಶ್ರಾವಣ ಮಾಸ'
+        }],
+
+        '2025-08-06': [{
+            name: 'Shri Vishnu Pavitraropana, Chaturmasya Shakavrata Ends, Afternoon before 02:00 Ekadashi Parane to be observed',
+            marathi: 'श्री विष्णू पवित्रारोपण, चातुर्मास्य शाकव्रत संपत, दुपारी ०२:०० पूर्वी एकादशी पारणे पाळावे',
+            kannada: 'ಶ್ರೀ ವಿಷ್ಣು ಪವಿತ್ರಾರೋಪಣ, ಚಾತುರ್ಮಾಸ್ಯ ಶಾಕವ್ರತ ಅಂತ್ಯ, ಮಧ್ಯಾಹ್ನ ೦೨:೦೦ ಮೊದಲು ಏಕಾದಶಿ ಪಾರಣೆ ಆಚರಿಸಬೇಕು',
+            type: 'parane',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Dwadashi (12th day)',
+            tithiMarathi: 'द्वादशी (१२वा दिन)',
+            tithiKannada: 'ದ್ವಾದಶಿ (೧೨ನೇ ದಿನ)',
+            masa: 'Shravana Masa',
+            masaMarathi: 'श्रावण मास',
+            masaKannada: 'ಶ್ರಾವಣ ಮಾಸ'
+        }],
+
+        '2025-08-08': [{
+            name: 'Shree Varamahalaxmi Vrata',
+            marathi: 'श्री वरमहालक्ष्मी व्रत',
+            kannada: 'ಶ್ರೀ ವರಮಹಾಲಕ್ಷ್ಮಿ ವ್ರತ',
+            type: 'vrata',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Chaturdashi (14th day)',
+            tithiMarathi: 'चतुर्दशी (१४वा दिन)',
+            tithiKannada: 'ಚತುರ್ದಶಿ (೧೪ನೇ ದಿನ)',
+            masa: 'Shravana Masa',
+            masaMarathi: 'श्रावण मास',
+            masaKannada: 'ಶ್ರಾವಣ ಮಾಸ'
+        }],
+
+        '2025-08-09': [{
+            name: 'Rhukshravani',
+            marathi: 'रुक्षश्रावणी',
+            kannada: 'ರುಕ್ಷಶ್ರಾವಣಿ',
+            type: 'normal',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Purnima (15th day)',
+            tithiMarathi: 'पूर्णिमा (१५वा दिन)',
+            tithiKannada: 'ಪೂರ್ಣಿಮಾ (೧೫ನೇ ದಿನ)',
+            masa: 'Shravana Masa',
+            masaMarathi: 'श्रावण मास',
+            masaKannada: 'ಶ್ರಾವಣ ಮಾಸ'
+        }],
+
+        '2025-08-15': [{
+            name: 'Shri Krishna Janmashtami (Chandrodaya at 11.25 night)',
+            marathi: 'श्री कृष्ण जन्माष्टमी (चंद्रोदय रात्री ११.२५)',
+            kannada: 'ಶ್ರೀ ಕೃಷ್ಣ ಜನ್ಮಾಷ್ಟಮಿ (ಚಂದ್ರೋದಯ ರಾತ್ರಿ ೧೧.೨೫)',
+            type: 'festival',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Ashtami (8th day)',
+            tithiMarathi: 'अष्टमी (८वा दिन)',
+            tithiKannada: 'ಅಷ್ಟಮಿ (೮ನೇ ದಿನ)',
+            masa: 'Shravana Masa',
+            masaMarathi: 'श्रावण मास',
+            masaKannada: 'ಶ್ರಾವಣ ಮಾಸ'
+        }],
+
+        '2025-08-19': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Shravana Masa',
+            masaMarathi: 'श्रावण मास',
+            masaKannada: 'ಶ್ರಾವಣ ಮಾಸ'
+        }],
+
+        '2025-08-26': [{
+            name: 'Shri Swarnagauri Vrata',
+            marathi: 'श्री स्वर्णगौरी व्रत',
+            kannada: 'ಶ್ರೀ ಸ್ವರ್ಣಗೌರಿ ವ್ರತ',
+            type: 'vrata',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Tritiya (3rd day)',
+            tithiMarathi: 'तृतीया (३रा दिन)',
+            tithiKannada: 'ತೃತೀಯಾ (೩ನೇ ದಿನ)',
+            masa: 'Bhadrapada Masa',
+            masaMarathi: 'भाद्रपद मास',
+            masaKannada: 'ಭಾದ್ರಪದ ಮಾಸ'
+        }],
+
+        '2025-08-27': [{
+            name: 'Shri Ganesh Chaturthi',
+            marathi: 'श्री गणेश चतुर्थी',
+            kannada: 'ಶ್ರೀ ಗಣೇಶ ಚತುರ್ಥಿ',
+            type: 'festival',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Chaturthi (4th day)',
+            tithiMarathi: 'चतुर्थी (४था दिन)',
+            tithiKannada: 'ಚತುರ್ಥಿ (೪ನೇ ದಿನ)',
+            masa: 'Bhadrapada Masa',
+            masaMarathi: 'भाद्रपद मास',
+            masaKannada: 'ಭಾದ್ರಪದ ಮಾಸ'
+        }],
+
+        '2025-08-28': [{
+            name: 'Rhushipanchami, Shrimad Jeevottama Teerth Swamiji\'s (3) Punyatithi (437)',
+            marathi: 'ऋषिपंचमी, श्रीमद् जीवोत्तम तीर्थ स्वामीजी (३) पुण्यतिथि (४३७)',
+            kannada: 'ಋಷಿಪಂಚಮಿ, ಶ್ರೀಮದ್ ಜೀವೋತ್ತಮ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೩) ಪುಣ್ಯತಿಥಿ (೪೩೭)',
+            type: 'punyatithi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Panchami (5th day)',
+            tithiMarathi: 'पंचमी (५वा दिन)',
+            tithiKannada: 'ಪಂಚಮಿ (೫ನೇ ದಿನ)',
+            masa: 'Bhadrapada Masa',
+            masaMarathi: 'भाद्रपद मास',
+            masaKannada: 'ಭಾದ್ರಪದ ಮಾಸ'
+        }],
+        // September 2025
+        '2025-09-02': [{
+            name: 'Chaturmasya Khsiravrata Starts',
+            marathi: 'चातुर्मास्य क्षीरव्रत प्रारंभ',
+            kannada: 'ಚಾತುರ್ಮಾಸ್ಯ ಕ್ಷೀರವ್ರತ ಪ್ರಾರಂಭ',
+            type: 'vrata',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Dashami (10th day)',
+            tithiMarathi: 'दशमी (१०वा दिन)',
+            tithiKannada: 'ದಶಮಿ (೧೦ನೇ ದಿನ)',
+            masa: 'Bhadrapada Masa',
+            masaMarathi: 'भाद्रपद मास',
+            masaKannada: 'ಭಾದ್ರಪದ ಮಾಸ'
+        }],
+
+        '2025-09-03': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Bhadrapada Masa',
+            masaMarathi: 'भाद्रपद मास',
+            masaKannada: 'ಭಾದ್ರಪದ ಮಾಸ'
+        }],
+
+        '2025-09-04': [{
+            name: 'Chaturmasya Dadhivrata Ends',
+            marathi: 'चातुर्मास्य दधिव्रत समाप्ति',
+            kannada: 'ಚಾತುರ್ಮಾಸ್ಯ ದಧಿವ್ರತ ಅಂತ್ಯ',
+            type: 'vrata',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Dwadashi (12th day)',
+            tithiMarathi: 'द्वादशी (१२वा दिन)',
+            tithiKannada: 'ದ್ವಾದಶಿ (೧೨ನೇ ದಿನ)',
+            masa: 'Bhadrapada Masa',
+            masaMarathi: 'भाद्रपद मास',
+            masaKannada: 'ಭಾದ್ರಪದ ಮಾಸ'
+        }],
+
+        '2025-09-06': [{
+            name: 'Shrimadananta Vrata',
+            marathi: 'श्रीमदनंत व्रत',
+            kannada: 'ಶ್ರೀಮದನಂತ ವ್ರತ',
+            type: 'vrata',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Chaturdashi (14th day)',
+            tithiMarathi: 'चतुर्दशी (१४वा दिन)',
+            tithiKannada: 'ಚತುರ್ದಶಿ (೧೪ನೇ ದಿನ)',
+            masa: 'Bhadrapada Masa',
+            masaMarathi: 'भाद्रपद मास',
+            masaKannada: 'ಭಾದ್ರಪದ ಮಾಸ'
+        }],
+
+        '2025-09-07': [{
+            name: 'Swamiji\'s Chaturmasya Vrata Ends, Chandrgrahan',
+            marathi: 'स्वामीजी चातुर्मास्य व्रत समाप्ति, चंद्रग्रहण',
+            kannada: 'ಸ್ವಾಮೀಜಿ ಚಾತುರ್ಮಾಸ್ಯ ವ್ರತ ಅಂತ್ಯ, ಚಂದ್ರಗ್ರಹಣ',
+            type: 'eclipse',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Purnima (15th day)',
+            tithiMarathi: 'पूर्णिमा (१५वा दिन)',
+            tithiKannada: 'ಪೂರ್ಣಿಮಾ (೧೫ನೇ ದಿನ)',
+            masa: 'Bhadrapada Masa',
+            masaMarathi: 'भाद्रपद मास',
+            masaKannada: 'ಭಾದ್ರಪದ ಮಾಸ'
+        }],
+
+        '2025-09-17': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Bhadrapada Masa',
+            masaMarathi: 'भाद्रपद मास',
+            masaKannada: 'ಭಾದ್ರಪದ ಮಾಸ'
+        }],
+        '2025-09-21': [{
+            name: 'Mahalaya Amavasya',
+            marathi: 'महालय अमावस्या',
+            kannada: 'ಮಹಾಲಯ ಅಮಾವಸ್ಯೆ',
+            type: 'amavasya',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Amavasya (30th day)',
+            tithiMarathi: 'अमावस्या (३०वा दिन)',
+            tithiKannada: 'ಅಮಾವಸ್ಯೆ (೩೦ನೇ ದಿನ)',
+            masa: 'Bhadrapada Masa',
+            masaMarathi: 'भाद्रपद मास',
+            masaKannada: 'ಭಾದ್ರಪದ ಮಾಸ'
+        }],
+        '2025-09-22': [{
+            name: 'Navaratri Starts',
+            marathi: 'नवरात्री प्रारंभ',
+            kannada: 'ನವರಾತ್ರಿ ಪ್ರಾರಂಭ',
+            type: 'festival',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Prathama (1st day)',
+            tithiMarathi: 'प्रथमा (१ला दिन)',
+            tithiKannada: 'ಪ್ರಥಮಾ (೧ನೇ ದಿನ)',
+            masa: 'Ashwina Masa',
+            masaMarathi: 'आश्विन मास',
+            masaKannada: 'ಆಶ್ವಿನ ಮಾಸ'
+        }],
+
+        '2025-09-29': [{
+            name: 'Shri Saraswati Avahana',
+            marathi: 'श्री सरस्वती आवाहना',
+            kannada: 'ಶ್ರೀ ಸರಸ್ವತಿ ಆವಾಹನಾ',
+            type: 'avahana',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Saptami (7th day)',
+            tithiMarathi: 'सप्तमी (७वा दिन)',
+            tithiKannada: 'ಸಪ್ತಮಿ (೭ನೇ ದಿನ)',
+            masa: 'Ashwina Masa',
+            masaMarathi: 'आश्विन मास',
+            masaKannada: 'ಆಶ್ವಿನ ಮಾಸ'
+        }],
+        // October 2025     
+        '2025-10-01': [{
+            name: 'Mahanavami',
+            marathi: 'महानवमी',
+            kannada: 'ಮಹಾನವಮಿ',
+            type: 'festival',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Navami (9th day)',
+            tithiMarathi: 'नवमी (९वा दिन)',
+            tithiKannada: 'ನವಮಿ (೯ನೇ ದಿನ)',
+            masa: 'Ashwina Masa',
+            masaMarathi: 'आश्विन मास',
+            masaKannada: 'ಆಶ್ವಿನ ಮಾಸ'
+        }],
+
+        '2025-10-02': [{
+            name: 'Shrimad Madhwacharya Jayanti, Shri Saraswati Visarjana, Vijaya Dashami, Chaturmasya Dvidala Vrat Starts, Shami Poojana',
+            marathi: 'श्रीमद् मध्वाचार्य जयंती, श्री सरस्वती विसर्जन, विजया दशमी, चातुर्मास्य द्विदल व्रत प्रारंभ, शमी पूजन',
+            kannada: 'ಶ್ರೀಮದ್ ಮಧ್ವಾಚಾರ್ಯ ಜಯಂತಿ, ಶ್ರೀ ಸರಸ್ವತಿ ವಿಸರ್ಜನೆ, ವಿಜಯಾ ದಶಮಿ, ಚಾತುರ್ಮಾಸ್ಯ ದ್ವಿದಳ ವ್ರತ ಪ್ರಾರಂಭ, ಶಮಿ ಪೂಜನೆ',
+            type: 'jayanti',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Dashami (10th day)',
+            tithiMarathi: 'दशमी (१०वा दिन)',
+            tithiKannada: 'ದಶಮಿ (೧೦ನೇ ದಿನ)',
+            masa: 'Ashwina Masa',
+            masaMarathi: 'आश्विन मास',
+            masaKannada: 'ಆಶ್ವಿನ ಮಾಸ'
+        }],
+
+        '2025-10-03': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Ashwina Masa',
+            masaMarathi: 'आश्विन मास',
+            masaKannada: 'ಆಶ್ವಿನ ಮಾಸ'
+        }],
+
+        '2025-10-04': [{
+            name: 'Chaturmasya Kshiravrata Ends, Afternoon before 03:00 Dwadashi Parane to be observed',
+            marathi: 'चातुर्मास्य क्षीरव्रत समाप्ति, दुपारी ०३:०० पूर्वी द्वादशी पारणे पाळावे',
+            kannada: 'ಚಾತುರ್ಮಾಸ್ಯ ಕ್ಷೀರವ್ರತ ಅಂತ್ಯ, ಮಧ್ಯಾಹ್ನ ೦೩:೦೦ ಮೊದಲು ದ್ವಾದಶಿ ಪಾರಣೆ ಆಚರಿಸಬೇಕು',
+            type: 'parane',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Dwadashi (12th day)',
+            tithiMarathi: 'द्वादशी (१२वा दिन)',
+            tithiKannada: 'ದ್ವಾದಶಿ (೧೨ನೇ ದಿನ)',
+            masa: 'Ashwina Masa',
+            masaMarathi: 'आश्विन मास',
+            masaKannada: 'ಆಶ್ವಿನ ಮಾಸ'
+        }],
+
+        '2025-10-06': [{
+            name: 'Kojagari Poornima',
+            marathi: 'कोजागरी पूर्णिमा',
+            kannada: 'ಕೋಜಾಗರಿ ಪೂರ್ಣಿಮಾ',
+            type: 'purnima',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Purnima (14th day)',
+            tithiMarathi: 'पूर्णिमा (१४वा दिन)',
+            tithiKannada: 'ಪೂರ್ಣಿಮಾ (೧೪ನೇ ದಿನ)',
+            masa: 'Ashwina Masa',
+            masaMarathi: 'आश्विन मास',
+            masaKannada: 'ಆಶ್ವಿನ ಮಾಸ'
+        }],
+
+        '2025-10-17': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Ashwina Masa',
+            masaMarathi: 'आश्विन मास',
+            masaKannada: 'ಆಶ್ವಿನ ಮಾಸ'
+        }],
+
+        '2025-10-18': [{
+            name: 'Afternoon before 03:00 Dwadashi Parane to be observed',
+            marathi: 'दुपारी ०३:०० पूर्वी द्वादशी पारणे पाळावे',
+            kannada: 'ಮಧ್ಯಾಹ್ನ ೦೩:೦೦ ಮೊದಲು ದ್ವಾದಶಿ ಪಾರಣೆ ಆಚರಿಸಬೇಕು',
+            type: 'parane',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Dwadashi (12th day)',
+            tithiMarathi: 'द्वादशी (१२वा दिन)',
+            tithiKannada: 'ದ್ವಾದಶಿ (೧೨ನೇ ದಿನ)',
+            masa: 'Ashwina Masa',
+            masaMarathi: 'आश्विन मास',
+            masaKannada: 'ಆಶ್ವಿನ ಮಾಸ'
+        }],
+
+        '2025-10-19': [{
+            name: 'Evening Jalapoorana, Night after Moon rise Tailabhyanga Snan',
+            marathi: 'संध्याकाळी जलपूरण, चंद्रोदयानंतर तैलाभ्यंग स्नान',
+            kannada: 'ಸಂಜೆ ಜಲಪೂರಣೆ, ಚಂದ್ರೋದಯದ ನಂತರ ತೈಲಾಭ್ಯಂಗ ಸ್ನಾನ',
+            type: 'ritual',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Trayodashi (13th day)',
+            tithiMarathi: 'त्रयोदशी (१३वा दिन)',
+            tithiKannada: 'ತ್ರಯೋದಶಿ (೧೩ನೇ ದಿನ)',
+            masa: 'Ashwina Masa',
+            masaMarathi: 'आश्विन मास',
+            masaKannada: 'ಆಶ್ವಿನ ಮಾಸ'
+        }],
+
+        '2025-10-20': [{
+            name: 'Naraka Chaturdashi, Deepavali, Dhanalaxmi Pooja',
+            marathi: 'नरक चतुर्दशी, दीपावली, धनलक्ष्मी पूजा',
+            kannada: 'ನರಕ ಚತುರ್ದಶಿ, ದೀಪಾವಳಿ, ಧನಲಕ್ಷ್ಮಿ ಪೂಜೆ',
+            type: 'festival',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Chaturdashi (14th day)',
+            tithiMarathi: 'चतुर्दशी (१४वा दिन)',
+            tithiKannada: 'ಚತುರ್ದಶಿ (೧೪ನೇ ದಿನ)',
+            masa: 'Ashwina Masa',
+            masaMarathi: 'आश्विन मास',
+            masaKannada: 'ಆಶ್ವಿನ ಮಾಸ'
+        }],
+        '2025-10-22': [{
+            name: 'Bali Pratipada, Gowpooja',
+            marathi: 'बली प्रतिपदा, गोपूजा',
+            kannada: 'ಬಲಿ ಪ್ರತಿಪದಾ, ಗೋಪೂಜಾ',
+            type: 'festival',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Prathama (1st day)',
+            tithiMarathi: 'प्रथमा (१ला दिन)',
+            tithiKannada: 'ಪ್ರಥಮಾ (೧ನೇ ದಿನ)',
+            masa: 'Karteeka Masa',
+            masaMarathi: 'कार्तिक मास',
+            masaKannada: 'ಕಾರ್ತೀಕ ಮಾಸ'
+        }],
+
+        '2025-10-28': [{
+            name: 'Shrimad Vyasa Teerth Swamiji\'s Punyatithi',
+            marathi: 'श्रीमद् व्यास तीर्थ स्वामीजी पुण्यतिथि',
+            kannada: 'ಶ್ರೀಮದ್ ವ್ಯಾಸ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ ಪುಣ್ಯತಿಥಿ',
+            type: 'punyatithi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Saptami (7th day)',
+            tithiMarathi: 'सप्तमी (७वा दिन)',
+            tithiKannada: 'ಸಪ್ತಮಿ (೭ನೇ ದಿನ)',
+            masa: 'Karteeka Masa',
+            masaMarathi: 'कार्तिक मास',
+            masaKannada: 'ಕಾರ್ತೀಕ ಮಾಸ'
+        }],
+
+        // November 2025 
+        '2025-11-02': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Ekadashi (12th day)',
+            tithiMarathi: 'एकादशी (१२वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೨ನೇ ದಿನ)',
+            masa: 'Karteeka Masa',
+            masaMarathi: 'कार्तिक मास',
+            masaKannada: 'ಕಾರ್ತೀಕ ಮಾಸ'
+        }],
+
+        '2025-11-03': [{
+            name: 'Uthana Dwadashi, Tulasi Vivaha, Chaturmasya Dvidala Vrata Ends',
+            marathi: 'उत्थान द्वादशी, तुलसी विवाह, चातुर्मास्य द्विदल व्रत समाप्ति',
+            kannada: 'ಉತ್ಥಾನ ದ್ವಾದಶಿ, ತುಳಸಿ ವಿವಾಹ, ಚಾತುರ್ಮಾಸ್ಯ ದ್ವಿದಳ ವ್ರತ ಅಂತ್ಯ',
+            type: 'vrata',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Dwadashi (13th day)',
+            tithiMarathi: 'द्वादशी (१३वा दिन)',
+            tithiKannada: 'ದ್ವಾದಶಿ (೧೩ನೇ ದಿನ)',
+            masa: 'Karteeka Masa',
+            masaMarathi: 'कार्तिक मास',
+            masaKannada: 'ಕಾರ್ತೀಕ ಮಾಸ'
+        }],
+
+        '2025-11-04': [{
+            name: 'Vaikuntha Chaturdashi',
+            marathi: 'वैकुंठ चतुर्दशी',
+            kannada: 'ವೈಕುಂಠ ಚತುರ್ದಶಿ',
+            type: 'vrata',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Chaturdashi (14th day)',
+            tithiMarathi: 'चतुर्दशी (१४वा दिन)',
+            tithiKannada: 'ಚತುರ್ದಶಿ (೧೪ನೇ ದಿನ)',
+            masa: 'Karteeka Masa',
+            masaMarathi: 'कार्तिक मास',
+            masaKannada: 'ಕಾರ್ತೀಕ ಮಾಸ'
+        }],
+
+        '2025-11-05': [{
+            name: 'Karteeka Poornima, Vanabhojana',
+            marathi: 'कार्तिक पूर्णिमा, वनभोजन',
+            kannada: 'ಕಾರ್ತೀಕ ಪೂರ್ಣಿಮಾ, ವನಭೋಜನ',
+            type: 'purnima',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Purnima (15th day)',
+            tithiMarathi: 'पूर्णिमा (१५वा दिन)',
+            tithiKannada: 'ಪೂರ್ಣಿಮಾ (೧೫ನೇ ದಿನ)',
+            masa: 'Karteeka Masa',
+            masaMarathi: 'कार्तिक मास',
+            masaKannada: 'ಕಾರ್ತೀಕ ಮಾಸ'
+        }],
+
+        '2025-11-11': [{
+            name: 'Shrimad Anujeevottam Teerth Swamiji\'s (5) Punyatithi (388)',
+            marathi: 'श्रीमद् अनुजीवोत्तम तीर्थ स्वामीजी (५) पुण्यतिथि (३८८)',
+            kannada: 'ಶ್ರೀಮದ್ ಅನುಜೀವೋತ್ತಮ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೫) ಪುಣ್ಯತಿಥಿ (೩೮೮)',
+            type: 'punyatithi',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Saptami (7th day)',
+            tithiMarathi: 'सप्तमी (७वा दिन)',
+            tithiKannada: 'ಸಪ್ತಮಿ (೭ನೇ ದಿನ)',
+            masa: 'Karteeka Masa',
+            masaMarathi: 'कार्तिक मास',
+            masaKannada: 'ಕಾರ್ತೀಕ ಮಾಸ'
+        }],
+
+        '2025-11-16': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Ekadashi (12th day)',
+            tithiMarathi: 'एकादशी (१२वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೨ನೇ ದಿನ)',
+            masa: 'Karteeka Masa',
+            masaMarathi: 'कार्तिक मास',
+            masaKannada: 'ಕಾರ್ತೀಕ ಮಾಸ'
+        }],
+
+        '2025-11-17': [{
+            name: 'Morning before 07:15 Dwadashi Parane to be observed',
+            marathi: 'सकाळी ०७:१५ पूर्वी द्वादशी पारणे पाळावे',
+            kannada: 'ಬೆಳಿಗ್ಗೆ ೦೭:೧೫ ಮೊದಲು ದ್ವಾದಶಿ ಪಾರಣೆ ಆಚರಿಸಬೇಕು',
+            type: 'parane',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Dwadashi (12th day)',
+            tithiMarathi: 'द्वादशी (१२वा दिन)',
+            tithiKannada: 'ದ್ವಾದಶಿ (೧೨ನೇ ದಿನ)',
+            masa: 'Karteeka Masa',
+            masaMarathi: 'कार्तिक मास',
+            masaKannada: 'ಕಾರ್ತೀಕ ಮಾಸ'
+        }],
+        '2025-11-21': [{
+            name: 'Shrimad Ramakanth Teerth Swamiji\'s (11) Punyatithi (275)',
+            marathi: 'श्रीमद् रामकांत तीर्थ स्वामीजी (११) पुण्यतिथि (२७५)',
+            kannada: 'ಶ್ರೀಮದ್ ರಾಮಕಾಂತ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೧೧) ಪುಣ್ಯತಿಥಿ (೨೭೫)',
+            type: 'punyatithi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Prathama (1st day)',
+            tithiMarathi: 'प्रथमा (१ला दिन)',
+            tithiKannada: 'ಪ್ರಥಮಾ (೧ನೇ ದಿನ)',
+            masa: 'Margasheersha Masa',
+            masaMarathi: 'मार्गशीर्ष मास',
+            masaKannada: 'ಮಾರ್ಗಶೀರ್ಷ ಮಾಸ'
+        }],
+
+        '2025-11-22': [{
+            name: 'Shrimad Lakshmikantha Teerth Swamiji\'s (10) Punyatithi (318)',
+            marathi: 'श्रीमद् लक्ष्मीकांत तीर्थ स्वामीजी (१०) पुण्यतिथि (३१८)',
+            kannada: 'ಶ್ರೀಮದ್ ಲಕ್ಷ್ಮೀಕಾಂತ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೧೦) ಪುಣ್ಯತಿಥಿ (೩೧೮)',
+            type: 'punyatithi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Dwitiya (2nd day)',
+            tithiMarathi: 'द्वितीया (२रा दिन)',
+            tithiKannada: 'ದ್ವಿತೀಯಾ (೨ನೇ ದಿನ)',
+            masa: 'Margasheersha Masa',
+            masaMarathi: 'मार्गशीर्ष मास',
+            masaKannada: 'ಮಾರ್ಗಶೀರ್ಷ ಮಾಸ'
+        }],
+
+        '2025-11-26': [{
+            name: 'Champa Shashthi',
+            marathi: 'चंपा षष्ठी',
+            kannada: 'ಚಂಪಾ ಷಷ್ಠಿ',
+            type: 'shashthi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Shashthi (6th day)',
+            tithiMarathi: 'षष्ठी (६वा दिन)',
+            tithiKannada: 'ಷಷ್ಠಿ (೬ನೇ ದಿನ)',
+            masa: 'Margasheersha Masa',
+            masaMarathi: 'मार्गशीर्ष मास',
+            masaKannada: 'ಮಾರ್ಗಶೀರ್ಷ ಮಾಸ'
+        }],
+
+        '2025-11-29': [{
+            name: 'Shrimad Bhoovijayaramachandra Teerth Swamiji\'s (14) Punyatithi (222)',
+            marathi: 'श्रीमद् भूविजयरामचंद्र तीर्थ स्वामीजी (१४) पुण्यतिथि (२२२)',
+            kannada: 'ಶ್ರೀಮದ್ ಭೂವಿಜಯರಾಮಚಂದ್ರ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೧೪) ಪುಣ್ಯತಿಥಿ (೨೨೨)',
+            type: 'punyatithi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Navami (9th day)',
+            tithiMarathi: 'नवमी (९वा दिन)',
+            tithiKannada: 'ನವಮಿ (೯ನೇ ದಿನ)',
+            masa: 'Margasheersha Masa',
+            masaMarathi: 'मार्गशीर्ष मास',
+            masaKannada: 'ಮಾರ್ಗಶೀರ್ಷ ಮಾಸ'
+        }],
+
+
+        // Demeber 2025
+        '2025-12-01': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Margasheersha Masa',
+            masaMarathi: 'मार्गशीर्ष मास',
+            masaKannada: 'ಮಾರ್ಗಶೀರ್ಷ ಮಾಸ'
+        }],
+
+        '2025-12-02': [{
+            name: 'Chandramukkotti, Afternoon before 01:00 Dwadashi Parane to be observed',
+            marathi: 'चंद्रमुक्कोटी, दुपारी ०१:०० पूर्वी द्वादशी पारणे पाळावे',
+            kannada: 'ಚಂದ್ರಮುಕ್ಕೋಟಿ, ಮಧ್ಯಾಹ್ನ ೦೧:೦೦ ಮೊದಲು ದ್ವಾದಶಿ ಪಾರಣೆ ಆಚರಿಸಬೇಕು',
+            type: 'parane',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Dwadashi (12th day)',
+            tithiMarathi: 'द्वादशी (१२वा दिन)',
+            tithiKannada: 'ದ್ವಾದಶಿ (೧೨ನೇ ದಿನ)',
+            masa: 'Margasheersha Masa',
+            masaMarathi: 'मार्गशीर्ष मास',
+            masaKannada: 'ಮಾರ್ಗಶೀರ್ಷ ಮಾಸ'
+        }],
+
+        '2025-12-04': [{
+            name: 'Shree Dattajayanti',
+            marathi: 'श्री दत्तजयंती',
+            kannada: 'ಶ್ರೀ ದತ್ತಜಯಂತಿ',
+            type: 'jayanti',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Chaturdashi (14th day)',
+            tithiMarathi: 'चतुर्दशी (१४वा दिन)',
+            tithiKannada: 'ಚತುರ್ದಶಿ (೧೪ನೇ ದಿನ)',
+            masa: 'Margasheersha Masa',
+            masaMarathi: 'मार्गशीर्ष मास',
+            masaKannada: 'ಮಾರ್ಗಶೀರ್ಷ ಮಾಸ'
+        }],
+
+        '2025-12-06': [{
+            name: 'Shrimad Purushottama Teerth Swamiji\'s (4) Punyatithi (437)',
+            marathi: 'श्रीमद् पुरुषोत्तम तीर्थ स्वामीजी (४) पुण्यतिथि (४३७)',
+            kannada: 'ಶ್ರೀಮದ್ ಪುರುಷೋತ್ತಮ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೪) ಪುಣ್ಯತಿಥಿ (೪೩೭)',
+            type: 'punyatithi',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Dwitiya (2nd day)',
+            tithiMarathi: 'द्वितीया (२रा दिन)',
+            tithiKannada: 'ದ್ವಿತೀಯಾ (೨ನೇ ದಿನ)',
+            masa: 'Margasheersha Masa',
+            masaMarathi: 'मार्गशीर्ष मास',
+            masaKannada: 'ಮಾರ್ಗಶೀರ್ಷ ಮಾಸ'
+        }],
+
+        '2025-12-10': [{
+            name: 'Shrimad Narahari Teerth Swamiji\'s Punyatithi (126)',
+            marathi: 'श्रीमद् नरहरि तीर्थ स्वामीजी पुण्यतिथि (१२६)',
+            kannada: 'ಶ್ರೀಮದ್ ನರಹರಿ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ ಪುಣ್ಯತಿಥಿ (೧೨೬)',
+            type: 'punyatithi',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Shashthi (6th day)',
+            tithiMarathi: 'षष्ठी (६वा दिन)',
+            tithiKannada: 'ಷಷ್ಠಿ (೬ನೇ ದಿನ)',
+            masa: 'Margasheersha Masa',
+            masaMarathi: 'मार्गशीर्ष मास',
+            masaKannada: 'ಮಾರ್ಗಶೀರ್ಷ ಮಾಸ'
+        }],
+
+        '2025-12-13': [{
+            name: 'Shrimad Vidyaninmatha Teerth Swamiji\'s (16) Punyatithi (202)',
+            marathi: 'श्रीमद् विद्यानिन्मथ तीर्थ स्वामीजी (१६) पुण्यतिथि (२०२)',
+            kannada: 'ಶ್ರೀಮದ್ ವಿದ್ಯಾನಿನ್ಮಥ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೧೬) ಪುಣ್ಯತಿಥಿ (೨೦೨)',
+            type: 'punyatithi',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Navami (9th day)',
+            tithiMarathi: 'नवमी (९वा दिन)',
+            tithiKannada: 'ನವಮಿ (೯ನೇ ದಿನ)',
+            masa: 'Margasheersha Masa',
+            masaMarathi: 'मार्गशीर्ष मास',
+            masaKannada: 'ಮಾರ್ಗಶೀರ್ಷ ಮಾಸ'
+        }],
+
+        '2025-12-15': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Margasheersha Masa',
+            masaMarathi: 'मार्गशीर्ष मास',
+            masaKannada: 'ಮಾರ್ಗಶೀರ್ಷ ಮಾಸ'
+        }],
+        '2025-12-27': [{
+            name: 'Shrimad Kamalakanth Teerth Swamiji\'s (12) Punyatithi (267)',
+            marathi: 'श्रीमद् कमलकांत तीर्थ स्वामीजी (१२) पुण्यतिथि (२६७)',
+            kannada: 'ಶ್ರೀಮದ್ ಕಮಲಕಾಂತ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೧೨) ಪುಣ್ಯತಿಥಿ (೨೬೭)',
+            type: 'punyatithi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Ashtami (8th day)',
+            tithiMarathi: 'अष्टमी (८वा दिन)',
+            tithiKannada: 'ಅಷ್ಟಮಿ (೮ನೇ ದಿನ)',
+            masa: 'Pousha Masa',
+            masaMarathi: 'पौष मास',
+            masaKannada: 'ಪೌಷ ಮಾಸ'
+        }],
+
+        '2025-12-30': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Pousha Masa',
+            masaMarathi: 'पौष मास',
+            masaKannada: 'ಪೌಷ ಮಾಸ'
+        }],
+
+        '2025-12-31': [{
+            name: 'Ayodhya Shri Ram Lalla Second Pratishtha Vardhanti Mahotsava',
+            marathi: 'अयोध्या श्री राम लल्ला द्वितीय प्रतिष्ठा वर्धंती महोत्सव',
+            kannada: 'ಅಯೋಧ್ಯಾ ಶ್ರೀ ರಾಮ ಲಲ್ಲಾ ದ್ವಿತೀಯ ಪ್ರತಿಷ್ಠಾ ವರ್ಧಂತಿ ಮಹೋತ್ಸವ',
+            type: 'mahotsava',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Dwadashi (12th day)',
+            tithiMarathi: 'द्वादशी (१२वा दिन)',
+            tithiKannada: 'ದ್ವಾದಶಿ (೧೨ನೇ ದಿನ)',
+            masa: 'Pousha Masa',
+            masaMarathi: 'पौष मास',
+            masaKannada: 'ಪೌಷ ಮಾಸ'
+        }],
+
+
+        // January 2026 
+        '2026-01-03': [{
+            name: 'Shrimad Raghuchandra Teerth Swamiji\'s (8) Punyatithi (342)',
+            marathi: 'श्रीमद् रघुचंद्र तीर्थ स्वामीजी (८) पुण्यतिथि (३४२)',
+            kannada: 'ಶ್ರೀಮದ್ ರಘುಚಂದ್ರ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೮) ಪುಣ್ಯತಿಥಿ (೩೪೨)',
+            type: 'punyatithi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Purnima (15th day)',
+            tithiMarathi: 'पूर्णिमा (१५वा दिन)',
+            tithiKannada: 'ಪೂರ್ಣಿಮಾ (೧೫ನೇ ದಿನ)',
+            masa: 'Pousha Masa',
+            masaMarathi: 'पौष मास',
+            masaKannada: 'ಪೌಷ ಮಾಸ'
+        }],
+
+        '2026-01-14': [{
+            name: 'Ekadashi Vrata, Makara Sankranti',
+            marathi: 'एकादशी व्रत, मकर संक्रांति',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ, ಮಕರ ಸಂಕ್ರಾಂತಿ',
+            type: 'sankranti',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Pousha Masa',
+            masaMarathi: 'पौष मास',
+            masaKannada: 'ಪೌಷ ಮಾಸ'
+        }],
+
+        '2026-01-25': [{
+            name: 'Rathasaptami',
+            marathi: 'रथसप्तमी',
+            kannada: 'ರಥಸಪ್ತಮಿ',
+            type: 'festival',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Saptami (7th day)',
+            tithiMarathi: 'सप्तमी (७वा दिन)',
+            tithiKannada: 'ಸಪ್ತಮಿ (೭ನೇ ದಿನ)',
+            masa: 'Magha Masa',
+            masaMarathi: 'माघ मास',
+            masaKannada: 'ಮಾಘ ಮಾಸ'
+        }],
+
+        '2026-01-26': [{
+            name: 'Bhishmashtami',
+            marathi: 'भीष्माष्टमी',
+            kannada: 'ಭೀಷ್ಮಾಷ್ಟಮಿ',
+            type: 'festival',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Ashtami (8th day)',
+            tithiMarathi: 'अष्टमी (८वा दिन)',
+            tithiKannada: 'ಅಷ್ಟಮಿ (೮ನೇ ದಿನ)',
+            masa: 'Magha Masa',
+            masaMarathi: 'माघ मास',
+            masaKannada: 'ಮಾಘ ಮಾಸ'
+        }],
+
+        '2026-01-27': [{
+            name: 'Madhwanavami',
+            marathi: 'माध्वनवमी',
+            kannada: 'ಮಾಧ್ವನವಮಿ',
+            type: 'festival',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Navami (9th day)',
+            tithiMarathi: 'नवमी (९वा दिन)',
+            tithiKannada: 'ನವಮಿ (೯ನೇ ದಿನ)',
+            masa: 'Magha Masa',
+            masaMarathi: 'माघ मास',
+            masaKannada: 'ಮಾಘ ಮಾಸ'
+        }],
+
+        '2026-01-29': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Magha Masa',
+            masaMarathi: 'माघ मास',
+            masaKannada: 'ಮಾಘ ಮಾಸ'
+        }],
+
+        '2026-01-30': [{
+            name: 'Morning before 10:15 Dwadashi Parane to be observed',
+            marathi: 'सकाळी १०:१५ पूर्वी द्वादशी पारणे पाळावे',
+            kannada: 'ಬೆಳಿಗ್ಗೆ ೧೦:೧೫ ಮೊದಲು ದ್ವಾದಶಿ ಪಾರಣೆ ಆಚರಿಸಬೇಕು',
+            type: 'parane',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Dwadashi (12th day)',
+            tithiMarathi: 'द्वादशी (१२वा दिन)',
+            tithiKannada: 'ದ್ವಾದಶಿ (೧೨ನೇ ದಿನ)',
+            masa: 'Magha Masa',
+            masaMarathi: 'माघ मास',
+            masaKannada: 'ಮಾಘ ಮಾಸ'
+        }],
+
+        // February 2026 
+        '2026-02-11': [{
+            name: 'Shrimad Digvijayaramachandra Teerth Swamiji\'s (7) Punyatithi (356)',
+            marathi: 'श्रीमद् दिग्विजयरामचंद्र तीर्थ स्वामीजी (७) पुण्यतिथि (३५६)',
+            kannada: 'ಶ್ರೀಮದ್ ದಿಗ್ವಿಜಯರಾಮಚಂದ್ರ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೭) ಪುಣ್ಯತಿಥಿ (೩೫೬)',
+            type: 'punyatithi',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Navami (9th day)',
+            tithiMarathi: 'नवमी (९वा दिन)',
+            tithiKannada: 'ನವಮಿ (೯ನೇ ದಿನ)',
+            masa: 'Magha Masa',
+            masaMarathi: 'माघ मास',
+            masaKannada: 'ಮಾಘ ಮಾಸ'
+        }],
+
+        '2026-02-13': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Magha Masa',
+            masaMarathi: 'माघ मास',
+            masaKannada: 'ಮಾಘ ಮಾಸ'
+        }],
+
+        '2026-02-15': [{
+            name: 'Mahashivaratri',
+            marathi: 'महाशिवरात्री',
+            kannada: 'ಮಹಾಶಿವರಾತ್ರಿ',
+            type: 'festival',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Trayodashi (13th day)',
+            tithiMarathi: 'त्रयोदशी (१३वा दिन)',
+            tithiKannada: 'ತ್ರಯೋದಶಿ (೧೩ನೇ ದಿನ)',
+            masa: 'Magha Masa',
+            masaMarathi: 'माघ मास',
+            masaKannada: 'ಮಾಘ ಮಾಸ'
+        }],
+        '2026-02-27': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Phalguna Masa',
+            masaMarathi: 'फाल्गुन मास',
+            masaKannada: 'ಫಾಲ್ಗುನ ಮಾಸ'
+        }],
+
+        // March 2026
+        '2026-03-02': [{
+            name: 'Holikadahan',
+            marathi: 'होळिकादहन',
+            kannada: 'ಹೋಳಿಕಾದಹನ',
+            type: 'festival',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Chaturdashi (14th day)',
+            tithiMarathi: 'चतुर्दशी (१४वा दिन)',
+            tithiKannada: 'ಚತುರ್ದಶಿ (೧೪ನೇ ದಿನ)',
+            masa: 'Phalguna Masa',
+            masaMarathi: 'फाल्गुन मास',
+            masaKannada: 'ಫಾಲ್ಗುನ ಮಾಸ'
+        }],
+
+        '2026-03-03': [{
+            name: 'Grastodit - Chandrgrahan',
+            marathi: 'गुढीपाडवा - चंद्रग्रहण',
+            kannada: 'ಗ್ರಾಸ್ತೋದಿತ್ - ಚಂದ್ರಗ್ರಹಣ',
+            type: 'eclipse',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Purnima (15th day)',
+            tithiMarathi: 'पूर्णिमा (१५वा दिन)',
+            tithiKannada: 'ಪೂರ್ಣಿಮಾ (೧೫ನೇ ದಿನ)',
+            masa: 'Phalguna Masa',
+            masaMarathi: 'फाल्गुन मास',
+            masaKannada: 'ಫಾಲ್ಗುನ ಮಾಸ'
+        }],
+
+        '2026-03-09': [{
+            name: 'Shrimad Dwarakanath Teerth Swamiji\'s (22) Punyatithi (53)',
+            marathi: 'श्रीमद् द्वारकानाथ तीर्थ स्वामीजी (२२) पुण्यतिथि (५३)',
+            kannada: 'ಶ್ರೀಮದ್ ದ್ವಾರಕಾನಾಥ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೨೨) ಪುಣ್ಯತಿಥಿ (೫೩)',
+            type: 'punyatithi',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Shashthi (6th day)',
+            tithiMarathi: 'षष्ठी (६वा दिन)',
+            tithiKannada: 'ಷಷ್ಠಿ (೬ನೇ ದಿನ)',
+            masa: 'Phalguna Masa',
+            masaMarathi: 'फाल्गुन मास',
+            masaKannada: 'ಫಾಲ್ಗುನ ಮಾಸ'
+        }],
+
+        '2026-03-10': [{
+            name: 'Shrimad Lakshminarayan Teerth Swamiji\'s (9) Punyatithi (322)',
+            marathi: 'श्रीमद् लक्ष्मीनारायण तीर्थ स्वामीजी (९) पुण्यतिथि (३२२)',
+            kannada: 'ಶ್ರೀಮದ್ ಲಕ್ಷ್ಮೀನಾರಾಯಣ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೯) ಪುಣ್ಯತಿಥಿ (೩೨೨)',
+            type: 'punyatithi',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Saptami (7th day)',
+            tithiMarathi: 'सप्तमी (७वा दिन)',
+            tithiKannada: 'ಸಪ್ತಮಿ (೭ನೇ ದಿನ)',
+            masa: 'Phalguna Masa',
+            masaMarathi: 'फाल्गुन मास',
+            masaKannada: 'ಫಾಲ್ಗುನ ಮಾಸ'
+        }],
+
+        '2026-03-15': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Phalguna Masa',
+            masaMarathi: 'फाल्गुन मास',
+            masaKannada: 'ಫಾಲ್ಗುನ ಮಾಸ'
+        }],
+        '2026-03-16': [{
+            name: 'Morning before 09:15 Dwadashi Parane to be observed',
+            marathi: 'सकाळी ०९:१५ पूर्वी द्वादशी पारणे पाळावे',
+            kannada: 'ಬೆಳಿಗ್ಗೆ ೦೯:೧೫ ಮೊದಲು ದ್ವಾದಶಿ ಪಾರಣೆ ಆಚರಿಸಬೇಕು',
+            type: 'parane',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Dwadashi (12th day)',
+            tithiMarathi: 'द्वादशी (१२वा दिन)',
+            tithiKannada: 'ದ್ವಾದಶಿ (೧೨ನೇ ದಿನ)',
+            masa: 'Phalguna Masa',
+            masaMarathi: 'फाल्गुन मास',
+            masaKannada: 'ಫಾಲ್ಗುನ ಮಾಸ'
+        }],
+
+        // Chaitra Masa (March - April 2026)
+        '2026-03-19': [{
+            name: 'Ugadi Pratipada',
+            marathi: 'उगादी प्रतिपदा',
+            kannada: 'ಯುಗಾದಿ ಪ್ರತಿಪದ',
+            type: 'major',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Pratipada (1st day)',
+            tithiMarathi: 'प्रतिपदा (१ला दिन)',
+            tithiKannada: 'ಪ್ರತಿಪದ (೧ನೇ ದಿನ)',
+            masa: 'Chaitra Masa',
+            masaMarathi: 'चैत्र मास',
+            masaKannada: 'ಚೈತ್ರ ಮಾಸ'
+        }],
+        '2026-03-20': [{
+            name: 'Math Foundation Day (551), Shreemad Vidyadhiraj Teerth Swamiji\'s (23) Pattabhisheka Day',
+            marathi: 'मठ स्थापना दिन (५५१), श्रीमद् विद्याधिराज तीर्थ स्वामीजी (२३) पट्टाभिषेक दिन',
+            kannada: 'ಮಠ ಸ್ಥಾಪನಾ ದಿನ (೫೫೧), ಶ್ರೀಮದ್ ವಿದ್ಯಾಧಿರಾಜ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೨೩) ಪಟ್ಟಾಭಿಷೇಕ ದಿನ',
+            type: 'major',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Dwitiya (2nd day)',
+            tithiMarathi: 'द्वितीया (२रा दिन)',
+            tithiKannada: 'ದ್ವಿತೀಯ (೨ನೇ ದಿನ)',
+            masa: 'Chaitra Masa',
+            masaMarathi: 'चैत्र मास',
+            masaKannada: 'ಚೈತ್ರ ಮಾಸ'
+        }],
+        '2026-03-22': [{
+            name: 'Dhwajarohana at Shree Partagali Math',
+            marathi: 'श्री पर्तगाळी मठात ध्वजारोहण',
+            kannada: 'ಶ್ರೀ ಪರ್ತಗಾಳಿ ಮಠದಲ್ಲಿ ಧ್ವಜಾರೋಹಣ',
+            type: 'normal',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Chaturthi (4th day)',
+            tithiMarathi: 'चतुर्थी (४था दिन)',
+            tithiKannada: 'ಚತುರ್ಥಿ (೪ನೇ ದಿನ)',
+            masa: 'Chaitra Masa',
+            masaMarathi: 'चैत्र मास',
+            masaKannada: 'ಚೈತ್ರ ಮಾಸ'
+        }],
+        '2026-03-27': [{
+            name: 'Shree Ramanavami Maharathotsava, Shreemad Ramanath Teerth Swamiji\'s (15) Punyatithi (222)',
+            marathi: 'श्री रामनवमी महारथोत्सव, श्रीमद् रामनाथ तीर्थ स्वामीजी (१५) पुण्यतिथि (२२२)',
+            kannada: 'ಶ್ರೀ ರಾಮನವಮಿ ಮಹಾರಥೋತ್ಸವ, ಶ್ರೀಮದ್ ರಾಮನಾಥ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೧೫) ಪುಣ್ಯತಿಥಿ (೨೨೨)',
+            type: 'major',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Navami (9th day)',
+            tithiMarathi: 'नवमी (९वा दिन)',
+            tithiKannada: 'ನವಮಿ (೯ನೇ ದಿನ)',
+            masa: 'Chaitra Masa',
+            masaMarathi: 'चैत्र मास',
+            masaKannada: 'ಚೈತ್ರ ಮಾಸ'
+        }],
+        '2026-03-29': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Chaitra Masa',
+            masaMarathi: 'चैत्र मास',
+            masaKannada: 'ಚೈತ್ರ ಮಾಸ'
+        }],
+        '2026-03-30': [{
+            name: 'Shreemad Kamalanath Teerth Swamiji\'s (21) Punyatithi (83), Morning before 08:30 Dwadashi Parane to be observed',
+            marathi: 'श्रीमद् कमलानाथ तीर्थ स्वामीजी (२१) पुण्यतिथि (८३), सकाळी ०८:३० पूर्वी द्वादशी पारणे पाळावे',
+            kannada: 'ಶ್ರೀಮದ್ ಕಮಲಾನಾಥ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೨೧) ಪುಣ್ಯತಿಥಿ (೮೩), ಬೆಳಿಗ್ಗೆ ೦೮:೩೦ ಮೊದಲು ದ್ವಾದಶಿ ಪಾರಣೆ ಆಚರಿಸಬೇಕು',
+            type: 'punyatithi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Dwadashi (12th day)',
+            tithiMarathi: 'द्वादशी (१२वा दिन)',
+            tithiKannada: 'ದ್ವಾದಶಿ (೧೨ನೇ ದಿನ)',
+            masa: 'Chaitra Masa',
+            masaMarathi: 'चैत्र मास',
+            masaKannada: 'ಚೈತ್ರ ಮಾಸ'
+        }],
+        '2026-04-02': [{
+            name: 'Shree Hanuman Jayanti',
+            marathi: 'श्री हनुमान जयंती',
+            kannada: 'ಶ್ರೀ ಹನುಮಾನ್ ಜಯಂತಿ',
+            type: 'major',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Purnima (Full Moon)',
+            tithiMarathi: 'पूर्णिमा (पौर्णिमा)',
+            tithiKannada: 'ಪೂರ್ಣಿಮಾ (ಹುಣ್ಣಿಮೆ)',
+            masa: 'Chaitra Masa',
+            masaMarathi: 'चैत्र मास',
+            masaKannada: 'ಚೈತ್ರ ಮಾಸ'
+        }],
+        '2026-04-09': [{
+            name: 'Shreemad Indirakant Teerth Swamiji\'s (20) Punyatithi (84)',
+            marathi: 'श्रीमद् इंदिराकांत तीर्थ स्वामीजी (२०) पुण्यतिथि (८४)',
+            kannada: 'ಶ್ರೀಮದ್ ಇಂದಿರಾಕಾಂತ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೨೦) ಪುಣ್ಯತಿಥಿ (೮೪)',
+            type: 'punyatithi',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Saptami (7th day)',
+            tithiMarathi: 'सप्तमी (७वा दिन)',
+            tithiKannada: 'ಸಪ್ತಮಿ (೭ನೇ ದಿನ)',
+            masa: 'Chaitra Masa',
+            masaMarathi: 'चैत्र मास',
+            masaKannada: 'ಚೈತ್ರ ಮಾಸ'
+        }],
+        '2026-04-13': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Chaitra Masa',
+            masaMarathi: 'चैत्र मास',
+            masaKannada: 'ಚೈತ್ರ ಮಾಸ'
+        }],
+        '2026-04-17': [{
+            name: 'Shreemad Narayana Teerth Swamiji\'s (1) Punyatithi (506)',
+            marathi: 'श्रीमद् नारायण तीर्थ स्वामीजी (१) पुण्यतिथि (५०६)',
+            kannada: 'ಶ್ರೀಮದ್ ನಾರಾಯಣ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೧) ಪುಣ್ಯತಿಥಿ (೫೦೬)',
+            type: 'punyatithi',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Amavasya (New Moon)',
+            tithiMarathi: 'अमावस्या (अमावास्या)',
+            tithiKannada: 'ಅಮಾವಾಸ್ಯೆ (ಅಮಾವಾಸ್ಯೆ)',
+            masa: 'Chaitra Masa',
+            masaMarathi: 'चैत्र मास',
+            masaKannada: 'ಚೈತ್ರ ಮಾಸ'
+        }],
+
+        // Vaishakh Masa (April - May 2026)
+        '2026-04-19': [{
+            name: 'Shree Parashuram Jayanti',
+            marathi: 'श्री परशुराम जयंती',
+            kannada: 'ಶ್ರೀ ಪರಶುರಾಮ ಜಯಂತಿ',
+            type: 'jayanti',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Dwitiya (2nd day)',
+            tithiMarathi: 'द्वितीया (२रा दिन)',
+            tithiKannada: 'ದ್ವಿತೀಯ (೨ನೇ ದಿನ)',
+            masa: 'Vaishakh Masa',
+            masaMarathi: 'वैशाख मास',
+            masaKannada: 'ವೈಶಾಖ ಮಾಸ'
+        }],
+        '2026-04-20': [{
+            name: 'Akshaya Trutiya, Shreemad Vasudev Teerth Swamiji\'s (2) Punyatithi (506)',
+            marathi: 'अक्षय्य तृतीया, श्रीमद् वासुदेव तीर्थ स्वामीजी (२) पुण्यतिथि (५०६)',
+            kannada: 'ಅಕ್ಷಯ ತೃತೀಯಾ, ಶ್ರೀಮದ್ ವಾಸುದೇವ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೨) ಪುಣ್ಯತಿಥಿ (೫೦೬)',
+            type: 'major',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Tritiya (3rd day)',
+            tithiMarathi: 'तृतीया (३रा दिन)',
+            tithiKannada: 'ತೃತೀಯಾ (೩ನೇ ದಿನ)',
+            masa: 'Vaishakh Masa',
+            masaMarathi: 'वैशाख मास',
+            masaKannada: 'ವೈಶಾಖ ಮಾಸ'
+        }],
+        '2026-04-27': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Vaishakh Masa',
+            masaMarathi: 'वैशाख मास',
+            masaKannada: 'ವೈಶಾಖ ಮಾಸ'
+        }],
+        '2026-04-30': [{
+            name: 'Shree Narasimha Jayanti',
+            marathi: 'श्री नरसिंह जयंती',
+            kannada: 'ಶ್ರೀ ನರಸಿಂಹ ಜಯಂತಿ',
+            type: 'jayanti',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Chaturdashi (14th day)',
+            tithiMarathi: 'चतुर्दशी (१४वा दिन)',
+            tithiKannada: 'ಚತುರ್ದಶಿ (೧೪ನೇ ದಿನ)',
+            masa: 'Vaishakh Masa',
+            masaMarathi: 'वैशाख मास',
+            masaKannada: 'ವೈಶಾಖ ಮಾಸ'
+        }],
+        '2026-05-04': [{
+            name: 'Shreemad Ramachandra Teerth Swamiji\'s (6) Punyatithi (361)',
+            marathi: 'श्रीमद् रामचंद्र तीर्थ स्वामीजी (६) पुण्यतिथि (३६१)',
+            kannada: 'ಶ್ರೀಮದ್ ರಾಮಚಂದ್ರ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೬) ಪುಣ್ಯತಿಥಿ (೩೬೧)',
+            type: 'punyatithi',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Tritiya (3rd day)',
+            tithiMarathi: 'तृतीया (३रा दिन)',
+            tithiKannada: 'ತೃತೀಯಾ (೩ನೇ ದಿನ)',
+            masa: 'Vaishakh Masa',
+            masaMarathi: 'वैशाख मास',
+            masaKannada: 'ವೈಶಾಖ ಮಾಸ'
+        }],
+        '2026-05-13': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Vaishakh Masa',
+            masaMarathi: 'वैशाख मास',
+            masaKannada: 'ವೈಶಾಖ ಮಾಸ'
+        }],
+        '2026-05-14': [{
+            name: 'Morning before 07:45 Dwadashi Parane to be observed',
+            marathi: 'सकाळी ०७:४५ पूर्वी द्वादशी पारणे पाळावे',
+            kannada: 'ಬೆಳಿಗ್ಗೆ ೦೭:೪೫ ಮೊದಲು ದ್ವಾದಶಿ ಪಾರಣೆ ಆಚರಿಸಬೇಕು',
+            type: 'parane',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Dwadashi (12th day)',
+            tithiMarathi: 'द्वादशी (१२वा दिन)',
+            tithiKannada: 'ದ್ವಾದಶಿ (೧೨ನೇ ದಿನ)',
+            masa: 'Vaishakh Masa',
+            masaMarathi: 'वैशाख मास',
+            masaKannada: 'ವೈಶಾಖ ಮಾಸ'
+        }],
+
+        // Adhika Jyeshtha Masa (May - June 2026)
+        '2026-05-27': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Adhika Jyeshtha Masa',
+            masaMarathi: 'अधिक ज्येष्ठ मास',
+            masaKannada: 'ಅಧಿಕ ಜ್ಯೇಷ್ಠ ಮಾಸ'
+        }],
+        '2026-05-28': [{
+            name: 'Morning before 09:45 Dwadashi Parane to be observed',
+            marathi: 'सकाळी ०९:४५ पूर्वी द्वादशी पारणे पाळावे',
+            kannada: 'ಬೆಳಿಗ್ಗೆ ೦೯:೪೫ ಮೊದಲು ದ್ವಾದಶಿ ಪಾರಣೆ ಆಚರಿಸಬೇಕು',
+            type: 'parane',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Dwadashi (12th day)',
+            tithiMarathi: 'द्वादशी (१२वा दिन)',
+            tithiKannada: 'ದ್ವಾದಶಿ (೧೨ನೇ ದಿನ)',
+            masa: 'Adhika Jyeshtha Masa',
+            masaMarathi: 'अधिक ज्येष्ठ मास',
+            masaKannada: 'ಅಧಿಕ ಜ್ಯೇಷ್ಠ ಮಾಸ'
+        }],
+        '2026-06-11': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Adhika Jyeshtha Masa',
+            masaMarathi: 'अधिक ज्येष्ठ मास',
+            masaKannada: 'ಅಧಿಕ ಜ್ಯೇಷ್ಠ ಮಾಸ'
+        }],
+
+        // Nija Jyeshtha Masa (June - July 2026)
+        '2026-06-16': [{
+            name: 'Shreemad Poornaprajnya Teerth Swamiji\'s (18) Punyatithi (147)',
+            marathi: 'श्रीमद् पूर्णप्रज्ञ तीर्थ स्वामीजी (१८) पुण्यतिथि (१४७)',
+            kannada: 'ಶ್ರೀಮದ್ ಪೂರ್ಣಪ್ರಜ್ಞ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೧೮) ಪುಣ್ಯತಿಥಿ (೧೪೭)',
+            type: 'punyatithi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Dwitiya (2nd day)',
+            tithiMarathi: 'द्वितीया (२रा दिन)',
+            tithiKannada: 'ದ್ವಿತೀಯ (೨ನೇ ದಿನ)',
+            masa: 'Nija Jyeshtha Masa',
+            masaMarathi: 'निज ज्येष्ठ मास',
+            masaKannada: 'ನಿಜ ಜ್ಯೇಷ್ಠ ಮಾಸ'
+        }],
+        '2026-06-25': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Nija Jyeshtha Masa',
+            masaMarathi: 'निज ज्येष्ठ मास',
+            masaKannada: 'ನಿಜ ಜ್ಯೇಷ್ಠ ಮಾಸ'
+        }],
+        '2026-06-29': [{
+            name: 'Vatasavitri Vrata',
+            marathi: 'वटसावित्री व्रत',
+            kannada: 'ವಟಸಾವಿತ್ರಿ ವ್ರತ',
+            type: 'vrata',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Purnima (Full Moon)',
+            tithiMarathi: 'पूर्णिमा (पौर्णिमा)',
+            tithiKannada: 'ಪೂರ್ಣಿಮಾ (ಹುಣ್ಣಿಮೆ)',
+            masa: 'Nija Jyeshtha Masa',
+            masaMarathi: 'निज ज्येष्ठ मास',
+            masaKannada: 'ನಿಜ ಜ್ಯೇಷ್ಠ ಮಾಸ'
+        }],
+        '2026-07-11': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Nija Jyeshtha Masa',
+            masaMarathi: 'निज ज्येष्ठ मास',
+            masaKannada: 'ನಿಜ ಜ್ಯೇಷ್ಠ ಮಾಸ'
+        }],
+
+        // Ashadha Masa (July - August 2026)
+        '2026-07-17': [{
+            name: 'Karkatak Sankranti',
+            marathi: 'कर्कटक संक्रांति',
+            kannada: 'ಕರ್ಕಾಟಕ ಸಂಕ್ರಾಂತಿ',
+            type: 'sankranti',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Tritiya (3rd day)',
+            tithiMarathi: 'तृतीया (३रा दिन)',
+            tithiKannada: 'ತೃತೀಯಾ (೩ನೇ ದಿನ)',
+            masa: 'Ashadha Masa',
+            masaMarathi: 'आषाढ मास',
+            masaKannada: 'ಆಷಾಢ ಮಾಸ'
+        }],
+        '2026-07-20': [{
+            name: 'Shreemad Pedmanabh Teerth Swamiji\'s (19) Punyatithi (134)',
+            marathi: 'श्रीमद् पद्मनाभ तीर्थ स्वामीजी (१९) पुण्यतिथि (१३४)',
+            kannada: 'ಶ್ರೀಮದ್ ಪದ್ಮನಾಭ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೧೯) ಪುಣ್ಯತಿಥಿ (೧೩೪)',
+            type: 'punyatithi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Saptami (7th day)',
+            tithiMarathi: 'सप्तमी (७वा दिन)',
+            tithiKannada: 'ಸಪ್ತಮಿ (೭ನೇ ದಿನ)',
+            masa: 'Ashadha Masa',
+            masaMarathi: 'आषाढ मास',
+            masaKannada: 'ಆಷಾಢ ಮಾಸ'
+        }],
+        '2026-07-24': [{
+            name: 'Chaturmasya Shakavrat Starts, Shreemad Vidyadhiraj Teerth Swamiji\'s (23) Punyatithi (5)',
+            marathi: 'चातुर्मास्य शाकव्रत प्रारंभ, श्रीमद् विद्याधिराज तीर्थ स्वामीजी (२३) पुण्यतिथि (५)',
+            kannada: 'ಚಾತುರ್ಮಾಸ್ಯ ಶಾಕವ್ರತ ಪ್ರಾರಂಭ, ಶ್ರೀಮದ್ ವಿದ್ಯಾಧಿರಾಜ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೨೩) ಪುಣ್ಯತಿಥಿ (೫)',
+            type: 'vrata',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Dashami (10th day)',
+            tithiMarathi: 'दशमी (१०वा दिन)',
+            tithiKannada: 'ದಶಮಿ (೧೦ನೇ ದಿನ)',
+            masa: 'Ashadha Masa',
+            masaMarathi: 'आषाढ मास',
+            masaKannada: 'ಆಷಾಢ ಮಾಸ'
+        }],
+        '2026-07-25': [{
+            name: 'Ekadashi Vrata, Taptamudradharana',
+            marathi: 'एकादशी व्रत, तप्तमुद्राधारण',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ, ತಪ್ತಮುದ್ರಾಧಾರಣ',
+            type: 'ekadashi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Ashadha Masa',
+            masaMarathi: 'आषाढ मास',
+            masaKannada: 'ಆಷಾಢ ಮಾಸ'
+        }],
+        '2026-08-05': [{
+            name: 'Shreemad Vidyadheesh Teerth Swamiji\'s (24) Pattabhishek Day, Evening Vyasapoojaporvak Chaturmasya Vrata Sweekar',
+            marathi: 'श्रीमद् विद्याधीश तीर्थ स्वामीजी (२४) पट्टाभिषेक दिन, संध्याकाळी व्यासपूजापूर्वक चातुर्मास्य व्रत स्वीकार',
+            kannada: 'ಶ್ರೀಮದ್ ವಿದ್ಯಾಧೀಶ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೨೪) ಪಟ್ಟಾಭಿಷೇಕ ದಿನ, ಸಂಜೆ ವ್ಯಾಸಪೂಜಾಪೂರ್ವಕ ಚಾತುರ್ಮಾಸ್ಯ ವ್ರತ ಸ್ವೀಕಾರ',
+            type: 'pattabhishek',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Saptami (7th day)',
+            tithiMarathi: 'सप्तमी (७वा दिन)',
+            tithiKannada: 'ಸಪ್ತಮಿ (೭ನೇ ದಿನ)',
+            masa: 'Ashadha Masa',
+            masaMarathi: 'आषाढ मास',
+            masaKannada: 'ಆಷಾಢ ಮಾಸ'
+        }],
+        '2026-08-07': [{
+            name: 'Shreemad Shrilanth Teerth Swamiji\'s (13) Punyatithi (240)',
+            marathi: 'श्रीमद् श्रीलंत तीर्थ स्वामीजी (१३) पुण्यतिथि (२४०)',
+            kannada: 'ಶ್ರೀಮದ್ ಶ್ರೀಲಂತ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೧೩) ಪುಣ್ಯತಿಥಿ (೨೪೦)',
+            type: 'punyatithi',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Navami (9th day)',
+            tithiMarathi: 'नवमी (९वा दिन)',
+            tithiKannada: 'ನವಮಿ (೯ನೇ ದಿನ)',
+            masa: 'Ashadha Masa',
+            masaMarathi: 'आषाढ मास',
+            masaKannada: 'ಆಷಾಢ ಮಾಸ'
+        }],
+        '2026-08-09': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Ashadha Masa',
+            masaMarathi: 'आषाढ मास',
+            masaKannada: 'ಆಷಾಢ ಮಾಸ'
+        }],
+        '2026-08-10': [{
+            name: 'Morning before 06:15 Dwadashi Parane to be observed',
+            marathi: 'सकाळी ०६:१५ पूर्वी द्वादशी पारणे पाळावे',
+            kannada: 'ಬೆಳಿಗ್ಗೆ ೦೬:೧೫ ಮೊದಲು ದ್ವಾದಶಿ ಪಾರಣೆ ಆಚರಿಸಬೇಕು',
+            type: 'parane',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Dwadashi (12th day)',
+            tithiMarathi: 'द्वादशी (१२वा दिन)',
+            tithiKannada: 'ದ್ವಾದಶಿ (೧೨ನೇ ದಿನ)',
+            masa: 'Ashadha Masa',
+            masaMarathi: 'आषाढ मास',
+            masaKannada: 'ಆಷಾಢ ಮಾಸ'
+        }],
+
+        // Shravana Masa (August - September 2026)
+        '2026-08-17': [{
+            name: 'Nagapanchami',
+            marathi: 'नागपंचमी',
+            kannada: 'ನಾಗಪಂಚಮಿ',
+            type: 'festival',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Panchami (5th day)',
+            tithiMarathi: 'पंचमी (५वा दिन)',
+            tithiKannada: 'ಪಂಚಮಿ (೫ನೇ ದಿನ)',
+            masa: 'Shravana Masa',
+            masaMarathi: 'श्रावण मास',
+            masaKannada: 'ಶ್ರಾವಣ ಮಾಸ'
+        }],
+        '2026-08-21': [{
+            name: 'Shreemad Anand Teerth Swamiji\'s (17) Punyatithi (198)',
+            marathi: 'श्रीमद् आनंद तीर्थ स्वामीजी (१७) पुण्यतिथि (१९८)',
+            kannada: 'ಶ್ರೀಮದ್ ಆನಂದ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೧೭) ಪುಣ್ಯತಿಥಿ (೧೯೮)',
+            type: 'punyatithi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Navami (9th day)',
+            tithiMarathi: 'नवमी (९वा दिन)',
+            tithiKannada: 'ನವಮಿ (೯ನೇ ದಿನ)',
+            masa: 'Shravana Masa',
+            masaMarathi: 'श्रावण मास',
+            masaKannada: 'ಶ್ರಾವಣ ಮಾಸ'
+        }],
+        '2026-08-22': [{
+            name: 'Chaturmasya Dadhivrata Starts',
+            marathi: 'चातुर्मास्य दधिव्रत प्रारंभ',
+            kannada: 'ಚಾತುರ್ಮಾಸ್ಯ ದಧಿವ್ರತ ಪ್ರಾರಂಭ',
+            type: 'vrata',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Dashami (10th day)',
+            tithiMarathi: 'दशमी (१०वा दिन)',
+            tithiKannada: 'ದಶಮಿ (೧೦ನೇ ದಿನ)',
+            masa: 'Shravana Masa',
+            masaMarathi: 'श्रावण मास',
+            masaKannada: 'ಶ್ರಾವಣ ಮಾಸ'
+        }],
+        '2026-08-23': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Shravana Masa',
+            masaMarathi: 'श्रावण मास',
+            masaKannada: 'ಶ್ರಾವಣ ಮಾಸ'
+        }],
+        '2026-08-24': [{
+            name: 'Atirikta Upavasa',
+            marathi: 'अतिरिक्त उपवास',
+            kannada: 'ಅತಿರಿಕ್ತ ಉಪವಾಸ',
+            type: 'vrata',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Dwadashi (12th day)',
+            tithiMarathi: 'द्वादशी (१२वा दिन)',
+            tithiKannada: 'ದ್ವಾದಶಿ (೧೨ನೇ ದಿನ)',
+            masa: 'Shravana Masa',
+            masaMarathi: 'श्रावण मास',
+            masaKannada: 'ಶ್ರಾವಣ ಮಾಸ'
+        }],
+        '2026-08-25': [{
+            name: 'Morning before 07:00 Dwadashi Parane to be observed, Shree Vishnu Pavitraropana, Chaturmasya Shakavrata Ends',
+            marathi: 'सकाळी ०७:०० पूर्वी द्वादशी पारणे पाळावे, श्री विष्णू पवित्रारोपण, चातुर्मास्य शाकव्रत समाप्ति',
+            kannada: 'ಬೆಳಿಗ್ಗೆ ೦೭:೦೦ ಮೊದಲು ದ್ವಾದಶಿ ಪಾರಣೆ ಆಚರಿಸಬೇಕು, ಶ್ರೀ ವಿಷ್ಣು ಪವಿತ್ರಾರೋಪಣ, ಚಾತುರ್ಮಾಸ್ಯ ಶಾಕವ್ರತ ಅಂತ್ಯ',
+            type: 'parane',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Trayodashi (13th day)',
+            tithiMarathi: 'त्रयोदशी (१३वा दिन)',
+            tithiKannada: 'ತ್ರಯೋದಶಿ (೧೩ನೇ ದಿನ)',
+            masa: 'Shravana Masa',
+            masaMarathi: 'श्रावण मास',
+            masaKannada: 'ಶ್ರಾವಣ ಮಾಸ'
+        }],
+        '2026-08-26': [{
+            name: 'Rakshabandhan',
+            marathi: 'रक्षाबंधन',
+            kannada: 'ರಕ್ಷಾಬಂಧನ',
+            type: 'festival',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Purnima (Full Moon)',
+            tithiMarathi: 'पूर्णिमा (पौर्णिमा)',
+            tithiKannada: 'ಪೂರ್ಣಿಮಾ (ಹುಣ್ಣಿಮೆ)',
+            masa: 'Shravana Masa',
+            masaMarathi: 'श्रावण मास',
+            masaKannada: 'ಶ್ರಾವಣ ಮಾಸ'
+        }],
+        '2026-08-28': [{
+            name: 'Shree Varamahalaxmi Vrata (Friday holds primary importance)',
+            marathi: 'श्री वरमहालक्ष्मी व्रत (शुक्रवारचे विशेष महत्त्व)',
+            kannada: 'ಶ್ರೀ ವರಮಹಾಲಕ್ಷ್ಮಿ ವ್ರತ (ಶುಕ್ರವಾರದ ಪ್ರಾಮುಖ್ಯತೆ)',
+            type: 'vrata',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Purnima (Full Moon)',
+            tithiMarathi: 'पूर्णिमा (पौर्णिमा)',
+            tithiKannada: 'ಪೂರ್ಣಿಮಾ (ಹುಣ್ಣಿಮೆ)',
+            masa: 'Shravana Masa',
+            masaMarathi: 'श्रावण मास',
+            masaKannada: 'ಶ್ರಾವಣ ಮಾಸ'
+        }],
+        '2026-09-04': [{
+            name: 'Shree Krishna Janmashtami (Chandrodaya at 12:11 night)',
+            marathi: 'श्री कृष्ण जन्माष्टमी (रात्री १२:११ ला चंद्रोदय)',
+            kannada: 'ಶ್ರೀ ಕೃಷ್ಣ ಜನ್ಮಾಷ್ಟಮಿ (ರಾತ್ರಿ ೧೨:೧೧ ಕ್ಕೆ ಚಂದ್ರೋದಯ)',
+            type: 'major',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Ashtami (8th day)',
+            tithiMarathi: 'अष्टमी (८वा दिन)',
+            tithiKannada: 'ಅಷ್ಟಮಿ (೮ನೇ ದಿನ)',
+            masa: 'Shravana Masa',
+            masaMarathi: 'श्रावण मास',
+            masaKannada: 'ಶ್ರಾವಣ ಮಾಸ'
+        }],
+        '2026-09-07': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Shravana Masa',
+            masaMarathi: 'श्रावण मास',
+            masaKannada: 'ಶ್ರಾವಣ ಮಾಸ'
+        }],
+        '2026-09-08': [{
+            name: 'Afternoon before 01:45 Dwadashi Parane to be observed',
+            marathi: 'दुपारी ०१:४५ पूर्वी द्वादशी पारणे पाळावे',
+            kannada: 'ಮಧ್ಯಾಹ್ನ ೦೧:೪೫ ಮೊದಲು ದ್ವಾದಶಿ ಪಾರಣೆ ಆಚರಿಸಬೇಕು',
+            type: 'parane',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Dwadashi (12th day)',
+            tithiMarathi: 'द्वादशी (१२वा दिन)',
+            tithiKannada: 'ದ್ವಾದಶಿ (೧೨ನೇ ದಿನ)',
+            masa: 'Shravana Masa',
+            masaMarathi: 'श्रावण मास',
+            masaKannada: 'ಶ್ರಾವಣ ಮಾಸ'
+        }],
+
+        // Bhadrapad Masa (September - October 2026)
+        '2026-09-14': [{
+            name: 'Shree Swarnagauri Vrata, Shree Ganesh Chaturthi',
+            marathi: 'श्री स्वर्णगौरी व्रत, श्री गणेश चतुर्थी',
+            kannada: 'ಶ್ರೀ ಸ್ವರ್ಣಗೌರಿ ವ್ರತ, ಶ್ರೀ ಗಣೇಶ ಚತುರ್ಥಿ',
+            type: 'major',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Tritiya (3rd day)',
+            tithiMarathi: 'तृतीया (३रा दिन)',
+            tithiKannada: 'ತೃತೀಯಾ (೩ನೇ ದಿನ)',
+            masa: 'Bhadrapad Masa',
+            masaMarathi: 'भाद्रपद मास',
+            masaKannada: 'ಭಾದ್ರಪದ ಮಾಸ'
+        }],
+        '2026-09-16': [{
+            name: 'Rhushpanchami, Shreemad Jeevottam Teerth Swamiji\'s (3) Punyatithi (438)',
+            marathi: 'ऋषिपंचमी, श्रीमद् जीवोत्तम तीर्थ स्वामीजी (३) पुण्यतिथि (४३८)',
+            kannada: 'ಋಷಿಪಂಚಮಿ, ಶ್ರೀಮದ್ ಜೀವೋತ್ತಮ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೩) ಪುಣ್ಯತಿಥಿ (೪೩೮)',
+            type: 'punyatithi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Panchami (5th day)',
+            tithiMarathi: 'पंचमी (५वा दिन)',
+            tithiKannada: 'ಪಂಚಮಿ (೫ನೇ ದಿನ)',
+            masa: 'Bhadrapad Masa',
+            masaMarathi: 'भाद्रपद मास',
+            masaKannada: 'ಭಾದ್ರಪದ ಮಾಸ'
+        }],
+        '2026-09-21': [{
+            name: 'Chaturmasya Kshiravrata Starts',
+            marathi: 'चातुर्मास्य क्षीरव्रत प्रारंभ',
+            kannada: 'ಚಾತುರ್ಮಾಸ್ಯ ಕ್ಷೀರವ್ರತ ಪ್ರಾರಂಭ',
+            type: 'vrata',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Dashami (10th day)',
+            tithiMarathi: 'दशमी (१०वा दिन)',
+            tithiKannada: 'ದಶಮಿ (೧೦ನೇ ದಿನ)',
+            masa: 'Bhadrapad Masa',
+            masaMarathi: 'भाद्रपद मास',
+            masaKannada: 'ಭಾದ್ರಪದ ಮಾಸ'
+        }],
+        '2026-09-22': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Bhadrapad Masa',
+            masaMarathi: 'भाद्रपद मास',
+            masaKannada: 'ಭಾದ್ರಪದ ಮಾಸ'
+        }],
+        '2026-09-23': [{
+            name: 'Chaturmasya Dadhivrata Ends',
+            marathi: 'चातुर्मास्य दधिव्रत समाप्ति',
+            kannada: 'ಚಾತುರ್ಮಾಸ್ಯ ದಧಿವ್ರತ ಅಂತ್ಯ',
+            type: 'vrata',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Dwadashi (12th day)',
+            tithiMarathi: 'द्वादशी (१२वा दिन)',
+            tithiKannada: 'ದ್ವಾದಶಿ (೧೨ನೇ ದಿನ)',
+            masa: 'Bhadrapad Masa',
+            masaMarathi: 'भाद्रपद मास',
+            masaKannada: 'ಭಾದ್ರಪದ ಮಾಸ'
+        }],
+        '2026-09-25': [{
+            name: 'Shreemadananta Vrata',
+            marathi: 'श्रीमदनंत व्रत',
+            kannada: 'ಶ್ರೀಮದನಂತ ವ್ರತ',
+            type: 'vrata',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Chaturdashi (14th day)',
+            tithiMarathi: 'चतुर्दशी (१४वा दिन)',
+            tithiKannada: 'ಚತುರ್ದಶಿ (೧೪ನೇ ದಿನ)',
+            masa: 'Bhadrapad Masa',
+            masaMarathi: 'भाद्रपद मास',
+            masaKannada: 'ಭಾದ್ರಪದ ಮಾಸ'
+        }],
+        '2026-09-26': [{
+            name: 'Swamiji\'s Chaturmasya Vrata Ends',
+            marathi: 'स्वामीजी चातुर्मास्य व्रत समाप्ति',
+            kannada: 'ಸ್ವಾಮೀಜಿ ಚಾತುರ್ಮಾಸ್ಯ ವ್ರತ ಅಂತ್ಯ',
+            type: 'vrata',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Purnima (Full Moon)',
+            tithiMarathi: 'पूर्णिमा (पौर्णिमा)',
+            tithiKannada: 'ಪೂರ್ಣಿಮಾ (ಹುಣ್ಣಿಮೆ)',
+            masa: 'Bhadrapad Masa',
+            masaMarathi: 'भाद्रपद मास',
+            masaKannada: 'ಭಾದ್ರಪದ ಮಾಸ'
+        }],
+        '2026-10-06': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Bhadrapad Masa',
+            masaMarathi: 'भाद्रपद मास',
+            masaKannada: 'ಭಾದ್ರಪದ ಮಾಸ'
+        }],
+        '2026-10-10': [{
+            name: 'Mahalaya Amavasya',
+            marathi: 'महालय अमावस्या',
+            kannada: 'ಮಹಾಲಯ ಅಮಾವಾಸ್ಯೆ',
+            type: 'amavasya',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Amavasya (New Moon)',
+            tithiMarathi: 'अमावस्या (अमावास्या)',
+            tithiKannada: 'ಅಮಾವಾಸ್ಯೆ (ಅಮಾವಾಸ್ಯೆ)',
+            masa: 'Bhadrapad Masa',
+            masaMarathi: 'भाद्रपद मास',
+            masaKannada: 'ಭಾದ್ರಪದ ಮಾಸ'
+        }],
+
+        // Ashwina Masa (October - November 2026)
+        '2026-10-11': [{
+            name: 'Navaratri Starts',
+            marathi: 'नवरात्री प्रारंभ',
+            kannada: 'ನವರಾತ್ರಿ ಪ್ರಾರಂಭ',
+            type: 'major',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Pratipada (1st day)',
+            tithiMarathi: 'प्रतिपदा (१ला दिन)',
+            tithiKannada: 'ಪ್ರತಿಪದ (೧ನೇ ದಿನ)',
+            masa: 'Ashwina Masa',
+            masaMarathi: 'आश्विन मास',
+            masaKannada: 'ಆಶ್ವಿನ ಮಾಸ'
+        }],
+        '2026-10-16': [{
+            name: 'Shree Saraswati Avahana',
+            marathi: 'श्री सरस्वती आवाहना',
+            kannada: 'ಶ್ರೀ ಸರಸ್ವತಿ ಆವಾಹನಾ',
+            type: 'festival',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Shashthi (6th day)',
+            tithiMarathi: 'षष्ठी (६वा दिन)',
+            tithiKannada: 'ಷಷ್ಠಿ (೬ನೇ ದಿನ)',
+            masa: 'Ashwina Masa',
+            masaMarathi: 'आश्विन मास',
+            masaKannada: 'ಆಶ್ವಿನ ಮಾಸ'
+        }],
+        '2026-10-19': [{
+            name: 'Mahanavami',
+            marathi: 'महानवमी',
+            kannada: 'ಮಹಾನವಮಿ',
+            type: 'major',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Navami (9th day)',
+            tithiMarathi: 'नवमी (९वा दिन)',
+            tithiKannada: 'ನವಮಿ (೯ನೇ ದಿನ)',
+            masa: 'Ashwina Masa',
+            masaMarathi: 'आश्विन मास',
+            masaKannada: 'ಆಶ್ವಿನ ಮಾಸ'
+        }],
+        '2026-10-20': [{
+            name: 'Shree Saraswati Visarjana, Vijaya Dashami',
+            marathi: 'श्री सरस्वती विसर्जन, विजया दशमी',
+            kannada: 'ಶ್ರೀ ಸರಸ್ವತಿ ವಿಸರ್ಜನೆ, ವಿಜಯಾ ದಶಮಿ',
+            type: 'major',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Dashami (10th day)',
+            tithiMarathi: 'दशमी (१०वा दिन)',
+            tithiKannada: 'ದಶಮಿ (೧೦ನೇ ದಿನ)',
+            masa: 'Ashwina Masa',
+            masaMarathi: 'आश्विन मास',
+            masaKannada: 'ಆಶ್ವಿನ ಮಾಸ'
+        }],
+        '2026-10-21': [{
+            name: 'Chaturmasya Dvidala Vrat Starts, Shreemad Madhwacharya Jayanti',
+            marathi: 'चातुर्मास्य द्विदल व्रत प्रारंभ, श्रीमद् मध्वाचार्य जयंती',
+            kannada: 'ಚಾತುರ್ಮಾಸ್ಯ ದ್ವಿದಳ ವ್ರತ ಪ್ರಾರಂಭ, ಶ್ರೀಮದ್ ಮಧ್ವಾಚಾರ್ಯ ಜಯಂತಿ',
+            type: 'major',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Ashwina Masa',
+            masaMarathi: 'आश्विन मास',
+            masaKannada: 'ಆಶ್ವಿನ ಮಾಸ'
+        }],
+        '2026-10-22': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Ashwina Masa',
+            masaMarathi: 'आश्विन मास',
+            masaKannada: 'ಆಶ್ವಿನ ಮಾಸ'
+        }],
+        '2026-10-23': [{
+            name: 'Chaturmasya Kshiravrata Ends, Afternoon before 12:00 Dwadashi Parane to be observed',
+            marathi: 'चातुर्मास्य क्षीरव्रत समाप्ति, दुपारी १२:०० पूर्वी द्वादशी पारणे पाळावे',
+            kannada: 'ಚಾತುರ್ಮಾಸ್ಯ ಕ್ಷೀರವ್ರತ ಅಂತ್ಯ, ಮಧ್ಯಾಹ್ನ ೧೨:೦೦ ಮೊದಲು ದ್ವಾದಶಿ ಪಾರಣೆ ಆಚರಿಸಬೇಕು',
+            type: 'parane',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Dwadashi (12th day)',
+            tithiMarathi: 'द्वादशी (१२वा दिन)',
+            tithiKannada: 'ದ್ವಾದಶಿ (೧೨ನೇ ದಿನ)',
+            masa: 'Ashwina Masa',
+            masaMarathi: 'आश्विन मास',
+            masaKannada: 'ಆಶ್ವಿನ ಮಾಸ'
+        }],
+        '2026-10-25': [{
+            name: 'Kojagari Poornima',
+            marathi: 'कोजागरी पूर्णिमा',
+            kannada: 'ಕೋಜಾಗರಿ ಪೂರ್ಣಿಮಾ',
+            type: 'purnima',
+            paksha: 'Shukla Paksha',
+            pakshaMarathi: 'शुक्ल पक्ष',
+            pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ',
+            tithi: 'Purnima (Full Moon)',
+            tithiMarathi: 'पूर्णिमा (पौर्णिमा)',
+            tithiKannada: 'ಪೂರ್ಣಿಮಾ (ಹುಣ್ಣಿಮೆ)',
+            masa: 'Ashwina Masa',
+            masaMarathi: 'आश्विन मास',
+            masaKannada: 'ಆಶ್ವಿನ ಮಾಸ'
+        }],
+        '2026-11-05': [{
+            name: 'Ekadashi Vrata',
+            marathi: 'एकादशी व्रत',
+            kannada: 'ಏಕಾದಶಿ ವ್ರತ',
+            type: 'ekadashi',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Ekadashi (11th day)',
+            tithiMarathi: 'एकादशी (११वा दिन)',
+            tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)',
+            masa: 'Ashwina Masa',
+            masaMarathi: 'आश्विन मास',
+            masaKannada: 'ಆಶ್ವಿನ ಮಾಸ'
+        }],
+        '2026-11-06': [{
+            name: 'Morning before 11:15 Dwadashi Parane to be observed',
+            marathi: 'सकाळी ११:१५ पूर्वी द्वादशी पारणे पाळावे',
+            kannada: 'ಬೆಳಿಗ್ಗೆ ೧೧:೧೫ ಮೊದಲು ದ್ವಾದಶಿ ಪಾರಣೆ ಆಚರಿಸಬೇಕು',
+            type: 'parane',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Dwadashi (12th day)',
+            tithiMarathi: 'द्वादशी (१२वा दिन)',
+            tithiKannada: 'ದ್ವಾದಶಿ (೧೨ನೇ ದಿನ)',
+            masa: 'Ashwina Masa',
+            masaMarathi: 'आश्विन मास',
+            masaKannada: 'ಆಶ್ವಿನ ಮಾಸ'
+        }],
+        '2026-11-07': [{
+            name: 'Evening Jalapoorana, Night after Moon rise Tailabhyanga Snan',
+            marathi: 'संध्याकाळी जलपूरण, चंद्रोदयानंतर तैलाभ्यंग स्नान',
+            kannada: 'ಸಂಜೆ ಜಲಪೂರಣೆ, ಚಂದ್ರೋದಯದ ನಂತರ ತೈಲಾಭ್ಯಂಗ ಸ್ನಾನ',
+            type: 'ritual',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Trayodashi (13th day)',
+            tithiMarathi: 'त्रयोदशी (१३वा दिन)',
+            tithiKannada: 'ತ್ರಯೋದಶಿ (೧೩ನೇ ದಿನ)',
+            masa: 'Ashwina Masa',
+            masaMarathi: 'आश्विन मास',
+            masaKannada: 'ಆಶ್ವಿನ ಮಾಸ'
+        }],
+        '2026-11-08': [{
+            name: 'Naraka Chaturdashi, Deepavali, Dhanalaxmi Pooja',
+            marathi: 'नरक चतुर्दशी, दीपावली, धनलक्ष्मी पूजा',
+            kannada: 'ನರಕ ಚತುರ್ದಶಿ, ದೀಪಾವಳಿ, ಧನಲಕ್ಷ್ಮಿ ಪೂಜೆ',
+            type: 'major',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Chaturdashi (14th day)',
+            tithiMarathi: 'चतुर्दशी (१४वा दिन)',
+            tithiKannada: 'ಚತುರ್ದಶಿ (೧೪ನೇ ದಿನ)',
+            masa: 'Ashwina Masa',
+            masaMarathi: 'आश्विन मास',
+            masaKannada: 'ಆಶ್ವಿನ ಮಾಸ'
+        }],
+        '2026-11-09': [{
+            name: 'Gowpooja',
+            marathi: 'गोपूजा',
+            kannada: 'ಗೋಪೂಜಾ',
+            type: 'festival',
+            paksha: 'Krishna Paksha',
+            pakshaMarathi: 'कृष्ण पक्ष',
+            pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ',
+            tithi: 'Amavasya (New Moon)',
+            tithiMarathi: 'अमावस्या (अमावास्या)',
+            tithiKannada: 'ಅಮಾವಾಸ್ಯೆ (ಅಮಾವಾಸ್ಯೆ)',
+            masa: 'Ashwina Masa',
+            masaMarathi: 'आश्विन मास',
+            masaKannada: 'ಆಶ್ವಿನ ಮಾಸ'
+        }],
+
+        // Kartika Masa (November - December 2026)
+        '2026-11-10': [{ name: 'Bali Pratipada', marathi: 'बली प्रतिपदा', kannada: 'ಬಲಿ ಪ್ರತಿಪದಾ', type: 'festival', paksha: 'Shukla Paksha', pakshaMarathi: 'शुक्ल पक्ष', pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ', tithi: 'Pratipada (1st day)', tithiMarathi: 'प्रतिपदा (१ला दिन)', tithiKannada: 'ಪ್ರತಿಪದ (೧ನೇ ದಿನ)', masa: 'Kartika Masa', masaMarathi: 'कार्तिक मास', masaKannada: 'ಕಾರ್ತೀಕ ಮಾಸ' }],
+        '2026-11-16': [{ name: 'Shreemad Vyasa Teerth Swamiji\'s Punyatithi', marathi: 'श्रीमद् व्यास तीर्थ स्वामीजी पुण्यतिथि', kannada: 'ಶ್ರೀಮದ್ ವ್ಯಾಸ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ ಪುಣ್ಯತಿಥಿ', type: 'punyatithi', paksha: 'Shukla Paksha', pakshaMarathi: 'शुक्ल पक्ष', pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ', tithi: 'Saptami (7th day)', tithiMarathi: 'सप्तमी (७वा दिन)', tithiKannada: 'ಸಪ್ತಮಿ (೭ನೇ ದಿನ)', masa: 'Kartika Masa', masaMarathi: 'कार्तिक मास', masaKannada: 'ಕಾರ್ತೀಕ ಮಾಸ' }],
+        '2026-11-20': [{ name: 'Ekadashi Vrata', marathi: 'एकादशी व्रत', kannada: 'ಏಕಾದಶಿ ವ್ರತ', type: 'ekadashi', paksha: 'Shukla Paksha', pakshaMarathi: 'शुक्ल पक्ष', pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ', tithi: 'Ekadashi (11th day)', tithiMarathi: 'एकादशी (११वा दिन)', tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)', masa: 'Kartika Masa', masaMarathi: 'कार्तिक मास', masaKannada: 'ಕಾರ್ತೀಕ ಮಾಸ' }],
+        '2026-11-21': [{ name: 'Uthana Dwadashi, Tulasi Vivaha, Chaturmasya Dvidala Vrata Ends', marathi: 'उत्थान द्वादशी, तुलसी विवाह, चातुर्मास्य द्विदल व्रत समाप्ति', kannada: 'ಉತ್ಥಾನ ದ್ವಾದಶಿ, ತುಳಸಿ ವಿವಾಹ, ಚಾತುರ್ಮಾಸ್ಯ ದ್ವಿದಳ ವ್ರತ ಅಂತ್ಯ', type: 'vrata', paksha: 'Shukla Paksha', pakshaMarathi: 'शुक्ल पक्ष', pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ', tithi: 'Dwadashi (12th day)', tithiMarathi: 'द्वादशी (१२वा दिन)', tithiKannada: 'ದ್ವಾದಶಿ (೧೨ನೇ ದಿನ)', masa: 'Kartika Masa', masaMarathi: 'कार्तिक मास', masaKannada: 'ಕಾರ್ತೀಕ ಮಾಸ' }],
+        '2026-11-23': [{ name: 'Vaikuntha Chaturdashi', marathi: 'वैकुंठ चतुर्दशी', kannada: 'ವೈಕುಂಠ ಚತುರ್ದಶಿ', type: 'vrata', paksha: 'Shukla Paksha', pakshaMarathi: 'शुक्ल पक्ष', pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ', tithi: 'Chaturdashi (14th day)', tithiMarathi: 'चतुर्दशी (१४वा दिन)', tithiKannada: 'ಚತುರ್ದಶಿ (೧೪ನೇ ದಿನ)', masa: 'Kartika Masa', masaMarathi: 'कार्तिक मास', masaKannada: 'ಕಾರ್ತೀಕ ಮಾಸ' }],
+        '2026-11-24': [{ name: 'Kartika Poornima, Vanabhojana', marathi: 'कार्तिक पूर्णिमा, वनभोजन', kannada: 'ಕಾರ್ತೀಕ ಪೂರ್ಣಿಮಾ, ವನಭೋಜನ', type: 'purnima', paksha: 'Shukla Paksha', pakshaMarathi: 'शुक्ल पक्ष', pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ', tithi: 'Purnima (Full Moon)', tithiMarathi: 'पूर्णिमा (पौर्णिमा)', tithiKannada: 'ಪೂರ್ಣಿಮಾ (ಹುಣ್ಣಿಮೆ)', masa: 'Kartika Masa', masaMarathi: 'कार्तिक मास', masaKannada: 'ಕಾರ್ತೀಕ ಮಾಸ' }],
+        '2026-11-27': [{ name: 'Partagali Shree Ramdev Punarpratishtah Pratham Vardhanti', marathi: 'पर्तगाळी श्री रामदेव पुनर्प्रतिष्ठा प्रथम वर्धंति', kannada: 'ಪರ್ತಗಾಳಿ ಶ್ರೀ ರಾಮದೇವ ಪುನರ್ಪ್ರತಿಷ್ಠಾ ಪ್ರಥಮ ವರ್ಧಂತಿ', type: 'festival', paksha: 'Krishna Paksha', pakshaMarathi: 'कृष्ण पक्ष', pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ', tithi: 'Tritiya (3rd day)', tithiMarathi: 'तृतीया (३रा दिन)', tithiKannada: 'ತೃತೀಯಾ (೩ನೇ ದಿನ)', masa: 'Kartika Masa', masaMarathi: 'कार्तिक मास', masaKannada: 'ಕಾರ್ತೀಕ ಮಾಸ' }],
+        '2026-11-30': [{ name: 'Shreemad Anujeevottam Teerth Swamiji\'s (5) Punyatithi (389)', marathi: 'श्रीमद् अनुजीवोत्तम तीर्थ स्वामीजी (५) पुण्यतिथि (३८९)', kannada: 'ಶ್ರೀಮದ್ ಅನುಜೀವೋತ್ತಮ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೫) ಪುಣ್ಯತಿಥಿ (೩೮೯)', type: 'punyatithi', paksha: 'Krishna Paksha', pakshaMarathi: 'कृष्ण पक्ष', pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ', tithi: 'Saptami (7th day)', tithiMarathi: 'सप्तमी (७वा दिन)', tithiKannada: 'ಸಪ್ತಮಿ (೭ನೇ ದಿನ)', masa: 'Kartika Masa', masaMarathi: 'कार्तिक मास', masaKannada: 'ಕಾರ್ತೀಕ ಮಾಸ' }],
+        '2026-12-04': [{ name: 'Ekadashi Vrata', marathi: 'एकादशी व्रत', kannada: 'ಏಕಾದಶಿ ವ್ರತ', type: 'ekadashi', paksha: 'Krishna Paksha', pakshaMarathi: 'कृष्ण पक्ष', pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ', tithi: 'Ekadashi (11th day)', tithiMarathi: 'एकादशी (११वा दिन)', tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)', masa: 'Kartika Masa', masaMarathi: 'कार्तिक मास', masaKannada: 'ಕಾರ್ತೀಕ ಮಾಸ' }],
+
+        // Margasheersh Masa (December 2026 - January 2027)
+        '2026-12-09': [{ name: 'Shreemad Ramakanth Teerth Swamiji\'s (11) Punyatithi (276)', marathi: 'श्रीमद् रामकांत तीर्थ स्वामीजी (११) पुण्यतिथि (२७६)', kannada: 'ಶ್ರೀಮದ್ ರಾಮಕಾಂತ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೧೧) ಪುಣ್ಯತಿಥಿ (೨೭೬)', type: 'punyatithi', paksha: 'Shukla Paksha', pakshaMarathi: 'शुक्ल पक्ष', pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ', tithi: 'Pratipada (1st day)', tithiMarathi: 'प्रतिपदा (१ला दिन)', tithiKannada: 'ಪ್ರತಿಪದ (೧ನೇ ದಿನ)', masa: 'Margasheersh Masa', masaMarathi: 'मार्गशीर्ष मास', masaKannada: 'ಮಾರ್ಗಶೀರ್ಷ ಮಾಸ' }],
+        '2026-12-11': [{ name: 'Shreemad Lakshmikantha Teerth Swamiji\'s (10) Punyatithi (319)', marathi: 'श्रीमद् लक्ष्मीकांत तीर्थ स्वामीजी (१०) पुण्यतिथि (३१९)', kannada: 'ಶ್ರೀಮದ್ ಲಕ್ಷ್ಮೀಕಾಂತ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೧೦) ಪುಣ್ಯತಿಥಿ (೩೧೯)', type: 'punyatithi', paksha: 'Shukla Paksha', pakshaMarathi: 'शुक्ल पक्ष', pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ', tithi: 'Dwitiya (2nd day)', tithiMarathi: 'द्वितीया (२रा दिन)', tithiKannada: 'ದ್ವಿತೀಯ (೨ನೇ ದಿನ)', masa: 'Margasheersh Masa', masaMarathi: 'मार्गशीर्ष मास', masaKannada: 'ಮಾರ್ಗಶೀರ್ಷ ಮಾಸ' }],
+        '2026-12-15': [{ name: 'Champa Shashthi', marathi: 'चंपा षष्ठी', kannada: 'ಚಂಪಾ ಷಷ್ಠಿ', type: 'festival', paksha: 'Shukla Paksha', pakshaMarathi: 'शुक्ल पक्ष', pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ', tithi: 'Shashthi (6th day)', tithiMarathi: 'षष्ठी (६वा दिन)', tithiKannada: 'ಷಷ್ಠಿ (೬ನೇ ದಿನ)', masa: 'Margasheersh Masa', masaMarathi: 'मार्गशीर्ष मास', masaKannada: 'ಮಾರ್ಗಶೀರ್ಷ ಮಾಸ' }],
+        '2026-12-18': [{ name: 'Shreemad Bhoovijayaramachandra Teerth Swamiji\'s (14) Punyatithi (223)', marathi: 'श्रीमद् भूविजयरामचंद्र तीर्थ स्वामीजी (१४) पुण्यतिथि (२२३)', kannada: 'ಶ್ರೀಮದ್ ಭೂವಿಜಯರಾಮಚಂದ್ರ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೧೪) ಪುಣ್ಯತಿಥಿ (೨೨೩)', type: 'punyatithi', paksha: 'Shukla Paksha', pakshaMarathi: 'शुक्ल पक्ष', pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ', tithi: 'Navami (9th day)', tithiMarathi: 'नवमी (९वा दिन)', tithiKannada: 'ನವಮಿ (೯ನೇ ದಿನ)', masa: 'Margasheersh Masa', masaMarathi: 'मार्गशीर्ष मास', masaKannada: 'ಮಾರ್ಗಶೀರ್ಷ ಮಾಸ' }],
+        '2026-12-20': [{ name: 'Ekadashi Vrata', marathi: 'एकादशी व्रत', kannada: 'ಏಕಾದಶಿ ವ್ರತ', type: 'ekadashi', paksha: 'Shukla Paksha', pakshaMarathi: 'शुक्ल पक्ष', pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ', tithi: 'Ekadashi (11th day)', tithiMarathi: 'एकादशी (११वा दिन)', tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)', masa: 'Margasheersh Masa', masaMarathi: 'मार्गशीर्ष मास', masaKannada: 'ಮಾರ್ಗಶೀರ್ಷ ಮಾಸ' }],
+        '2026-12-21': [{ name: 'Chandramukkotti, Afternoon before 01:20 Dwadashi Parane to be observed', marathi: 'चंद्रमुक्कोटी, दुपारी ०१:२० पूर्वी द्वादशी पारणे पाळावे', kannada: 'ಚಂದ್ರಮುಕ್ಕೋಟಿ, ಮಧ್ಯಾಹ್ನ ೦೧:೨೦ ಮೊದಲು ದ್ವಾದಶಿ ಪಾರಣೆ ಆಚರಿಸಬೇಕು', type: 'parane', paksha: 'Shukla Paksha', pakshaMarathi: 'शुक्ल पक्ष', pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ', tithi: 'Dwadashi (12th day)', tithiMarathi: 'द्वादशी (१२वा दिन)', tithiKannada: 'ದ್ವಾದಶಿ (೧೨ನೇ ದಿನ)', masa: 'Margasheersh Masa', masaMarathi: 'मार्गशीर्ष मास', masaKannada: 'ಮಾರ್ಗಶೀರ್ಷ ಮಾಸ' }],
+        '2026-12-23': [{ name: 'Shree Dattajayanti', marathi: 'श्री दत्तजयंती', kannada: 'ಶ್ರೀ ದತ್ತಜಯಂತಿ', type: 'jayanti', paksha: 'Shukla Paksha', pakshaMarathi: 'शुक्ल पक्ष', pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ', tithi: 'Purnima (Full Moon)', tithiMarathi: 'पूर्णिमा (पौर्णिमा)', tithiKannada: 'ಪೂರ್ಣಿಮಾ (ಹುಣ್ಣಿಮೆ)', masa: 'Margasheersh Masa', masaMarathi: 'मार्गशीर्ष मास', masaKannada: 'ಮಾರ್ಗಶೀರ್ಷ ಮಾಸ' }],
+        '2026-12-25': [{ name: 'Shreemad Purushottama Teerth Swamiji\'s (4) Punyatithi (458)', marathi: 'श्रीमद् पुरुषोत्तम तीर्थ स्वामीजी (४) पुण्यतिथि (४५८)', kannada: 'ಶ್ರೀಮದ್ ಪುರುಷೋತ್ತಮ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೪) ಪುಣ್ಯತಿಥಿ (೪೫೮)', type: 'punyatithi', paksha: 'Krishna Paksha', pakshaMarathi: 'कृष्ण पक्ष', pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ', tithi: 'Dwitiya (2nd day)', tithiMarathi: 'द्वितीया (२रा दिन)', tithiKannada: 'ದ್ವಿತೀಯ (೨ನೇ ದಿನ)', masa: 'Margasheersh Masa', masaMarathi: 'मार्गशीर्ष मास', masaKannada: 'ಮಾರ್ಗಶೀರ್ಷ ಮಾಸ' }],
+        '2026-12-29': [{ name: 'Shreemad Narihari Teerth Swamiji\'s Punyatithi (129)', marathi: 'श्रीमद् नरिहरी तीर्थ स्वामीजी पुण्यतिथि (१२९)', kannada: 'ಶ್ರೀಮದ್ ನರಿಹರಿ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ ಪುಣ್ಯತಿಥಿ (೧೨೯)', type: 'punyatithi', paksha: 'Krishna Paksha', pakshaMarathi: 'कृष्ण पक्ष', pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ', tithi: 'Shashthi (6th day)', tithiMarathi: 'षष्ठी (६वा दिन)', tithiKannada: 'ಷಷ್ಠಿ (೬ನೇ ದಿನ)', masa: 'Margasheersh Masa', masaMarathi: 'मार्गशीर्ष मास', masaKannada: 'ಮಾರ್ಗಶೀರ್ಷ ಮಾಸ' }],
+        '2027-01-01': [{ name: 'Shreemad Laxminath Teerth Swamiji\'s (16) Punyatithi (203)', marathi: 'श्रीमद् लक्ष्मीनाथ तीर्थ स्वामीजी (१६) पुण्यतिथि (२०३)', kannada: 'ಶ್ರೀಮದ್ ಲಕ್ಷ್ಮೀನಾಥ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೧೬) ಪುಣ್ಯತಿಥಿ (೨೦೩)', type: 'punyatithi', paksha: 'Krishna Paksha', pakshaMarathi: 'कृष्ण पक्ष', pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ', tithi: 'Navami (9th day)', tithiMarathi: 'नवमी (९वा दिन)', tithiKannada: 'ನವಮಿ (೯ನೇ ದಿನ)', masa: 'Margasheersh Masa', masaMarathi: 'मार्गशीर्ष मास', masaKannada: 'ಮಾರ್ಗಶೀರ್ಷ ಮಾಸ' }],
+        '2027-01-03': [{ name: 'Ekadashi Vrata', marathi: 'एकादशी व्रत', kannada: 'ಏಕಾದಶಿ ವ್ರತ', type: 'ekadashi', paksha: 'Krishna Paksha', pakshaMarathi: 'कृष्ण पक्ष', pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ', tithi: 'Ekadashi (11th day)', tithiMarathi: 'एकादशी (११वा दिन)', tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)', masa: 'Margasheersh Masa', masaMarathi: 'मार्गशीर्ष मास', masaKannada: 'ಮಾರ್ಗಶೀರ್ಷ ಮಾಸ' }],
+
+        // Pousha Masa (January - February 2027)
+        '2027-01-14': [{ name: 'Makara Sankranti', marathi: 'मकर संक्रांति', kannada: 'ಮಕರ ಸಂಕ್ರಾಂತಿ', type: 'sankranti', paksha: 'Shukla Paksha', pakshaMarathi: 'शुक्ल पक्ष', pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ', tithi: 'Shashthi (6th day)', tithiMarathi: 'षष्ठी (६वा दिन)', tithiKannada: 'ಷಷ್ಠಿ (೬ನೇ ದಿನ)', masa: 'Pousha Masa', masaMarathi: 'पौष मास', masaKannada: 'ಪೌಷ ಮಾಸ' }],
+        '2027-01-16': [{ name: 'Shreemad Kamalanath Teerth Swamiji\'s (12) Punyatithi (268)', marathi: 'श्रीमद् कमलानाथ तीर्थ स्वामीजी (१२) पुण्यतिथि (२६८)', kannada: 'ಶ್ರೀಮದ್ ಕಮಲಾನಾಥ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೧೨) ಪುಣ್ಯತಿಥಿ (೨೬೮)', type: 'punyatithi', paksha: 'Shukla Paksha', pakshaMarathi: 'शुक्ल पक्ष', pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ', tithi: 'Ashtami (8th day)', tithiMarathi: 'अष्टमी (८वा दिन)', tithiKannada: 'ಅಷ್ಟಮಿ (೮ನೇ ದಿನ)', masa: 'Pousha Masa', masaMarathi: 'पौष मास', masaKannada: 'ಪೌಷ ಮಾಸ' }],
+        '2027-01-19': [{ name: 'Ekadashi Vrata', marathi: 'एकादशी व्रत', kannada: 'ಏಕಾದಶಿ ವ್ರತ', type: 'ekadashi', paksha: 'Shukla Paksha', pakshaMarathi: 'शुक्ल पक्ष', pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ', tithi: 'Ekadashi (11th day)', tithiMarathi: 'एकादशी (११वा दिन)', tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)', masa: 'Pousha Masa', masaMarathi: 'पौष मास', masaKannada: 'ಪೌಷ ಮಾಸ' }],
+        '2027-01-20': [{ name: 'Ayodhya Shree Ramlalla Third Pratishtha Vardhanti Mahotsava', marathi: 'अयोध्या श्री रामलल्ला तृतीय प्रतिष्ठा वर्धंति महोत्सव', kannada: 'ಅಯೋಧ್ಯಾ ಶ್ರೀ ರಾಮಲಲ್ಲಾ ತೃತೀಯ ಪ್ರತಿಷ್ಠಾ ವರ್ಧಂತಿ ಮಹೋತ್ಸವ', type: 'major', paksha: 'Shukla Paksha', pakshaMarathi: 'शुक्ल पक्ष', pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ', tithi: 'Dwadashi (12th day)', tithiMarathi: 'द्वादशी (१२वा दिन)', tithiKannada: 'ದ್ವಾದಶಿ (೧೨ನೇ ದಿನ)', masa: 'Pousha Masa', masaMarathi: 'पौष मास', masaKannada: 'ಪೌಷ ಮಾಸ' }],
+        '2027-01-22': [{ name: 'Shreemad Raghuchandra Teerth Swamiji\'s (8) Punyatithi (343)', marathi: 'श्रीमद् रघुचंद्र तीर्थ स्वामीजी (८) पुण्यतिथि (३४३)', kannada: 'ಶ್ರೀಮದ್ ರಘುಚಂದ್ರ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೮) ಪುಣ್ಯತಿಥಿ (೩೪೩)', type: 'punyatithi', paksha: 'Shukla Paksha', pakshaMarathi: 'शुक्ल पक्ष', pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ', tithi: 'Purnima (Full Moon)', tithiMarathi: 'पूर्णिमा (पौर्णिमा)', tithiKannada: 'ಪೂರ್ಣಿಮಾ (ಹುಣ್ಣಿಮೆ)', masa: 'Pousha Masa', masaMarathi: 'पौष मास', masaKannada: 'ಪೌಷ ಮಾಸ' }],
+        '2027-02-02': [{ name: 'Ekadashi Vrata', marathi: 'एकादशी व्रत', kannada: 'ಏಕಾದಶಿ ವ್ರತ', type: 'ekadashi', paksha: 'Krishna Paksha', pakshaMarathi: 'कृष्ण पक्ष', pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ', tithi: 'Ekadashi (11th day)', tithiMarathi: 'एकादशी (११वा दिन)', tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)', masa: 'Pousha Masa', masaMarathi: 'पौष मास', masaKannada: 'ಪೌಷ ಮಾಸ' }],
+
+        // Magha Masa (February - March 2027)
+        '2027-02-13': [{ name: 'Rathesaptami', marathi: 'रथसप्तमी', kannada: 'ರಥಸಪ್ತಮಿ', type: 'festival', paksha: 'Shukla Paksha', pakshaMarathi: 'शुक्ल पक्ष', pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ', tithi: 'Saptami (7th day)', tithiMarathi: 'सप्तमी (७वा दिन)', tithiKannada: 'ಸಪ್ತಮಿ (೭ನೇ ದಿನ)', masa: 'Magha Masa', masaMarathi: 'माघ मास', masaKannada: 'ಮಾಘ ಮಾಸ' }],
+        '2027-02-14': [{ name: 'Bhishmashtami', marathi: 'भीष्माष्टमी', kannada: 'ಭೀಷ್ಮಾಷ್ಟಮಿ', type: 'festival', paksha: 'Shukla Paksha', pakshaMarathi: 'शुक्ल पक्ष', pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ', tithi: 'Ashtami (8th day)', tithiMarathi: 'अष्टमी (८वा दिन)', tithiKannada: 'ಅಷ್ಟಮಿ (೮ನೇ ದಿನ)', masa: 'Magha Masa', masaMarathi: 'माघ मास', masaKannada: 'ಮಾಘ ಮಾಸ' }],
+        '2027-02-15': [{ name: 'Madhwanavami', marathi: 'मध्वनवमी', kannada: 'ಮಧ್ವನವಮಿ', type: 'major', paksha: 'Shukla Paksha', pakshaMarathi: 'शुक्ल पक्ष', pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ', tithi: 'Navami (9th day)', tithiMarathi: 'नवमी (९वा दिन)', tithiKannada: 'ನವಮಿ (೯ನೇ ದಿನ)', masa: 'Magha Masa', masaMarathi: 'माघ मास', masaKannada: 'ಮಾಘ ಮಾಸ' }],
+        '2027-02-17': [{ name: 'Ekadashi Vrata', marathi: 'एकादशी व्रत', kannada: 'ಏಕಾದಶಿ ವ್ರತ', type: 'ekadashi', paksha: 'Shukla Paksha', pakshaMarathi: 'शुक्ल पक्ष', pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ', tithi: 'Ekadashi (11th day)', tithiMarathi: 'एकादशी (११वा दिन)', tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)', masa: 'Magha Masa', masaMarathi: 'माघ मास', masaKannada: 'ಮಾಘ ಮಾಸ' }],
+        '2027-02-18': [{ name: 'Morning before 11:00 Dwadashi Parane to be observed', marathi: 'सकाळी ११:०० पूर्वी द्वादशी पारणे पाळावे', kannada: 'ಬೆಳಿಗ್ಗೆ ೧೧:೦೦ ಮೊದಲು ದ್ವಾದಶಿ ಪಾರಣೆ ಆಚರಿಸಬೇಕು', type: 'parane', paksha: 'Shukla Paksha', pakshaMarathi: 'शुक्ल पक्ष', pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ', tithi: 'Dwadashi (12th day)', tithiMarathi: 'द्वादशी (१२वा दिन)', tithiKannada: 'ದ್ವಾದಶಿ (೧೨ನೇ ದಿನ)', masa: 'Magha Masa', masaMarathi: 'माघ मास', masaKannada: 'ಮಾಘ ಮಾಸ' }],
+        '2027-03-01': [{ name: 'Shreemad Digvijayaramachandra Teerth Swamiji\'s (7) Punyatithi (357)', marathi: 'श्रीमद् दिग्विजयरामचंद्र तीर्थ स्वामीजी (७) पुण्यतिथि (३५७)', kannada: 'ಶ್ರೀಮದ್ ದಿಗ್ವಿಜಯರಾಮಚಂದ್ರ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೭) ಪುಣ್ಯತಿಥಿ (೩೫೭)', type: 'punyatithi', paksha: 'Krishna Paksha', pakshaMarathi: 'कृष्ण पक्ष', pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ', tithi: 'Navami (9th day)', tithiMarathi: 'नवमी (९वा दिन)', tithiKannada: 'ನವಮಿ (೯ನೇ ದಿನ)', masa: 'Magha Masa', masaMarathi: 'माघ मास', masaKannada: 'ಮಾಘ ಮಾಸ' }],
+        '2027-03-04': [{ name: 'Ekadashi Vrata', marathi: 'एकादशी व्रत', kannada: 'ಏಕಾದಶಿ ವ್ರತ', type: 'ekadashi', paksha: 'Krishna Paksha', pakshaMarathi: 'कृष्ण पक्ष', pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ', tithi: 'Ekadashi (11th day)', tithiMarathi: 'एकादशी (११वा दिन)', tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)', masa: 'Magha Masa', masaMarathi: 'माघ मास', masaKannada: 'ಮಾಘ ಮಾಸ' }],
+        '2027-03-05': [{ name: 'Morning before 10:20 Dwadashi Parane to be observed', marathi: 'सकाळी १०:२० पूर्वी द्वादशी पारणे पाळावे', kannada: 'ಬೆಳಿಗ್ಗೆ ೧೦:೨೦ ಮೊದಲು ದ್ವಾದಶಿ ಪಾರಣೆ ಆಚರಿಸಬೇಕು', type: 'parane', paksha: 'Krishna Paksha', pakshaMarathi: 'कृष्ण पक्ष', pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ', tithi: 'Dwadashi (12th day)', tithiMarathi: 'द्वादशी (१२वा दिन)', tithiKannada: 'ದ್ವಾದಶಿ (೧೨ನೇ ದಿನ)', masa: 'Magha Masa', masaMarathi: 'माघ मास', masaKannada: 'ಮಾಘ ಮಾಸ' }],
+        '2027-03-06': [{ name: 'Mahashivaratri', marathi: 'महाशिवरात्री', kannada: 'ಮಹಾಶಿವರಾತ್ರಿ', type: 'major', paksha: 'Krishna Paksha', pakshaMarathi: 'कृष्ण पक्ष', pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ', tithi: 'Chaturdashi (14th day)', tithiMarathi: 'चतुर्दशी (१४वा दिन)', tithiKannada: 'ಚತುರ್ದಶಿ (೧೪ನೇ ದಿನ)', masa: 'Magha Masa', masaMarathi: 'माघ मास', masaKannada: 'ಮಾಘ ಮಾಸ' }],
+
+        // Phalguna Masa (March - April 2027)
+        '2027-03-18': [{ name: 'Ekadashi Vrata', marathi: 'एकादशी व्रत', kannada: 'ಏಕಾದಶಿ ವ್ರತ', type: 'ekadashi', paksha: 'Shukla Paksha', pakshaMarathi: 'शुक्ल पक्ष', pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ', tithi: 'Ekadashi (11th day)', tithiMarathi: 'एकादशी (११वा दिन)', tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)', masa: 'Phalguna Masa', masaMarathi: 'फाल्गुन मास', masaKannada: 'ಫಾಲ್ಗುಣ ಮಾಸ' }],
+        '2027-03-21': [{ name: 'Holikadahan', marathi: 'होलिकादहन', kannada: 'ಹೋಲಿಕಾದಹನ', type: 'festival', paksha: 'Shukla Paksha', pakshaMarathi: 'शुक्ल पक्ष', pakshaKannada: 'ಶುಕ್ಲ ಪಕ್ಷ', tithi: 'Chaturdashi (14th day)', tithiMarathi: 'चतुर्दशी (१४वा दिन)', tithiKannada: 'ಚತುರ್ದಶಿ (೧೪ನೇ ದಿನ)', masa: 'Phalguna Masa', masaMarathi: 'फाल्गुन मास', masaKannada: 'ಫಾಲ್ಗುಣ ಮಾಸ' }],
+        '2027-03-28': [{ name: 'Shreemad Dwarakanath Teerth Swamiji\'s (22) Punyatithi (54)', marathi: 'श्रीमद् द्वारकानाथ तीर्थ स्वामीजी (२२) पुण्यतिथि (५४)', kannada: 'ಶ್ರೀಮದ್ ದ್ವಾರಕಾನಾಥ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೨೨) ಪುಣ್ಯತಿಥಿ (೫೪)', type: 'punyatithi', paksha: 'Krishna Paksha', pakshaMarathi: 'कृष्ण पक्ष', pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ', tithi: 'Shashthi (6th day)', tithiMarathi: 'षष्ठी (६वा दिन)', tithiKannada: 'ಷಷ್ಠಿ (೬ನೇ ದಿನ)', masa: 'Phalguna Masa', masaMarathi: 'फाल्गुन मास', masaKannada: 'ಫಾಲ್ಗುಣ ಮಾಸ' }],
+        '2027-03-29': [{ name: 'Shreemad Laxminarayan Teerth Swamiji\'s (9) Punyatithi (323)', marathi: 'श्रीमद् लक्ष्मीनारायण तीर्थ स्वामीजी (९) पुण्यतिथि (३२३)', kannada: 'ಶ್ರೀಮದ್ ಲಕ್ಷ್ಮೀನಾರಾಯಣ ತೀರ್ಥ ಸ್ವಾಮೀಜಿ (೯) ಪುಣ್ಯತಿಥಿ (೩೨೩)', type: 'punyatithi', paksha: 'Krishna Paksha', pakshaMarathi: 'कृष्ण पक्ष', pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ', tithi: 'Saptami (7th day)', tithiMarathi: 'सप्तमी (७वा दिन)', tithiKannada: 'ಸಪ್ತಮಿ (೭ನೇ ದಿನ)', masa: 'Phalguna Masa', masaMarathi: 'फाल्गुन मास', masaKannada: 'ಫಾಲ್ಗುಣ ಮಾಸ' }],
+        '2027-04-02': [{ name: 'Ekadashi Vrata', marathi: 'एकादशी व्रत', kannada: 'ಏಕಾದಶಿ ವ್ರತ', type: 'ekadashi', paksha: 'Krishna Paksha', pakshaMarathi: 'कृष्ण पक्ष', pakshaKannada: 'ಕೃಷ್ಣ ಪಕ್ಷ', tithi: 'Ekadashi (11th day)', tithiMarathi: 'एकादशी (११वा दिन)', tithiKannada: 'ಏಕಾದಶಿ (೧೧ನೇ ದಿನ)', masa: 'Phalguna Masa', masaMarathi: 'फाल्गुन मास', masaKannada: 'ಫಾಲ್ಗುಣ ಮಾಸ' }],
+    };
+    const partagaliMonthNames = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    const partagaliDayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    function partagaliChangeLanguage(lang) {
+        partagaliCurrentLanguage = lang;
+        document.querySelectorAll('.partagali-lang-btn').forEach(btn => {
+            btn.classList.remove('partagali-active');
+        });
+        document.querySelector(`[data-lang="${lang}"]`).classList.add('partagali-active');
+        const legendTexts = {
+            english: {
+                major: 'Major Festivals',
+                festivals: 'Festivals',
+                ekadashi: 'Ekadashi'
+            },
+            marathi: {
+                major: 'मुख्य त्योहार',
+                festivals: 'त्योहार',
+                ekadashi: 'एकादशी'
+            },
+            kannada: {
+                major: 'ಮುಖ್ಯ ಹಬ್ಬಗಳು',
+                festivals: 'ಹಬ್ಬಗಳು',
+                ekadashi: 'ಏಕಾದಶಿ'
+            }
+        };
+        document.getElementById('partagali-majorFestivalsText').textContent = legendTexts[lang].major;
+        document.getElementById('partagali-festivalsText').textContent = legendTexts[lang].festivals;
+        document.getElementById('partagali-ekadasiText').textContent = legendTexts[lang].ekadashi;
+        partagaliGenerateCalendar(partagaliCurrentDate.getFullYear(), partagaliCurrentDate.getMonth());
+    }
+
+    function partagaliGetFestivalName(festival) {
+        switch (partagaliCurrentLanguage) {
+            case 'marathi': return festival.marathi;
+            case 'kannada': return festival.kannada;
+            default: return festival.name;
+        }
+    }
+    function partagaliGenerateCalendar(year, month) {
+        const calendar = document.getElementById('partagali-calendar');
+        calendar.innerHTML = '';
+        partagaliDayNames.forEach(day => {
+            const dayHeader = document.createElement('div');
+            dayHeader.className = 'partagali-day-header';
+            dayHeader.textContent = day;
+            calendar.appendChild(dayHeader);
+        });
+        const firstDay = new Date(year, month, 1);
+        const lastDay = new Date(year, month + 1, 0);
+        const daysInMonth = lastDay.getDate();
+        const startingDayOfWeek = firstDay.getDay();
+        for (let i = 0; i < startingDayOfWeek; i++) {
+            const emptyCell = document.createElement('div');
+            emptyCell.className = 'partagali-day-cell partagali-other-month';
+            const prevMonth = new Date(year, month, 0);
+            const prevDate = prevMonth.getDate() - startingDayOfWeek + i + 1;
+            emptyCell.innerHTML = `<div class="partagali-day-number">${prevDate}</div>`;
+            calendar.appendChild(emptyCell);
+        }
+        for (let day = 1; day <= daysInMonth; day++) {
+            const cellDate = new Date(year, month, day);
+            const dayCell = document.createElement('div');
+            dayCell.className = 'partagali-day-cell';
+            const today = new Date();
+            if (cellDate.toDateString() === today.toDateString()) {
+                dayCell.classList.add('partagali-today');
+            }
+            const dayNumber = document.createElement('div');
+            dayNumber.className = 'partagali-day-number';
+            dayNumber.textContent = day;
+            dayCell.appendChild(dayNumber);
+            // Add festivals
+            const dateKey = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            if (partagaliFestivals[dateKey]) {
+                partagaliFestivals[dateKey].forEach(festival => {
+                    const festivalDiv = document.createElement('div');
+                    festivalDiv.className = `partagali-festival partagali-${festival.type}`;
+                    festivalDiv.textContent = partagaliGetFestivalName(festival);
+                    festivalDiv.onclick = (e) => {
+                        e.stopPropagation();
+                        partagaliShowFestivalDetails(dateKey, partagaliFestivals[dateKey]);
+                    };
+                    dayCell.appendChild(festivalDiv);
+                });
+            }
+            dayCell.onclick = () => {
+                if (partagaliFestivals[dateKey]) {
+                    partagaliShowFestivalDetails(dateKey, partagaliFestivals[dateKey]);
+                }
+            };
+            calendar.appendChild(dayCell);
+        }
+        const totalCellsUsed = startingDayOfWeek + daysInMonth;
+        const remainingCells = 42 - totalCellsUsed;
+        for (let day = 1; day <= remainingCells; day++) {
+            const emptyCell = document.createElement('div');
+            emptyCell.className = 'partagali-day-cell partagali-other-month';
+            emptyCell.innerHTML = `<div class="partagali-day-number">${day}</div>`;
+            calendar.appendChild(emptyCell);
+        }
+        const hinduMasa = partagaliHinduMasas[year][month][partagaliCurrentLanguage];
+        document.getElementById('partagali-currentMonth').innerHTML =
+            `${partagaliMonthNames[month]} ${year}<br><span style="font-size: 1rem; color: #ff6b35; font-weight: normal;">${hinduMasa}</span>`;
+    }
+    function partagaliChangeMonth(direction) {
+        const newDate = new Date(partagaliCurrentDate);
+        newDate.setMonth(newDate.getMonth() + direction);
+        if (newDate.getFullYear() < 2025 || newDate.getFullYear() > 2027) {
+            return;
+        }
+        partagaliCurrentDate = newDate;
+        partagaliGenerateCalendar(partagaliCurrentDate.getFullYear(), partagaliCurrentDate.getMonth());
+    }
+    function partagaliShowFestivalDetails(date, festivalList) {
+        const modal = document.getElementById('partagali-festivalModal');
+        const modalDate = document.getElementById('partagali-modalDate');
+        const modalFestivals = document.getElementById('partagali-modalFestivals');
+        const dateObj = new Date(date);
+        modalDate.textContent = dateObj.toLocaleDateString('en-US', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+        modalFestivals.innerHTML = '';
+        festivalList.forEach(festival => {
+            const festivalDiv = document.createElement('div');
+            let festivalName, masa, paksha, tithi, lunarTitle;
+            switch (partagaliCurrentLanguage) {
+                case 'marathi':
+                    festivalName = festival.marathi;
+                    masa = festival.masaMarathi || 'N/A';
+                    paksha = festival.pakshaMarathi || 'N/A';
+                    tithi = festival.tithiMarathi || 'N/A';
+                    lunarTitle = '🌙 चांद्र कैलेंडर माहिती';
+                    break;
+                case 'kannada':
+                    festivalName = festival.kannada;
+                    masa = festival.masaKannada || 'N/A';
+                    paksha = festival.pakshaKannada || 'N/A';
+                    tithi = festival.tithiKannada || 'N/A';
+                    lunarTitle = '🌙 ಚಂದ್ರ ಕ್ಯಾಲೆಂಡರ್ ಮಾಹಿತಿ';
+                    break;
+                default: // English
+                    festivalName = festival.name;
+                    masa = festival.masa || 'N/A';
+                    paksha = festival.paksha || 'N/A';
+                    tithi = festival.tithi || 'N/A';
+                    lunarTitle = '🌙 Lunar Calendar Information';
+                    break;
+            }
+            // Lunar information section
+            const lunarInfo = `
+            <div class="partagali-lunar-info">
+                <h4>${lunarTitle}</h4>
+                <p><strong>Masa:</strong> ${masa}</p>
+                <p><strong>Paksha:</strong> ${paksha}</p>
+                <p><strong>Tithi:</strong> ${tithi}</p>
+            </div>
+        `;
+            festivalDiv.innerHTML = `
+            <h3>${festivalName}</h3>
+            ${lunarInfo}
+        `;
+            modalFestivals.appendChild(festivalDiv);
+        });
+        modal.style.display = 'block';
+    }
+    function partagaliCloseModal() {
+        document.getElementById('partagali-festivalModal').style.display = 'none';
+    }
+    window.onclick = function (event) {
+        const modal = document.getElementById('partagali-festivalModal');
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    }
+    partagaliChangeLanguage('english');
+</script>
