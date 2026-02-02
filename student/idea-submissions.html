@@ -578,6 +578,15 @@
             color: #7B3FB5;
         }
 
+        /* Header Panel Active States */
+        #notificationPanel.active,
+        #helpModal.active,
+        #profileDropdown.active {
+            display: block !important;
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .content-wrapper {
@@ -825,6 +834,38 @@
                     script.textContent = sidebarScript.textContent;
                     document.body.appendChild(script);
                 }
+
+                // Set active sidebar menu item after sidebar is loaded
+                setTimeout(() => {
+                    const currentPage = window.location.pathname.split('/').pop() || 'idea-submissions.html';
+                    const navItems = document.querySelectorAll('.nav-item');
+
+                    navItems.forEach(item => {
+                        const href = item.getAttribute('href');
+
+                        // Remove active class from all items first
+                        item.classList.remove('nav-item-active');
+
+                        // Find the icon and update fill state
+                        const icon = item.querySelector('.material-symbols-outlined');
+                        if (icon) {
+                            icon.classList.remove('filled');
+                            icon.style.fontVariationSettings = "'FILL' 0";
+                        }
+
+                        // Add active class to matching item
+                        if (href === currentPage ||
+                            (currentPage === 'idea-submissions.html' && href === 'idea-submissions.html')) {
+                            item.classList.add('nav-item-active');
+                            if (icon) {
+                                icon.classList.add('filled');
+                                icon.style.fontVariationSettings = "'FILL' 1";
+                            }
+                        }
+                    });
+
+                    console.log('Sidebar active menu item set for:', currentPage);
+                }, 200);
             })
             .catch(error => console.error('Error loading sidebar:', error));
     </script>
@@ -864,6 +905,125 @@
                     script.textContent = headerScript.textContent;
                     document.body.appendChild(script);
                 }
+
+                // Initialize header functionality after everything is loaded
+                setTimeout(() => {
+                    console.log('Initializing student header functionality...');
+
+                    // Notification Panel
+                    const notificationBtn = document.querySelector('.header-icon-btn:has(.material-symbols-outlined:contains("notifications"))');
+                    const notificationBtnActual = Array.from(document.querySelectorAll('.header-icon-btn')).find(btn =>
+                        btn.querySelector('.material-symbols-outlined')?.textContent.trim() === 'notifications'
+                    );
+                    const notificationPanelElement = document.getElementById('notificationPanel');
+
+                    if (notificationBtnActual && notificationPanelElement) {
+                        notificationBtnActual.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            console.log('Notification button clicked');
+
+                            // Close other panels
+                            const helpModalElement = document.getElementById('helpModal');
+                            const profileDropdownElement = document.getElementById('profileDropdown');
+                            if (helpModalElement) helpModalElement.classList.remove('active');
+                            if (profileDropdownElement) profileDropdownElement.classList.remove('active');
+
+                            // Toggle notification panel
+                            notificationPanelElement.classList.toggle('active');
+                        });
+                    }
+
+                    // Help Modal
+                    const helpBtnActual = Array.from(document.querySelectorAll('.header-icon-btn')).find(btn =>
+                        btn.querySelector('.material-symbols-outlined')?.textContent.trim() === 'help'
+                    );
+                    const helpModalElement = document.getElementById('helpModal');
+
+                    if (helpBtnActual && helpModalElement) {
+                        helpBtnActual.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            console.log('Help button clicked');
+
+                            // Close other panels
+                            if (notificationPanelElement) notificationPanelElement.classList.remove('active');
+                            const profileDropdownElement = document.getElementById('profileDropdown');
+                            if (profileDropdownElement) profileDropdownElement.classList.remove('active');
+
+                            // Toggle help modal
+                            helpModalElement.classList.toggle('active');
+                        });
+
+                        // Close help modal when clicking close button
+                        const closeHelpBtn = helpModalElement.querySelector('.close-modal-btn');
+                        if (closeHelpBtn) {
+                            closeHelpBtn.addEventListener('click', function(e) {
+                                e.stopPropagation();
+                                helpModalElement.classList.remove('active');
+                            });
+                        }
+                    }
+
+                    // Profile Dropdown
+                    const headerAvatar = document.querySelector('.header-avatar');
+                    const profileDropdownElement = document.getElementById('profileDropdown');
+
+                    if (headerAvatar && profileDropdownElement) {
+                        headerAvatar.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            console.log('Profile avatar clicked');
+
+                            // Close other panels
+                            if (notificationPanelElement) notificationPanelElement.classList.remove('active');
+                            if (helpModalElement) helpModalElement.classList.remove('active');
+
+                            // Toggle profile dropdown
+                            profileDropdownElement.classList.toggle('active');
+                        });
+                    }
+
+                    // Close panels when clicking outside
+                    document.addEventListener('click', function(e) {
+                        if (notificationPanelElement && !notificationPanelElement.contains(e.target)) {
+                            notificationPanelElement.classList.remove('active');
+                        }
+                        if (helpModalElement && !helpModalElement.contains(e.target)) {
+                            helpModalElement.classList.remove('active');
+                        }
+                        if (profileDropdownElement && !profileDropdownElement.contains(e.target)) {
+                            profileDropdownElement.classList.remove('active');
+                        }
+                    });
+
+                    // Prevent clicks inside panels from closing them
+                    if (notificationPanelElement) {
+                        notificationPanelElement.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                        });
+                    }
+                    if (helpModalElement) {
+                        helpModalElement.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                        });
+                    }
+                    if (profileDropdownElement) {
+                        profileDropdownElement.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                        });
+                    }
+
+                    // Sidebar Toggle
+                    const sidebarToggleBtn = document.getElementById('sidebarToggleBtn');
+                    const sidebar = document.getElementById('studentAppSidebar');
+
+                    if (sidebarToggleBtn && sidebar) {
+                        sidebarToggleBtn.addEventListener('click', function() {
+                            sidebar.classList.toggle('collapsed');
+                            console.log('Sidebar toggled');
+                        });
+                    }
+
+                    console.log('Student header functionality initialized successfully');
+                }, 100);
             })
             .catch(error => console.error('Error loading header:', error));
     </script>
