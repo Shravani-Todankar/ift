@@ -846,6 +846,20 @@
                 justify-content: space-between !important;
             }
         }
+
+        /* Header Panel Active States */
+        #notificationPanel.active,
+        #helpModal.active,
+        #profileDropdown.active {
+            display: block !important;
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+
+        #mobileMenuPanel.active {
+            display: block !important;
+            opacity: 1 !important;
+        }
     </style>
 </head>
 
@@ -1057,6 +1071,39 @@
             .then(response => response.text())
             .then(data => {
                 document.getElementById('sidebar-container').innerHTML = data;
+
+                // Set active sidebar menu item after sidebar is loaded
+                setTimeout(() => {
+                    const currentPage = window.location.pathname.split('/').pop() || 'dashboard.html';
+                    const navItems = document.querySelectorAll('.nav-item');
+
+                    navItems.forEach(item => {
+                        const href = item.getAttribute('href');
+
+                        // Remove active class from all items first
+                        item.classList.remove('nav-item-active');
+
+                        // Find the icon and update fill state
+                        const icon = item.querySelector('.material-symbols-outlined');
+                        if (icon) {
+                            icon.classList.remove('filled');
+                            icon.style.fontVariationSettings = "'FILL' 0";
+                        }
+
+                        // Add active class to matching item
+                        if (href === currentPage ||
+                            (currentPage === '' && href === 'dashboard.html') ||
+                            (currentPage === 'index.html' && href === 'dashboard.html')) {
+                            item.classList.add('nav-item-active');
+                            if (icon) {
+                                icon.classList.add('filled');
+                                icon.style.fontVariationSettings = "'FILL' 1";
+                            }
+                        }
+                    });
+
+                    console.log('Sidebar active menu item set for:', currentPage);
+                }, 200);
             })
             .catch(error => console.error('Error loading sidebar:', error));
 
@@ -1095,6 +1142,156 @@
                     script.textContent = headerScript.textContent;
                     document.body.appendChild(script);
                 }
+
+                // Initialize header functionality after a delay to ensure DOM is ready
+                setTimeout(() => {
+                    console.log('Initializing student header functionality...');
+
+                    const sidebarToggleBtn = document.getElementById('sidebarToggleBtn');
+                    const sidebar = document.getElementById('studentAppSidebar');
+
+                    // Find notification button
+                    const allBtns = document.querySelectorAll('.header-icon-btn');
+                    let notifBtn = null;
+                    let helpBtn = null;
+
+                    allBtns.forEach(btn => {
+                        const icon = btn.querySelector('.material-symbols-outlined');
+                        if (icon && icon.textContent.trim() === 'notifications') {
+                            notifBtn = btn;
+                        }
+                        if (icon && icon.textContent.trim() === 'help') {
+                            helpBtn = btn;
+                        }
+                    });
+
+                    const notificationPanelEl = document.getElementById('notificationPanel');
+                    const helpModalEl = document.getElementById('helpModal');
+                    const profileDropdownEl = document.getElementById('profileDropdown');
+                    const profileAvatarBtn = document.querySelector('.header-avatar');
+                    const closeNotificationPanel = document.getElementById('closeNotificationPanel');
+                    const closeHelpModal = document.getElementById('closeHelpModal');
+                    const logoutLink = document.getElementById('logoutLink');
+
+                    // Setup Notification Panel
+                    if (notifBtn && notificationPanelEl) {
+                        notifBtn.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            console.log('Notification button clicked');
+
+                            // Close other panels
+                            if (helpModalEl) helpModalEl.classList.remove('active');
+                            if (profileDropdownEl) profileDropdownEl.classList.remove('active');
+
+                            // Toggle notification panel
+                            notificationPanelEl.classList.toggle('active');
+                        });
+                    }
+
+                    if (closeNotificationPanel) {
+                        closeNotificationPanel.addEventListener('click', function() {
+                            notificationPanelEl.classList.remove('active');
+                        });
+                    }
+
+                    // Setup Help Modal
+                    if (helpBtn && helpModalEl) {
+                        helpBtn.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            console.log('Help button clicked');
+
+                            // Close other panels
+                            if (notificationPanelEl) notificationPanelEl.classList.remove('active');
+                            if (profileDropdownEl) profileDropdownEl.classList.remove('active');
+
+                            // Toggle help modal
+                            helpModalEl.classList.toggle('active');
+                        });
+                    }
+
+                    if (closeHelpModal) {
+                        closeHelpModal.addEventListener('click', function() {
+                            helpModalEl.classList.remove('active');
+                        });
+                    }
+
+                    // Setup Profile Dropdown
+                    if (profileAvatarBtn && profileDropdownEl) {
+                        profileAvatarBtn.style.cursor = 'pointer';
+
+                        profileAvatarBtn.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            console.log('Profile avatar clicked');
+
+                            // Close other panels
+                            if (notificationPanelEl) notificationPanelEl.classList.remove('active');
+                            if (helpModalEl) helpModalEl.classList.remove('active');
+
+                            // Toggle profile dropdown
+                            profileDropdownEl.classList.toggle('active');
+                        });
+                    }
+
+                    // Handle logout
+                    if (logoutLink) {
+                        logoutLink.addEventListener('click', function(e) {
+                            e.preventDefault();
+
+                            if (confirm('Are you sure you want to logout?')) {
+                                if (profileDropdownEl) profileDropdownEl.classList.remove('active');
+
+                                document.body.style.opacity = '0';
+                                document.body.style.transition = 'opacity 0.3s ease';
+
+                                setTimeout(() => {
+                                    sessionStorage.clear();
+                                    localStorage.removeItem('userToken');
+                                    window.location.href = '../index.html';
+                                }, 300);
+                            }
+                        });
+                    }
+
+                    // Setup Sidebar Toggle
+                    if (sidebarToggleBtn && sidebar) {
+                        sidebarToggleBtn.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            console.log('Sidebar toggle clicked');
+
+                            if (window.innerWidth >= 768) {
+                                sidebar.classList.toggle('collapsed');
+                            } else {
+                                sidebar.classList.toggle('mobile-open');
+                            }
+                        });
+                    }
+
+                    // Close panels when clicking outside
+                    document.addEventListener('click', function(e) {
+                        if (notificationPanelEl && !notificationPanelEl.contains(e.target) &&
+                            notifBtn && !notifBtn.contains(e.target)) {
+                            notificationPanelEl.classList.remove('active');
+                        }
+
+                        if (helpModalEl && !helpModalEl.contains(e.target) &&
+                            helpBtn && !helpBtn.contains(e.target)) {
+                            helpModalEl.classList.remove('active');
+                        }
+
+                        if (profileDropdownEl && !profileDropdownEl.contains(e.target) &&
+                            profileAvatarBtn && !profileAvatarBtn.contains(e.target)) {
+                            profileDropdownEl.classList.remove('active');
+                        }
+
+                        if (sidebar && window.innerWidth < 768) {
+                            if (!e.target.closest('#studentAppSidebar') && !e.target.closest('#sidebarToggleBtn')) {
+                                sidebar.classList.remove('mobile-open');
+                            }
+                        }
+                    });
+
+                    console.log('Student header functionality initialized successfully');
+                }, 100);
             })
             .catch(error => console.error('Error loading header:', error));
     </script>

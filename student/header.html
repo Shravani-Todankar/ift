@@ -1,35 +1,24 @@
 <!-- Top Navigation Header -->
 <header class="top-header">
+    <!-- Sidebar Toggle Button -->
+    <button class="header-icon-btn" id="sidebarToggleBtn" style="margin-right: 16px;">
+        <span class="material-symbols-outlined">menu</span>
+    </button>
 
-    <!-- Desktop Navigation -->
-    <div class="header-nav d-none d-lg-flex flex-grow-1 justify-content-end gap-4">
-        <div class="d-flex align-items-center gap-4 me-4">
-            <a class="nav-link-header" href="dashboard.html">Dashboard</a>
-            <a class="nav-link-header" href="#">Challenges</a>
-            <a class="nav-link-header active" href="team-management.html">Team</a>
-            <a class="nav-link-header" href="#">Resources</a>
-        </div>
-        <div class="d-flex gap-2">
-            <button class="header-icon-btn">
-                <span class="material-symbols-outlined">notifications</span>
-            </button>
-            <button class="header-icon-btn">
-                <span class="material-symbols-outlined">help</span>
-            </button>
-        </div>
-        <div class="header-avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBjmsevs-ZsRszOHPAXJj0i4FzcVtWfKjpbgsjZuE5f57sKyUVBxVJZzXNcerOf8kAeRjiPR8sbDRxh6yZsPEkqBRsQuBCNKO6W2UUSvl4tGso_jAC5DOEIuAYDlnxS_POeaeIGpHCMCZzN4zKzMod48W6_yXLxVhR7jYbRpokBTt6XbkxWV5Jd1PFhFcQbGD_Gp6IBO4cHJhKTo5VHhVdRf7yXk5xU-vDDwYrnMst2nJZYu2eGTdeROYNudGxZ_OvdLotQ49jOWTg");'></div>
-    </div>
-
-    <!-- Mobile Menu Icon -->
-    <div class="d-lg-none d-flex align-items-center">
-        <button class="header-icon-btn" id="mobileMenuBtn">
-            <span class="material-symbols-outlined">menu</span>
+    <!-- Header Right Side -->
+    <div class="d-flex align-items-center gap-2 ms-auto">
+        <button class="header-icon-btn">
+            <span class="material-symbols-outlined">notifications</span>
         </button>
+        <button class="header-icon-btn">
+            <span class="material-symbols-outlined">help</span>
+        </button>
+        <div class="header-avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBjmsevs-ZsRszOHPAXJj0i4FzcVtWfKjpbgsjZuE5f57sKyUVBxVJZzXNcerOf8kAeRjiPR8sbDRxh6yZsPEkqBRsQuBCNKO6W2UUSvl4tGso_jAC5DOEIuAYDlnxS_POeaeIGpHCMCZzN4zKzMod48W6_yXLxVhR7jYbRpokBTt6XbkxWV5Jd1PFhFcQbGD_Gp6IBO4cHJhKTo5VHhVdRf7yXk5xU-vDDwYrnMst2nJZYu2eGTdeROYNudGxZ_OvdLotQ49jOWTg");'></div>
     </div>
 </header>
 
 <!-- Notification Panel (Initially Hidden) -->
-<div id="notificationPanel" style="display: none; position: fixed; top: 70px; right: 20px; width: 360px; max-height: 500px; background: white; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); z-index: 9999; overflow: hidden;">
+<div id="notificationPanel" style="position: fixed; top: 70px; right: 20px; width: 360px; max-height: 500px; background: white; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); z-index: 9999; overflow: hidden; display: none; opacity: 0; transform: translateY(-10px); transition: opacity 0.3s ease, transform 0.3s ease;">
     <div style="padding: 16px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;">
         <h3 style="margin: 0; font-size: 1rem; font-weight: 700; color: #0f172a;">Notifications</h3>
         <button id="closeNotificationPanel" style="background: none; border: none; cursor: pointer; color: #94a3b8;">
@@ -80,7 +69,7 @@
 </div>
 
 <!-- Help Modal (Initially Hidden) -->
-<div id="helpModal" style="display: none; position: fixed; top: 70px; right: 20px; width: 320px; background: white; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); z-index: 9999; overflow: hidden;">
+<div id="helpModal" style="position: fixed; top: 70px; right: 20px; width: 320px; background: white; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); z-index: 9999; overflow: hidden; display: none; opacity: 0; transform: translateY(-10px); transition: opacity 0.3s ease, transform 0.3s ease;">
     <div style="padding: 16px; border-bottom: 1px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center;">
         <h3 style="margin: 0; font-size: 1rem; font-weight: 700; color: #0f172a;">Help & Support</h3>
         <button id="closeHelpModal" style="background: none; border: none; cursor: pointer; color: #94a3b8;">
@@ -107,26 +96,8 @@
     </div>
 </div>
 
-<!-- Mobile Menu Panel (Initially Hidden) -->
-<div id="mobileMenuPanel" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9998;" onclick="closeMobileMenu()">
-    <div style="position: absolute; top: 0; right: 0; width: 280px; height: 100%; background: white; box-shadow: -2px 0 8px rgba(0,0,0,0.1); padding: 20px;" onclick="event.stopPropagation()">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-            <h3 style="margin: 0; font-size: 1.125rem; font-weight: 700;">Menu</h3>
-            <button onclick="closeMobileMenu()" style="background: none; border: none; cursor: pointer; color: #94a3b8;">
-                <span class="material-symbols-outlined" style="font-size: 24px;">close</span>
-            </button>
-        </div>
-        <nav style="display: flex; flex-direction: column; gap: 8px;">
-            <a href="dashboard.html" style="padding: 12px; border-radius: 8px; text-decoration: none; color: #0f172a; font-weight: 500; transition: background 0.2s;" onmouseover="this.style.backgroundColor='#f1f5f9'" onmouseout="this.style.backgroundColor='transparent'">Dashboard</a>
-            <a href="#" style="padding: 12px; border-radius: 8px; text-decoration: none; color: #0f172a; font-weight: 500; transition: background 0.2s;" onmouseover="this.style.backgroundColor='#f1f5f9'" onmouseout="this.style.backgroundColor='transparent'">Challenges</a>
-            <a href="team-management.html" style="padding: 12px; border-radius: 8px; text-decoration: none; color: #2f0df2; font-weight: 700; background: rgba(47, 13, 242, 0.1);">Team</a>
-            <a href="#" style="padding: 12px; border-radius: 8px; text-decoration: none; color: #0f172a; font-weight: 500; transition: background 0.2s;" onmouseover="this.style.backgroundColor='#f1f5f9'" onmouseout="this.style.backgroundColor='transparent'">Resources</a>
-        </nav>
-    </div>
-</div>
-
 <!-- Profile Dropdown (Initially Hidden) -->
-<div id="profileDropdown" style="display: none; position: fixed; top: 70px; right: 20px; width: 280px; background: white; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); z-index: 9999; overflow: hidden;">
+<div id="profileDropdown" style="position: fixed; top: 70px; right: 20px; width: 280px; background: white; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); z-index: 9999; overflow: hidden; display: none; opacity: 0; transform: translateY(-10px); transition: opacity 0.3s ease, transform 0.3s ease;">
     <!-- User Info Section -->
     <div style="padding: 16px; border-bottom: 1px solid #f1f5f9;">
         <div style="display: flex; align-items: center; gap: 12px;">
@@ -172,29 +143,8 @@
 <script>
     // Header JavaScript Functionality
     (function() {
-        // Set active navigation link based on current page
-        function setActiveNavLink() {
-            const currentPage = window.location.pathname.split('/').pop() || 'dashboard.html';
-            const navLinks = document.querySelectorAll('.nav-link-header');
-
-            navLinks.forEach(link => {
-                const href = link.getAttribute('href');
-
-                // Remove active class from all
-                link.classList.remove('active');
-
-                // Add active class to matching link
-                if (href === currentPage ||
-                    (currentPage === '' && href === 'dashboard.html') ||
-                    (currentPage === 'index.html' && href === 'dashboard.html')) {
-                    link.classList.add('active');
-                }
-            });
-        }
-
         // Notification panel toggle
         function initNotificationPanel() {
-            const notificationBtn = document.querySelector('.header-icon-btn:has(.material-symbols-outlined:contains("notifications"))');
             const allBtns = document.querySelectorAll('.header-icon-btn');
 
             // Find notification button
@@ -208,25 +158,26 @@
 
             const notificationPanel = document.getElementById('notificationPanel');
             const closeBtn = document.getElementById('closeNotificationPanel');
+            const profileDropdown = document.getElementById('profileDropdown');
+            const helpModal = document.getElementById('helpModal');
 
             if (notifBtn && notificationPanel) {
                 notifBtn.addEventListener('click', function(e) {
                     e.stopPropagation();
-                    const helpModal = document.getElementById('helpModal');
-                    if (helpModal) helpModal.style.display = 'none';
+                    console.log('Notification button clicked');
 
-                    notificationPanel.style.display = notificationPanel.style.display === 'none' ? 'block' : 'none';
+                    // Close other panels
+                    if (helpModal) helpModal.classList.remove('active');
+                    if (profileDropdown) profileDropdown.classList.remove('active');
 
-                    // Add animation
-                    if (notificationPanel.style.display === 'block') {
-                        notificationPanel.style.animation = 'slideDown 0.3s ease';
-                    }
+                    // Toggle notification panel
+                    notificationPanel.classList.toggle('active');
                 });
             }
 
             if (closeBtn) {
                 closeBtn.addEventListener('click', function() {
-                    notificationPanel.style.display = 'none';
+                    notificationPanel.classList.remove('active');
                 });
             }
 
@@ -234,7 +185,7 @@
             document.addEventListener('click', function(e) {
                 if (notificationPanel && !notificationPanel.contains(e.target) &&
                     notifBtn && !notifBtn.contains(e.target)) {
-                    notificationPanel.style.display = 'none';
+                    notificationPanel.classList.remove('active');
                 }
             });
         }
@@ -254,25 +205,26 @@
 
             const helpModal = document.getElementById('helpModal');
             const closeBtn = document.getElementById('closeHelpModal');
+            const notificationPanel = document.getElementById('notificationPanel');
+            const profileDropdown = document.getElementById('profileDropdown');
 
             if (helpBtn && helpModal) {
                 helpBtn.addEventListener('click', function(e) {
                     e.stopPropagation();
-                    const notificationPanel = document.getElementById('notificationPanel');
-                    if (notificationPanel) notificationPanel.style.display = 'none';
+                    console.log('Help button clicked');
 
-                    helpModal.style.display = helpModal.style.display === 'none' ? 'block' : 'none';
+                    // Close other panels
+                    if (notificationPanel) notificationPanel.classList.remove('active');
+                    if (profileDropdown) profileDropdown.classList.remove('active');
 
-                    // Add animation
-                    if (helpModal.style.display === 'block') {
-                        helpModal.style.animation = 'slideDown 0.3s ease';
-                    }
+                    // Toggle help modal
+                    helpModal.classList.toggle('active');
                 });
             }
 
             if (closeBtn) {
                 closeBtn.addEventListener('click', function() {
-                    helpModal.style.display = 'none';
+                    helpModal.classList.remove('active');
                 });
             }
 
@@ -280,60 +232,31 @@
             document.addEventListener('click', function(e) {
                 if (helpModal && !helpModal.contains(e.target) &&
                     helpBtn && !helpBtn.contains(e.target)) {
-                    helpModal.style.display = 'none';
+                    helpModal.classList.remove('active');
                 }
             });
         }
-
-        // Mobile menu toggle
-        function initMobileMenu() {
-            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-            const mobileMenuPanel = document.getElementById('mobileMenuPanel');
-
-            if (mobileMenuBtn && mobileMenuPanel) {
-                mobileMenuBtn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    mobileMenuPanel.style.display = 'block';
-                    mobileMenuPanel.style.animation = 'fadeIn 0.3s ease';
-                });
-            }
-        }
-
-        // Close mobile menu (global function)
-        window.closeMobileMenu = function() {
-            const mobileMenuPanel = document.getElementById('mobileMenuPanel');
-            if (mobileMenuPanel) {
-                mobileMenuPanel.style.animation = 'fadeOut 0.3s ease';
-                setTimeout(() => {
-                    mobileMenuPanel.style.display = 'none';
-                }, 300);
-            }
-        };
 
         // Profile dropdown toggle
         function initProfileDropdown() {
             const avatar = document.querySelector('.header-avatar');
             const profileDropdown = document.getElementById('profileDropdown');
+            const notificationPanel = document.getElementById('notificationPanel');
+            const helpModal = document.getElementById('helpModal');
 
             if (avatar && profileDropdown) {
                 avatar.style.cursor = 'pointer';
 
                 avatar.addEventListener('click', function(e) {
                     e.stopPropagation();
+                    console.log('Profile avatar clicked');
 
                     // Close other panels
-                    const notificationPanel = document.getElementById('notificationPanel');
-                    const helpModal = document.getElementById('helpModal');
-                    if (notificationPanel) notificationPanel.style.display = 'none';
-                    if (helpModal) helpModal.style.display = 'none';
+                    if (notificationPanel) notificationPanel.classList.remove('active');
+                    if (helpModal) helpModal.classList.remove('active');
 
                     // Toggle profile dropdown
-                    profileDropdown.style.display = profileDropdown.style.display === 'none' ? 'block' : 'none';
-
-                    // Add animation
-                    if (profileDropdown.style.display === 'block') {
-                        profileDropdown.style.animation = 'slideDown 0.3s ease';
-                    }
+                    profileDropdown.classList.toggle('active');
                 });
             }
 
@@ -341,7 +264,7 @@
             document.addEventListener('click', function(e) {
                 if (profileDropdown && !profileDropdown.contains(e.target) &&
                     avatar && !avatar.contains(e.target)) {
-                    profileDropdown.style.display = 'none';
+                    profileDropdown.classList.remove('active');
                 }
             });
 
@@ -354,7 +277,7 @@
                     // Show confirmation dialog
                     if (confirm('Are you sure you want to logout?')) {
                         // Close dropdown
-                        profileDropdown.style.display = 'none';
+                        profileDropdown.classList.remove('active');
 
                         // Add fade out animation
                         document.body.style.opacity = '0';
@@ -374,9 +297,48 @@
             }
         }
 
-        // Add animations
+        // Sidebar toggle functionality
+        function initSidebarToggle() {
+            const sidebarToggleBtn = document.getElementById('sidebarToggleBtn');
+            const sidebar = document.getElementById('studentAppSidebar');
+
+            if (sidebarToggleBtn && sidebar) {
+                sidebarToggleBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    console.log('Sidebar toggle clicked');
+
+                    // Toggle collapsed state on desktop
+                    if (window.innerWidth >= 768) {
+                        sidebar.classList.toggle('collapsed');
+                    } else {
+                        // Toggle mobile-open state on mobile
+                        sidebar.classList.toggle('mobile-open');
+                    }
+                });
+            }
+
+            // Close sidebar on mobile when clicking outside
+            document.addEventListener('click', function(e) {
+                if (sidebar && window.innerWidth < 768) {
+                    if (!e.target.closest('#studentAppSidebar') && !e.target.closest('#sidebarToggleBtn')) {
+                        sidebar.classList.remove('mobile-open');
+                    }
+                }
+            });
+        }
+
+        // Add CSS styles for .active class
         const style = document.createElement('style');
         style.textContent = `
+            /* Active state for panels */
+            #notificationPanel.active,
+            #helpModal.active,
+            #profileDropdown.active {
+                display: block !important;
+                opacity: 1 !important;
+                transform: translateY(0) !important;
+            }
+
             @keyframes slideDown {
                 from {
                     opacity: 0;
@@ -400,11 +362,10 @@
 
         // Initialize all functionality
         function init() {
-            setActiveNavLink();
             initNotificationPanel();
             initHelpModal();
-            initMobileMenu();
             initProfileDropdown();
+            initSidebarToggle();
         }
 
         // Run init when DOM is ready
