@@ -4,20 +4,22 @@
         <div class="row h-100 align-items-center">
             <div class="col">
                 <div class="d-flex justify-content-between align-items-center">
-                    <!-- Page Title Section -->
-                    <div class="header-title-section">
-                        <h1 class="header-title">Welcome back, Juror</h1>
-                        <p class="header-subtitle">You have <span class="pending-count">12 evaluations</span> pending completion.</p>
+                    <!-- Left Section with Menu Toggle -->
+                    <div class="d-flex align-items-center gap-3">
+                        <!-- Menu Toggle Button -->
+                        <button class="icon-btn menu-toggle-btn" id="sidebarToggleBtn">
+                            <span class="material-symbols-outlined">menu</span>
+                        </button>
+
+                        <!-- Page Title Section -->
+                        <div class="header-title-section">
+                            <h1 class="header-title">Welcome back, Jury</h1>
+                            <p class="header-subtitle">You have <span class="pending-count">12 evaluations</span> pending completion.</p>
+                        </div>
                     </div>
 
                     <!-- Right Actions Section -->
                     <div class="header-actions d-flex align-items-center gap-2">
-                        <!-- Search Bar -->
-                        <div class="search-container">
-                            <span class="material-symbols-outlined search-icon">search</span>
-                            <input type="text" class="search-input" placeholder="Search assigned ideas..." />
-                        </div>
-
                         <!-- Notification Button -->
                         <button class="icon-btn notification-btn" id="notificationBtn">
                             <span class="material-symbols-outlined">notifications</span>
@@ -134,7 +136,7 @@
 
     .header-title {
         font-size: 1.75rem;
-        font-weight: 900;
+        font-weight: 600;
         color: #222222;
         margin: 0;
         line-height: 1.2;
@@ -252,7 +254,7 @@
     /* Notification Panel */
     .notification-panel {
         position: fixed;
-        top: 4rem;
+        top: 5rem;
         right: 1rem;
         width: 22rem;
         max-height: 28rem;
@@ -396,7 +398,7 @@
     /* Profile Dropdown */
     .profile-dropdown {
         position: fixed;
-        top: 4rem;
+        top: 5rem;
         right: 1rem;
         width: 16rem;
         background: #FFFFFF;
@@ -534,108 +536,92 @@
 
 <script>
     // Header JavaScript Functionality
-    (function() {
+    // This function will be called after all header elements are loaded
+    window.initializeHeaderFunctionality = function() {
+        console.log('Initializing header functionality...');
+
         // Notification Panel Toggle
-        function setupNotificationPanel() {
-            const notificationBtn = document.getElementById('notificationBtn');
-            const notificationPanel = document.getElementById('notificationPanel');
-            const closeNotificationPanel = document.getElementById('closeNotificationPanel');
-            const profileDropdown = document.getElementById('profileDropdown');
+        const notificationBtn = document.getElementById('notificationBtn');
+        const notificationPanel = document.getElementById('notificationPanel');
+        const closeNotificationPanel = document.getElementById('closeNotificationPanel');
+        const profileDropdown = document.getElementById('profileDropdown');
+        const profileAvatarBtn = document.getElementById('profileAvatarBtn');
+        const headerLogoutBtn = document.getElementById('headerLogoutBtn');
 
-            if (notificationBtn && notificationPanel) {
-                notificationBtn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    notificationPanel.classList.toggle('active');
+        console.log('Elements found:', {
+            notificationBtn: !!notificationBtn,
+            notificationPanel: !!notificationPanel,
+            profileAvatarBtn: !!profileAvatarBtn,
+            profileDropdown: !!profileDropdown
+        });
 
-                    // Close profile dropdown if open
-                    if (profileDropdown) {
-                        profileDropdown.classList.remove('active');
-                    }
-                });
+        // Setup Notification Panel
+        if (notificationBtn && notificationPanel) {
+            notificationBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                console.log('Notification button clicked');
+                notificationPanel.classList.toggle('active');
 
-                if (closeNotificationPanel) {
-                    closeNotificationPanel.addEventListener('click', function() {
-                        notificationPanel.classList.remove('active');
-                    });
-                }
-            }
-        }
-
-        // Profile Dropdown Toggle
-        function setupProfileDropdown() {
-            const profileAvatarBtn = document.getElementById('profileAvatarBtn');
-            const profileDropdown = document.getElementById('profileDropdown');
-            const notificationPanel = document.getElementById('notificationPanel');
-
-            if (profileAvatarBtn && profileDropdown) {
-                profileAvatarBtn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    profileDropdown.classList.toggle('active');
-
-                    // Close notification panel if open
-                    if (notificationPanel) {
-                        notificationPanel.classList.remove('active');
-                    }
-                });
-            }
-        }
-
-        // Logout Functionality
-        function setupLogout() {
-            const headerLogoutBtn = document.getElementById('headerLogoutBtn');
-
-            if (headerLogoutBtn) {
-                headerLogoutBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-
-                    if (confirm('Are you sure you want to logout?')) {
-                        // Add fade out animation
-                        document.body.style.opacity = '0';
-                        document.body.style.transition = 'opacity 0.3s ease';
-
-                        setTimeout(() => {
-                            // Clear any stored user data
-                            sessionStorage.clear();
-                            localStorage.removeItem('userToken');
-
-                            // Redirect to login page
-                            window.location.href = '../index.html';
-                        }, 300);
-                    }
-                });
-            }
-        }
-
-        // Close dropdowns when clicking outside
-        function setupOutsideClick() {
-            document.addEventListener('click', function(e) {
-                const notificationPanel = document.getElementById('notificationPanel');
-                const profileDropdown = document.getElementById('profileDropdown');
-
-                if (notificationPanel && !e.target.closest('#notificationPanel') && !e.target.closest('#notificationBtn')) {
-                    notificationPanel.classList.remove('active');
-                }
-
-                if (profileDropdown && !e.target.closest('#profileDropdown') && !e.target.closest('#profileAvatarBtn')) {
+                // Close profile dropdown if open
+                if (profileDropdown) {
                     profileDropdown.classList.remove('active');
                 }
             });
+
+            if (closeNotificationPanel) {
+                closeNotificationPanel.addEventListener('click', function() {
+                    notificationPanel.classList.remove('active');
+                });
+            }
         }
 
-        // Initialize all functionality when DOM is ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', function() {
-                setupNotificationPanel();
-                setupProfileDropdown();
-                setupLogout();
-                setupOutsideClick();
+        // Setup Profile Dropdown
+        if (profileAvatarBtn && profileDropdown) {
+            profileAvatarBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                console.log('Profile avatar clicked');
+                profileDropdown.classList.toggle('active');
+
+                // Close notification panel if open
+                if (notificationPanel) {
+                    notificationPanel.classList.remove('active');
+                }
             });
-        } else {
-            // DOM already loaded
-            setupNotificationPanel();
-            setupProfileDropdown();
-            setupLogout();
-            setupOutsideClick();
         }
-    })();
+
+        // Setup Logout
+        if (headerLogoutBtn) {
+            headerLogoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                if (confirm('Are you sure you want to logout?')) {
+                    // Add fade out animation
+                    document.body.style.opacity = '0';
+                    document.body.style.transition = 'opacity 0.3s ease';
+
+                    setTimeout(() => {
+                        // Clear any stored user data
+                        sessionStorage.clear();
+                        localStorage.removeItem('userToken');
+
+                        // Redirect to login page
+                        window.location.href = '../index.html';
+                    }, 300);
+                }
+            });
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            if (notificationPanel && !e.target.closest('#notificationPanel') && !e.target.closest('#notificationBtn')) {
+                notificationPanel.classList.remove('active');
+            }
+
+            if (profileDropdown && !e.target.closest('#profileDropdown') && !e.target.closest('#profileAvatarBtn')) {
+                profileDropdown.classList.remove('active');
+            }
+        });
+
+        console.log('Header functionality initialized successfully');
+    };
 </script>
