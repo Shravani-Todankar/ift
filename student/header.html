@@ -53,6 +53,36 @@
         box-shadow: 0 0 0 4px rgba(94, 42, 151, 0.1);
     }
 
+    /* Active state for panels */
+    #notificationPanel.active,
+    #helpModal.active,
+    #profileDropdown.active {
+        display: block !important;
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+    }
+
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @keyframes fadeOut {
+        from { opacity: 1; }
+        to { opacity: 0; }
+    }
+
     @media (max-width: 768px) {
         .top-header {
             padding: 0 1rem;
@@ -174,7 +204,7 @@
 
     <!-- Menu Items -->
     <div style="padding: 8px;">
-        <a href="#profile" style="display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 8px; text-decoration: none; color: #0f172a; transition: background 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+        <a href="profile.html" style="display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 8px; text-decoration: none; color: #0f172a; transition: background 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
             <span class="material-symbols-outlined" style="color: #2f0df2; font-size: 20px;">person</span>
             <span style="font-weight: 500; font-size: 0.875rem;">My Profile</span>
         </a>
@@ -182,29 +212,31 @@
             <span class="material-symbols-outlined" style="color: #2f0df2; font-size: 20px;">group</span>
             <span style="font-weight: 500; font-size: 0.875rem;">My Team</span>
         </a>
-        <a href="#submissions" style="display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 8px; text-decoration: none; color: #0f172a; transition: background 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+        <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 8px; text-decoration: none; color: #0f172a; transition: background 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
             <span class="material-symbols-outlined" style="color: #2f0df2; font-size: 20px;">folder_open</span>
             <span style="font-weight: 500; font-size: 0.875rem;">My Submissions</span>
         </a>
-        <a href="#achievements" style="display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 8px; text-decoration: none; color: #0f172a; transition: background 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+        <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 8px; text-decoration: none; color: #0f172a; transition: background 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
             <span class="material-symbols-outlined" style="color: #2f0df2; font-size: 20px;">emoji_events</span>
             <span style="font-weight: 500; font-size: 0.875rem;">Achievements</span>
         </a>
         <div style="height: 1px; background: #f1f5f9; margin: 8px 0;"></div>
-        <a href="#settings" style="display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 8px; text-decoration: none; color: #0f172a; transition: background 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+        <a href="#" style="display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 8px; text-decoration: none; color: #0f172a; transition: background 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
             <span class="material-symbols-outlined" style="color: #64748b; font-size: 20px;">settings</span>
             <span style="font-weight: 500; font-size: 0.875rem;">Settings</span>
         </a>
-        <a href="#" id="logoutLink" style="display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 8px; text-decoration: none; color: #ef4444; transition: background 0.2s;" onmouseover="this.style.backgroundColor='rgba(239, 68, 68, 0.1)'" onmouseout="this.style.backgroundColor='transparent'">
+        <button type="button" id="logoutLink" style="width: 100%; display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 8px; text-decoration: none; color: #ef4444; transition: background 0.2s; background: none; border: none; cursor: pointer; text-align: left;" onmouseover="this.style.backgroundColor='rgba(239, 68, 68, 0.1)'" onmouseout="this.style.backgroundColor='transparent'">
             <span class="material-symbols-outlined" style="color: #ef4444; font-size: 20px;">logout</span>
             <span style="font-weight: 600; font-size: 0.875rem;">Logout</span>
-        </a>
+        </button>
     </div>
 </div>
 
 <script>
     // Header JavaScript Functionality
     (function() {
+        console.log('Header script loaded and executing...');
+
         // Notification panel toggle
         function initNotificationPanel() {
             const allBtns = document.querySelectorAll('.header-icon-btn');
@@ -224,9 +256,11 @@
             const helpModal = document.getElementById('helpModal');
 
             if (notifBtn && notificationPanel) {
+                console.log('Notification button and panel found, attaching event listener');
                 notifBtn.addEventListener('click', function(e) {
                     e.stopPropagation();
                     console.log('Notification button clicked');
+                    console.log('Current classes on notification panel:', notificationPanel.className);
 
                     // Close other panels
                     if (helpModal) helpModal.classList.remove('active');
@@ -234,7 +268,10 @@
 
                     // Toggle notification panel
                     notificationPanel.classList.toggle('active');
+                    console.log('After toggle - classes on notification panel:', notificationPanel.className);
                 });
+            } else {
+                console.log('Notification button or panel not found!', { notifBtn, notificationPanel });
             }
 
             if (closeBtn) {
@@ -307,11 +344,13 @@
             const helpModal = document.getElementById('helpModal');
 
             if (avatar && profileDropdown) {
+                console.log('Profile avatar and dropdown found, attaching event listener');
                 avatar.style.cursor = 'pointer';
 
                 avatar.addEventListener('click', function(e) {
                     e.stopPropagation();
                     console.log('Profile avatar clicked');
+                    console.log('Current classes on profile dropdown:', profileDropdown.className);
 
                     // Close other panels
                     if (notificationPanel) notificationPanel.classList.remove('active');
@@ -319,7 +358,10 @@
 
                     // Toggle profile dropdown
                     profileDropdown.classList.toggle('active');
+                    console.log('After toggle - classes on profile dropdown:', profileDropdown.className);
                 });
+            } else {
+                console.log('Profile avatar or dropdown not found!', { avatar, profileDropdown });
             }
 
             // Close when clicking outside
@@ -333,29 +375,33 @@
             // Handle logout
             const logoutLink = document.getElementById('logoutLink');
             if (logoutLink) {
+                console.log('Logout button found, attaching event listener');
                 logoutLink.addEventListener('click', function(e) {
                     e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Logout button clicked');
 
                     // Show confirmation dialog
                     if (confirm('Are you sure you want to logout?')) {
+                        console.log('Logout confirmed, redirecting...');
+
                         // Close dropdown
-                        profileDropdown.classList.remove('active');
+                        if (profileDropdown) {
+                            profileDropdown.classList.remove('active');
+                        }
 
-                        // Add fade out animation
-                        document.body.style.opacity = '0';
-                        document.body.style.transition = 'opacity 0.3s ease';
+                        // Clear any stored user data
+                        sessionStorage.clear();
+                        localStorage.removeItem('userToken');
 
-                        // Simulate logout
-                        setTimeout(() => {
-                            // Clear any stored user data
-                            sessionStorage.clear();
-                            localStorage.removeItem('userToken');
-
-                            // Redirect to login page
-                            window.location.href = '../index.html';
-                        }, 300);
+                        // Redirect to login page immediately
+                        window.location.href = '../auth/sign-in.html';
+                    } else {
+                        console.log('Logout cancelled');
                     }
                 });
+            } else {
+                console.log('Logout button not found!');
             }
         }
 
@@ -389,45 +435,23 @@
             });
         }
 
-        // Add CSS styles for .active class
-        const style = document.createElement('style');
-        style.textContent = `
-            /* Active state for panels */
-            #notificationPanel.active,
-            #helpModal.active,
-            #profileDropdown.active {
-                display: block !important;
-                opacity: 1 !important;
-                transform: translateY(0) !important;
-            }
-
-            @keyframes slideDown {
-                from {
-                    opacity: 0;
-                    transform: translateY(-10px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-            @keyframes fadeIn {
-                from { opacity: 0; }
-                to { opacity: 1; }
-            }
-            @keyframes fadeOut {
-                from { opacity: 1; }
-                to { opacity: 0; }
-            }
-        `;
-        document.head.appendChild(style);
+        // Flag to prevent duplicate initialization
+        let initialized = false;
 
         // Initialize all functionality
         function init() {
+            if (initialized) {
+                console.log('Header already initialized, skipping...');
+                return;
+            }
+
+            console.log('Initializing header functionality...');
             initNotificationPanel();
             initHelpModal();
             initProfileDropdown();
             initSidebarToggle();
+            initialized = true;
+            console.log('Header initialization complete!');
         }
 
         // Run init when DOM is ready
@@ -435,7 +459,10 @@
             document.addEventListener('DOMContentLoaded', init);
         } else {
             // DOM already loaded, wait a bit for header to be injected
-            setTimeout(init, 300);
+            setTimeout(init, 100);
         }
+
+        // Also run init when the script loads (for when injected via innerHTML)
+        setTimeout(init, 100);
     })();
 </script>

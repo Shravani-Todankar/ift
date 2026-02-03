@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Idea Evaluation - IFT Jury Portal</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+
+    <!-- Material Symbols -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+    <style>
+        :root {
+            --primary-color: #5E2A97;
+            --secondary-color: #DEDE50;
+            --background-light: #F7F7F7;
+            --text-dark: #222222;
+            --text-muted: #666666;
+            --border-color: #EEEEEE;
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--background-light);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Layout */
+        .dashboard-container {
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            background: var(--background-light);
+        }
+
+        .content-wrapper {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 2rem 3rem;
+            width: 100%;
+        }
+
+        /* Sidebar Container */
+        #sidebar-container {
+            flex-shrink: 0;
+        }
+
+        /* Header Container */
+        #header-container {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        /* Breadcrumbs */
+        .breadcrumb-nav {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.875rem;
+        }
+
+        .breadcrumb-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            transition: color 0.2s ease;
+        }
+
+        .breadcrumb-link:hover {
+            color: var(--primary-color);
+        }
+
+        .breadcrumb-separator {
+            color: #cbd5e1;
+            font-size: 1rem;
+        }
+
+        .breadcrumb-current {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        /* Submission Header Card */
+        .submission-header {
+            background: var(--white);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .submission-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .submission-id {
+            background: rgba(94, 42, 151, 0.1);
+            color: var(--primary-color);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.25rem 0.625rem;
+            border-radius: 0.375rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .submission-category {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .submission-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .submission-school {
+            color: var(--text-muted);
+            font-size: 1.125rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .tag-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .tag {
+            padding: 0.375rem 0.875rem;
+            border-radius: 9999px;
+            background: var(--background-light);
+            border: 1px solid var(--border-color);
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .team-avatars {
+            display: flex;
+            margin-left: auto;
+        }
+
+        .team-avatar {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            border: 2px solid var(--white);
+            margin-left: -0.75rem;
+        }
+
+        .team-avatar:first-child {
+            margin-left: 0;
+        }
+
+        .team-more {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            background: #64748b;
+            color: var(--white);
+            border: 2px solid var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: -0.75rem;
+            text-decoration: none;
+            transition: background 0.2s ease;
+        }
+
+        .team-more:hover {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        .abstract-section {
+            margin-top: 2rem;
+        }
+
+        .abstract-heading {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.75rem;
+        }
+
+        .abstract-text {
+            color: var(--text-muted);
+            line-height: 1.7;
+            font-size: 0.9375rem;
+        }
+
+        /* Media Cards */
+        .media-card {
+            background: var(--white);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .media-card:hover {
+            border-color: rgba(94, 42, 151, 0.3);
+            box-shadow: 0 4px 12px rgba(94, 42, 151, 0.1);
+        }
+
+        .media-card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .media-icon {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .media-icon.ppt {
+            background: rgba(249, 115, 22, 0.1);
+            color: #f97316;
+        }
+
+        .media-icon.video {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+
+        .media-icon .material-symbols-outlined {
+            font-size: 24px;
+        }
+
+        .media-open-icon {
+            color: #cbd5e1;
+            transition: color 0.2s ease;
+        }
+
+        .media-card:hover .media-open-icon {
+            color: var(--primary-color);
+        }
+
+        .media-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .media-description {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .media-preview {
+            width: 100%;
+            height: 8rem;
+            background: var(--background-light);
+            border-radius: 0.75rem;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .media-preview-bg {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.5;
+            filter: grayscale(100%);
+            transition: all 0.3s ease;
+        }
+
+        .media-card:hover .media-preview-bg {
+            filter: grayscale(0%);
+            opacity: 0.7;
+        }
+
+        .media-preview-btn {
+            position: relative;
+            z-index: 10;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .video-play-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            background: var(--white);
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 10;
+            position: relative;
+        }
+
+        .video-play-icon .material-symbols-outlined {
+            padding-left: 0.125rem;
+        }
+
+        /* Q&A Accordion */
+        .qa-card {
+            background: var(--white);
+            border-radius: 1rem;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .qa-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .qa-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0;
+        }
+
+        .qa-title .material-symbols-outlined {
+            color: var(--primary-color);
+        }
+
+        .qa-item {
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .qa-item:last-child {
+            border-bottom: none;
+        }
+
+        .qa-question {
+            width: 100%;
+            padding: 1.5rem;
+            background: none;
+            border: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            font-size: 0.9375rem;
+            color: var(--text-dark);
+            cursor: pointer;
+            text-align: left;
+            transition: background 0.2s ease;
+        }
+
+        .qa-question:hover {
+            background: var(--background-light);
+        }
+
+        .qa-chevron {
+            transition: transform 0.3s ease;
+        }
+
+        .qa-question[aria-expanded="true"] .qa-chevron {
+            transform: rotate(180deg);
+        }
+
+        .qa-answer {
+            padding: 0 1.5rem 1.5rem 1.5rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            font-size: 0.9375rem;
+        }
+
+        /* Scorecard */
+        .scorecard {
+            background: var(--white);
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            position: sticky;
+            top: 5.5rem;
+        }
+
+        .scorecard-header {
+            background: rgba(94, 42, 151, 0.05);
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .scorecard-title-section h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0 0 0.25rem 0;
+        }
+
+        .scorecard-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .score-total {
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 0.75rem 1rem;
+            text-align: center;
+            min-width: 5rem;
+        }
+
+        .score-total-label {
+            display: block;
+            font-size: 0.625rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
+        }
+
+        .score-total-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .score-total-max {
+            font-size: 0.875rem;
+            color: #94a3b8;
+            font-weight: 400;
+        }
+
+        .scorecard-form {
+            padding: 1.5rem;
+        }
+
+        .criteria-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .criteria-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .criteria-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .criteria-value {
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .range-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 0.5rem;
+            background: #e5e7eb;
+            border-radius: 9999px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .range-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 1rem;
+            height: 1rem;
+            background: var(--primary-color);
+            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(94, 42, 151, 0.3);
+        }
+
+        .range-slider::-moz-range-thumb {
+            width: 1rem;
+            height: 1rem;
+            background: var(--primary-color);
+            cursor: pointer;
+            border-radius: 50%;
+            border: none;
+            box-shadow: 0 2px 4px rgba(94, 42, 151, 0.3);
+        }
+
+        .range-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: #94a3b8;
+            padding: 0 0.25rem;
+            margin-top: 0.5rem;
+        }
+
+        .criteria-divider {
+            height: 1px;
+            background: var(--border-color);
+            margin: 1.5rem 0;
+        }
+
+        .feedback-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .feedback-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .feedback-optional {
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: #94a3b8;
+        }
+
+        .feedback-textarea {
+            width: 100%;
+            min-height: 6rem;
+            padding: 0.75rem 1rem;
+            background: var(--background-light);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            font-size: 0.875rem;
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            resize: vertical;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .feedback-textarea:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(94, 42, 151, 0.1);
+        }
+
+        .feedback-textarea::placeholder {
+            color: #94a3b8;
+        }
+
+        .shortlist-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--background-light);
+            padding: 0.875rem 1rem;
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .shortlist-label-text {
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0 0 0.125rem 0;
+        }
+
+        .shortlist-description {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 2.75rem;
+            height: 1.5rem;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #cbd5e1;
+            transition: 0.3s;
+            border-radius: 9999px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 1.125rem;
+            width: 1.125rem;
+            left: 0.1875rem;
+            bottom: 0.1875rem;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: var(--primary-color);
+        }
+
+        input:focus + .toggle-slider {
+            box-shadow: 0 0 0 3px rgba(94, 42, 151, 0.1);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(1.25rem);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 0.875rem 1.5rem;
+            border-radius: 0.75rem;
+            font-size: 0.9375rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 12px rgba(94, 42, 151, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            background: #7B3FB5;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(94, 42, 151, 0.4);
+        }
+
+        .auto-save-note {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-top: 0.75rem;
+        }
+
+        .auto-save-note .material-symbols-outlined {
+            font-size: 0.875rem;
+        }
+
+        /* Navigation Links */
+        .nav-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0.25rem;
+            font-size: 0.875rem;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            transition: color 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .content-wrapper {
+                padding: 1.5rem;
+            }
+
+            .submission-title {
+                font-size: 1.5rem;
+            }
+
+            .scorecard {
+                position: static;
+                margin-top: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding: 1rem;
+            }
+
+            .submission-header {
+                padding: 1.5rem;
+            }
+
+            .submission-title {
+                font-size: 1.25rem;
+            }
+
+            .team-avatars {
+                margin-left: 0;
+                margin-top: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Container -->
+        <div id="sidebar-container"></div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header Container -->
+            <div id="header-container"></div>
+
+            <!-- Page Content -->
+            <div class="content-wrapper">
+                <!-- Breadcrumbs -->
+                <nav class="breadcrumb-nav">
+                    <a href="dashboard.html" class="breadcrumb-link">
+                        <span class="material-symbols-outlined" style="font-size: 18px;">dashboard</span>
+                        Dashboard
+                    </a>
+                    <span class="material-symbols-outlined breadcrumb-separator" style="font-size: 16px;">chevron_right</span>
+                    <a href="assigned-ideas.html" class="breadcrumb-link">Evaluations</a>
+                    <span class="material-symbols-outlined breadcrumb-separator" style="font-size: 16px;">chevron_right</span>
+                    <span class="breadcrumb-current">Team Spark</span>
+                </nav>
+
+                <div class="row g-4">
+                    <!-- Left Column: Submission Content -->
+                    <div class="col-12 col-lg-8">
+                        <!-- Submission Header Card -->
+                        <div class="submission-header">
+                            <div class="row align-items-start">
+                                <div class="col-12 col-md-8">
+                                    <div class="submission-meta">
+                                        <span class="submission-id">#8821</span>
+                                        <span class="submission-category">Renewable Energy</span>
+                                    </div>
+                                    <h1 class="submission-title">Project Solar Clean</h1>
+                                    <p class="submission-school">St. Mary's High School</p>
+                                    <div class="tag-group">
+                                        <span class="tag">Sustainability</span>
+                                        <span class="tag">Hardware</span>
+                                        <span class="tag">Social Impact</span>
+                                    </div>
+                                </div>
+                                <!-- Team Avatar Group -->
+                                <div class="col-12 col-md-4">
+                                    <div class="team-avatars">
+                                        <img class="team-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCK0BoJGEJIUJDhmhFpR12UhYVqq4u0ExRZolOFbKZaCrwVAM5QSXABY0XnOLZkRSItBBMv3aSNvAZ01QX3UiQ7Xp41XBfSClzM2E3D0vIqIET3LTl-VcX5GNDp-8NYT5DWapd7FmU3XSOnAQXW_6nsTQdhETdu-yqWCmW-_aqnO5MLQ45MFAy-REaNot711jiQnKK-gI5yLOdc2CrtRPqh_LMLI228h3V2K7jmjCMDEH-g5e-Mcd5Rz2xIuEroYoaPLN3_Lj0vy6E" alt="Team member 1" />
+                                        <img class="team-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALlxklNRD8pSqUYxEBnQfxsjk9ItvUS2Bv5S-rTpVlA8egLlgPvPmHfUGfVLl3OUHIduv8H5f-yBiZvKwPYIRRvt0YfAfmdcdP2O3Hy4cxiPsdRIVAV_kt-AwnbqOz_S2v3_ycZDr-A8yZXVpqzWf9ZzD21jfeSTu1jv2KWKzUeUMB0T4zPvBGe3QX8OkgmlqcfEfb-KlBQCq0T5Ne2Dn-eQv6OesQE_CZ1UlvBfxq7NYkT8KMV2jDOULKSxs3qLKStj_L7mVDMrQ" alt="Team member 2" />
+                                        <img class="team-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkqCVlb6-Ik64Uu66aFrQ3a1cwW9nY85j6PzTMGqy0a4cNlaRiG5u_Oznaqkl8t81sTShn9dvfr4LO2GwZHIp7paDkoHJ3Tv-2Eqrlr1KeCmv-o_HhMR73yyadr3vItpENEzpAWif9QrGITuOs-w5JptxniogO0UF0vTL_HhFNly3fSQuksY8rsVpIvDH-9BhmDr-fEhj46BFJfd2dt7SrML8LeFFPHbOHBrdEQycHKh9Ng7C6RUB2XFYp6p9p6rPQ3ESpZVDDpBo" alt="Team member 3" />
+                                        <a href="#" class="team-more">+2</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="abstract-section">
+                                <h3 class="abstract-heading">Abstract</h3>
+                                <p class="abstract-text">Our project aims to provide affordable, solar-powered water filtration for rural communities. By utilizing locally sourced materials and a novel filtration membrane, we can reduce waterborne diseases by up to 40% in targeted villages. The system is modular, requiring minimal maintenance, and the solar component ensures it operates entirely off-grid.</p>
+                            </div>
+                        </div>
+
+                        <!-- Media Attachments -->
+                        <div class="row g-4 mb-4">
+                            <!-- PPT Viewer Placeholder -->
+                            <div class="col-12 col-md-6">
+                                <div class="media-card">
+                                    <div class="media-card-header">
+                                        <div class="media-icon ppt">
+                                            <span class="material-symbols-outlined">slideshow</span>
+                                        </div>
+                                        <span class="material-symbols-outlined media-open-icon">open_in_new</span>
+                                    </div>
+                                    <h3 class="media-title">Pitch Deck</h3>
+                                    <p class="media-description">View the detailed 12-slide presentation.</p>
+                                    <div class="media-preview">
+                                        <div class="media-preview-bg" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuARQ8GKInydMH8jSzkuTpdnavEC5UmLx6ts-h5ldu60c6VCaSSy5fqK8dKXD_qnRRHbKet0-9DWZ1onPqsfKmFWb1pNdIZTaxcFcWiW8Icl7XDbNP-T3P0ORPdqjanaO6iDTzSnkVV35ixffskqiiuV2yCs9GcowRDPm8i9IGpnEZxdiL8K9bKQ56ydAhS-m9hgEWHEpS5pYzIBGhPqifFz0GE81idyEwBbFw8roJO_kuckOF9s6NRodzbR6ddH9Cg1pzVFqDzmORk");'></div>
+                                        <button class="media-preview-btn">Preview Slides</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Video Placeholder -->
+                            <div class="col-12 col-md-6">
+                                <div class="media-card">
+                                    <div class="media-card-header">
+                                        <div class="media-icon video">
+                                            <span class="material-symbols-outlined">play_circle</span>
+                                        </div>
+                                        <span class="material-symbols-outlined media-open-icon">open_in_new</span>
+                                    </div>
+                                    <h3 class="media-title">Video Pitch</h3>
+                                    <p class="media-description">Watch the 2-minute prototype demo.</p>
+                                    <div class="media-preview">
+                                        <div class="media-preview-bg" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB6qKJdf--z4Uxwwc9jHzGuFTv5WFxufp5tZ3kf0HP-tAS4aLBJjXAT0XujckrgnenLivKjbp7vUXsE6DoaggOIhPDVF-woKliiIKgUGmvJAy-ukirnnwVKiPDwUR_PobJgZbGOjNiZNf0L1ZytiewDBaqwtX8VNAZNGACeykGVesy4_99DL_AJJx-89jIQxiTuBVjEc39d_31ToLTrHY8zOyL9z97OUxHx96I-MHEsty2T74gk9mqwqliHqXjKEdtXWfRicqYoXZo");'></div>
+                                        <div class="video-play-icon">
+                                            <span class="material-symbols-outlined">play_arrow</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Q&A Accordion -->
+                        <div class="qa-card">
+                            <div class="qa-header">
+                                <h3 class="qa-title">
+                                    <span class="material-symbols-outlined">quiz</span>
+                                    Questionnaire
+                                </h3>
+                            </div>
+                            <div class="accordion" id="qaAccordion">
+                                <div class="qa-item">
+                                    <button class="qa-question" type="button" data-bs-toggle="collapse" data-bs-target="#question1" aria-expanded="true" aria-controls="question1">
+                                        <span>What is the core problem you are solving?</span>
+                                        <span class="material-symbols-outlined qa-chevron">keyboard_arrow_down</span>
+                                    </button>
+                                    <div id="question1" class="collapse show" data-bs-parent="#qaAccordion">
+                                        <div class="qa-answer">
+                                            Rural villages in our district lack consistent electricity, making standard filtration pumps useless. Our data shows 60% of illnesses in the local primary school are waterborne.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="qa-item">
+                                    <button class="qa-question" type="button" data-bs-toggle="collapse" data-bs-target="#question2" aria-expanded="false" aria-controls="question2">
+                                        <span>Who is your target market?</span>
+                                        <span class="material-symbols-outlined qa-chevron">keyboard_arrow_down</span>
+                                    </button>
+                                    <div id="question2" class="collapse" data-bs-parent="#qaAccordion">
+                                        <div class="qa-answer">
+                                            Our primary customers are local Panchayat boards and NGOs focused on rural health. Secondary markets include eco-resorts looking for sustainable water solutions.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="qa-item">
+                                    <button class="qa-question" type="button" data-bs-toggle="collapse" data-bs-target="#question3" aria-expanded="false" aria-controls="question3">
+                                        <span>How is your solution innovative?</span>
+                                        <span class="material-symbols-outlined qa-chevron">keyboard_arrow_down</span>
+                                    </button>
+                                    <div id="question3" class="collapse" data-bs-parent="#qaAccordion">
+                                        <div class="qa-answer">
+                                            Unlike existing RO systems that waste 3 liters of water for every 1 liter purified, our gravity-assisted membrane technology has near-zero wastage and requires no battery storage, reducing cost by 50%.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Scoring Panel -->
+                    <div class="col-12 col-lg-4">
+                        <div class="scorecard">
+                            <!-- Scorecard Header -->
+                            <div class="scorecard-header">
+                                <div class="scorecard-title-section">
+                                    <h3>Scorecard</h3>
+                                    <p class="scorecard-subtitle">Rate the project on a scale of 1-10.</p>
+                                </div>
+                                <div class="score-total">
+                                    <span class="score-total-label">Total</span>
+                                    <div class="score-total-value">
+                                        24<span class="score-total-max">/30</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Form -->
+                            <form class="scorecard-form">
+                                <!-- Criteria 1 -->
+                                <div class="criteria-item">
+                                    <div class="criteria-header">
+                                        <label class="criteria-label">Innovation & Creativity</label>
+                                        <span class="criteria-value">8</span>
+                                    </div>
+                                    <input type="range" class="range-slider" min="0" max="10" value="8" id="criteria1" oninput="document.querySelector('#criteria1 + .range-labels').previousElementSibling.querySelector('.criteria-value').textContent = this.value; updateTotal();">
+                                    <div class="range-labels">
+                                        <span>Poor</span>
+                                        <span>Excellent</span>
+                                    </div>
+                                </div>
+
+                                <!-- Criteria 2 -->
+                                <div class="criteria-item">
+                                    <div class="criteria-header">
+                                        <label class="criteria-label">Feasibility & Scalability</label>
+                                        <span class="criteria-value">7</span>
+                                    </div>
+                                    <input type="range" class="range-slider" min="0" max="10" value="7" id="criteria2" oninput="document.querySelector('#criteria2 + .range-labels').previousElementSibling.querySelector('.criteria-value').textContent = this.value; updateTotal();">
+                                    <div class="range-labels">
+                                        <span>Poor</span>
+                                        <span>Excellent</span>
+                                    </div>
+                                </div>
+
+                                <!-- Criteria 3 -->
+                                <div class="criteria-item">
+                                    <div class="criteria-header">
+                                        <label class="criteria-label">Social Impact</label>
+                                        <span class="criteria-value">9</span>
+                                    </div>
+                                    <input type="range" class="range-slider" min="0" max="10" value="9" id="criteria3" oninput="document.querySelector('#criteria3 + .range-labels').previousElementSibling.querySelector('.criteria-value').textContent = this.value; updateTotal();">
+                                    <div class="range-labels">
+                                        <span>Poor</span>
+                                        <span>Excellent</span>
+                                    </div>
+                                </div>
+
+                                <div class="criteria-divider"></div>
+
+                                <!-- Feedback -->
+                                <div class="feedback-section">
+                                    <label class="feedback-label">
+                                        Juror Feedback
+                                        <span class="feedback-optional">Optional</span>
+                                    </label>
+                                    <textarea class="feedback-textarea" placeholder="Enter qualitative feedback for the team..."></textarea>
+                                </div>
+
+                                <!-- Shortlist Toggle -->
+                                <div class="shortlist-toggle">
+                                    <div>
+                                        <p class="shortlist-label-text">Shortlist for Finals</p>
+                                        <p class="shortlist-description">Recommend this team for the next round</p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+
+                                <!-- Actions -->
+                                <button type="submit" class="submit-btn" onclick="event.preventDefault();">
+                                    <span class="material-symbols-outlined" style="font-size: 20px;">check_circle</span>
+                                    Submit Evaluation
+                                </button>
+                                <div class="auto-save-note">
+                                    <span class="material-symbols-outlined">cloud_done</span>
+                                    <span>Draft saved automatically 2m ago</span>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Navigation to other teams -->
+                        <div class="nav-links">
+                            <a href="#" class="nav-link">
+                                <span class="material-symbols-outlined">arrow_back</span>
+                                Previous Team
+                            </a>
+                            <a href="#" class="nav-link">
+                                Next Team
+                                <span class="material-symbols-outlined">arrow_forward</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Update Total Score -->
+    <script>
+        function updateTotal() {
+            const criteria1 = parseInt(document.getElementById('criteria1').value) || 0;
+            const criteria2 = parseInt(document.getElementById('criteria2').value) || 0;
+            const criteria3 = parseInt(document.getElementById('criteria3').value) || 0;
+            const total = criteria1 + criteria2 + criteria3;
+            document.querySelector('.score-total-value').innerHTML = total + '<span class="score-total-max">/30</span>';
+        }
+    </script>
+
+    <!-- Load Sidebar -->
+    <script>
+        fetch('sidebar.html')
+            .then(response => response.text())
+            .then(data => {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = data;
+
+                const sidebar = tempDiv.querySelector('aside');
+                const sidebarScript = tempDiv.querySelector('script');
+                const sidebarStyle = tempDiv.querySelector('style');
+
+                if (sidebar) {
+                    document.getElementById('sidebar-container').appendChild(sidebar);
+                }
+
+                if (sidebarStyle) {
+                    document.head.appendChild(sidebarStyle);
+                }
+
+                if (sidebarScript) {
+                    const script = document.createElement('script');
+                    script.textContent = sidebarScript.textContent;
+                    document.body.appendChild(script);
+                }
+
+                // Set active sidebar menu item
+                setTimeout(() => {
+                    const currentPage = window.location.pathname.split('/').pop() || 'idea-evaluation.html';
+                    const navItems = document.querySelectorAll('.nav-item');
+
+                    navItems.forEach(item => {
+                        const href = item.getAttribute('href');
+
+                        // Remove active class from all items first
+                        item.classList.remove('nav-item-active');
+
+                        // Find the icon and update fill state
+                        const icon = item.querySelector('.material-symbols-outlined');
+                        if (icon) {
+                            icon.classList.remove('filled');
+                            icon.style.fontVariationSettings = "'FILL' 0";
+                        }
+
+                        // Add active class to evaluations/assigned-ideas
+                        if (href === 'assigned-ideas.html' || currentPage === 'idea-evaluation.html') {
+                            item.classList.add('nav-item-active');
+                            if (icon) {
+                                icon.classList.add('filled');
+                                icon.style.fontVariationSettings = "'FILL' 1";
+                            }
+                        }
+                    });
+                }, 200);
+            })
+            .catch(error => console.error('Error loading sidebar:', error));
+    </script>
+
+    <!-- Load Header -->
+    <script>
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = data;
+
+                // Extract and append all elements
+                const elements = tempDiv.childNodes;
+                elements.forEach(node => {
+                    if (node.nodeType === 1 || node.nodeType === 3) { // Element or Text node
+                        document.getElementById('header-container').appendChild(node.cloneNode(true));
+                    }
+                });
+
+                // Find and execute the script
+                const script = tempDiv.querySelector('script');
+                if (script) {
+                    const newScript = document.createElement('script');
+                    newScript.textContent = script.textContent;
+                    document.body.appendChild(newScript);
+                }
+            })
+            .catch(error => console.error('Error loading header:', error));
+    </script>
+</body>
+
+</html>

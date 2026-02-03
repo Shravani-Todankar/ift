@@ -96,6 +96,10 @@
             padding: 1.5rem;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
             transition: all 0.3s ease;
+            min-height: 140px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
 
         .stat-card:hover {
@@ -148,7 +152,7 @@
             overflow: hidden;
         }
 
-        .stat-card.pending-card::before {
+        /* .stat-card.pending-card::before {
             content: '';
             position: absolute;
             right: -2rem;
@@ -157,7 +161,7 @@
             height: 8rem;
             background: rgba(249, 115, 22, 0.1);
             border-radius: 50%;
-        }
+        } */
 
         .stat-card.pending-card .stat-value {
             color: var(--secondary-color);

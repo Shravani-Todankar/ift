@@ -49,10 +49,6 @@
 
     .sidebar-header {
         border-bottom: 1px solid #F7F7F7;
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
     }
 
     .logo-img {
@@ -262,11 +258,11 @@
 <!-- Sidebar -->
 <aside class="sidebar d-md-flex flex-column" id="studentAppSidebar">
     <div class="sidebar-header p-3 pb-2">
-        <div class="d-flex align-items-center gap-3">
+        <div class="d-flex align-items-center">
             <div class="logo-img"
                 style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB7rQ2LhvR3kyOHF0KAOScrfNCObr-XX_Hx99cMGvsRqD7bCLZ1p56CzJWsQAcDbTs5Mxj8Ya4TNYTEUu4nyBJAe0f_gXQk0I9S3U8y_CaA9Fm85pI_Y6K0oYWWO_6WTolfD3mQ3Pbq5iTY3bbTKVZaxdY-3sfFbuxFayL_r0KBLKWdUxQy-4eZL6YzVM_qZiCu2egpJN9z8DiPu7uC-QFzUZqUzI8-JUatTVqtDQZNLQ9G1vZ8QN08WUjcb8W9ubFYkssAlsTLaIc");'>
             </div>
-            <div class="d-flex flex-column">
+            <div class="d-flex flex-column" style="margin-left: 10px;">
                 <h1 class="sidebar-title">IFT</h1>
                 <p class="sidebar-subtitle">India's Future Tycoon</p>
             </div>
@@ -278,7 +274,7 @@
             <span class="material-symbols-outlined">dashboard</span>
             <span class="nav-text">Dashboard</span>
         </a>
-        <a class="nav-item" href="#">
+        <a class="nav-item" href="profile.html">
             <span class="material-symbols-outlined">person</span>
             <span class="nav-text">My Profile</span>
         </a>
@@ -362,19 +358,12 @@
 
                     // Show confirmation dialog
                     if (confirm('Are you sure you want to logout?')) {
-                        // Add fade out animation
-                        document.body.style.opacity = '0';
-                        document.body.style.transition = 'opacity 0.3s ease';
+                        // Clear any stored user data
+                        sessionStorage.clear();
+                        localStorage.removeItem('userToken');
 
-                        // Simulate logout (redirect to login page or clear session)
-                        setTimeout(() => {
-                            // Clear any stored user data
-                            sessionStorage.clear();
-                            localStorage.removeItem('userToken');
-
-                            // Redirect to login page (adjust URL as needed)
-                            window.location.href = '../index.html';
-                        }, 300);
+                        // Redirect to login page
+                        window.location.href = '../auth/sign-in.html';
                     }
                 });
             }
