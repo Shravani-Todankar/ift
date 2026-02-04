@@ -358,9 +358,9 @@
         }
 
         .btn-evaluate:hover {
-            background: #0847c7;
+            background: #8253b4;
             transform: translateY(-1px);
-            box-shadow: 0 4px 8px rgba(13, 89, 242, 0.3);
+            box-shadow: 0 4px 8px rgba(147, 13, 242, 0.3);
         }
 
         .btn-resume {
@@ -617,7 +617,7 @@
                                                 <span class="category-badge sustainability">Sustainability</span>
                                             </td>
                                             <td>
-                                                <button class="btn-evaluate">Evaluate</button>
+                                                <a href="idea-evaluation.html" class="btn-evaluate" style="text-decoration: none; display: inline-block;">Evaluate</a>
                                             </td>
                                         </tr>
                                         <tr>
@@ -630,7 +630,7 @@
                                                 <span class="category-badge education">Education</span>
                                             </td>
                                             <td>
-                                                <button class="btn-evaluate">Evaluate</button>
+                                                <a href="idea-evaluation.html" class="btn-evaluate" style="text-decoration: none; display: inline-block;">Evaluate</a>
                                             </td>
                                         </tr>
                                         <tr>
@@ -766,6 +766,7 @@
 
                 const header = tempDiv.querySelector('header');
                 const notificationPanel = tempDiv.querySelector('#notificationPanel');
+                const helpModal = tempDiv.querySelector('#helpModal');
                 const profileDropdown = tempDiv.querySelector('#profileDropdown');
                 const headerStyle = tempDiv.querySelector('style');
 
@@ -776,6 +777,10 @@
                 // Append dropdowns to body for proper z-index positioning
                 if (notificationPanel) {
                     document.body.appendChild(notificationPanel);
+                }
+
+                if (helpModal) {
+                    document.body.appendChild(helpModal);
                 }
 
                 if (profileDropdown) {
@@ -793,15 +798,20 @@
                     const notificationBtn = document.getElementById('notificationBtn');
                     const notificationPanelEl = document.getElementById('notificationPanel');
                     const closeNotificationPanel = document.getElementById('closeNotificationPanel');
+                    const helpBtn = document.getElementById('helpBtn');
+                    const helpModalEl = document.getElementById('helpModal');
+                    const closeHelpModal = document.getElementById('closeHelpModal');
                     const profileDropdownEl = document.getElementById('profileDropdown');
                     const profileAvatarBtn = document.getElementById('profileAvatarBtn');
-                    const headerLogoutBtn = document.getElementById('headerLogoutBtn');
+                    const logoutLink = document.getElementById('logoutLink');
                     const sidebarToggleBtn = document.getElementById('sidebarToggleBtn');
                     const sidebar = document.getElementById('juryAppSidebar');
 
                     console.log('Elements found:', {
                         notificationBtn: !!notificationBtn,
                         notificationPanel: !!notificationPanelEl,
+                        helpBtn: !!helpBtn,
+                        helpModal: !!helpModalEl,
                         profileAvatarBtn: !!profileAvatarBtn,
                         profileDropdown: !!profileDropdownEl,
                         sidebarToggleBtn: !!sidebarToggleBtn,
@@ -815,14 +825,33 @@
                             console.log('Notification button clicked');
                             notificationPanelEl.classList.toggle('active');
 
-                            if (profileDropdownEl) {
-                                profileDropdownEl.classList.remove('active');
-                            }
+                            // Close other panels
+                            if (helpModalEl) helpModalEl.classList.remove('active');
+                            if (profileDropdownEl) profileDropdownEl.classList.remove('active');
                         });
 
                         if (closeNotificationPanel) {
                             closeNotificationPanel.addEventListener('click', function() {
                                 notificationPanelEl.classList.remove('active');
+                            });
+                        }
+                    }
+
+                    // Setup Help Modal
+                    if (helpBtn && helpModalEl) {
+                        helpBtn.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            console.log('Help button clicked');
+                            helpModalEl.classList.toggle('active');
+
+                            // Close other panels
+                            if (notificationPanelEl) notificationPanelEl.classList.remove('active');
+                            if (profileDropdownEl) profileDropdownEl.classList.remove('active');
+                        });
+
+                        if (closeHelpModal) {
+                            closeHelpModal.addEventListener('click', function() {
+                                helpModalEl.classList.remove('active');
                             });
                         }
                     }
@@ -834,26 +863,30 @@
                             console.log('Profile avatar clicked');
                             profileDropdownEl.classList.toggle('active');
 
-                            if (notificationPanelEl) {
-                                notificationPanelEl.classList.remove('active');
-                            }
+                            // Close other panels
+                            if (notificationPanelEl) notificationPanelEl.classList.remove('active');
+                            if (helpModalEl) helpModalEl.classList.remove('active');
                         });
                     }
 
                     // Setup Logout
-                    if (headerLogoutBtn) {
-                        headerLogoutBtn.addEventListener('click', function(e) {
+                    if (logoutLink) {
+                        logoutLink.addEventListener('click', function(e) {
                             e.preventDefault();
+                            e.stopPropagation();
 
                             if (confirm('Are you sure you want to logout?')) {
-                                document.body.style.opacity = '0';
-                                document.body.style.transition = 'opacity 0.3s ease';
+                                // Close dropdown
+                                if (profileDropdownEl) {
+                                    profileDropdownEl.classList.remove('active');
+                                }
 
-                                setTimeout(() => {
-                                    sessionStorage.clear();
-                                    localStorage.removeItem('userToken');
-                                    window.location.href = '../index.html';
-                                }, 300);
+                                // Clear any stored user data
+                                sessionStorage.clear();
+                                localStorage.removeItem('userToken');
+
+                                // Redirect to login page
+                                window.location.href = '../auth/sign-in.html';
                             }
                         });
                     }
@@ -878,6 +911,10 @@
                     document.addEventListener('click', function(e) {
                         if (notificationPanelEl && !e.target.closest('#notificationPanel') && !e.target.closest('#notificationBtn')) {
                             notificationPanelEl.classList.remove('active');
+                        }
+
+                        if (helpModalEl && !e.target.closest('#helpModal') && !e.target.closest('#helpBtn')) {
+                            helpModalEl.classList.remove('active');
                         }
 
                         if (profileDropdownEl && !e.target.closest('#profileDropdown') && !e.target.closest('#profileAvatarBtn')) {

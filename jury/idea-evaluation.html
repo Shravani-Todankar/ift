@@ -78,7 +78,7 @@
         .content-wrapper {
             max-width: 1440px;
             margin: 0 auto;
-            padding: 2rem 3rem;
+            padding: 2rem;
             width: 100%;
         }
 
@@ -195,6 +195,7 @@
         .team-avatars {
             display: flex;
             margin-left: auto;
+            justify-content: flex-end;
         }
 
         .team-avatar {
@@ -760,6 +761,79 @@
             color: var(--primary-color);
         }
 
+        /* Toast Notification */
+        .toast-notification {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--white);
+            border-left: 4px solid var(--primary-color);
+            border-radius: 0.75rem;
+            padding: 1rem 1.25rem;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            min-width: 320px;
+            max-width: 400px;
+            z-index: 1000;
+            transform: translateX(500px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .toast-notification.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .toast-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            background: rgba(94, 42, 151, 0.1);
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-size: 0.9375rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0 0 0.25rem 0;
+        }
+
+        .toast-message {
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            padding: 0.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.375rem;
+            transition: all 0.2s ease;
+        }
+
+        .toast-close:hover {
+            background: var(--background-light);
+            color: var(--text-dark);
+        }
+
         /* Responsive */
         @media (max-width: 992px) {
             .content-wrapper {
@@ -846,7 +920,7 @@
                                         <img class="team-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCK0BoJGEJIUJDhmhFpR12UhYVqq4u0ExRZolOFbKZaCrwVAM5QSXABY0XnOLZkRSItBBMv3aSNvAZ01QX3UiQ7Xp41XBfSClzM2E3D0vIqIET3LTl-VcX5GNDp-8NYT5DWapd7FmU3XSOnAQXW_6nsTQdhETdu-yqWCmW-_aqnO5MLQ45MFAy-REaNot711jiQnKK-gI5yLOdc2CrtRPqh_LMLI228h3V2K7jmjCMDEH-g5e-Mcd5Rz2xIuEroYoaPLN3_Lj0vy6E" alt="Team member 1" />
                                         <img class="team-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALlxklNRD8pSqUYxEBnQfxsjk9ItvUS2Bv5S-rTpVlA8egLlgPvPmHfUGfVLl3OUHIduv8H5f-yBiZvKwPYIRRvt0YfAfmdcdP2O3Hy4cxiPsdRIVAV_kt-AwnbqOz_S2v3_ycZDr-A8yZXVpqzWf9ZzD21jfeSTu1jv2KWKzUeUMB0T4zPvBGe3QX8OkgmlqcfEfb-KlBQCq0T5Ne2Dn-eQv6OesQE_CZ1UlvBfxq7NYkT8KMV2jDOULKSxs3qLKStj_L7mVDMrQ" alt="Team member 2" />
                                         <img class="team-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkqCVlb6-Ik64Uu66aFrQ3a1cwW9nY85j6PzTMGqy0a4cNlaRiG5u_Oznaqkl8t81sTShn9dvfr4LO2GwZHIp7paDkoHJ3Tv-2Eqrlr1KeCmv-o_HhMR73yyadr3vItpENEzpAWif9QrGITuOs-w5JptxniogO0UF0vTL_HhFNly3fSQuksY8rsVpIvDH-9BhmDr-fEhj46BFJfd2dt7SrML8LeFFPHbOHBrdEQycHKh9Ng7C6RUB2XFYp6p9p6rPQ3ESpZVDDpBo" alt="Team member 3" />
-                                        <a href="#" class="team-more">+2</a>
+                                        <!-- <a href="#" class="team-more">+2</a> -->
                                     </div>
                                 </div>
                             </div>
@@ -964,9 +1038,9 @@
                                 <div class="criteria-item">
                                     <div class="criteria-header">
                                         <label class="criteria-label">Innovation & Creativity</label>
-                                        <span class="criteria-value">8</span>
+                                        <span class="criteria-value" id="criteria1-value">8</span>
                                     </div>
-                                    <input type="range" class="range-slider" min="0" max="10" value="8" id="criteria1" oninput="document.querySelector('#criteria1 + .range-labels').previousElementSibling.querySelector('.criteria-value').textContent = this.value; updateTotal();">
+                                    <input type="range" class="range-slider" min="0" max="10" value="8" id="criteria1">
                                     <div class="range-labels">
                                         <span>Poor</span>
                                         <span>Excellent</span>
@@ -977,9 +1051,9 @@
                                 <div class="criteria-item">
                                     <div class="criteria-header">
                                         <label class="criteria-label">Feasibility & Scalability</label>
-                                        <span class="criteria-value">7</span>
+                                        <span class="criteria-value" id="criteria2-value">7</span>
                                     </div>
-                                    <input type="range" class="range-slider" min="0" max="10" value="7" id="criteria2" oninput="document.querySelector('#criteria2 + .range-labels').previousElementSibling.querySelector('.criteria-value').textContent = this.value; updateTotal();">
+                                    <input type="range" class="range-slider" min="0" max="10" value="7" id="criteria2">
                                     <div class="range-labels">
                                         <span>Poor</span>
                                         <span>Excellent</span>
@@ -990,9 +1064,9 @@
                                 <div class="criteria-item">
                                     <div class="criteria-header">
                                         <label class="criteria-label">Social Impact</label>
-                                        <span class="criteria-value">9</span>
+                                        <span class="criteria-value" id="criteria3-value">9</span>
                                     </div>
-                                    <input type="range" class="range-slider" min="0" max="10" value="9" id="criteria3" oninput="document.querySelector('#criteria3 + .range-labels').previousElementSibling.querySelector('.criteria-value').textContent = this.value; updateTotal();">
+                                    <input type="range" class="range-slider" min="0" max="10" value="9" id="criteria3">
                                     <div class="range-labels">
                                         <span>Poor</span>
                                         <span>Excellent</span>
@@ -1063,6 +1137,97 @@
             const total = criteria1 + criteria2 + criteria3;
             document.querySelector('.score-total-value').innerHTML = total + '<span class="score-total-max">/30</span>';
         }
+
+        // Toast notification function
+        function showToast(title, message, icon) {
+            // Remove any existing toast
+            const existingToast = document.querySelector('.toast-notification');
+            if (existingToast) {
+                existingToast.remove();
+            }
+
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            toast.innerHTML = `
+                <div class="toast-icon">
+                    <span class="material-symbols-outlined">${icon}</span>
+                </div>
+                <div class="toast-content">
+                    <p class="toast-title">${title}</p>
+                    <p class="toast-message">${message}</p>
+                </div>
+                <button class="toast-close">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            `;
+
+            document.body.appendChild(toast);
+
+            // Show toast with animation
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 10);
+
+            // Close button handler
+            const closeBtn = toast.querySelector('.toast-close');
+            closeBtn.addEventListener('click', function() {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            });
+
+            // Auto hide after 4 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 4000);
+        }
+
+        // Range slider event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            const criteria1 = document.getElementById('criteria1');
+            const criteria2 = document.getElementById('criteria2');
+            const criteria3 = document.getElementById('criteria3');
+
+            if (criteria1) {
+                criteria1.addEventListener('input', function() {
+                    document.getElementById('criteria1-value').textContent = this.value;
+                    updateTotal();
+                });
+            }
+
+            if (criteria2) {
+                criteria2.addEventListener('input', function() {
+                    document.getElementById('criteria2-value').textContent = this.value;
+                    updateTotal();
+                });
+            }
+
+            if (criteria3) {
+                criteria3.addEventListener('input', function() {
+                    document.getElementById('criteria3-value').textContent = this.value;
+                    updateTotal();
+                });
+            }
+
+            // Media card click handlers
+            const mediaCards = document.querySelectorAll('.media-card');
+            mediaCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const title = this.querySelector('.media-title').textContent;
+                    const icon = title === 'Pitch Deck' ? 'slideshow' : 'play_circle';
+                    showToast(
+                        'Opening ' + title,
+                        'This would open the media in a viewer/modal in production.',
+                        icon
+                    );
+                });
+            });
+        });
     </script>
 
     <!-- Load Sidebar -->
@@ -1109,8 +1274,8 @@
                             icon.style.fontVariationSettings = "'FILL' 0";
                         }
 
-                        // Add active class to evaluations/assigned-ideas
-                        if (href === 'assigned-ideas.html' || currentPage === 'idea-evaluation.html') {
+                        // Add active class to evaluations/assigned-ideas when on idea-evaluation page
+                        if (href === 'assigned-ideas.html' && currentPage === 'idea-evaluation.html') {
                             item.classList.add('nav-item-active');
                             if (icon) {
                                 icon.classList.add('filled');
@@ -1131,13 +1296,32 @@
                 const tempDiv = document.createElement('div');
                 tempDiv.innerHTML = data;
 
-                // Extract and append all elements
-                const elements = tempDiv.childNodes;
-                elements.forEach(node => {
-                    if (node.nodeType === 1 || node.nodeType === 3) { // Element or Text node
-                        document.getElementById('header-container').appendChild(node.cloneNode(true));
-                    }
-                });
+                const header = tempDiv.querySelector('header');
+                const notificationPanel = tempDiv.querySelector('#notificationPanel');
+                const helpModal = tempDiv.querySelector('#helpModal');
+                const profileDropdown = tempDiv.querySelector('#profileDropdown');
+                const headerStyle = tempDiv.querySelector('style');
+
+                if (header) {
+                    document.getElementById('header-container').appendChild(header);
+                }
+
+                // Append dropdowns to body for proper z-index positioning
+                if (notificationPanel) {
+                    document.body.appendChild(notificationPanel);
+                }
+
+                if (helpModal) {
+                    document.body.appendChild(helpModal);
+                }
+
+                if (profileDropdown) {
+                    document.body.appendChild(profileDropdown);
+                }
+
+                if (headerStyle) {
+                    document.head.appendChild(headerStyle);
+                }
 
                 // Find and execute the script
                 const script = tempDiv.querySelector('script');
