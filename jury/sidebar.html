@@ -28,7 +28,19 @@
     }
 
     .sidebar.collapsed .logo-img {
+        width: 50px;
+        height: 50px;
         margin: 0 auto;
+        background-position: center;
+    }
+
+    .sidebar.collapsed .nav-item {
+        justify-content: center;
+        padding-left: 1.75rem;
+    }
+
+    .sidebar.collapsed .nav-item .material-symbols-outlined {
+        margin: 0;
     }
 
     .sidebar-header {
@@ -36,14 +48,12 @@
     }
 
     .logo-img {
-        width: 2.5rem;
-        height: 2.5rem;
-        background-size: cover;
-        background-position: center;
+        width: 250px;
+        height: 50px;
+        background-size: contain;
+        background-position: left center;
         background-repeat: no-repeat;
-        border-radius: 0.5rem;
         flex-shrink: 0;
-        border: 1px solid #EEEEEE;
     }
 
     .sidebar-title {
@@ -243,12 +253,12 @@
     <div class="sidebar-header p-3 pb-3">
         <div class="d-flex align-items-center">
             <div class="logo-img"
-                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB-XQB8IVDSkxX6ICyWiVD4C6kIJrFTsCgpUZGCdQM5WFe6P3gfVH5-93n9QVGW5gEVCw4V-NsF0jJlGNe5udZsWL93wpf0yI3kxGwdIdopGqFzZBKpMH0H3f4obSlg1n0Musb5YruVr1h0nSlogbgBFxS9UOhgIEor2VgzaqybbHNlwfheDQiF25FxXxEh76SthI-04vFrqg49Kzo1bK4AYodC1_otA1G5Rq5SuALrMgwwSg-BmZ8vUbiJIbLEyEnyMGU_ZQ-_1Q0");'>
+                style='background-image: url("../assets/IFT_logo.png");'>
             </div>
-            <div class="d-flex flex-column" style="margin-left: 10px;">
+            <!-- <div class="d-flex flex-column" style="margin-left: 10px;">
                 <h1 class="sidebar-title">IFT Jury Panel</h1>
                 <p class="sidebar-subtitle">India's Future Tycoon</p>
-            </div>
+            </div> -->
         </div>
     </div>
     <nav class="flex-grow-1 px-3 d-flex flex-column gap-2 mt-3">
