@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,10 +9,12 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap"
+        rel="stylesheet">
 
     <!-- Material Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
 
     <style>
         :root {
@@ -53,13 +56,17 @@
             animation: fadeInDown 0.8s ease;
         }
 
-        .logo-text {
+        img.logo {
+            width: 300px;
+        }
+
+        /* .logo-text {
             font-size: 2.25rem;
             font-weight: 900;
             color: var(--primary);
             letter-spacing: -0.02em;
             margin-bottom: 0.5rem;
-        }
+        } */
 
         .tagline {
             font-size: 1rem;
@@ -200,6 +207,7 @@
                 opacity: 0;
                 transform: translateY(-30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -211,6 +219,7 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -221,6 +230,7 @@
             from {
                 opacity: 0;
             }
+
             to {
                 opacity: 1;
             }
@@ -279,11 +289,14 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <!-- Logo Section -->
         <div class="logo-section">
-            <h1 class="logo-text">India Future Tycoon</h1>
+            <a href="#">
+                <img src="../assets/IFT_logo.png" alt="IFT Logo" class="logo">
+            </a>
             <p class="tagline">Empowering Young Innovators to Shape Tomorrow</p>
         </div>
 
@@ -348,4 +361,5 @@
         </p>
     </div>
 </body>
+
 </html>
