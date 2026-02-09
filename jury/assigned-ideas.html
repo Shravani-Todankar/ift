@@ -378,6 +378,28 @@
             background: currentColor;
         }
 
+        /* AI Badge */
+        .ai-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.375rem 0.625rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 0.6875rem;
+            font-weight: 700;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            margin-left: 0.5rem;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .ai-badge .material-symbols-outlined {
+            font-size: 14px;
+            font-variation-settings: 'FILL' 1;
+        }
+
         /* Action Buttons */
         .btn-evaluate {
             padding: 0.5rem 1.25rem;
@@ -562,10 +584,11 @@
                             12 Pending Evaluation
                         </p>
                     </div>
-                    <button class="export-btn">
+                    <!-- Export button hidden -->
+                    <!-- <button class="export-btn">
                         <span class="material-symbols-outlined">file_download</span>
                         Export List
-                    </button>
+                    </button> -->
                 </div>
 
                 <!-- Filter Toolbar -->
@@ -641,7 +664,13 @@
                                         <span class="material-symbols-outlined">traffic</span>
                                     </div>
                                     <div>
-                                        <p class="idea-title">AI Traffic Management</p>
+                                        <p class="idea-title">
+                                            AI Traffic Management
+                                            <span class="ai-badge">
+                                                <span class="material-symbols-outlined">smart_toy</span>
+                                                AI
+                                            </span>
+                                        </p>
                                         <p class="idea-category">Smart City Category</p>
                                     </div>
                                 </div>
@@ -734,7 +763,13 @@
                                         <span class="material-symbols-outlined">devices</span>
                                     </div>
                                     <div>
-                                        <p class="idea-title">Low-Cost Edu Tablet</p>
+                                        <p class="idea-title">
+                                            Low-Cost Edu Tablet
+                                            <span class="ai-badge">
+                                                <span class="material-symbols-outlined">smart_toy</span>
+                                                AI
+                                            </span>
+                                        </p>
                                         <p class="idea-category">EduTech Category</p>
                                     </div>
                                 </div>
@@ -1022,6 +1057,115 @@
                 }, 100);
             })
             .catch(error => console.error('Error loading header:', error));
+    </script>
+
+    <!-- Search and Filter Functionality -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.querySelector('.search-input');
+            const statusFilter = document.querySelectorAll('.filter-select')[0];
+            const sortFilter = document.querySelectorAll('.filter-select')[1];
+            const tableRows = document.querySelectorAll('.ideas-table tbody tr');
+
+            // Store original order
+            const rowsArray = Array.from(tableRows);
+
+            // Search functionality
+            if (searchInput) {
+                searchInput.addEventListener('input', function(e) {
+                    const searchTerm = e.target.value.toLowerCase().trim();
+                    filterAndSort();
+                });
+            }
+
+            // Status filter functionality
+            if (statusFilter) {
+                statusFilter.addEventListener('change', function() {
+                    filterAndSort();
+                });
+            }
+
+            // Sort filter functionality
+            if (sortFilter) {
+                sortFilter.addEventListener('change', function() {
+                    filterAndSort();
+                });
+            }
+
+            function filterAndSort() {
+                const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
+                const statusValue = statusFilter ? statusFilter.value : 'all';
+                const sortValue = sortFilter ? sortFilter.value : '';
+
+                let visibleRows = rowsArray.filter(row => {
+                    // Search filter
+                    const ideaTitle = row.querySelector('.idea-title')?.textContent.toLowerCase() || '';
+                    const teamName = row.querySelector('.team-name')?.textContent.toLowerCase() || '';
+                    const teamId = row.querySelector('.team-id')?.textContent.toLowerCase() || '';
+                    const category = row.querySelector('.idea-category')?.textContent.toLowerCase() || '';
+
+                    const matchesSearch = !searchTerm ||
+                        ideaTitle.includes(searchTerm) ||
+                        teamName.includes(searchTerm) ||
+                        teamId.includes(searchTerm) ||
+                        category.includes(searchTerm);
+
+                    // Status filter
+                    let matchesStatus = true;
+                    if (statusValue && statusValue !== 'all') {
+                        const statusBadge = row.querySelector('.status-badge');
+                        if (statusBadge) {
+                            const rowStatus = statusBadge.classList.contains('pending') ? 'pending' : 'evaluated';
+                            matchesStatus = rowStatus === statusValue;
+                        }
+                    }
+
+                    return matchesSearch && matchesStatus;
+                });
+
+                // Sort by date
+                if (sortValue) {
+                    visibleRows.sort((a, b) => {
+                        const dateA = new Date(a.querySelector('.date-text')?.textContent || '');
+                        const dateB = new Date(b.querySelector('.date-text')?.textContent || '');
+
+                        if (sortValue === 'newest') {
+                            return dateB - dateA;
+                        } else if (sortValue === 'oldest') {
+                            return dateA - dateB;
+                        }
+                        return 0;
+                    });
+                }
+
+                // Hide all rows first
+                rowsArray.forEach(row => row.style.display = 'none');
+
+                // Show filtered and sorted rows
+                const tbody = document.querySelector('.ideas-table tbody');
+                visibleRows.forEach(row => {
+                    row.style.display = '';
+                    tbody.appendChild(row); // Re-append to maintain sort order
+                });
+
+                // Update pagination info
+                updatePaginationInfo(visibleRows.length);
+            }
+
+            function updatePaginationInfo(visibleCount) {
+                const paginationInfo = document.querySelector('.pagination-info');
+                if (paginationInfo) {
+                    const totalCount = rowsArray.length;
+                    if (visibleCount === 0) {
+                        paginationInfo.textContent = 'No results found';
+                    } else if (visibleCount === totalCount) {
+                        paginationInfo.textContent = `Showing 1-${visibleCount} of ${totalCount}`;
+                    } else {
+                        paginationInfo.textContent = `Showing ${visibleCount} of ${totalCount}`;
+                    }
+                }
+            }
+        });
     </script>
 </body>
 

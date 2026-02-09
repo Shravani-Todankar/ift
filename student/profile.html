@@ -148,6 +148,11 @@
             gap: 2rem;
         }
 
+        .profile-avatar-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
         .profile-avatar-large {
             width: 120px;
             height: 120px;
@@ -155,6 +160,37 @@
             border: 4px solid white;
             object-fit: cover;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .avatar-edit-overlay {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 36px;
+            height: 36px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 3px solid white;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .avatar-edit-overlay:hover {
+            background: #7B3FB5;
+            transform: scale(1.1);
+        }
+
+        .avatar-edit-overlay .material-symbols-outlined {
+            font-size: 18px;
+            color: white;
+        }
+
+        #avatarFileInput {
+            display: none;
         }
 
         .profile-header-info {
@@ -567,9 +603,15 @@
                 <!-- Profile Header Card -->
                 <div class="profile-header-card">
                     <div class="profile-header-content">
-                        <img class="profile-avatar-large"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAY6iaiuM97ukhXnkazQO4ZEzVdkIlgOyUQ0xIW_ZYSRjhORA4PvjrpGUSehGXjXjaRFLQ227P1dyOoIB5EmUt1fSgTZgJ9qdSUGdyS3RfS3dKbzonPwrp9ENytz14BwcvT_ooy5rrq8RdJUUJAGSM40jDW0kzhk0BmETKlnnf4iA8CZtLcqtXs89sn0ZToW5seXzTbLU3esfQXCgMSOr0Oe-sq-g6DuIYwgAGqg2xOV4hjJGirhWM8L7hk34VKsuti0EQYb5IehuM"
-                            alt="Profile Picture">
+                        <div class="profile-avatar-wrapper">
+                            <img class="profile-avatar-large" id="profileAvatar"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAY6iaiuM97ukhXnkazQO4ZEzVdkIlgOyUQ0xIW_ZYSRjhORA4PvjrpGUSehGXjXjaRFLQ227P1dyOoIB5EmUt1fSgTZgJ9qdSUGdyS3RfS3dKbzonPwrp9ENytz14BwcvT_ooy5rrq8RdJUUJAGSM40jDW0kzhk0BmETKlnnf4iA8CZtLcqtXs89sn0ZToW5seXzTbLU3esfQXCgMSOr0Oe-sq-g6DuIYwgAGqg2xOV4hjJGirhWM8L7hk34VKsuti0EQYb5IehuM"
+                                alt="Profile Picture">
+                            <div class="avatar-edit-overlay" id="avatarEditBtn" title="Change profile picture">
+                                <span class="material-symbols-outlined">photo_camera</span>
+                            </div>
+                            <input type="file" id="avatarFileInput" accept="image/*">
+                        </div>
                         <div class="profile-header-info">
                             <h2 class="profile-name">Rohan Sharma</h2>
                             <div class="profile-meta">
@@ -584,7 +626,7 @@
                             </div>
                             <div class="profile-stats">
                                 <div class="profile-stat">
-                                    <span class="profile-stat-value">3</span>
+                                    <span class="profile-stat-value">1</span>
                                     <span class="profile-stat-label">Ideas Submitted</span>
                                 </div>
                                 <div class="profile-stat">
@@ -1311,6 +1353,266 @@
                 }
             `;
             document.head.appendChild(style);
+        })();
+    </script>
+
+    <!-- Avatar Edit Functionality -->
+    <script>
+        (function() {
+            const avatarEditBtn = document.getElementById('avatarEditBtn');
+            const avatarFileInput = document.getElementById('avatarFileInput');
+            const profileAvatar = document.getElementById('profileAvatar');
+
+            // Trigger file input when clicking the edit overlay
+            avatarEditBtn.addEventListener('click', function() {
+                avatarFileInput.click();
+            });
+
+            // Handle file selection
+            avatarFileInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+
+                if (!file) {
+                    return;
+                }
+
+                // Validate file type
+                const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+                if (!validTypes.includes(file.type)) {
+                    showErrorMessage('Please select a valid image file (JPEG, PNG, GIF, or WebP)');
+                    avatarFileInput.value = '';
+                    return;
+                }
+
+                // Validate file size (max 5MB)
+                const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+                if (file.size > maxSize) {
+                    showErrorMessage('Image size must be less than 5MB');
+                    avatarFileInput.value = '';
+                    return;
+                }
+
+                // Preview the selected image
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    // Show confirmation dialog
+                    showAvatarPreview(event.target.result, file);
+                };
+                reader.readAsDataURL(file);
+            });
+
+            // Show avatar preview with confirmation
+            function showAvatarPreview(imageUrl, file) {
+                // Create modal for preview
+                const modal = document.createElement('div');
+                modal.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.7);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 10000;
+                    animation: fadeIn 0.2s ease-out;
+                `;
+
+                modal.innerHTML = `
+                    <div style="
+                        background: white;
+                        border-radius: 1rem;
+                        padding: 2rem;
+                        max-width: 400px;
+                        width: 90%;
+                        text-align: center;
+                        animation: slideUp 0.3s ease-out;
+                    ">
+                        <h3 style="
+                            font-size: 1.25rem;
+                            font-weight: 700;
+                            color: var(--text-dark);
+                            margin-bottom: 1.5rem;
+                        ">Change Profile Picture</h3>
+
+                        <div style="
+                            width: 150px;
+                            height: 150px;
+                            margin: 0 auto 1.5rem;
+                            border-radius: 50%;
+                            overflow: hidden;
+                            border: 4px solid var(--primary);
+                            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                        ">
+                            <img src="${imageUrl}" alt="Preview" style="
+                                width: 100%;
+                                height: 100%;
+                                object-fit: cover;
+                            ">
+                        </div>
+
+                        <p style="
+                            font-size: 0.875rem;
+                            color: var(--text-muted);
+                            margin-bottom: 1.5rem;
+                        ">Do you want to use this image as your profile picture?</p>
+
+                        <div style="
+                            display: flex;
+                            gap: 0.75rem;
+                            justify-content: center;
+                        ">
+                            <button id="confirmAvatarBtn" style="
+                                padding: 0.75rem 1.5rem;
+                                background: var(--primary);
+                                color: white;
+                                border: none;
+                                border-radius: 0.5rem;
+                                font-size: 0.875rem;
+                                font-weight: 700;
+                                cursor: pointer;
+                                transition: all 0.2s ease;
+                                box-shadow: 0 4px 12px rgba(94, 42, 151, 0.3);
+                            ">Confirm</button>
+                            <button id="cancelAvatarBtn" style="
+                                padding: 0.75rem 1.5rem;
+                                background: white;
+                                color: var(--text-dark);
+                                border: 1px solid var(--border-light);
+                                border-radius: 0.5rem;
+                                font-size: 0.875rem;
+                                font-weight: 600;
+                                cursor: pointer;
+                                transition: all 0.2s ease;
+                            ">Cancel</button>
+                        </div>
+                    </div>
+                `;
+
+                document.body.appendChild(modal);
+
+                // Add hover effects
+                const confirmBtn = modal.querySelector('#confirmAvatarBtn');
+                const cancelBtn = modal.querySelector('#cancelAvatarBtn');
+
+                confirmBtn.addEventListener('mouseenter', function() {
+                    this.style.background = '#7B3FB5';
+                    this.style.transform = 'translateY(-2px)';
+                });
+                confirmBtn.addEventListener('mouseleave', function() {
+                    this.style.background = 'var(--primary)';
+                    this.style.transform = 'translateY(0)';
+                });
+
+                cancelBtn.addEventListener('mouseenter', function() {
+                    this.style.background = 'var(--background-light)';
+                });
+                cancelBtn.addEventListener('mouseleave', function() {
+                    this.style.background = 'white';
+                });
+
+                // Confirm button - update avatar
+                confirmBtn.addEventListener('click', function() {
+                    profileAvatar.src = imageUrl;
+                    document.body.removeChild(modal);
+                    showSuccessMessage('Profile picture updated successfully!');
+                    avatarFileInput.value = '';
+
+                    // Here you would typically upload the file to server
+                    console.log('Avatar file ready for upload:', file.name, file.size);
+                });
+
+                // Cancel button - close modal
+                cancelBtn.addEventListener('click', function() {
+                    document.body.removeChild(modal);
+                    avatarFileInput.value = '';
+                });
+
+                // Close on background click
+                modal.addEventListener('click', function(e) {
+                    if (e.target === modal) {
+                        document.body.removeChild(modal);
+                        avatarFileInput.value = '';
+                    }
+                });
+            }
+
+            // Error message function
+            function showErrorMessage(message) {
+                const errorMsg = document.createElement('div');
+                errorMsg.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: #ef4444;
+                    color: white;
+                    padding: 1rem 1.5rem;
+                    border-radius: 0.5rem;
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                    z-index: 1000;
+                    font-weight: 600;
+                    animation: slideIn 0.3s ease-out;
+                `;
+                errorMsg.textContent = message;
+
+                document.body.appendChild(errorMsg);
+
+                setTimeout(() => {
+                    errorMsg.style.animation = 'slideOut 0.3s ease-out';
+                    setTimeout(() => {
+                        document.body.removeChild(errorMsg);
+                    }, 300);
+                }, 4000);
+            }
+
+            // Success message function
+            function showSuccessMessage(message) {
+                const successMsg = document.createElement('div');
+                successMsg.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: #10b981;
+                    color: white;
+                    padding: 1rem 1.5rem;
+                    border-radius: 0.5rem;
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                    z-index: 1000;
+                    font-weight: 600;
+                    animation: slideIn 0.3s ease-out;
+                `;
+                successMsg.textContent = message;
+
+                document.body.appendChild(successMsg);
+
+                setTimeout(() => {
+                    successMsg.style.animation = 'slideOut 0.3s ease-out';
+                    setTimeout(() => {
+                        document.body.removeChild(successMsg);
+                    }, 300);
+                }, 3000);
+            }
+
+            // Add animation styles for modal
+            const modalStyle = document.createElement('style');
+            modalStyle.textContent = `
+                @keyframes fadeIn {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                }
+                @keyframes slideUp {
+                    from {
+                        transform: translateY(30px);
+                        opacity: 0;
+                    }
+                    to {
+                        transform: translateY(0);
+                        opacity: 1;
+                    }
+                }
+            `;
+            document.head.appendChild(modalStyle);
         })();
     </script>
 </body>

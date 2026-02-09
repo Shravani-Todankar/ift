@@ -26,19 +26,14 @@
 
         /* CSS Variables */
         :root {
-            --primary: #2f0df2;
-            --background-light: #f6f5f8;
-            --background-dark: #131022;
-            --text-dark: #0f0d1c;
-            --text-light: #ffffff;
-            --text-muted-light: #56499c;
-            --text-muted-dark: #a09cc8;
-            --border-light: #e9e7f4;
-            --border-dark: #2a2640;
-            --card-bg-light: #ffffff;
-            --card-bg-dark: #1a1625;
-            --hover-bg-light: #f9f8fc;
-            --hover-bg-dark: #131022;
+            --primary: #5E2A97;
+            --secondary: #DEDE50;
+            --primary-light: #E8D4F0;
+            --background-light: #F7F7F7;
+            --surface-light: #FFFFFF;
+            --border-light: #EEEEEE;
+            --text-dark: #222222;
+            --text-muted: #666666;
         }
 
         /* Global Styles */
@@ -49,15 +44,10 @@
         }
 
         body {
-            font-family: 'Lexend', sans-serif;
+            font-family: 'Poppins', sans-serif;
             background-color: var(--background-light);
             color: var(--text-dark);
             overflow: hidden;
-        }
-
-        body.dark {
-            background-color: var(--background-dark);
-            color: var(--text-light);
         }
 
         .main-container {
@@ -72,19 +62,11 @@
         }
 
         .text-muted-custom {
-            color: var(--text-muted-light);
-        }
-
-        body.dark .text-muted-custom {
-            color: var(--text-muted-dark);
+            color: var(--text-muted);
         }
 
         .text-dark-custom {
             color: var(--text-dark);
-        }
-
-        body.dark .text-dark-custom {
-            color: var(--text-light);
         }
 
         /* Border Colors */
@@ -92,17 +74,9 @@
             border-color: var(--border-light) !important;
         }
 
-        body.dark .border-custom {
-            border-color: var(--border-dark) !important;
-        }
-
         /* Background Colors */
         .bg-card {
-            background-color: var(--card-bg-light);
-        }
-
-        body.dark .bg-card {
-            background-color: var(--card-bg-dark);
+            background-color: var(--surface-light);
         }
 
         .bg-hover-custom {
@@ -110,19 +84,11 @@
         }
 
         .bg-hover-custom:hover {
-            background-color: var(--hover-bg-light);
-        }
-
-        body.dark .bg-hover-custom:hover {
-            background-color: var(--hover-bg-dark);
+            background-color: var(--background-light);
         }
 
         .bg-primary-subtle-custom {
-            background-color: rgba(47, 13, 242, 0.05);
-        }
-
-        body.dark .bg-primary-subtle-custom {
-            background-color: rgba(47, 13, 242, 0.1);
+            background-color: rgba(94, 42, 151, 0.05);
         }
 
         /* Border Radius */
@@ -138,15 +104,10 @@
         .sidebar {
             width: 288px;
             height: 100%;
-            background-color: var(--card-bg-light);
+            background-color: var(--surface-light);
             border-right: 1px solid var(--border-light);
             overflow-y: auto;
             z-index: 20;
-        }
-
-        body.dark .sidebar {
-            background-color: var(--card-bg-dark);
-            border-right-color: var(--border-dark);
         }
 
         .logo-img {
@@ -167,19 +128,11 @@
             margin: 0;
         }
 
-        body.dark .sidebar-title {
-            color: var(--text-light);
-        }
-
         .sidebar-subtitle {
-            color: #64748b;
+            color: var(--text-muted);
             font-size: 0.75rem;
             font-weight: 500;
             margin: 0;
-        }
-
-        body.dark .sidebar-subtitle {
-            color: var(--text-muted-dark);
         }
 
         .nav-item {
@@ -188,27 +141,18 @@
             gap: 12px;
             padding: 12px 16px;
             border-radius: 8px;
-            color: #475569;
+            color: var(--text-muted);
             text-decoration: none;
             transition: all 0.2s;
         }
 
-        body.dark .nav-item {
-            color: var(--text-muted-dark);
-        }
-
         .nav-item:hover {
-            background-color: #f1f5f9;
-            color: #0f172a;
-        }
-
-        body.dark .nav-item:hover {
-            background-color: var(--border-dark);
-            color: var(--text-light);
+            background-color: var(--background-light);
+            color: var(--text-dark);
         }
 
         .nav-item-active {
-            background-color: rgba(47, 13, 242, 0.1);
+            background-color: rgba(94, 42, 151, 0.1);
             color: var(--primary);
         }
 
@@ -245,11 +189,6 @@
             border: 1px solid #f1f5f9;
         }
 
-        body.dark .user-profile {
-            background-color: var(--border-dark);
-            border-color: var(--border-dark);
-        }
-
         .user-avatar {
             width: 36px;
             height: 36px;
@@ -280,21 +219,13 @@
             text-overflow: ellipsis;
         }
 
-        body.dark .user-name {
-            color: var(--text-light);
-        }
-
         .user-role {
             font-size: 0.75rem;
-            color: #64748b;
+            color: var(--text-muted);
             margin: 0;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-        }
-
-        body.dark .user-role {
-            color: var(--text-muted-dark);
         }
 
         .logout-btn {
@@ -310,10 +241,6 @@
 
         .logout-btn:hover {
             color: #475569;
-        }
-
-        body.dark .logout-btn:hover {
-            color: var(--text-light);
         }
 
         /* Main Content */
@@ -348,13 +275,9 @@
         }
 
         .breadcrumb-custom a {
-            color: var(--text-muted-light);
+            color: var(--text-muted);
             font-weight: 500;
             text-decoration: none;
-        }
-
-        body.dark .breadcrumb-custom a {
-            color: var(--text-muted-dark);
         }
 
         .breadcrumb-custom a:hover {
@@ -362,21 +285,13 @@
         }
 
         .breadcrumb-custom .separator {
-            color: var(--text-muted-light);
+            color: var(--text-muted);
             font-weight: 500;
-        }
-
-        body.dark .breadcrumb-custom .separator {
-            color: var(--text-muted-dark);
         }
 
         .breadcrumb-custom .current {
             color: var(--text-dark);
             font-weight: 500;
-        }
-
-        body.dark .breadcrumb-custom .current {
-            color: var(--text-light);
         }
 
         /* Page Header */
@@ -396,16 +311,11 @@
 
         /* Team Card */
         .team-card {
-            background-color: var(--card-bg-light);
+            background-color: var(--surface-light);
             border: 1px solid var(--border-light);
             border-radius: 1.5rem;
             padding: 1.5rem;
-            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-        }
-
-        body.dark .team-card {
-            background-color: var(--card-bg-dark);
-            border-color: var(--border-dark);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
         }
 
         .team-logo {
@@ -419,11 +329,7 @@
         }
 
         .team-logo-ring {
-            box-shadow: 0 0 0 4px var(--hover-bg-light);
-        }
-
-        body.dark .team-logo-ring {
-            box-shadow: 0 0 0 4px var(--background-dark);
+            box-shadow: 0 0 0 4px var(--background-light);
         }
 
         .edit-icon-badge {
@@ -436,10 +342,6 @@
             padding: 0.375rem;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
             border: 2px solid white;
-        }
-
-        body.dark .edit-icon-badge {
-            border-color: var(--card-bg-dark);
         }
 
         .status-dot {
@@ -456,21 +358,12 @@
             margin: 1.5rem 0;
         }
 
-        body.dark .divider-custom {
-            background-color: var(--border-dark);
-        }
-
         .group-code-box {
-            background-color: var(--hover-bg-light);
+            background-color: var(--background-light);
             border: 1px solid var(--border-light);
             border-radius: 0.75rem;
             padding: 0.25rem;
             padding-left: 1rem;
-        }
-
-        body.dark .group-code-box {
-            background-color: var(--background-dark);
-            border-color: var(--border-dark);
         }
 
         .group-code-text {
@@ -492,49 +385,48 @@
             transition: all 0.2s ease;
         }
 
-        body.dark .copy-btn {
-            background-color: var(--border-dark);
+        .copy-btn:hover {
+            background-color: var(--primary);
+            color: white;
         }
 
-        .copy-btn:hover {
+        .share-btn {
+            width: 2.5rem;
+            height: 2.5rem;
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            color: var(--primary);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .share-btn:hover {
             background-color: var(--primary);
             color: white;
         }
 
         /* Tip Card */
         .tip-card {
-            background-color: rgba(47, 13, 242, 0.05);
-            border: 1px solid rgba(47, 13, 242, 0.1);
+            background-color: rgba(94, 42, 151, 0.05);
+            border: 1px solid rgba(94, 42, 151, 0.1);
             border-radius: 1.5rem;
             padding: 1.5rem;
         }
 
-        body.dark .tip-card {
-            background-color: rgba(47, 13, 242, 0.1);
-            border-color: rgba(47, 13, 242, 0.2);
-        }
-
         /* Roster Card */
         .roster-card {
-            background-color: var(--card-bg-light);
+            background-color: var(--surface-light);
             border: 1px solid var(--border-light);
             border-radius: 1.5rem;
-            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
             overflow: hidden;
-        }
-
-        body.dark .roster-card {
-            background-color: var(--card-bg-dark);
-            border-color: var(--border-dark);
         }
 
         .roster-header {
             padding: 1.5rem;
             border-bottom: 1px solid var(--border-light);
-        }
-
-        body.dark .roster-header {
-            border-bottom-color: var(--border-dark);
         }
 
         .btn-primary-custom {
@@ -544,13 +436,13 @@
             padding: 0.625rem 1.25rem;
             border-radius: 0.5rem;
             border: none;
-            box-shadow: 0 10px 15px -3px rgba(47, 13, 242, 0.25);
+            box-shadow: 0 4px 6px rgba(94, 42, 151, 0.3);
             transition: all 0.2s ease;
             cursor: pointer;
         }
 
         .btn-primary-custom:hover {
-            background-color: rgba(47, 13, 242, 0.9);
+            background-color: #7B3FB5;
         }
 
         .btn-primary-custom:active {
@@ -564,16 +456,8 @@
             transition: background-color 0.2s ease;
         }
 
-        body.dark .member-item {
-            border-bottom-color: var(--border-dark);
-        }
-
         .member-item:hover {
-            background-color: var(--hover-bg-light);
-        }
-
-        body.dark .member-item:hover {
-            background-color: var(--hover-bg-dark);
+            background-color: var(--background-light);
         }
 
         .member-item:last-child {
@@ -597,18 +481,10 @@
             padding: 0.125rem;
         }
 
-        body.dark .badge-icon-wrapper {
-            background-color: var(--card-bg-dark);
-        }
-
         .badge-icon {
             background-color: rgba(234, 179, 8, 0.1);
             border-radius: 50%;
             padding: 0.125rem;
-        }
-
-        body.dark .badge-icon {
-            background-color: rgba(234, 179, 8, 0.3);
         }
 
         .role-badge {
@@ -621,19 +497,14 @@
         }
 
         .role-badge-lead {
-            background-color: rgba(47, 13, 242, 0.1);
+            background-color: rgba(94, 42, 151, 0.1);
             color: var(--primary);
-            border: 1px solid rgba(47, 13, 242, 0.2);
+            border: 1px solid rgba(94, 42, 151, 0.2);
         }
 
         .role-badge-member {
             background-color: rgba(156, 163, 175, 0.1);
             color: #6b7280;
-        }
-
-        body.dark .role-badge-member {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: #d1d5db;
         }
 
         .status-badge {
@@ -648,23 +519,13 @@
             background-color: rgba(34, 197, 94, 0.1);
         }
 
-        body.dark .status-badge-active {
-            color: #4ade80;
-            background-color: rgba(34, 197, 94, 0.2);
-        }
-
         .status-badge-pending {
             color: #ea580c;
             background-color: rgba(249, 115, 22, 0.1);
         }
 
-        body.dark .status-badge-pending {
-            color: #fb923c;
-            background-color: rgba(249, 115, 22, 0.2);
-        }
-
         .more-btn {
-            color: var(--text-muted-light);
+            color: var(--text-muted);
             background: transparent;
             border: none;
             padding: 0.5rem;
@@ -673,34 +534,20 @@
             transition: background-color 0.2s ease;
         }
 
-        body.dark .more-btn {
-            color: var(--text-muted-dark);
-        }
-
         .more-btn:hover {
             background-color: rgba(156, 163, 175, 0.1);
-        }
-
-        body.dark .more-btn:hover {
-            background-color: rgba(255, 255, 255, 0.1);
         }
 
         .pending-avatar {
             width: 3rem;
             height: 3rem;
             border-radius: 50%;
-            background-color: var(--hover-bg-light);
-            border: 2px dashed var(--text-muted-light);
+            background-color: var(--background-light);
+            border: 2px dashed var(--text-muted);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--text-muted-light);
-        }
-
-        body.dark .pending-avatar {
-            background-color: var(--border-dark);
-            border-color: var(--text-muted-dark);
-            color: var(--text-muted-dark);
+            color: var(--text-muted);
         }
 
         .resend-btn {
@@ -723,16 +570,11 @@
             align-items: center;
             justify-content: space-between;
             padding: 12px 40px;
-            background-color: var(--card-bg-light);
+            background-color: var(--surface-light);
             border-bottom: 1px solid var(--border-light);
             position: sticky;
             top: 0;
             z-index: 1000;
-        }
-
-        body.dark .top-header {
-            background-color: var(--card-bg-dark);
-            border-bottom-color: var(--border-dark);
         }
 
         .header-logo {
@@ -749,24 +591,16 @@
             letter-spacing: -0.015em;
         }
 
-        body.dark .header-title {
-            color: var(--text-light);
-        }
-
         .header-nav {
             gap: 16px;
         }
 
         .nav-link-header {
-            color: var(--text-muted-light);
+            color: var(--text-muted);
             font-size: 0.875rem;
             font-weight: 500;
             text-decoration: none;
             transition: color 0.2s;
-        }
-
-        body.dark .nav-link-header {
-            color: var(--text-muted-dark);
         }
 
         .nav-link-header:hover {
@@ -784,7 +618,7 @@
             justify-content: center;
             width: 40px;
             height: 40px;
-            background-color: rgba(47, 13, 242, 0.1);
+            background-color: rgba(94, 42, 151, 0.1);
             border: none;
             border-radius: 12px;
             color: var(--text-dark);
@@ -792,13 +626,8 @@
             transition: background-color 0.2s;
         }
 
-        body.dark .header-icon-btn {
-            background-color: var(--border-dark);
-            color: var(--text-light);
-        }
-
         .header-icon-btn:hover {
-            background-color: rgba(47, 13, 242, 0.2);
+            background-color: rgba(94, 42, 151, 0.2);
         }
 
         .header-icon-btn .material-symbols-outlined {
@@ -812,12 +641,8 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            border: 2px solid var(--card-bg-light);
+            border: 2px solid var(--surface-light);
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-
-        body.dark .header-avatar {
-            border-color: var(--card-bg-dark);
         }
 
         .w-100 {
@@ -905,12 +730,16 @@
                                 <div class="group-code-box d-flex align-items-center gap-2">
                                     <span class="flex-grow-1 group-code-text text-dark-custom">IFT-8829X</span>
                                     <button class="copy-btn d-flex align-items-center justify-content-center"
-                                        title="Copy Code">
+                                        title="Copy Code" id="copyCodeBtn">
                                         <span class="material-symbols-outlined" style="font-size: 20px;">content_copy</span>
+                                    </button>
+                                    <button class="share-btn d-flex align-items-center justify-content-center"
+                                        title="Share Link" id="shareLinkBtn">
+                                        <span class="material-symbols-outlined" style="font-size: 20px;">share</span>
                                     </button>
                                 </div>
                                 <p class="text-muted-custom text-start mb-0" style="font-size: 0.75rem;">Share this code
-                                    to invite members.</p>
+                                    to invite members (Max 3 members including team leader).</p>
                             </div>
                         </div>
 
@@ -937,11 +766,11 @@
                             class="roster-header d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3">
                             <div>
                                 <h3 class="fs-5 fw-bold text-dark-custom mb-1">Team Roster</h3>
-                                <p class="small text-muted-custom mb-0">3 Active Members, 1 Pending</p>
+                                <p class="small text-muted-custom mb-0">3/3 Members (Team Full)</p>
                             </div>
-                            <button class="btn-primary-custom d-inline-flex align-items-center gap-2">
+                            <button class="btn-primary-custom d-inline-flex align-items-center gap-2" disabled style="opacity: 0.5; cursor: not-allowed;">
                                 <span class="material-symbols-outlined" style="font-size: 20px;">person_add</span>
-                                Invite Members
+                                Team Full
                             </button>
                         </div>
 
@@ -1015,28 +844,6 @@
                                 </div>
                             </div>
 
-                            <!-- Member 4 (Pending) -->
-                            <div class="member-item d-flex flex-column flex-sm-row align-items-start align-items-sm-center gap-3">
-                                <div class="pending-avatar">
-                                    <span class="material-symbols-outlined" style="font-size: 20px;">mail</span>
-                                </div>
-                                <div class="flex-grow-1" style="min-width: 0;">
-                                    <div class="d-flex align-items-center gap-2 mb-1">
-                                        <h4 class="text-dark-custom fw-bold mb-0 text-truncate" style="opacity: 0.6;">Pending
-                                            Invitation</h4>
-                                    </div>
-                                    <p class="small text-muted-custom mb-0 text-truncate">k.verma@example.com</p>
-                                </div>
-                                <div class="member-actions d-flex align-items-center gap-3 ms-sm-auto">
-                                    <span class="status-badge status-badge-pending">Pending</span>
-                                    <div class="d-flex gap-2">
-                                        <button class="resend-btn">Resend</button>
-                                        <button class="more-btn">
-                                            <span class="material-symbols-outlined" style="color: #ef4444;">close</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -1117,6 +924,180 @@
                 }
             })
             .catch(error => console.error('Error loading header:', error));
+
+        // Team Management Functionality
+        (function() {
+            function init() {
+                initCopyButton();
+                initShareButton();
+            }
+
+            // Copy code functionality
+            function initCopyButton() {
+                const copyBtn = document.getElementById('copyCodeBtn');
+                const groupCode = document.querySelector('.group-code-text');
+
+                if (copyBtn && groupCode) {
+                    copyBtn.addEventListener('click', function() {
+                        const code = groupCode.textContent.trim();
+
+                        // Copy to clipboard
+                        navigator.clipboard.writeText(code).then(() => {
+                            // Visual feedback
+                            const originalHTML = copyBtn.innerHTML;
+                            copyBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size: 20px;">check</span>';
+                            copyBtn.style.backgroundColor = '#22c55e';
+                            copyBtn.style.color = 'white';
+
+                            // Reset after 2 seconds
+                            setTimeout(() => {
+                                copyBtn.innerHTML = originalHTML;
+                                copyBtn.style.backgroundColor = '';
+                                copyBtn.style.color = '';
+                            }, 2000);
+
+                            showToast('Team code copied to clipboard!', 'success');
+                        }).catch(err => {
+                            console.error('Failed to copy:', err);
+                            showToast('Failed to copy code', 'error');
+                        });
+                    });
+                }
+            }
+
+            // Share link functionality
+            function initShareButton() {
+                const shareBtn = document.getElementById('shareLinkBtn');
+                const groupCode = document.querySelector('.group-code-text');
+
+                if (shareBtn && groupCode) {
+                    shareBtn.addEventListener('click', function() {
+                        const code = groupCode.textContent.trim();
+                        const shareUrl = window.location.origin + '/join?code=' + code;
+
+                        // Check if Web Share API is available
+                        if (navigator.share) {
+                            navigator.share({
+                                title: 'Join My Team - India\'s Future Tycoon',
+                                text: 'Join my team using code: ' + code,
+                                url: shareUrl
+                            }).then(() => {
+                                showToast('Share link sent successfully!', 'success');
+                            }).catch(err => {
+                                // User cancelled or error occurred
+                                if (err.name !== 'AbortError') {
+                                    console.error('Share failed:', err);
+                                    fallbackShare(shareUrl);
+                                }
+                            });
+                        } else {
+                            // Fallback to copy link
+                            fallbackShare(shareUrl);
+                        }
+                    });
+                }
+            }
+
+            // Fallback share function - copy link to clipboard
+            function fallbackShare(url) {
+                navigator.clipboard.writeText(url).then(() => {
+                    showToast('Share link copied to clipboard!', 'success');
+                }).catch(err => {
+                    console.error('Failed to copy link:', err);
+                    showToast('Failed to copy link', 'error');
+                });
+            }
+
+            // Toast notification system
+            function showToast(message, type = 'info') {
+                // Remove existing toast if any
+                const existingToast = document.querySelector('.custom-toast');
+                if (existingToast) {
+                    existingToast.remove();
+                }
+
+                const toast = document.createElement('div');
+                toast.className = 'custom-toast';
+
+                const colors = {
+                    success: '#22c55e',
+                    error: '#ef4444',
+                    info: '#5E2A97',
+                    warning: '#DEDE50'
+                };
+
+                toast.style.cssText = `
+                    position: fixed;
+                    bottom: 24px;
+                    right: 24px;
+                    background-color: ${colors[type]};
+                    color: white;
+                    padding: 16px 24px;
+                    border-radius: 12px;
+                    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+                    z-index: 9999;
+                    font-family: 'Poppins', sans-serif;
+                    font-size: 0.875rem;
+                    font-weight: 500;
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                    animation: slideIn 0.3s ease;
+                    max-width: 400px;
+                `;
+
+                const icon = document.createElement('span');
+                icon.className = 'material-symbols-outlined';
+                icon.style.fontSize = '20px';
+                icon.textContent = type === 'success' ? 'check_circle' :
+                    type === 'error' ? 'error' :
+                        type === 'warning' ? 'warning' : 'info';
+
+                toast.appendChild(icon);
+                toast.appendChild(document.createTextNode(message));
+                document.body.appendChild(toast);
+
+                // Auto remove after 3 seconds
+                setTimeout(() => {
+                    toast.style.animation = 'slideOut 0.3s ease';
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            }
+
+            // Add toast animations
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from {
+                        transform: translateX(400px);
+                        opacity: 0;
+                    }
+                    to {
+                        transform: translateX(0);
+                        opacity: 1;
+                    }
+                }
+                @keyframes slideOut {
+                    from {
+                        transform: translateX(0);
+                        opacity: 1;
+                    }
+                    to {
+                        transform: translateX(400px);
+                        opacity: 0;
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+
+            // Initialize when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                // DOM already loaded, wait for external components
+                setTimeout(init, 500);
+            }
+        })();
     </script>
 </body>
 

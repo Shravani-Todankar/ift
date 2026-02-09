@@ -637,10 +637,6 @@
                             <h1 class="page-title">Idea Submission</h1>
                             <p class="page-subtitle">Step 3 of 4: Review & Finalize</p>
                         </div>
-                        <div class="auto-save-badge">
-                            <span class="material-symbols-outlined">cloud_done</span>
-                            <span>Auto-saved: Just now</span>
-                        </div>
                     </div>
 
                     <!-- Progress Section -->
@@ -736,33 +732,49 @@
                             </div>
                             <h3 class="section-title">Supporting Materials</h3>
                         </div>
+
+                        <!-- PPT Upload -->
                         <div class="form-group">
-                            <label class="form-label">Upload Pitch Deck or Video</label>
-                            <div class="upload-area">
-                                <input type="file" />
+                            <label class="form-label">Upload Presentation (PPT/PPTX)</label>
+                            <div class="upload-area" data-upload-type="ppt">
+                                <input type="file" accept=".ppt,.pptx" id="ppt-upload" />
                                 <div class="upload-icon">
-                                    <span class="material-symbols-outlined">cloud_upload</span>
+                                    <span class="material-symbols-outlined">slideshow</span>
                                 </div>
                                 <p class="upload-text">
                                     <span class="link">Click to upload</span> or drag and drop
                                 </p>
-                                <p class="upload-hint">PPT, PDF, MP4 (Max 25MB)</p>
+                                <p class="upload-hint">PPT, PPTX (Max 25MB)</p>
                             </div>
+                        </div>
 
-                            <!-- Uploaded File Example -->
-                            <div class="file-item">
-                                <div class="file-info">
-                                    <div class="file-icon">
-                                        <span class="material-symbols-outlined">picture_as_pdf</span>
-                                    </div>
-                                    <div class="file-details">
-                                        <div class="file-name">Project_Proposal_Draft_v3.pdf</div>
-                                        <div class="file-meta">2.4 MB • Uploaded just now</div>
-                                    </div>
+                        <!-- PDF/DOC Upload -->
+                        <div class="form-group">
+                            <label class="form-label">Upload Document (PDF/DOC)</label>
+                            <div class="upload-area" data-upload-type="doc">
+                                <input type="file" accept=".pdf,.doc,.docx" id="doc-upload" />
+                                <div class="upload-icon">
+                                    <span class="material-symbols-outlined">description</span>
                                 </div>
-                                <button class="file-delete">
-                                    <span class="material-symbols-outlined">delete</span>
-                                </button>
+                                <p class="upload-text">
+                                    <span class="link">Click to upload</span> or drag and drop
+                                </p>
+                                <p class="upload-hint">PDF, DOC, DOCX (Max 25MB)</p>
+                            </div>
+                        </div>
+
+                        <!-- Video Upload -->
+                        <div class="form-group">
+                            <label class="form-label">Upload Video</label>
+                            <div class="upload-area" data-upload-type="video">
+                                <input type="file" accept=".mp4,.mov,.avi,.mkv" id="video-upload" />
+                                <div class="upload-icon">
+                                    <span class="material-symbols-outlined">videocam</span>
+                                </div>
+                                <p class="upload-text">
+                                    <span class="link">Click to upload</span> or drag and drop
+                                </p>
+                                <p class="upload-hint">MP4, MOV, AVI, MKV (Max 100MB)</p>
                             </div>
                         </div>
                     </section>
@@ -1423,55 +1435,138 @@
 
             // Setup file upload
             function setupFileUpload() {
-                const fileInput = document.querySelector('input[type="file"]');
-                const uploadArea = document.querySelector('.upload-area');
+                const uploadAreas = document.querySelectorAll('.upload-area');
 
-                if (fileInput && uploadArea) {
-                    uploadArea.addEventListener('dragover', (e) => {
-                        e.preventDefault();
-                        uploadArea.style.background = 'rgba(94, 42, 151, 0.1)';
-                    });
+                uploadAreas.forEach(uploadArea => {
+                    const fileInput = uploadArea.querySelector('input[type="file"]');
+                    const uploadType = uploadArea.getAttribute('data-upload-type');
 
-                    uploadArea.addEventListener('dragleave', () => {
-                        uploadArea.style.background = '';
-                    });
+                    if (fileInput && uploadArea) {
+                        uploadArea.addEventListener('dragover', (e) => {
+                            e.preventDefault();
+                            uploadArea.style.background = 'rgba(94, 42, 151, 0.1)';
+                        });
 
-                    uploadArea.addEventListener('drop', (e) => {
-                        e.preventDefault();
-                        uploadArea.style.background = '';
-                        handleFileUpload(e.dataTransfer.files[0]);
-                    });
+                        uploadArea.addEventListener('dragleave', () => {
+                            uploadArea.style.background = '';
+                        });
 
-                    fileInput.addEventListener('change', (e) => {
-                        handleFileUpload(e.target.files[0]);
-                    });
-                }
+                        uploadArea.addEventListener('drop', (e) => {
+                            e.preventDefault();
+                            uploadArea.style.background = '';
+                            const file = e.dataTransfer.files[0];
+                            handleFileUpload(file, uploadType, uploadArea);
+                        });
 
-                // Delete file button
-                const deleteBtn = document.querySelector('.file-delete');
-                if (deleteBtn) {
-                    deleteBtn.addEventListener('click', function() {
-                        const fileItem = this.closest('.file-item');
-                        if (confirm('Are you sure you want to remove this file?')) {
-                            fileItem.style.opacity = '0';
-                            setTimeout(() => fileItem.remove(), 300);
-                            showToast('File removed', 'info');
-                        }
-                    });
-                }
+                        fileInput.addEventListener('change', (e) => {
+                            const file = e.target.files[0];
+                            handleFileUpload(file, uploadType, uploadArea);
+                        });
+                    }
+                });
             }
 
             // Handle file upload
-            function handleFileUpload(file) {
+            function handleFileUpload(file, uploadType, uploadArea) {
                 if (!file) return;
 
-                const maxSize = 25 * 1024 * 1024; // 25MB
+                // Determine max size based on type
+                const maxSize = uploadType === 'video' ? 100 * 1024 * 1024 : 25 * 1024 * 1024;
+                const maxSizeLabel = uploadType === 'video' ? '100MB' : '25MB';
+
                 if (file.size > maxSize) {
-                    showToast('File size exceeds 25MB limit', 'error');
+                    showToast(`File size exceeds ${maxSizeLabel} limit`, 'error');
                     return;
                 }
 
+                // Validate file type
+                const extension = file.name.split('.').pop().toLowerCase();
+                const validExtensions = {
+                    'ppt': ['ppt', 'pptx'],
+                    'doc': ['pdf', 'doc', 'docx'],
+                    'video': ['mp4', 'mov', 'avi', 'mkv']
+                };
+
+                if (!validExtensions[uploadType].includes(extension)) {
+                    showToast(`Invalid file type for ${uploadType} upload`, 'error');
+                    return;
+                }
+
+                // Create and display file item
+                createFileItem(file, uploadType, uploadArea);
                 showToast(`File "${file.name}" uploaded successfully`, 'success');
+            }
+
+            // Create file item display
+            function createFileItem(file, uploadType, uploadArea) {
+                // Check if file item already exists
+                const existingFileItem = uploadArea.parentElement.querySelector('.file-item');
+                if (existingFileItem) {
+                    existingFileItem.remove();
+                }
+
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+
+                // Determine icon and color based on file type
+                const extension = file.name.split('.').pop().toLowerCase();
+                let icon = 'description';
+                let iconBg = '#fee2e2';
+                let iconColor = '#dc2626';
+
+                if (uploadType === 'ppt') {
+                    icon = 'slideshow';
+                    iconBg = '#fef3c7';
+                    iconColor = '#d97706';
+                } else if (uploadType === 'doc') {
+                    if (extension === 'pdf') {
+                        icon = 'picture_as_pdf';
+                        iconBg = '#fee2e2';
+                        iconColor = '#dc2626';
+                    } else {
+                        icon = 'description';
+                        iconBg = '#dbeafe';
+                        iconColor = '#2563eb';
+                    }
+                } else if (uploadType === 'video') {
+                    icon = 'videocam';
+                    iconBg = '#e0e7ff';
+                    iconColor = '#6366f1';
+                }
+
+                const fileSize = (file.size / (1024 * 1024)).toFixed(2);
+
+                fileItem.innerHTML = `
+                    <div class="file-info">
+                        <div class="file-icon" style="background: ${iconBg}; color: ${iconColor};">
+                            <span class="material-symbols-outlined">${icon}</span>
+                        </div>
+                        <div class="file-details">
+                            <div class="file-name">${file.name}</div>
+                            <div class="file-meta">${fileSize} MB • Uploaded just now</div>
+                        </div>
+                    </div>
+                    <button class="file-delete" data-upload-type="${uploadType}">
+                        <span class="material-symbols-outlined">delete</span>
+                    </button>
+                `;
+
+                uploadArea.parentElement.appendChild(fileItem);
+
+                // Add delete functionality
+                const deleteBtn = fileItem.querySelector('.file-delete');
+                deleteBtn.addEventListener('click', function() {
+                    if (confirm('Are you sure you want to remove this file?')) {
+                        fileItem.style.opacity = '0';
+                        fileItem.style.transform = 'translateX(-20px)';
+                        setTimeout(() => fileItem.remove(), 300);
+                        showToast('File removed', 'info');
+
+                        // Reset file input
+                        const input = uploadArea.querySelector('input[type="file"]');
+                        if (input) input.value = '';
+                    }
+                });
             }
 
             // Setup auto-save
