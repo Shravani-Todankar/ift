@@ -1018,6 +1018,539 @@
             })
             .catch(error => console.error('Error loading header:', error));
     </script>
+
+    <!-- Multi-Step Form Functionality -->
+    <script>
+        (function() {
+            // Form state
+            let currentStep = 1;
+            const totalSteps = 4;
+            const formData = {
+                step1: {},
+                step2: {},
+                step3: {},
+                step4: {}
+            };
+
+            // Step definitions
+            const steps = {
+                1: {
+                    title: 'Basic Info',
+                    subtitle: 'Step 1 of 4: Basic Information',
+                    progress: 25,
+                    sections: ['idea-details']
+                },
+                2: {
+                    title: 'Questionnaire',
+                    subtitle: 'Step 2 of 4: Answer Key Questions',
+                    progress: 50,
+                    sections: ['tycoon-questionnaire']
+                },
+                3: {
+                    title: 'Detailed Input',
+                    subtitle: 'Step 3 of 4: Supporting Materials',
+                    progress: 75,
+                    sections: ['supporting-materials']
+                },
+                4: {
+                    title: 'Review',
+                    subtitle: 'Step 4 of 4: Review & Submit',
+                    progress: 100,
+                    sections: ['review-summary']
+                }
+            };
+
+            // Initialize form
+            function init() {
+                setupSections();
+                updateStepDisplay();
+                setupCharacterCounters();
+                setupFileUpload();
+                setupNavigationButtons();
+                setupAutoSave();
+                loadSavedData();
+            }
+
+            // Setup sections with IDs
+            function setupSections() {
+                const sections = document.querySelectorAll('.form-section');
+                sections[0].id = 'idea-details';
+                sections[1].id = 'tycoon-questionnaire';
+                sections[2].id = 'supporting-materials';
+
+                // Create review section
+                createReviewSection();
+            }
+
+            // Create review section
+            function createReviewSection() {
+                const formCard = document.querySelector('.form-card');
+                const reviewSection = document.createElement('section');
+                reviewSection.className = 'form-section';
+                reviewSection.id = 'review-summary';
+                reviewSection.style.display = 'none';
+                reviewSection.innerHTML = `
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <span class="material-symbols-outlined">fact_check</span>
+                        </div>
+                        <h3 class="section-title">Review Your Submission</h3>
+                    </div>
+                    <div id="review-content" style="padding: 1.5rem; background: #f8fafc; border-radius: 0.75rem; border: 1px solid var(--border-light);">
+                        <!-- Review content will be populated here -->
+                    </div>
+                    <div style="margin-top: 2rem; padding: 1.5rem; background: #fef3c7; border: 1px solid #fde68a; border-radius: 0.75rem;">
+                        <div style="display: flex; align-items: start; gap: 1rem;">
+                            <span class="material-symbols-outlined" style="color: #d97706; font-size: 24px;">warning</span>
+                            <div>
+                                <p style="font-weight: 600; color: #92400e; margin-bottom: 0.5rem;">Before you submit:</p>
+                                <ul style="font-size: 0.875rem; color: #78350f; margin: 0; padding-left: 1.25rem;">
+                                    <li>Verify all information is accurate</li>
+                                    <li>Ensure supporting documents are uploaded</li>
+                                    <li>Once submitted, you cannot edit your submission</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                const actionFooter = formCard.querySelector('.action-footer');
+                formCard.insertBefore(reviewSection, actionFooter);
+            }
+
+            // Update step display
+            function updateStepDisplay() {
+                const step = steps[currentStep];
+
+                // Update subtitle
+                const pageSubtitle = document.querySelector('.page-subtitle');
+                if (pageSubtitle) {
+                    pageSubtitle.textContent = step.subtitle;
+                }
+
+                // Update progress bar
+                const progressFill = document.querySelector('.progress-fill');
+                if (progressFill) {
+                    progressFill.style.width = step.progress + '%';
+                }
+
+                // Update progress text
+                const progressText = document.querySelector('.progress-text');
+                if (progressText) {
+                    progressText.textContent = step.progress + '% Completed';
+                }
+
+                // Update progress labels
+                const progressLabels = document.querySelectorAll('.progress-label');
+                progressLabels.forEach((label, index) => {
+                    label.classList.toggle('active', index + 1 === currentStep);
+                });
+
+                // Show/hide sections
+                document.querySelectorAll('.form-section').forEach(section => {
+                    section.style.display = 'none';
+                });
+
+                step.sections.forEach(sectionId => {
+                    const section = document.getElementById(sectionId);
+                    if (section) {
+                        section.style.display = 'block';
+                    }
+                });
+
+                // Update buttons
+                updateButtons();
+
+                // Populate review if on step 4
+                if (currentStep === 4) {
+                    populateReview();
+                }
+            }
+
+            // Update navigation buttons
+            function updateButtons() {
+                const actionFooter = document.querySelector('.action-footer');
+                const actionButtons = actionFooter.querySelector('.action-buttons');
+                const primaryButton = actionFooter.querySelector('.btn-primary');
+
+                // Clear and rebuild action buttons
+                actionButtons.innerHTML = '';
+
+                // Add Previous button (except on step 1)
+                if (currentStep > 1) {
+                    const prevBtn = document.createElement('button');
+                    prevBtn.className = 'btn-secondary';
+                    prevBtn.innerHTML = `
+                        <span class="material-symbols-outlined">arrow_back</span>
+                        Previous
+                    `;
+                    prevBtn.onclick = previousStep;
+                    actionButtons.appendChild(prevBtn);
+                }
+
+                // Add Save Draft button
+                const saveDraftBtn = document.createElement('button');
+                saveDraftBtn.className = 'btn-secondary';
+                saveDraftBtn.innerHTML = `
+                    <span class="material-symbols-outlined">save</span>
+                    Save as Draft
+                `;
+                saveDraftBtn.onclick = saveDraft;
+                actionButtons.appendChild(saveDraftBtn);
+
+                // Update primary button based on step
+                if (currentStep === totalSteps) {
+                    primaryButton.innerHTML = `
+                        Submit for Review
+                        <span class="material-symbols-outlined">send</span>
+                    `;
+                    primaryButton.onclick = submitForm;
+                } else {
+                    primaryButton.innerHTML = `
+                        Next Step
+                        <span class="material-symbols-outlined">arrow_forward</span>
+                    `;
+                    primaryButton.onclick = nextStep;
+                }
+            }
+
+            // Navigate to next step
+            function nextStep() {
+                if (validateCurrentStep()) {
+                    saveCurrentStepData();
+                    if (currentStep < totalSteps) {
+                        currentStep++;
+                        updateStepDisplay();
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                }
+            }
+
+            // Navigate to previous step
+            function previousStep() {
+                saveCurrentStepData();
+                if (currentStep > 1) {
+                    currentStep--;
+                    updateStepDisplay();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            }
+
+            // Validate current step
+            function validateCurrentStep() {
+                let isValid = true;
+                const currentSections = steps[currentStep].sections;
+
+                currentSections.forEach(sectionId => {
+                    const section = document.getElementById(sectionId);
+                    if (section) {
+                        const requiredInputs = section.querySelectorAll('[required], input[id*="project-title"], input[id*="one-line-pitch"], textarea[id*="q"]');
+
+                        requiredInputs.forEach(input => {
+                            if (!input.value.trim()) {
+                                isValid = false;
+                                input.style.borderColor = '#ef4444';
+                                setTimeout(() => {
+                                    input.style.borderColor = '';
+                                }, 2000);
+                            }
+                        });
+                    }
+                });
+
+                if (!isValid) {
+                    showToast('Please fill in all required fields', 'warning');
+                }
+
+                return isValid;
+            }
+
+            // Save current step data
+            function saveCurrentStepData() {
+                const currentSections = steps[currentStep].sections;
+                const stepData = {};
+
+                currentSections.forEach(sectionId => {
+                    const section = document.getElementById(sectionId);
+                    if (section) {
+                        section.querySelectorAll('input, textarea').forEach(input => {
+                            if (input.id) {
+                                stepData[input.id] = input.value;
+                            }
+                        });
+                    }
+                });
+
+                formData[`step${currentStep}`] = stepData;
+                localStorage.setItem('ift_submission_draft', JSON.stringify(formData));
+            }
+
+            // Load saved data
+            function loadSavedData() {
+                const savedData = localStorage.getItem('ift_submission_draft');
+                if (savedData) {
+                    const data = JSON.parse(savedData);
+                    Object.keys(data).forEach(step => {
+                        const stepData = data[step];
+                        Object.keys(stepData).forEach(fieldId => {
+                            const field = document.getElementById(fieldId);
+                            if (field) {
+                                field.value = stepData[fieldId];
+                            }
+                        });
+                    });
+                    showToast('Draft loaded successfully', 'success');
+                }
+            }
+
+            // Save draft
+            function saveDraft() {
+                saveCurrentStepData();
+                showToast('Draft saved successfully', 'success');
+                updateAutoSaveBadge();
+            }
+
+            // Populate review section
+            function populateReview() {
+                const reviewContent = document.getElementById('review-content');
+                if (!reviewContent) return;
+
+                let html = '<div style="display: flex; flex-direction: column; gap: 2rem;">';
+
+                // Idea Details
+                const projectTitle = document.getElementById('project-title')?.value || 'Not provided';
+                const oneLine = document.getElementById('one-line-pitch')?.value || 'Not provided';
+
+                html += `
+                    <div>
+                        <h4 style="font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 1rem;">Basic Information</h4>
+                        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                            <div>
+                                <strong style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Project Title:</strong>
+                                <p style="margin: 0.25rem 0 0 0; font-size: 0.875rem;">${projectTitle}</p>
+                            </div>
+                            <div>
+                                <strong style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">One-line Pitch:</strong>
+                                <p style="margin: 0.25rem 0 0 0; font-size: 0.875rem;">${oneLine}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // Questionnaire
+                const q1 = document.getElementById('q1')?.value || 'Not answered';
+                const q2 = document.getElementById('q2')?.value || 'Not answered';
+                const q3 = document.getElementById('q3')?.value || 'Not answered';
+
+                html += `
+                    <div>
+                        <h4 style="font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 1rem;">Questionnaire Responses</h4>
+                        <div style="display: flex; flex-direction: column; gap: 1rem;">
+                            <div>
+                                <strong style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Problem Statement:</strong>
+                                <p style="margin: 0.25rem 0 0 0; font-size: 0.875rem;">${q1}</p>
+                            </div>
+                            <div>
+                                <strong style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Target Audience:</strong>
+                                <p style="margin: 0.25rem 0 0 0; font-size: 0.875rem;">${q2}</p>
+                            </div>
+                            <div>
+                                <strong style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Innovation:</strong>
+                                <p style="margin: 0.25rem 0 0 0; font-size: 0.875rem;">${q3}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // Files
+                const fileItem = document.querySelector('.file-item');
+                const fileName = fileItem?.querySelector('.file-name')?.textContent || 'No files uploaded';
+
+                html += `
+                    <div>
+                        <h4 style="font-size: 1rem; font-weight: 700; color: var(--primary); margin-bottom: 1rem;">Supporting Materials</h4>
+                        <div style="padding: 0.75rem; background: white; border: 1px solid var(--border-light); border-radius: 0.5rem;">
+                            <p style="margin: 0; font-size: 0.875rem;">${fileName}</p>
+                        </div>
+                    </div>
+                `;
+
+                html += '</div>';
+                reviewContent.innerHTML = html;
+            }
+
+            // Submit form
+            function submitForm() {
+                saveCurrentStepData();
+
+                // Show loading state
+                const btn = document.querySelector('.btn-primary');
+                const originalHTML = btn.innerHTML;
+                btn.disabled = true;
+                btn.innerHTML = '<span class="material-symbols-outlined">hourglass_empty</span> Submitting...';
+
+                // Simulate submission
+                setTimeout(() => {
+                    localStorage.removeItem('ift_submission_draft');
+                    showToast('Submission successful! Redirecting...', 'success');
+
+                    setTimeout(() => {
+                        window.location.href = 'my-idea.html';
+                    }, 1500);
+                }, 2000);
+            }
+
+            // Setup character counters
+            function setupCharacterCounters() {
+                document.querySelectorAll('input, textarea').forEach(input => {
+                    const charCountDiv = input.parentElement.querySelector('.char-count');
+                    if (charCountDiv) {
+                        const maxChars = charCountDiv.textContent.match(/\d+/)?.[0] || 500;
+
+                        input.addEventListener('input', function() {
+                            const currentLength = this.value.length;
+                            charCountDiv.textContent = `${currentLength}/${maxChars} characters`;
+
+                            if (currentLength > maxChars * 0.9) {
+                                charCountDiv.style.color = '#ef4444';
+                            } else {
+                                charCountDiv.style.color = '';
+                            }
+                        });
+                    }
+                });
+            }
+
+            // Setup file upload
+            function setupFileUpload() {
+                const fileInput = document.querySelector('input[type="file"]');
+                const uploadArea = document.querySelector('.upload-area');
+
+                if (fileInput && uploadArea) {
+                    uploadArea.addEventListener('dragover', (e) => {
+                        e.preventDefault();
+                        uploadArea.style.background = 'rgba(94, 42, 151, 0.1)';
+                    });
+
+                    uploadArea.addEventListener('dragleave', () => {
+                        uploadArea.style.background = '';
+                    });
+
+                    uploadArea.addEventListener('drop', (e) => {
+                        e.preventDefault();
+                        uploadArea.style.background = '';
+                        handleFileUpload(e.dataTransfer.files[0]);
+                    });
+
+                    fileInput.addEventListener('change', (e) => {
+                        handleFileUpload(e.target.files[0]);
+                    });
+                }
+
+                // Delete file button
+                const deleteBtn = document.querySelector('.file-delete');
+                if (deleteBtn) {
+                    deleteBtn.addEventListener('click', function() {
+                        const fileItem = this.closest('.file-item');
+                        if (confirm('Are you sure you want to remove this file?')) {
+                            fileItem.style.opacity = '0';
+                            setTimeout(() => fileItem.remove(), 300);
+                            showToast('File removed', 'info');
+                        }
+                    });
+                }
+            }
+
+            // Handle file upload
+            function handleFileUpload(file) {
+                if (!file) return;
+
+                const maxSize = 25 * 1024 * 1024; // 25MB
+                if (file.size > maxSize) {
+                    showToast('File size exceeds 25MB limit', 'error');
+                    return;
+                }
+
+                showToast(`File "${file.name}" uploaded successfully`, 'success');
+            }
+
+            // Setup auto-save
+            function setupAutoSave() {
+                setInterval(() => {
+                    saveCurrentStepData();
+                    updateAutoSaveBadge();
+                }, 30000); // Auto-save every 30 seconds
+            }
+
+            // Update auto-save badge
+            function updateAutoSaveBadge() {
+                const badge = document.querySelector('.auto-save-badge span:last-child');
+                if (badge) {
+                    badge.textContent = 'Auto-saved: Just now';
+                }
+            }
+
+            // Setup navigation buttons (existing ones)
+            function setupNavigationButtons() {
+                // Handle any other existing button functionality
+            }
+
+            // Toast notification
+            function showToast(message, type = 'info') {
+                const toast = document.createElement('div');
+                const colors = {
+                    success: '#22c55e',
+                    error: '#ef4444',
+                    info: '#5E2A97',
+                    warning: '#f59e0b'
+                };
+
+                toast.style.cssText = `
+                    position: fixed;
+                    bottom: 24px;
+                    right: 24px;
+                    background: ${colors[type]};
+                    color: white;
+                    padding: 1rem 1.5rem;
+                    border-radius: 0.75rem;
+                    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+                    z-index: 9999;
+                    font-size: 0.875rem;
+                    font-weight: 500;
+                    animation: slideIn 0.3s ease;
+                `;
+
+                toast.textContent = message;
+                document.body.appendChild(toast);
+
+                setTimeout(() => {
+                    toast.style.animation = 'slideOut 0.3s ease';
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            }
+
+            // Add CSS animations
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(400px); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes slideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(400px); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+
+            // Initialize when DOM is ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                setTimeout(init, 500);
+            }
+        })();
+    </script>
 </body>
 
 </html>

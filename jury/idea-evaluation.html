@@ -78,7 +78,7 @@
         .content-wrapper {
             max-width: 1440px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 2rem 3rem;
             width: 100%;
         }
 
@@ -208,28 +208,6 @@
 
         .team-avatar:first-child {
             margin-left: 0;
-        }
-
-        .team-more {
-            width: 2.5rem;
-            height: 2.5rem;
-            border-radius: 50%;
-            background: #64748b;
-            color: var(--white);
-            border: 2px solid var(--white);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-left: -0.75rem;
-            text-decoration: none;
-            transition: background 0.2s ease;
-        }
-
-        .team-more:hover {
-            background: var(--primary-color);
-            color: var(--white);
         }
 
         .abstract-section {
@@ -510,85 +488,85 @@
         }
 
         .scorecard-form {
-            padding: 1.5rem;
+            padding: 1.25rem;
+            max-height: calc(100vh - 12rem);
+            overflow-y: auto;
         }
 
-        .criteria-item {
-            margin-bottom: 1.5rem;
-        }
-
-        .criteria-header {
+        .section-heading {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin: 0 0 0.75rem 0;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 0.75rem;
+            justify-content: space-between;
         }
 
-        .criteria-label {
-            font-size: 0.875rem;
-            font-weight: 600;
+        .section-total {
+            font-size: 0.75rem;
+            font-weight: 700;
             color: var(--text-dark);
         }
 
-        .criteria-value {
-            font-size: 0.875rem;
-            font-weight: 700;
-            color: var(--primary-color);
+        .criteria-item {
+            margin-bottom: 0.875rem;
         }
 
-        .range-slider {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 100%;
-            height: 0.5rem;
-            background: #e5e7eb;
-            border-radius: 9999px;
-            outline: none;
-            cursor: pointer;
-        }
-
-        .range-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 1rem;
-            height: 1rem;
-            background: var(--primary-color);
-            cursor: pointer;
-            border-radius: 50%;
-            box-shadow: 0 2px 4px rgba(94, 42, 151, 0.3);
-        }
-
-        .range-slider::-moz-range-thumb {
-            width: 1rem;
-            height: 1rem;
-            background: var(--primary-color);
-            cursor: pointer;
-            border-radius: 50%;
-            border: none;
-            box-shadow: 0 2px 4px rgba(94, 42, 151, 0.3);
-        }
-
-        .range-labels {
+        .criteria-row {
             display: flex;
             justify-content: space-between;
-            font-size: 0.75rem;
-            color: #94a3b8;
-            padding: 0 0.25rem;
-            margin-top: 0.5rem;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .criteria-label {
+            font-size: 0.8125rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            flex: 1;
+        }
+
+        .score-input {
+            width: 3.5rem;
+            height: 2rem;
+            padding: 0.25rem 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            text-align: center;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            font-family: 'Poppins', sans-serif;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .score-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(94, 42, 151, 0.1);
+        }
+
+        .score-input::-webkit-inner-spin-button,
+        .score-input::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
 
         .criteria-divider {
             height: 1px;
             background: var(--border-color);
-            margin: 1.5rem 0;
+            margin: 1rem 0;
         }
 
         .feedback-section {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
 
         .feedback-label {
-            font-size: 0.875rem;
+            font-size: 0.8125rem;
             font-weight: 600;
             color: var(--text-dark);
             margin-bottom: 0.5rem;
@@ -598,19 +576,19 @@
         }
 
         .feedback-optional {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 400;
             color: #94a3b8;
         }
 
         .feedback-textarea {
             width: 100%;
-            min-height: 6rem;
-            padding: 0.75rem 1rem;
+            min-height: 4rem;
+            padding: 0.625rem 0.875rem;
             background: var(--background-light);
             border: 1px solid var(--border-color);
             border-radius: 0.75rem;
-            font-size: 0.875rem;
+            font-size: 0.8125rem;
             font-family: 'Poppins', sans-serif;
             color: var(--text-dark);
             resize: vertical;
@@ -632,21 +610,21 @@
             align-items: center;
             justify-content: space-between;
             background: var(--background-light);
-            padding: 0.875rem 1rem;
+            padding: 0.75rem 0.875rem;
             border-radius: 0.75rem;
             border: 1px solid var(--border-color);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
 
         .shortlist-label-text {
-            font-size: 0.875rem;
+            font-size: 0.8125rem;
             font-weight: 700;
             color: var(--text-dark);
             margin: 0 0 0.125rem 0;
         }
 
         .shortlist-description {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--text-muted);
             margin: 0;
         }
@@ -761,42 +739,242 @@
             color: var(--primary-color);
         }
 
-        /* Toast Notification */
-        .toast-notification {
+        /* Success Modal */
+        .modal-overlay {
+            display: none;
             position: fixed;
-            bottom: 2rem;
-            right: 2rem;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .success-modal {
             background: var(--white);
-            border-left: 4px solid var(--primary-color);
+            border-radius: 1rem;
+            width: 500px;
+            max-width: 90%;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.show .success-modal {
+            transform: scale(1);
+        }
+
+        .success-icon {
+            width: 4rem;
+            height: 4rem;
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem auto;
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
+        }
+
+        .success-icon .material-symbols-outlined {
+            font-size: 2.5rem;
+            color: var(--white);
+            font-variation-settings: 'FILL' 1;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0 0 0.75rem 0;
+        }
+
+        .modal-description {
+            font-size: 0.9375rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin: 0 0 1.5rem 0;
+        }
+
+        .submitted-idea-card {
+            background: var(--background-light);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .idea-thumbnail {
+            width: 4rem;
+            height: 4rem;
+            border-radius: 0.5rem;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .idea-info {
+            flex: 1;
+            text-align: left;
+        }
+
+        .idea-label {
+            font-size: 0.625rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin: 0 0 0.25rem 0;
+        }
+
+        .idea-name {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0 0 0.25rem 0;
+        }
+
+        .idea-team {
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .idea-team .material-symbols-outlined {
+            font-size: 14px;
+        }
+
+        .modal-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .modal-btn {
+            width: 100%;
+            padding: 0.875rem 1.5rem;
+            border-radius: 0.75rem;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .modal-btn-primary {
+            background: var(--primary-color);
+            color: var(--white);
+            box-shadow: 0 4px 12px rgba(94, 42, 151, 0.3);
+        }
+
+        .modal-btn-primary:hover {
+            background: #7B3FB5;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(94, 42, 151, 0.4);
+        }
+
+        .modal-btn-secondary {
+            background: var(--white);
+            color: var(--text-dark);
+            border: 1px solid var(--border-color);
+        }
+
+        .modal-btn-secondary:hover {
+            background: var(--background-light);
+        }
+
+        .submission-meta-text {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            top: 5.5rem;
+            right: 2rem;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .toast {
+            background: var(--white);
             border-radius: 0.75rem;
             padding: 1rem 1.25rem;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.75rem;
             min-width: 320px;
             max-width: 400px;
-            z-index: 1000;
-            transform: translateX(500px);
+            transform: translateX(450px);
             opacity: 0;
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transition: all 0.3s ease;
+            border-left: 4px solid;
         }
 
-        .toast-notification.show {
+        .toast.show {
             transform: translateX(0);
             opacity: 1;
         }
 
+        .toast.success {
+            border-left-color: #10B981;
+        }
+
+        .toast.info {
+            border-left-color: #3B82F6;
+        }
+
         .toast-icon {
-            width: 2.5rem;
-            height: 2.5rem;
+            width: 2rem;
+            height: 2rem;
             border-radius: 50%;
-            background: rgba(94, 42, 151, 0.1);
-            color: var(--primary-color);
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
+        }
+
+        .toast.success .toast-icon {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10B981;
+        }
+
+        .toast.info .toast-icon {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3B82F6;
+        }
+
+        .toast-icon .material-symbols-outlined {
+            font-size: 18px;
+            font-variation-settings: 'FILL' 1;
         }
 
         .toast-content {
@@ -804,10 +982,10 @@
         }
 
         .toast-title {
-            font-size: 0.9375rem;
+            font-size: 0.875rem;
             font-weight: 700;
             color: var(--text-dark);
-            margin: 0 0 0.25rem 0;
+            margin: 0 0 0.125rem 0;
         }
 
         .toast-message {
@@ -825,13 +1003,108 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 0.375rem;
-            transition: all 0.2s ease;
+            transition: color 0.2s ease;
         }
 
         .toast-close:hover {
+            color: var(--text-dark);
+        }
+
+        .toast-close .material-symbols-outlined {
+            font-size: 18px;
+        }
+
+        /* Media Preview Modal */
+        .media-preview-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 10001;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .media-preview-modal.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .media-preview-content {
+            background: var(--white);
+            border-radius: 1rem;
+            width: 90%;
+            max-width: 1200px;
+            height: 85vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+
+        .media-preview-modal.show .media-preview-content {
+            transform: scale(1);
+        }
+
+        .media-preview-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .media-preview-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .media-preview-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .media-preview-close:hover {
             background: var(--background-light);
             color: var(--text-dark);
+        }
+
+        .media-preview-body {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .media-preview-body iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .media-preview-body video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #000;
         }
 
         /* Responsive */
@@ -847,6 +1120,11 @@
             .scorecard {
                 position: static;
                 margin-top: 2rem;
+            }
+
+            .media-preview-content {
+                width: 95%;
+                height: 90vh;
             }
         }
 
@@ -866,6 +1144,34 @@
             .team-avatars {
                 margin-left: 0;
                 margin-top: 1rem;
+            }
+
+            .toast-container {
+                right: 1rem;
+                left: 1rem;
+            }
+
+            .toast {
+                min-width: auto;
+                max-width: none;
+            }
+
+            .success-modal {
+                width: 95%;
+                padding: 2rem 1.5rem;
+            }
+
+            .submitted-idea-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .idea-info {
+                text-align: center;
+            }
+
+            .idea-team {
+                justify-content: center;
             }
         }
     </style>
@@ -920,7 +1226,6 @@
                                         <img class="team-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCK0BoJGEJIUJDhmhFpR12UhYVqq4u0ExRZolOFbKZaCrwVAM5QSXABY0XnOLZkRSItBBMv3aSNvAZ01QX3UiQ7Xp41XBfSClzM2E3D0vIqIET3LTl-VcX5GNDp-8NYT5DWapd7FmU3XSOnAQXW_6nsTQdhETdu-yqWCmW-_aqnO5MLQ45MFAy-REaNot711jiQnKK-gI5yLOdc2CrtRPqh_LMLI228h3V2K7jmjCMDEH-g5e-Mcd5Rz2xIuEroYoaPLN3_Lj0vy6E" alt="Team member 1" />
                                         <img class="team-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALlxklNRD8pSqUYxEBnQfxsjk9ItvUS2Bv5S-rTpVlA8egLlgPvPmHfUGfVLl3OUHIduv8H5f-yBiZvKwPYIRRvt0YfAfmdcdP2O3Hy4cxiPsdRIVAV_kt-AwnbqOz_S2v3_ycZDr-A8yZXVpqzWf9ZzD21jfeSTu1jv2KWKzUeUMB0T4zPvBGe3QX8OkgmlqcfEfb-KlBQCq0T5Ne2Dn-eQv6OesQE_CZ1UlvBfxq7NYkT8KMV2jDOULKSxs3qLKStj_L7mVDMrQ" alt="Team member 2" />
                                         <img class="team-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkqCVlb6-Ik64Uu66aFrQ3a1cwW9nY85j6PzTMGqy0a4cNlaRiG5u_Oznaqkl8t81sTShn9dvfr4LO2GwZHIp7paDkoHJ3Tv-2Eqrlr1KeCmv-o_HhMR73yyadr3vItpENEzpAWif9QrGITuOs-w5JptxniogO0UF0vTL_HhFNly3fSQuksY8rsVpIvDH-9BhmDr-fEhj46BFJfd2dt7SrML8LeFFPHbOHBrdEQycHKh9Ng7C6RUB2XFYp6p9p6rPQ3ESpZVDDpBo" alt="Team member 3" />
-                                        <!-- <a href="#" class="team-more">+2</a> -->
                                     </div>
                                 </div>
                             </div>
@@ -934,7 +1239,7 @@
                         <div class="row g-4 mb-4">
                             <!-- PPT Viewer Placeholder -->
                             <div class="col-12 col-md-6">
-                                <div class="media-card">
+                                <div class="media-card" onclick="openPitchDeck()">
                                     <div class="media-card-header">
                                         <div class="media-icon ppt">
                                             <span class="material-symbols-outlined">slideshow</span>
@@ -945,13 +1250,13 @@
                                     <p class="media-description">View the detailed 12-slide presentation.</p>
                                     <div class="media-preview">
                                         <div class="media-preview-bg" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuARQ8GKInydMH8jSzkuTpdnavEC5UmLx6ts-h5ldu60c6VCaSSy5fqK8dKXD_qnRRHbKet0-9DWZ1onPqsfKmFWb1pNdIZTaxcFcWiW8Icl7XDbNP-T3P0ORPdqjanaO6iDTzSnkVV35ixffskqiiuV2yCs9GcowRDPm8i9IGpnEZxdiL8K9bKQ56ydAhS-m9hgEWHEpS5pYzIBGhPqifFz0GE81idyEwBbFw8roJO_kuckOF9s6NRodzbR6ddH9Cg1pzVFqDzmORk");'></div>
-                                        <button class="media-preview-btn">Preview Slides</button>
+                                        <button class="media-preview-btn" onclick="event.stopPropagation(); openPitchDeck();">Preview Slides</button>
                                     </div>
                                 </div>
                             </div>
                             <!-- Video Placeholder -->
                             <div class="col-12 col-md-6">
-                                <div class="media-card">
+                                <div class="media-card" onclick="openVideoPitch()">
                                     <div class="media-card-header">
                                         <div class="media-icon video">
                                             <span class="material-symbols-outlined">play_circle</span>
@@ -962,7 +1267,7 @@
                                     <p class="media-description">Watch the 2-minute prototype demo.</p>
                                     <div class="media-preview">
                                         <div class="media-preview-bg" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB6qKJdf--z4Uxwwc9jHzGuFTv5WFxufp5tZ3kf0HP-tAS4aLBJjXAT0XujckrgnenLivKjbp7vUXsE6DoaggOIhPDVF-woKliiIKgUGmvJAy-ukirnnwVKiPDwUR_PobJgZbGOjNiZNf0L1ZytiewDBaqwtX8VNAZNGACeykGVesy4_99DL_AJJx-89jIQxiTuBVjEc39d_31ToLTrHY8zOyL9z97OUxHx96I-MHEsty2T74gk9mqwqliHqXjKEdtXWfRicqYoXZo");'></div>
-                                        <div class="video-play-icon">
+                                        <div class="video-play-icon" onclick="event.stopPropagation(); openVideoPitch();">
                                             <span class="material-symbols-outlined">play_arrow</span>
                                         </div>
                                     </div>
@@ -1023,53 +1328,98 @@
                             <div class="scorecard-header">
                                 <div class="scorecard-title-section">
                                     <h3>Scorecard</h3>
-                                    <p class="scorecard-subtitle">Rate the project on a scale of 1-10.</p>
+                                    <p class="scorecard-subtitle">Rate each parameter out of 5.</p>
                                 </div>
                                 <div class="score-total">
                                     <span class="score-total-label">Total</span>
                                     <div class="score-total-value">
-                                        24<span class="score-total-max">/30</span>
+                                        0<span class="score-total-max">/50</span>
                                     </div>
                                 </div>
                             </div>
                             <!-- Form -->
                             <form class="scorecard-form">
-                                <!-- Criteria 1 -->
+                                <!-- About the Idea Section -->
+                                <h4 class="section-heading">
+                                    About the Idea
+                                    <span class="section-total" id="ideaTotal">0/25</span>
+                                </h4>
+
                                 <div class="criteria-item">
-                                    <div class="criteria-header">
-                                        <label class="criteria-label">Innovation & Creativity</label>
-                                        <span class="criteria-value" id="criteria1-value">8</span>
-                                    </div>
-                                    <input type="range" class="range-slider" min="0" max="10" value="8" id="criteria1">
-                                    <div class="range-labels">
-                                        <span>Poor</span>
-                                        <span>Excellent</span>
+                                    <div class="criteria-row">
+                                        <label class="criteria-label">Uniqueness</label>
+                                        <input type="number" class="score-input" min="0" max="5" value="0" id="uniqueness" oninput="updateTotal()">
                                     </div>
                                 </div>
 
-                                <!-- Criteria 2 -->
                                 <div class="criteria-item">
-                                    <div class="criteria-header">
-                                        <label class="criteria-label">Feasibility & Scalability</label>
-                                        <span class="criteria-value" id="criteria2-value">7</span>
-                                    </div>
-                                    <input type="range" class="range-slider" min="0" max="10" value="7" id="criteria2">
-                                    <div class="range-labels">
-                                        <span>Poor</span>
-                                        <span>Excellent</span>
+                                    <div class="criteria-row">
+                                        <label class="criteria-label">Ease of implementation</label>
+                                        <input type="number" class="score-input" min="0" max="5" value="0" id="easeOfImplementation" oninput="updateTotal()">
                                     </div>
                                 </div>
 
-                                <!-- Criteria 3 -->
                                 <div class="criteria-item">
-                                    <div class="criteria-header">
-                                        <label class="criteria-label">Social Impact</label>
-                                        <span class="criteria-value" id="criteria3-value">9</span>
+                                    <div class="criteria-row">
+                                        <label class="criteria-label">Scalable</label>
+                                        <input type="number" class="score-input" min="0" max="5" value="0" id="scalable" oninput="updateTotal()">
                                     </div>
-                                    <input type="range" class="range-slider" min="0" max="10" value="9" id="criteria3">
-                                    <div class="range-labels">
-                                        <span>Poor</span>
-                                        <span>Excellent</span>
+                                </div>
+
+                                <div class="criteria-item">
+                                    <div class="criteria-row">
+                                        <label class="criteria-label">Impactful</label>
+                                        <input type="number" class="score-input" min="0" max="5" value="0" id="impactful" oninput="updateTotal()">
+                                    </div>
+                                </div>
+
+                                <div class="criteria-item">
+                                    <div class="criteria-row">
+                                        <label class="criteria-label">Sustainable</label>
+                                        <input type="number" class="score-input" min="0" max="5" value="0" id="sustainable" oninput="updateTotal()">
+                                    </div>
+                                </div>
+
+                                <div class="criteria-divider"></div>
+
+                                <!-- About the Team Section -->
+                                <h4 class="section-heading">
+                                    About the Team/Individual
+                                    <span class="section-total" id="teamTotal">0/25</span>
+                                </h4>
+
+                                <div class="criteria-item">
+                                    <div class="criteria-row">
+                                        <label class="criteria-label">Conceptual clarity & comprehensiveness</label>
+                                        <input type="number" class="score-input" min="0" max="5" value="0" id="conceptualClarity" oninput="updateTotal()">
+                                    </div>
+                                </div>
+
+                                <div class="criteria-item">
+                                    <div class="criteria-row">
+                                        <label class="criteria-label">Empathy</label>
+                                        <input type="number" class="score-input" min="0" max="5" value="0" id="empathy" oninput="updateTotal()">
+                                    </div>
+                                </div>
+
+                                <div class="criteria-item">
+                                    <div class="criteria-row">
+                                        <label class="criteria-label">Creativity</label>
+                                        <input type="number" class="score-input" min="0" max="5" value="0" id="creativity" oninput="updateTotal()">
+                                    </div>
+                                </div>
+
+                                <div class="criteria-item">
+                                    <div class="criteria-row">
+                                        <label class="criteria-label">Communication</label>
+                                        <input type="number" class="score-input" min="0" max="5" value="0" id="communication" oninput="updateTotal()">
+                                    </div>
+                                </div>
+
+                                <div class="criteria-item">
+                                    <div class="criteria-row">
+                                        <label class="criteria-label">Flexible thinking</label>
+                                        <input type="number" class="score-input" min="0" max="5" value="0" id="flexibleThinking" oninput="updateTotal()">
                                     </div>
                                 </div>
 
@@ -1097,7 +1447,7 @@
                                 </div>
 
                                 <!-- Actions -->
-                                <button type="submit" class="submit-btn" onclick="event.preventDefault();">
+                                <button type="submit" class="submit-btn" onclick="event.preventDefault(); submitEvaluation();">
                                     <span class="material-symbols-outlined" style="font-size: 20px;">check_circle</span>
                                     Submit Evaluation
                                 </button>
@@ -1125,30 +1475,159 @@
         </div>
     </div>
 
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Media Preview Modal -->
+    <div class="media-preview-modal" id="mediaPreviewModal">
+        <div class="media-preview-content">
+            <div class="media-preview-header">
+                <h3 class="media-preview-title" id="mediaPreviewTitle">
+                    <span class="material-symbols-outlined">slideshow</span>
+                    Preview
+                </h3>
+                <button class="media-preview-close" onclick="closeMediaPreview()">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="media-preview-body" id="mediaPreviewBody">
+                <!-- Content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="successModal">
+        <div class="success-modal">
+            <div class="success-icon">
+                <span class="material-symbols-outlined">check</span>
+            </div>
+            <h2 class="modal-title">Evaluation Submitted Successfully</h2>
+            <p class="modal-description">This evaluation is now locked and read-only. You can no longer edit your scores or comments for this entry.</p>
+
+            <div class="submitted-idea-card">
+                <img class="idea-thumbnail" src="https://lh3.googleusercontent.com/aida-public/AB6AXuARQ8GKInydMH8jSzkuTpdnavEC5UmLx6ts-h5ldu60c6VCaSSy5fqK8dKXD_qnRRHbKet0-9DWZ1onPqsfKmFWb1pNdIZTaxcFcWiW8Icl7XDbNP-T3P0ORPdqjanaO6iDTzSnkVV35ixffskqiiuV2yCs9GcowRDPm8i9IGpnEZxdiL8K9bKQ56ydAhS-m9hgEWHEpS5pYzIBGhPqifFz0GE81idyEwBbFw8roJO_kuckOF9s6NRodzbR6ddH9Cg1pzVFqDzmORk" alt="Project thumbnail">
+                <div class="idea-info">
+                    <p class="idea-label">Submitted Idea</p>
+                    <h3 class="idea-name">Solar-Powered Urban Irrigation</h3>
+                    <p class="idea-team">
+                        <span class="material-symbols-outlined">groups</span>
+                        Team: EcoWarriors Tech
+                    </p>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="modal-btn modal-btn-primary" onclick="continueToNext()">
+                    Continue to Next Evaluation
+                    <span class="material-symbols-outlined">arrow_forward</span>
+                </button>
+                <button class="modal-btn modal-btn-secondary" onclick="backToDashboard()">
+                    Back to Dashboard
+                </button>
+            </div>
+
+            <p class="submission-meta-text">
+                SUBMISSION ID: IFT 2024-0482 • TIME: 14:22 GMT+5:30
+            </p>
+        </div>
+    </div>
+
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Update Total Score -->
+    <!-- Update Total Score & Modal Functions -->
     <script>
         function updateTotal() {
-            const criteria1 = parseInt(document.getElementById('criteria1').value) || 0;
-            const criteria2 = parseInt(document.getElementById('criteria2').value) || 0;
-            const criteria3 = parseInt(document.getElementById('criteria3').value) || 0;
-            const total = criteria1 + criteria2 + criteria3;
-            document.querySelector('.score-total-value').innerHTML = total + '<span class="score-total-max">/30</span>';
+            // Get all idea scores
+            const uniqueness = Math.min(5, Math.max(0, parseInt(document.getElementById('uniqueness').value) || 0));
+            const easeOfImplementation = Math.min(5, Math.max(0, parseInt(document.getElementById('easeOfImplementation').value) || 0));
+            const scalable = Math.min(5, Math.max(0, parseInt(document.getElementById('scalable').value) || 0));
+            const impactful = Math.min(5, Math.max(0, parseInt(document.getElementById('impactful').value) || 0));
+            const sustainable = Math.min(5, Math.max(0, parseInt(document.getElementById('sustainable').value) || 0));
+
+            // Get all team scores
+            const conceptualClarity = Math.min(5, Math.max(0, parseInt(document.getElementById('conceptualClarity').value) || 0));
+            const empathy = Math.min(5, Math.max(0, parseInt(document.getElementById('empathy').value) || 0));
+            const creativity = Math.min(5, Math.max(0, parseInt(document.getElementById('creativity').value) || 0));
+            const communication = Math.min(5, Math.max(0, parseInt(document.getElementById('communication').value) || 0));
+            const flexibleThinking = Math.min(5, Math.max(0, parseInt(document.getElementById('flexibleThinking').value) || 0));
+
+            // Calculate subtotals
+            const ideaTotal = uniqueness + easeOfImplementation + scalable + impactful + sustainable;
+            const teamTotal = conceptualClarity + empathy + creativity + communication + flexibleThinking;
+            const grandTotal = ideaTotal + teamTotal;
+
+            // Update the display
+            document.getElementById('ideaTotal').textContent = ideaTotal + '/25';
+            document.getElementById('teamTotal').textContent = teamTotal + '/25';
+            document.querySelector('.score-total-value').innerHTML = grandTotal + '<span class="score-total-max">/50</span>';
+
+            // Update input values to enforce min/max
+            document.getElementById('uniqueness').value = uniqueness;
+            document.getElementById('easeOfImplementation').value = easeOfImplementation;
+            document.getElementById('scalable').value = scalable;
+            document.getElementById('impactful').value = impactful;
+            document.getElementById('sustainable').value = sustainable;
+            document.getElementById('conceptualClarity').value = conceptualClarity;
+            document.getElementById('empathy').value = empathy;
+            document.getElementById('creativity').value = creativity;
+            document.getElementById('communication').value = communication;
+            document.getElementById('flexibleThinking').value = flexibleThinking;
         }
 
-        // Toast notification function
-        function showToast(title, message, icon) {
-            // Remove any existing toast
-            const existingToast = document.querySelector('.toast-notification');
-            if (existingToast) {
-                existingToast.remove();
-            }
+        // Submit evaluation and show success modal
+        function submitEvaluation() {
+            // Show the modal with animation
+            const modal = document.getElementById('successModal');
+            modal.classList.add('show');
 
-            // Create toast element
+            // Prevent body scroll when modal is open
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Continue to next evaluation
+        function continueToNext() {
+            // You can redirect to the next evaluation page
+            window.location.href = 'assigned-ideas.html';
+        }
+
+        // Back to dashboard
+        function backToDashboard() {
+            window.location.href = 'dashboard.html';
+        }
+
+        // Close modal when clicking outside
+        document.addEventListener('DOMContentLoaded', function() {
+            const modalOverlay = document.getElementById('successModal');
+
+            modalOverlay.addEventListener('click', function(e) {
+                if (e.target === modalOverlay) {
+                    modalOverlay.classList.remove('show');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+
+            // Close media preview modal when clicking outside
+            const mediaPreviewModal = document.getElementById('mediaPreviewModal');
+            mediaPreviewModal.addEventListener('click', function(e) {
+                if (e.target === mediaPreviewModal) {
+                    closeMediaPreview();
+                }
+            });
+        });
+
+        // Toast notification function
+        function showToast(title, message, type = 'info') {
+            const toastContainer = document.getElementById('toastContainer');
+            const toastId = 'toast-' + Date.now();
+
             const toast = document.createElement('div');
-            toast.className = 'toast-notification';
+            toast.className = `toast ${type}`;
+            toast.id = toastId;
+
+            const icon = type === 'success' ? 'check_circle' : 'info';
+
             toast.innerHTML = `
                 <div class="toast-icon">
                     <span class="material-symbols-outlined">${icon}</span>
@@ -1157,77 +1636,93 @@
                     <p class="toast-title">${title}</p>
                     <p class="toast-message">${message}</p>
                 </div>
-                <button class="toast-close">
+                <button class="toast-close" onclick="closeToast('${toastId}')">
                     <span class="material-symbols-outlined">close</span>
                 </button>
             `;
 
-            document.body.appendChild(toast);
+            toastContainer.appendChild(toast);
 
-            // Show toast with animation
+            // Trigger animation
             setTimeout(() => {
                 toast.classList.add('show');
             }, 10);
 
-            // Close button handler
-            const closeBtn = toast.querySelector('.toast-close');
-            closeBtn.addEventListener('click', function() {
-                toast.classList.remove('show');
-                setTimeout(() => {
-                    toast.remove();
-                }, 300);
-            });
-
-            // Auto hide after 4 seconds
+            // Auto dismiss after 4 seconds
             setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => {
-                    toast.remove();
-                }, 300);
+                closeToast(toastId);
             }, 4000);
         }
 
-        // Range slider event listeners
-        document.addEventListener('DOMContentLoaded', function() {
-            const criteria1 = document.getElementById('criteria1');
-            const criteria2 = document.getElementById('criteria2');
-            const criteria3 = document.getElementById('criteria3');
-
-            if (criteria1) {
-                criteria1.addEventListener('input', function() {
-                    document.getElementById('criteria1-value').textContent = this.value;
-                    updateTotal();
-                });
+        function closeToast(toastId) {
+            const toast = document.getElementById(toastId);
+            if (toast) {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
             }
+        }
 
-            if (criteria2) {
-                criteria2.addEventListener('input', function() {
-                    document.getElementById('criteria2-value').textContent = this.value;
-                    updateTotal();
-                });
-            }
+        // Open Pitch Deck
+        function openPitchDeck() {
+            showToast('Opening Pitch Deck', 'Loading the 12-slide presentation...', 'info');
 
-            if (criteria3) {
-                criteria3.addEventListener('input', function() {
-                    document.getElementById('criteria3-value').textContent = this.value;
-                    updateTotal();
-                });
-            }
+            const modal = document.getElementById('mediaPreviewModal');
+            const title = document.getElementById('mediaPreviewTitle');
+            const body = document.getElementById('mediaPreviewBody');
 
-            // Media card click handlers
-            const mediaCards = document.querySelectorAll('.media-card');
-            mediaCards.forEach(card => {
-                card.addEventListener('click', function() {
-                    const title = this.querySelector('.media-title').textContent;
-                    const icon = title === 'Pitch Deck' ? 'slideshow' : 'play_circle';
-                    showToast(
-                        'Opening ' + title,
-                        'This would open the media in a viewer/modal in production.',
-                        icon
-                    );
-                });
-            });
-        });
+            title.innerHTML = '<span class="material-symbols-outlined">slideshow</span> Pitch Deck Preview';
+
+            // Demo: Embedding a sample Google Slides presentation
+            body.innerHTML = `
+                <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vQj8VxV0hJ0l5vZhN-8_wQDj6qF0XRVZL2VnxKwPZQ5_1vJ7xYpF2VnKL0_FfGxJ8Q/embed?start=false&loop=false&delayms=3000"
+                        frameborder="0"
+                        allowfullscreen="true"
+                        mozallowfullscreen="true"
+                        webkitallowfullscreen="true">
+                </iframe>
+            `;
+
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Open Video Pitch
+        function openVideoPitch() {
+            showToast('Opening Video Pitch', 'Loading the 2-minute prototype demo...', 'info');
+
+            const modal = document.getElementById('mediaPreviewModal');
+            const title = document.getElementById('mediaPreviewTitle');
+            const body = document.getElementById('mediaPreviewBody');
+
+            title.innerHTML = '<span class="material-symbols-outlined">play_circle</span> Video Pitch';
+
+            // Demo: Embedding a sample video
+            body.innerHTML = `
+                <video controls autoplay>
+                    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            `;
+
+            modal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close Media Preview
+        function closeMediaPreview() {
+            const modal = document.getElementById('mediaPreviewModal');
+            const body = document.getElementById('mediaPreviewBody');
+
+            modal.classList.remove('show');
+            document.body.style.overflow = 'auto';
+
+            // Clear content after animation
+            setTimeout(() => {
+                body.innerHTML = '';
+            }, 300);
+        }
     </script>
 
     <!-- Load Sidebar -->
@@ -1274,8 +1769,8 @@
                             icon.style.fontVariationSettings = "'FILL' 0";
                         }
 
-                        // Add active class to evaluations/assigned-ideas when on idea-evaluation page
-                        if (href === 'assigned-ideas.html' && currentPage === 'idea-evaluation.html') {
+                        // Add active class only to the evaluations/assigned-ideas nav item
+                        if (href === 'assigned-ideas.html') {
                             item.classList.add('nav-item-active');
                             if (icon) {
                                 icon.classList.add('filled');
@@ -1296,32 +1791,13 @@
                 const tempDiv = document.createElement('div');
                 tempDiv.innerHTML = data;
 
-                const header = tempDiv.querySelector('header');
-                const notificationPanel = tempDiv.querySelector('#notificationPanel');
-                const helpModal = tempDiv.querySelector('#helpModal');
-                const profileDropdown = tempDiv.querySelector('#profileDropdown');
-                const headerStyle = tempDiv.querySelector('style');
-
-                if (header) {
-                    document.getElementById('header-container').appendChild(header);
-                }
-
-                // Append dropdowns to body for proper z-index positioning
-                if (notificationPanel) {
-                    document.body.appendChild(notificationPanel);
-                }
-
-                if (helpModal) {
-                    document.body.appendChild(helpModal);
-                }
-
-                if (profileDropdown) {
-                    document.body.appendChild(profileDropdown);
-                }
-
-                if (headerStyle) {
-                    document.head.appendChild(headerStyle);
-                }
+                // Extract and append all elements
+                const elements = tempDiv.childNodes;
+                elements.forEach(node => {
+                    if (node.nodeType === 1 || node.nodeType === 3) { // Element or Text node
+                        document.getElementById('header-container').appendChild(node.cloneNode(true));
+                    }
+                });
 
                 // Find and execute the script
                 const script = tempDiv.querySelector('script');
