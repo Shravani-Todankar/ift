@@ -326,10 +326,36 @@
             background-position: center;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             position: relative;
+            transition: all 0.3s ease;
         }
 
         .team-logo-ring {
             box-shadow: 0 0 0 4px var(--background-light);
+        }
+
+        #teamAvatarContainer:hover .team-logo {
+            transform: scale(1.02);
+            box-shadow: 0 8px 12px -2px rgba(0, 0, 0, 0.15);
+        }
+
+        #teamAvatarContainer:hover .edit-icon-badge {
+            transform: scale(1.1);
+            background-color: #7B3FB5;
+        }
+
+        #teamAvatarContainer::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0);
+            border-radius: 1.5rem;
+            z-index: 1;
+            pointer-events: none;
+            transition: background-color 0.3s ease;
+        }
+
+        #teamAvatarContainer:hover::before {
+            background-color: rgba(0, 0, 0, 0.1);
         }
 
         .edit-icon-badge {
@@ -342,6 +368,9 @@
             padding: 0.375rem;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
             border: 2px solid white;
+            transition: all 0.3s ease;
+            z-index: 2;
+            cursor: pointer;
         }
 
         .status-dot {
@@ -708,14 +737,15 @@
                     <div class="d-flex flex-column gap-4">
                         <!-- Team Card -->
                         <div class="team-card d-flex flex-column align-items-center text-center">
-                            <div class="position-relative mb-4" style="cursor: pointer;">
-                                <div class="team-logo team-logo-ring"
+                            <div class="position-relative mb-4" style="cursor: pointer;" id="teamAvatarContainer">
+                                <div class="team-logo team-logo-ring" id="teamAvatar"
                                     data-alt="Abstract geometric logo in blue and purple gradients representing innovation"
                                     style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDh5d5svr3VjZuYwdZ9KhT2bW5NCGFEbo_ITp5s9dJPXTcsiOn1vRPLMoofPPyWhNByVinyIXYzN3iN-JRm2mGKTbJPfoGN-6X5MrplxY1TUf23GhFQML4RLNU__O210dBXjCLO6tSK6Yvq3An9Y9-v9Ct6nemjHHRTnNR1MtxZccVsvtdxZjfHZqvSPYm_UT-7NUL6ZM12RjqNtioDGAvfjLj9Bzwqxj_OmclerSloXo-Bh-mnGvQFbwP5BcV1-J4U80faTjnEedE");'>
                                 </div>
-                                <div class="edit-icon-badge">
+                                <div class="edit-icon-badge" id="editAvatarBtn" title="Change team avatar">
                                     <span class="material-symbols-outlined" style="font-size: 16px;">edit</span>
                                 </div>
+                                <input type="file" id="avatarFileInput" accept="image/*" style="position: absolute; opacity: 0; pointer-events: none; width: 0; height: 0;">
                             </div>
                             <h2 class="text-dark-custom fs-5 fw-bold mb-1">Innovators Squad Alpha</h2>
                             <p class="text-muted-custom small fw-medium mb-3">Track: Sustainable Energy</p>
@@ -930,6 +960,7 @@
             function init() {
                 initCopyButton();
                 initShareButton();
+                initAvatarUpload();
             }
 
             // Copy code functionality
@@ -1007,6 +1038,145 @@
                     showToast('Failed to copy link', 'error');
                 });
             }
+
+            // Avatar upload functionality
+            function initAvatarUpload() {
+                const avatarContainer = document.getElementById('teamAvatarContainer');
+                const editBtn = document.getElementById('editAvatarBtn');
+                const fileInput = document.getElementById('avatarFileInput');
+                const teamAvatar = document.getElementById('teamAvatar');
+
+                console.log('Avatar upload initialized:', { avatarContainer, editBtn, fileInput, teamAvatar });
+
+                if (avatarContainer && editBtn && fileInput && teamAvatar) {
+                    // Function to open file picker
+                    function openFilePicker(e) {
+                        if (e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                        }
+                        console.log('Opening file picker...');
+                        console.log('File input element:', fileInput);
+                        console.log('File input visibility:', window.getComputedStyle(fileInput).visibility);
+                        console.log('File input opacity:', window.getComputedStyle(fileInput).opacity);
+
+                        // Try to trigger the file input
+                        try {
+                            // Reset the input value to allow selecting the same file again
+                            fileInput.value = '';
+
+                            // Multiple methods to trigger file input (browser compatibility)
+                            setTimeout(() => {
+                                fileInput.click();
+                                console.log('File input click triggered via setTimeout');
+                            }, 0);
+
+                            // Also try direct click
+                            fileInput.click();
+                            console.log('File input click triggered directly');
+
+                            // Dispatch a click event as fallback
+                            const clickEvent = new MouseEvent('click', {
+                                view: window,
+                                bubbles: true,
+                                cancelable: true
+                            });
+                            fileInput.dispatchEvent(clickEvent);
+                            console.log('File input click event dispatched');
+                        } catch (error) {
+                            console.error('Error triggering file input:', error);
+                        }
+                    }
+
+                    // Click on avatar container to trigger file input
+                    avatarContainer.addEventListener('click', function(e) {
+                        console.log('Avatar container clicked');
+                        openFilePicker(e);
+                    });
+
+                    // Also add direct listener to edit button
+                    editBtn.addEventListener('click', function(e) {
+                        console.log('Edit button clicked');
+                        openFilePicker(e);
+                    });
+
+                    // Handle file selection
+                    fileInput.addEventListener('change', function(e) {
+                        const file = e.target.files[0];
+                        console.log('File selected:', file);
+
+                        if (file) {
+                            // Validate file type
+                            if (!file.type.startsWith('image/')) {
+                                console.error('Invalid file type:', file.type);
+                                showToast('Please select a valid image file', 'error');
+                                return;
+                            }
+
+                            // Validate file size (max 5MB)
+                            if (file.size > 5 * 1024 * 1024) {
+                                console.error('File too large:', file.size);
+                                showToast('Image size should be less than 5MB', 'error');
+                                return;
+                            }
+
+                            // Read and preview the image
+                            const reader = new FileReader();
+
+                            reader.onload = function(event) {
+                                console.log('Image loaded successfully');
+                                console.log('Data URL length:', event.target.result.length);
+                                console.log('Team avatar element before update:', teamAvatar);
+                                console.log('Current background-image:', teamAvatar.style.backgroundImage);
+
+                                // Update the avatar with the new image
+                                const dataUrl = event.target.result;
+                                teamAvatar.style.backgroundImage = `url("${dataUrl}")`;
+
+                                console.log('New background-image set to:', teamAvatar.style.backgroundImage);
+                                console.log('Computed background-image:', window.getComputedStyle(teamAvatar).backgroundImage);
+
+                                // Show success message
+                                showToast('Team avatar updated successfully!', 'success');
+
+                                // Here you would typically upload the file to your server
+                                // uploadAvatarToServer(file);
+                            };
+
+                            reader.onerror = function() {
+                                console.error('Failed to read file');
+                                showToast('Failed to read image file', 'error');
+                            };
+
+                            reader.readAsDataURL(file);
+                        }
+                    });
+                } else {
+                    console.error('One or more avatar elements not found');
+                }
+            }
+
+            // Placeholder function for server upload
+            // Uncomment and implement when backend is ready
+            /*
+            function uploadAvatarToServer(file) {
+                const formData = new FormData();
+                formData.append('avatar', file);
+
+                fetch('/api/team/avatar', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Avatar uploaded successfully:', data);
+                })
+                .catch(error => {
+                    console.error('Error uploading avatar:', error);
+                    showToast('Failed to upload avatar to server', 'error');
+                });
+            }
+            */
 
             // Toast notification system
             function showToast(message, type = 'info') {

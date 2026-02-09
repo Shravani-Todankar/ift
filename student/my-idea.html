@@ -587,6 +587,21 @@
                         </div>
                     </div>
 
+                    <!-- Auto-Submission Notice -->
+                    <div style="background: linear-gradient(135deg, #FEF2F2 0%, #FEE2E2 100%); border: 2px solid #FCA5A5; border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem; display: flex; align-items: start; gap: 1rem;">
+                        <div style="width: 48px; height: 48px; border-radius: 50%; background: #FCA5A5; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <span class="material-symbols-outlined" style="color: #991B1B; font-size: 28px; font-variation-settings: 'FILL' 1;">schedule</span>
+                        </div>
+                        <div style="flex: 1;">
+                            <h3 style="font-size: 1rem; font-weight: 700; color: #991B1B; margin: 0 0 0.5rem 0;">
+                                Auto-Submission Notice
+                            </h3>
+                            <p style="font-size: 0.9375rem; line-height: 1.6; color: #7F1D1D; margin: 0;">
+                                Your idea will be <strong>automatically submitted</strong> after the deadline passes if you haven't published it manually. Make sure to review and complete all sections before the deadline.
+                            </p>
+                        </div>
+                    </div>
+
                     <!-- Info Cards -->
                     <div class="info-cards-grid">
                         <div class="info-card tip">
@@ -846,7 +861,24 @@
         fetch('header.html')
             .then(response => response.text())
             .then(data => {
-                document.getElementById('header-container').innerHTML = data;
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = data;
+
+                // Extract and append all elements
+                const elements = tempDiv.childNodes;
+                elements.forEach(node => {
+                    if (node.nodeType === 1 || node.nodeType === 3) { // Element or Text node
+                        document.getElementById('header-container').appendChild(node.cloneNode(true));
+                    }
+                });
+
+                // Find and execute the script
+                const script = tempDiv.querySelector('script');
+                if (script) {
+                    const newScript = document.createElement('script');
+                    newScript.textContent = script.textContent;
+                    document.body.appendChild(newScript);
+                }
             })
             .catch(error => console.error('Error loading header:', error));
 
