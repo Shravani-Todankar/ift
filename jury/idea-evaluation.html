@@ -210,6 +210,18 @@
             margin-left: 0;
         }
 
+        .team-avatar {
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .team-avatar:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 10;
+            position: relative;
+        }
+
         .abstract-section {
             margin-top: 2rem;
         }
@@ -1214,6 +1226,10 @@
                                     </div>
                                     <h1 class="submission-title">Project Solar Clean</h1>
                                     <p class="submission-school">St. Mary's High School</p>
+                                    <p class="submission-school" style="color: var(--primary-color); font-weight: 600; margin-top: 0.5rem;">
+                                        <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle; margin-right: 0.25rem;">groups</span>
+                                        Team Spark
+                                    </p>
                                     <div class="tag-group">
                                         <span class="tag">Sustainability</span>
                                         <span class="tag">Hardware</span>
@@ -1223,9 +1239,9 @@
                                 <!-- Team Avatar Group -->
                                 <div class="col-12 col-md-4">
                                     <div class="team-avatars">
-                                        <img class="team-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCK0BoJGEJIUJDhmhFpR12UhYVqq4u0ExRZolOFbKZaCrwVAM5QSXABY0XnOLZkRSItBBMv3aSNvAZ01QX3UiQ7Xp41XBfSClzM2E3D0vIqIET3LTl-VcX5GNDp-8NYT5DWapd7FmU3XSOnAQXW_6nsTQdhETdu-yqWCmW-_aqnO5MLQ45MFAy-REaNot711jiQnKK-gI5yLOdc2CrtRPqh_LMLI228h3V2K7jmjCMDEH-g5e-Mcd5Rz2xIuEroYoaPLN3_Lj0vy6E" alt="Team member 1" />
-                                        <img class="team-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALlxklNRD8pSqUYxEBnQfxsjk9ItvUS2Bv5S-rTpVlA8egLlgPvPmHfUGfVLl3OUHIduv8H5f-yBiZvKwPYIRRvt0YfAfmdcdP2O3Hy4cxiPsdRIVAV_kt-AwnbqOz_S2v3_ycZDr-A8yZXVpqzWf9ZzD21jfeSTu1jv2KWKzUeUMB0T4zPvBGe3QX8OkgmlqcfEfb-KlBQCq0T5Ne2Dn-eQv6OesQE_CZ1UlvBfxq7NYkT8KMV2jDOULKSxs3qLKStj_L7mVDMrQ" alt="Team member 2" />
-                                        <img class="team-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkqCVlb6-Ik64Uu66aFrQ3a1cwW9nY85j6PzTMGqy0a4cNlaRiG5u_Oznaqkl8t81sTShn9dvfr4LO2GwZHIp7paDkoHJ3Tv-2Eqrlr1KeCmv-o_HhMR73yyadr3vItpENEzpAWif9QrGITuOs-w5JptxniogO0UF0vTL_HhFNly3fSQuksY8rsVpIvDH-9BhmDr-fEhj46BFJfd2dt7SrML8LeFFPHbOHBrdEQycHKh9Ng7C6RUB2XFYp6p9p6rPQ3ESpZVDDpBo" alt="Team member 3" />
+                                        <img class="team-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCK0BoJGEJIUJDhmhFpR12UhYVqq4u0ExRZolOFbKZaCrwVAM5QSXABY0XnOLZkRSItBBMv3aSNvAZ01QX3UiQ7Xp41XBfSClzM2E3D0vIqIET3LTl-VcX5GNDp-8NYT5DWapd7FmU3XSOnAQXW_6nsTQdhETdu-yqWCmW-_aqnO5MLQ45MFAy-REaNot711jiQnKK-gI5yLOdc2CrtRPqh_LMLI228h3V2K7jmjCMDEH-g5e-Mcd5Rz2xIuEroYoaPLN3_Lj0vy6E" alt="Team member 1" data-bs-toggle="tooltip" data-bs-placement="top" title="Priya Sharma" />
+                                        <img class="team-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALlxklNRD8pSqUYxEBnQfxsjk9ItvUS2Bv5S-rTpVlA8egLlgPvPmHfUGfVLl3OUHIduv8H5f-yBiZvKwPYIRRvt0YfAfmdcdP2O3Hy4cxiPsdRIVAV_kt-AwnbqOz_S2v3_ycZDr-A8yZXVpqzWf9ZzD21jfeSTu1jv2KWKzUeUMB0T4zPvBGe3QX8OkgmlqcfEfb-KlBQCq0T5Ne2Dn-eQv6OesQE_CZ1UlvBfxq7NYkT8KMV2jDOULKSxs3qLKStj_L7mVDMrQ" alt="Team member 2" data-bs-toggle="tooltip" data-bs-placement="top" title="Rahul Verma" />
+                                        <img class="team-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkqCVlb6-Ik64Uu66aFrQ3a1cwW9nY85j6PzTMGqy0a4cNlaRiG5u_Oznaqkl8t81sTShn9dvfr4LO2GwZHIp7paDkoHJ3Tv-2Eqrlr1KeCmv-o_HhMR73yyadr3vItpENEzpAWif9QrGITuOs-w5JptxniogO0UF0vTL_HhFNly3fSQuksY8rsVpIvDH-9BhmDr-fEhj46BFJfd2dt7SrML8LeFFPHbOHBrdEQycHKh9Ng7C6RUB2XFYp6p9p6rPQ3ESpZVDDpBo" alt="Team member 3" data-bs-toggle="tooltip" data-bs-placement="top" title="Ananya Gupta" />
                                     </div>
                                 </div>
                             </div>
@@ -1597,8 +1613,14 @@
             window.location.href = 'dashboard.html';
         }
 
-        // Close modal when clicking outside
+        // Initialize Bootstrap tooltips
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize all tooltips
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+
             const modalOverlay = document.getElementById('successModal');
 
             modalOverlay.addEventListener('click', function(e) {
