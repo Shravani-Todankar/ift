@@ -290,7 +290,7 @@
                 <img alt="User Profile Picture"
                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuCuvM4h22-G2QJVfQTcNUIEkq41Xunl8wpGK2jUUAu1aPfGpxMyu9nIHKPfFL9ubW7jB_SNhu36Y0R_JZKln8oxW-kLtMx7bFkPpcDJGj8S3-cEZUar5_XyCsUeXbxGAMApRQNx5Pmch6G_kpZ1Iovfm-lhUFqL5YE8DTyTXppH1Bvgj1IElUzBt3-UBgCcTe9x5mK4ipf8KjfSK8vzW4H_awp6bjKWG7ziak6vUxK4E3_0jOND2-QqTIxDY1vLP1u2pBUPtryYKwM" />
             </div>
-            <div class="user-info flex-grow-1">
+            <div class="user-info flex-grow-1" id="userInfoDiv">
                 <p class="user-name">Dr. A. Sharma</p>
                 <p class="user-role">Senior Juror</p>
             </div>
@@ -333,28 +333,43 @@
             });
         }
 
+        // Profile redirect functionality
+        function handleProfileRedirect() {
+            const userInfoDiv = document.getElementById('userInfoDiv');
+            console.log('Profile redirect - userInfoDiv:', userInfoDiv);
+            if (userInfoDiv) {
+                userInfoDiv.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('User info clicked, redirecting to profile...');
+                    // Redirect to jury profile page
+                    window.location.href = 'profile.html';
+                });
+
+                // Add pointer cursor to indicate clickability
+                userInfoDiv.style.cursor = 'pointer';
+            }
+        }
+
         // Logout functionality
         function handleLogout() {
             const logoutBtn = document.getElementById('logoutBtn');
+            console.log('Logout - logoutBtn:', logoutBtn);
             if (logoutBtn) {
                 logoutBtn.addEventListener('click', function(e) {
                     e.preventDefault();
+                    e.stopPropagation();
 
+                    console.log('Logout clicked');
                     // Show confirmation dialog
                     if (confirm('Are you sure you want to logout?')) {
-                        // Add fade out animation
-                        document.body.style.opacity = '0';
-                        document.body.style.transition = 'opacity 0.3s ease';
+                        // Clear any stored user data
+                        sessionStorage.clear();
+                        localStorage.removeItem('userToken');
 
-                        // Simulate logout (redirect to login page or clear session)
-                        setTimeout(() => {
-                            // Clear any stored user data
-                            sessionStorage.clear();
-                            localStorage.removeItem('userToken');
-
-                            // Redirect to login page
-                            window.location.href = '../index.html';
-                        }, 300);
+                        console.log('Redirecting to sign-in...');
+                        // Redirect to sign-in page
+                        window.location.href = '../auth/sign-in.html';
                     }
                 });
             }
@@ -395,18 +410,18 @@
         `;
         document.head.appendChild(style);
 
-        // Initialize all functionality when DOM is ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', function() {
-                setActiveNavItem();
-                handleLogout();
-                addNavHoverEffects();
-            });
-        } else {
-            // DOM already loaded
+        // Initialize all functionality
+        function initializeSidebar() {
+            console.log('Initializing jury sidebar...');
             setActiveNavItem();
+            handleProfileRedirect();
             handleLogout();
             addNavHoverEffects();
+            console.log('Jury sidebar initialization complete');
         }
+
+        // Since this script is executed after sidebar HTML is inserted,
+        // we can initialize immediately
+        initializeSidebar();
     })();
 </script>

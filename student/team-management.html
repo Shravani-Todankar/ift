@@ -961,7 +961,7 @@
                                 <label class="text-uppercase fw-bold text-muted-custom text-start"
                                     style="font-size: 0.75rem; letter-spacing: 0.05em;">Group Code</label>
                                 <div class="group-code-box d-flex align-items-center gap-2">
-                                    <span class="flex-grow-1 group-code-text text-dark-custom">IFT-8829X</span>
+                                    <span class="flex-grow-1 group-code-text text-dark-custom">IFT-829</span>
                                     <button class="copy-btn d-flex align-items-center justify-content-center"
                                         title="Copy Code" id="copyCodeBtn">
                                         <span class="material-symbols-outlined" style="font-size: 20px;">content_copy</span>
@@ -1008,7 +1008,7 @@
                         </div>
 
                         <!-- Member List -->
-                        <div class="d-flex flex-column">
+                        <div class="d-flex flex-column" id="memberListContainer">
                             <!-- Member 1: Lead -->
                             <div class="member-item d-flex flex-column flex-sm-row align-items-start align-items-sm-center gap-3" data-member-role="lead">
                                 <div class="position-relative">
@@ -1525,10 +1525,14 @@
                     </div>
                 `;
 
-                const memberList = document.querySelector('.roster-card .d-flex.flex-column');
+                const memberList = document.getElementById('memberListContainer');
 
                 // Add the new member at the end of the list (after all existing members)
-                memberList.insertAdjacentHTML('beforeend', memberHTML);
+                if (memberList) {
+                    memberList.insertAdjacentHTML('beforeend', memberHTML);
+                } else {
+                    console.error('Member list container not found!');
+                }
 
                 // Re-initialize dropdown and removal for new member
                 initDropdownMenus();

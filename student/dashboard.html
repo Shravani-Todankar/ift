@@ -1036,40 +1036,28 @@
         fetch('sidebar.html')
             .then(response => response.text())
             .then(data => {
-                document.getElementById('sidebar-container').innerHTML = data;
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = data;
 
-                // Set active sidebar menu item after sidebar is loaded
-                setTimeout(() => {
-                    const currentPage = window.location.pathname.split('/').pop() || 'dashboard.html';
-                    const navItems = document.querySelectorAll('.nav-item');
+                // Extract and append all elements EXCEPT script
+                const elements = tempDiv.childNodes;
+                elements.forEach(node => {
+                    if (node.nodeType === 1 && node.tagName !== 'SCRIPT') { // Element node but not script
+                        document.getElementById('sidebar-container').appendChild(node.cloneNode(true));
+                    } else if (node.nodeType === 3) { // Text node
+                        document.getElementById('sidebar-container').appendChild(node.cloneNode(true));
+                    }
+                });
 
-                    navItems.forEach(item => {
-                        const href = item.getAttribute('href');
+                // Now execute the script AFTER HTML is in DOM
+                const script = tempDiv.querySelector('script');
+                if (script) {
+                    const newScript = document.createElement('script');
+                    newScript.textContent = script.textContent;
+                    document.body.appendChild(newScript);
+                }
 
-                        // Remove active class from all items first
-                        item.classList.remove('nav-item-active');
-
-                        // Find the icon and update fill state
-                        const icon = item.querySelector('.material-symbols-outlined');
-                        if (icon) {
-                            icon.classList.remove('filled');
-                            icon.style.fontVariationSettings = "'FILL' 0";
-                        }
-
-                        // Add active class to matching item
-                        if (href === currentPage ||
-                            (currentPage === '' && href === 'dashboard.html') ||
-                            (currentPage === 'index.html' && href === 'dashboard.html')) {
-                            item.classList.add('nav-item-active');
-                            if (icon) {
-                                icon.classList.add('filled');
-                                icon.style.fontVariationSettings = "'FILL' 1";
-                            }
-                        }
-                    });
-
-                    console.log('Sidebar active menu item set for:', currentPage);
-                }, 200);
+                console.log('Sidebar loaded and script executed');
             })
             .catch(error => console.error('Error loading sidebar:', error));
 

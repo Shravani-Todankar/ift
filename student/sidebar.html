@@ -308,7 +308,7 @@
         </a>
 
         <!-- Team -->
-        <a class="nav-item" href="create-team.html">
+        <a class="nav-item" href="team.html">
             <span class="material-symbols-outlined">group</span>
             <span class="nav-text">Team</span>
         </a>
@@ -338,7 +338,7 @@
                 <img alt="Student Profile Avatar"
                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuAY6iaiuM97ukhXnkazQO4ZEzVdkIlgOyUQ0xIW_ZYSRjhORA4PvjrpGUSehGXjXjaRFLQ227P1dyOoIB5EmUt1fSgTZgJ9qdSUGdyS3RfS3dKbzonPwrp9ENytz14BwcvT_ooy5rrq8RdJUUJAGSM40jDW0kzhk0BmETKlnnf4iA8CZtLcqtXs89sn0ZToW5seXzTbLU3esfQXCgMSOr0Oe-sq-g6DuIYwgAGqg2xOV4hjJGirhWM8L7hk34VKsuti0EQYb5IehuM" />
             </div>
-            <div class="user-info flex-grow-1">
+            <div class="user-info flex-grow-1" id="userInfoDiv">
                 <p class="user-name">Rohan Sharma</p>
                 <p class="user-role">Student • Grade 11</p>
             </div>
@@ -381,20 +381,42 @@
             });
         }
 
+        // Profile redirect functionality
+        function handleProfileRedirect() {
+            const userInfoDiv = document.getElementById('userInfoDiv');
+            console.log('Profile redirect - userInfoDiv:', userInfoDiv);
+            if (userInfoDiv) {
+                userInfoDiv.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('User info clicked, redirecting to profile...');
+                    // Redirect to profile page
+                    window.location.href = 'profile.html';
+                });
+
+                // Add pointer cursor to indicate clickability
+                userInfoDiv.style.cursor = 'pointer';
+            }
+        }
+
         // Logout functionality
         function handleLogout() {
             const logoutBtn = document.getElementById('logoutBtn');
+            console.log('Logout - logoutBtn:', logoutBtn);
             if (logoutBtn) {
                 logoutBtn.addEventListener('click', function(e) {
                     e.preventDefault();
+                    e.stopPropagation();
 
+                    console.log('Logout clicked');
                     // Show confirmation dialog
                     if (confirm('Are you sure you want to logout?')) {
                         // Clear any stored user data
                         sessionStorage.clear();
                         localStorage.removeItem('userToken');
 
-                        // Redirect to login page
+                        console.log('Redirecting to sign-in...');
+                        // Redirect to sign-in page
                         window.location.href = '../auth/sign-in.html';
                     }
                 });
@@ -490,22 +512,20 @@
         `;
         document.head.appendChild(style);
 
-        // Initialize all functionality when DOM is ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', function() {
-                setActiveNavItem();
-                handleLogout();
-                addNavHoverEffects();
-                animateNotificationBadge();
-                attachRippleEffects();
-            });
-        } else {
-            // DOM already loaded
+        // Initialize all functionality
+        function initializeSidebar() {
+            console.log('Initializing sidebar...');
             setActiveNavItem();
+            handleProfileRedirect();
             handleLogout();
             addNavHoverEffects();
             animateNotificationBadge();
             attachRippleEffects();
+            console.log('Sidebar initialization complete');
         }
+
+        // Since this script is executed after sidebar HTML is inserted,
+        // we can initialize immediately
+        initializeSidebar();
     })();
 </script>
