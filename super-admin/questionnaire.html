@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Questionnaire Version Management | Super Admin | ENpower IFT</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+
+    <!-- Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary: #5E2A97;
+            --secondary: #DEDE50;
+            --primary-light: #E8D4F0;
+            --background-light: #F7F7F7;
+            --surface-light: #FFFFFF;
+            --border-light: #EEEEEE;
+            --text-dark: #222222;
+            --text-muted: #666666;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-light);
+            color: var(--text-dark);
+            overflow: hidden;
+        }
+
+        .main-container {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow-y: auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            padding: 32px;
+            max-width: 100%;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Page Header */
+        .page-header {
+            margin-bottom: 32px;
+        }
+
+        .page-header h1 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .breadcrumb {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            background: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .breadcrumb-item a {
+            color: var(--text-muted);
+            text-decoration: none;
+        }
+
+        .breadcrumb-item a:hover {
+            color: var(--primary);
+        }
+
+        .breadcrumb-item.active {
+            color: var(--text-dark);
+        }
+
+        /* KPI Cards */
+        .kpi-card {
+            background: var(--surface-light);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            border: 1px solid var(--border-light);
+        }
+
+        .kpi-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .kpi-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .kpi-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .kpi-icon.blue {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+
+        .kpi-icon.green {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+        }
+
+        .kpi-icon.amber {
+            background: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+        }
+
+        .kpi-icon.indigo {
+            background: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+        }
+
+        .kpi-value {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0;
+            line-height: 1;
+        }
+
+        .kpi-meta {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .kpi-meta.success {
+            color: #22c55e;
+        }
+
+        .kpi-meta.warning {
+            color: #f59e0b;
+        }
+
+        /* Main Card */
+        .main-card {
+            background: var(--surface-light);
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            border: 1px solid var(--border-light);
+            overflow: hidden;
+        }
+
+        .main-card-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        /* Search & Filter */
+        .search-input {
+            position: relative;
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .search-input .material-symbols-outlined {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 20px;
+        }
+
+        .search-input input {
+            width: 100%;
+            padding: 10px 12px 10px 44px;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            font-size: 0.875rem;
+            background: #f8fafc;
+        }
+
+        .search-input input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(94, 42, 151, 0.1);
+        }
+
+        .btn-filter {
+            padding: 10px 16px;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            background: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .btn-filter:hover {
+            background: #f8fafc;
+        }
+
+        .btn-primary-custom {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 6px rgba(94, 42, 151, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.875rem;
+            text-decoration: none;
+        }
+
+        .btn-primary-custom:hover {
+            background: #7B3FB5;
+            text-decoration: none;
+        }
+
+        .sort-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.875rem;
+        }
+
+        .sort-controls select {
+            border: none;
+            background: transparent;
+            font-weight: 500;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .sort-controls select:focus {
+            outline: none;
+        }
+
+        /* Table */
+        .custom-table {
+            width: 100%;
+            font-size: 0.875rem;
+        }
+
+        .custom-table thead {
+            background: #f8fafc;
+        }
+
+        .custom-table th {
+            padding: 16px 24px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-align: left;
+        }
+
+        .custom-table td {
+            padding: 20px 24px;
+            vertical-align: middle;
+            border-bottom: 1px solid #f8f9fa;
+        }
+
+        .custom-table tbody tr {
+            transition: background 0.2s;
+        }
+
+        .custom-table tbody tr:hover {
+            background: rgba(94, 42, 151, 0.03);
+        }
+
+        .version-name {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin: 0;
+            font-size: 0.875rem;
+        }
+
+        .version-uid {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin: 4px 0 0 0;
+        }
+
+        .status-badge {
+            font-size: 0.625rem;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 999px;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .status-badge.active {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .status-badge.draft {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .status-badge.archived {
+            background: #f1f5f9;
+            color: #64748b;
+        }
+
+        .submission-count {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .submission-number {
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .submission-bar {
+            width: 64px;
+            height: 4px;
+            background: #f1f5f9;
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .submission-fill {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 999px;
+        }
+
+        .submission-fill.archived {
+            background: #94a3b8;
+        }
+
+        .last-modified-date {
+            font-size: 0.875rem;
+            color: var(--text-dark);
+            margin: 0;
+        }
+
+        .last-modified-by {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin: 4px 0 0 0;
+        }
+
+        .btn-action {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: none;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-muted);
+        }
+
+        .btn-action:hover {
+            background: #f8fafc;
+        }
+
+        /* Pagination */
+        .pagination-custom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 24px;
+            background: #f8fafc;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .pagination-info {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .pagination-controls {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .page-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: none;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .page-btn:hover {
+            background: #e2e8f0;
+        }
+
+        .page-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .page-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* Info Cards */
+        .info-card {
+            background: var(--surface-light);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid var(--border-light);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+        }
+
+        .info-card.primary-bg {
+            background: rgba(94, 42, 151, 0.05);
+            border-color: rgba(94, 42, 151, 0.1);
+        }
+
+        .info-card h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin: 0 0 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-card p {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .info-icon {
+            width: 48px;
+            height: 48px;
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            flex-shrink: 0;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+        }
+
+        .activity-item:not(:last-child) {
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .activity-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .activity-dot.success {
+            background: #22c55e;
+        }
+
+        .activity-dot.warning {
+            background: #f59e0b;
+        }
+
+        .activity-dot.muted {
+            background: #94a3b8;
+        }
+
+        .activity-text {
+            font-size: 0.875rem;
+            flex: 1;
+        }
+
+        .activity-time {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding: 16px;
+            }
+
+            .main-card-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-input {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+        <!-- Include Sidebar -->
+        <div id="sidebar-container"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Include Header -->
+            <div id="header-container"></div>
+
+            <div class="content-wrapper">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-md-6">
+                            <h1>Questionnaire Version Management</h1>
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="dashboard.html">Admin</a></li>
+                                    <li class="breadcrumb-item active">Questionnaire</li>
+                                </ol>
+                            </nav>
+                        </div>
+                        <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center gap-3 mt-3 mt-md-0">
+                            <a href="create-questionnaire.html" class="btn-primary-custom">
+                                <span class="material-symbols-outlined" style="font-size: 18px;">add</span>
+                                Create New Questionnaire
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KPI Metrics Grid -->
+                <div class="row g-4 mb-4">
+                    <div class="col-12 col-md-4">
+                        <div class="kpi-card">
+                            <div class="kpi-header">
+                                <p class="kpi-label">Active Version</p>
+                                <div class="kpi-icon green">
+                                    <span class="material-symbols-outlined">check_circle</span>
+                                </div>
+                            </div>
+                            <h3 class="kpi-value">v2.4.1</h3>
+                            <p class="kpi-meta" style="font-style: italic;">Current live</p>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-4">
+                        <div class="kpi-card">
+                            <div class="kpi-header">
+                                <p class="kpi-label">Total Questions</p>
+                                <div class="kpi-icon blue">
+                                    <span class="material-symbols-outlined">quiz</span>
+                                </div>
+                            </div>
+                            <h3 class="kpi-value">18</h3>
+                            <p class="kpi-meta" style="font-style: italic;">In current version</p>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-4">
+                        <div class="kpi-card">
+                            <div class="kpi-header">
+                                <p class="kpi-label">Total Submissions</p>
+                                <div class="kpi-icon indigo">
+                                    <span class="material-symbols-outlined">bar_chart</span>
+                                </div>
+                            </div>
+                            <h3 class="kpi-value">4,281</h3>
+                            <p class="kpi-meta success">
+                                <span class="material-symbols-outlined" style="font-size: 12px;">trending_up</span>
+                                +128 today
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Questionnaire Card -->
+                <div class="main-card mb-4">
+                    <div class="main-card-header">
+                        <div>
+                            <h2 style="font-size: 1.25rem; font-weight: 700; margin: 0 0 4px 0;">Active Questionnaire v2.4.1</h2>
+                            <p style="font-size: 0.875rem; color: var(--text-muted); margin: 0;">UID: QST-2023-001 • Last modified Oct 24, 2023 at 14:20 by Alex Chen</p>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="status-badge active">Active</span>
+                            <button class="btn-action">
+                                <span class="material-symbols-outlined">more_vert</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div style="padding: 24px;">
+                        <div class="row g-4">
+                            <div class="col-12 col-md-6">
+                                <div style="background: #f8fafc; padding: 20px; border-radius: 12px;">
+                                    <h3 style="font-size: 0.875rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px;">
+                                        <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle; margin-right: 8px;">quiz</span>
+                                        Questions Overview
+                                    </h3>
+                                    <div class="row g-3">
+                                        <div class="col-6">
+                                            <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0 0 4px 0;">Total Questions</p>
+                                            <p style="font-size: 1.5rem; font-weight: 700; margin: 0;">18</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0 0 4px 0;">Required</p>
+                                            <p style="font-size: 1.5rem; font-weight: 700; margin: 0;">12</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0 0 4px 0;">Multiple Choice</p>
+                                            <p style="font-size: 1.5rem; font-weight: 700; margin: 0;">10</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0 0 4px 0;">Text Response</p>
+                                            <p style="font-size: 1.5rem; font-weight: 700; margin: 0;">8</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6">
+                                <div style="background: rgba(94, 42, 151, 0.05); padding: 20px; border-radius: 12px; border: 1px solid rgba(94, 42, 151, 0.1);">
+                                    <h3 style="font-size: 0.875rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px;">
+                                        <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle; margin-right: 8px;">bar_chart</span>
+                                        Submission Stats
+                                    </h3>
+                                    <div style="margin-bottom: 16px;">
+                                        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 8px;">
+                                            <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">Total Submissions</p>
+                                            <p style="font-size: 1.5rem; font-weight: 700; margin: 0;">4,281</p>
+                                        </div>
+                                        <div style="width: 100%; height: 8px; background: rgba(94, 42, 151, 0.1); border-radius: 999px; overflow: hidden;">
+                                            <div style="width: 85%; height: 100%; background: var(--primary); border-radius: 999px;"></div>
+                                        </div>
+                                        <p style="font-size: 0.75rem; color: var(--text-muted); margin: 8px 0 0 0;">85% completion rate</p>
+                                    </div>
+                                    <div class="row g-2">
+                                        <div class="col-6">
+                                            <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">Today</p>
+                                            <p style="font-size: 1.125rem; font-weight: 700; margin: 0; color: #22c55e;">+128</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">This Week</p>
+                                            <p style="font-size: 1.125rem; font-weight: 700; margin: 0;">842</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border-light);">
+                            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                                <div>
+                                    <p style="font-size: 0.875rem; font-weight: 600; margin: 0 0 4px 0;">Quick Actions</p>
+                                    <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0;">Manage and update questionnaire settings</p>
+                                </div>
+                                <div class="d-flex gap-2 flex-wrap">
+                                    <a href="edit-questionnaire.html" style="padding: 10px 16px; border: 1px solid var(--border-light); border-radius: 8px; background: white; font-size: 0.875rem; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                                        <span class="material-symbols-outlined" style="font-size: 18px;">edit</span>
+                                        Edit Questions
+                                    </a>
+                                    <button style="padding: 10px 16px; border: 1px solid var(--border-light); border-radius: 8px; background: white; font-size: 0.875rem; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                                        <span class="material-symbols-outlined" style="font-size: 18px;">visibility</span>
+                                        Preview
+                                    </button>
+                                    <button style="padding: 10px 16px; border: 1px solid var(--border-light); border-radius: 8px; background: white; font-size: 0.875rem; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                                        <span class="material-symbols-outlined" style="font-size: 18px;">analytics</span>
+                                        View Analytics
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Info Cards -->
+                <div class="row g-4">
+                    <div class="col-12 col-md-6">
+                        <div class="info-card primary-bg">
+                            <div class="d-flex align-items-start gap-3">
+                                <div class="info-icon">
+                                    <span class="material-symbols-outlined" style="color: var(--primary);">info</span>
+                                </div>
+                                <div>
+                                    <h4>Questionnaire Management</h4>
+                                    <p>
+                                        Only one questionnaire version can be active at a time. When you create a new version, the previous active version will be automatically archived. All historical submission data remains accessible.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <div class="info-card">
+                            <h4>
+                                <span class="material-symbols-outlined" style="font-size: 18px; color: var(--primary);">auto_graph</span>
+                                Recent Activity
+                            </h4>
+                            <div style="margin-top: 16px;">
+                                <div class="activity-item">
+                                    <div class="activity-dot success"></div>
+                                    <p class="activity-text">
+                                        <strong>v2.4.1</strong> was activated by Alex Chen
+                                    </p>
+                                    <span class="activity-time">2h ago</span>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-dot success"></div>
+                                    <p class="activity-text">
+                                        <strong>Question 12</strong> updated - added new option
+                                    </p>
+                                    <span class="activity-time">5h ago</span>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-dot muted"></div>
+                                    <p class="activity-text">
+                                        <strong>128 new submissions</strong> received today
+                                    </p>
+                                    <span class="activity-time">6h ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Load External Components -->
+    <script>
+        // Load sidebar
+        fetch('sidebar.html')
+            .then(response => response.text())
+            .then(data => {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = data;
+
+                const elements = tempDiv.childNodes;
+                elements.forEach(node => {
+                    if (node.nodeType === 1 && node.tagName !== 'SCRIPT') {
+                        document.getElementById('sidebar-container').appendChild(node.cloneNode(true));
+                    } else if (node.nodeType === 3) {
+                        document.getElementById('sidebar-container').appendChild(node.cloneNode(true));
+                    }
+                });
+
+                const script = tempDiv.querySelector('script');
+                if (script) {
+                    const newScript = document.createElement('script');
+                    newScript.textContent = script.textContent;
+                    document.body.appendChild(newScript);
+                }
+            })
+            .catch(error => console.error('Error loading sidebar:', error));
+
+        // Load header
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = data;
+
+                const elements = tempDiv.childNodes;
+                elements.forEach(node => {
+                    if (node.nodeType === 1 || node.nodeType === 3) {
+                        document.getElementById('header-container').appendChild(node.cloneNode(true));
+                    }
+                });
+
+                const script = tempDiv.querySelector('script');
+                if (script) {
+                    const newScript = document.createElement('script');
+                    newScript.textContent = script.textContent;
+                    document.body.appendChild(newScript);
+                }
+            })
+            .catch(error => console.error('Error loading header:', error));
+    </script>
+</body>
+
+</html>
