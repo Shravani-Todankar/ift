@@ -470,7 +470,7 @@
         .ift-experience-section {
             position: relative;
             padding: 100px 0;
-            background: rgba(94, 42, 151, 0.03);
+            /* background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); */
             z-index: 1;
         }
 
@@ -482,15 +482,16 @@
         }
 
         .experience-card {
-            background: rgba(15, 15, 15, 0.6);
+            background: #ffffff;
             backdrop-filter: blur(12px);
-            border: 1px solid var(--border-color);
+            border: 1px solid #e5e7eb;
             border-radius: 20px;
             padding: 2rem;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
             text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
         }
 
         .experience-card::before {
@@ -541,124 +542,135 @@
 
         .experience-title {
             font-size: 1.125rem;
-            font-weight: 800;
+            font-weight: 700;
             margin-bottom: 0.75rem;
-            text-transform: uppercase;
+            color: #1f2937;
             letter-spacing: -0.01em;
         }
 
         .experience-description {
-            font-size: 0.875rem;
-            color: var(--text-muted);
+            font-size: 0.9375rem;
+            color: #6b7280;
             line-height: 1.6;
         }
 
-        /* IFT Journey Section - Parallax Scroll */
+        /* IFT Journey Section - Modern Timeline */
         .ift-journey-section {
             position: relative;
-            padding: 120px 0;
-            background: var(--background-darker);
+            padding: 100px 0;
+            /* background: linear-gradient(135deg, rgba(94, 42, 151, 0.95) 0%, rgba(30, 13, 51, 0.98) 100%); */
             overflow: hidden;
             z-index: 1;
         }
 
+        .ift-journey-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 30%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(94, 42, 151, 0.15) 0%, transparent 50%);
+            z-index: 0;
+        }
+
         .journey-header {
             text-align: center;
-            margin-bottom: 80px;
+            margin-bottom: 60px;
         }
 
-        .journey-container {
-            position: relative;
-            max-width: 1600px;
+        .journey-timeline {
+            max-width: 1200px;
             margin: 0 auto;
             padding: 0 2rem;
-        }
-
-        .journey-scroll-area {
             position: relative;
-            min-height: 600px;
+            z-index: 1;
         }
 
-        .journey-progress-line {
+        .journey-timeline::before {
+            content: '';
             position: absolute;
-            top: 50%;
-            left: 0;
-            width: 0%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary-color), #a855f7);
-            transform: translateY(-50%);
-            transition: width 0.3s ease;
-            box-shadow: 0 0 20px var(--glow-color);
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, transparent, rgba(222, 222, 80, 0.6), rgba(168, 85, 247, 0.8), transparent);
+            transform: translateX(-50%);
+            box-shadow: 0 0 20px rgba(222, 222, 80, 0.3);
         }
 
-        .journey-rocket {
-            position: absolute;
-            top: 50%;
-            left: 0%;
-            transform: translate(-50%, -50%);
-            font-size: 40px;
-            z-index: 10;
-            transition: left 0.3s ease;
-            filter: drop-shadow(0 0 20px rgba(94, 42, 151, 0.8));
-        }
-
-        .journey-steps {
+        .timeline-item {
+            position: relative;
+            margin-bottom: 60px;
             display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 2rem;
+            align-items: center;
+        }
+
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-content {
+            flex: 1;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(222, 222, 80, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
             position: relative;
-            flex-wrap: nowrap;
-            overflow-x: auto;
-            padding: 3rem 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
-        .journey-step {
-            flex: 0 0 220px;
-            text-align: center;
-            opacity: 0.4;
-            transition: all 0.4s ease;
-            position: relative;
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-right: auto;
+            margin-left: 0;
         }
 
-        .journey-step.active {
-            opacity: 1;
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: auto;
+            margin-right: 0;
         }
 
-        .journey-step-number {
-            width: 50px;
-            height: 50px;
-            background: rgba(94, 42, 151, 0.2);
-            border: 2px solid rgba(94, 42, 151, 0.4);
+        .timeline-content:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(222, 222, 80, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(222, 222, 80, 0.3), 0 5px 20px rgba(94, 42, 151, 0.4);
+        }
+
+        .timeline-number {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--primary-color), #a855f7);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+            border: 4px solid rgba(30, 13, 51, 0.9);
+            box-shadow: 0 0 30px rgba(222, 222, 80, 0.6), 0 0 50px rgba(94, 42, 151, 0.4);
+            z-index: 2;
+        }
+
+        .timeline-step-title {
             font-size: 1.25rem;
-            font-weight: 900;
-            margin: 0 auto 1.25rem;
-            transition: all 0.3s ease;
-        }
-
-        .journey-step.active .journey-step-number {
-            background: var(--primary-color);
-            border-color: var(--primary-color);
-            box-shadow: 0 0 30px var(--glow-color);
-            transform: scale(1.1);
-        }
-
-        .journey-step-title {
-            font-size: 0.9375rem;
             font-weight: 700;
-            text-transform: uppercase;
-            margin-bottom: 0.5rem;
-            letter-spacing: 0.03em;
+            color: white;
+            margin-bottom: 0.75rem;
         }
 
-        .journey-step-description {
-            font-size: 0.8125rem;
-            color: var(--text-muted);
-            line-height: 1.5;
+        .timeline-step-description {
+            font-size: 0.9375rem;
+            color: #9ca3af;
+            line-height: 1.6;
         }
 
         /* Hall of Fame Section */
@@ -1607,12 +1619,12 @@
         .fade-in {
             opacity: 0;
             transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .fade-in.visible {
             opacity: 1;
             transform: translateY(0);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
     </style>
 </head>
@@ -1657,8 +1669,9 @@
     <main>
         <!-- Hero Section with Video Background -->
         <section class="hero-section">
-            <video class="hero-video-bg" autoplay muted loop playsinline>
-                <source src="assets/IFT FINAL PROMO SEASON 4.mp4" type="video/mp4">
+            <video class="hero-video-bg" autoplay muted loop playsinline preload="auto">
+                <source src="assets/IFT%20FINAL%20PROMO%20SEASON%204.mp4" type="video/mp4">
+                Your browser does not support the video tag.
             </video>
             <div class="hero-overlay"></div>
             <div class="container hero-content">
@@ -1814,76 +1827,86 @@
             </div>
         </section>
 
-        <!-- IFT Journey Section - Parallax Scroll -->
+        <!-- IFT Journey Section - Modern Timeline -->
         <section class="ift-journey-section" id="journey">
             <div class="container">
                 <div class="journey-header fade-in">
-                    <div class="section-subtitle">Your Path to Success</div>
-                    <h2 class="section-title">
+                    <div class="section-subtitle" style="color: #9ca3af;">Your Path to Success</div>
+                    <h2 class="section-title" style="color: white;">
                         The IFT <span class="highlight">Journey</span>
                     </h2>
                 </div>
-                <div class="journey-container">
-                    <div class="journey-scroll-area">
-                        <div class="journey-progress-line" id="journeyProgressLine"></div>
-                        <div class="journey-rocket" id="journeyRocket">🚀</div>
-                        <div class="journey-steps" id="journeySteps">
-                            <div class="journey-step" data-step="1">
-                                <div class="journey-step-number">1</div>
-                                <h4 class="journey-step-title">Registration</h4>
-                                <p class="journey-step-description">
-                                    School-led registrations to begin your IFT journey
-                                </p>
-                            </div>
-                            <div class="journey-step" data-step="2">
-                                <div class="journey-step-number">2</div>
-                                <h4 class="journey-step-title">Idea Submission</h4>
-                                <p class="journey-step-description">
-                                    Submit your innovative business idea with a problem-first approach
-                                </p>
-                            </div>
-                            <div class="journey-step" data-step="3">
-                                <div class="journey-step-number">3</div>
-                                <h4 class="journey-step-title">Top 400 Ideas Showcase</h4>
-                                <p class="journey-step-description">
-                                    Zonal-level mentoring and showcases for selected teams
-                                </p>
-                            </div>
-                            <div class="journey-step" data-step="4">
-                                <div class="journey-step-number">4</div>
-                                <h4 class="journey-step-title">Top 100 Ideas Showcase</h4>
-                                <p class="journey-step-description">
-                                    National-level mentoring and showcases for elite teams
-                                </p>
-                            </div>
-                            <div class="journey-step" data-step="5">
-                                <div class="journey-step-number">5</div>
-                                <h4 class="journey-step-title">IFT Hall of Fame</h4>
-                                <p class="journey-step-description">
-                                    Top 24 ideas nationally recognized and inducted
-                                </p>
-                            </div>
-                            <div class="journey-step" data-step="6">
-                                <div class="journey-step-number">6</div>
-                                <h4 class="journey-step-title">Residential Bootcamp</h4>
-                                <p class="journey-step-description">
-                                    3-day intensive training: BMC, MVP, GTM, and pitching
-                                </p>
-                            </div>
-                            <div class="journey-step" data-step="7">
-                                <div class="journey-step-number">7</div>
-                                <h4 class="journey-step-title">Grand National Showcase</h4>
-                                <p class="journey-step-description">
-                                    Live pitch to investors, VCs, and jury for seed funding
-                                </p>
-                            </div>
-                            <div class="journey-step" data-step="8">
-                                <div class="journey-step-number">8</div>
-                                <h4 class="journey-step-title">National Recognition</h4>
-                                <p class="journey-step-description">
-                                    Awards, media exposure, and global opportunities
-                                </p>
-                            </div>
+                <div class="journey-timeline">
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-number">1</div>
+                        <div class="timeline-content">
+                            <h4 class="timeline-step-title">Registration</h4>
+                            <p class="timeline-step-description">
+                                School-led registrations to begin your IFT journey with a vision to solve real-world problems
+                            </p>
+                        </div>
+                    </div>
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-number">2</div>
+                        <div class="timeline-content">
+                            <h4 class="timeline-step-title">Idea Submission</h4>
+                            <p class="timeline-step-description">
+                                Submit your innovative business idea with a problem-first approach and detailed solution
+                            </p>
+                        </div>
+                    </div>
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-number">3</div>
+                        <div class="timeline-content">
+                            <h4 class="timeline-step-title">Top 400 Ideas Showcase</h4>
+                            <p class="timeline-step-description">
+                                Zonal-level mentoring and showcases for selected teams to refine their ideas
+                            </p>
+                        </div>
+                    </div>
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-number">4</div>
+                        <div class="timeline-content">
+                            <h4 class="timeline-step-title">Top 100 Ideas Showcase</h4>
+                            <p class="timeline-step-description">
+                                National-level mentoring and showcases for elite teams with industry experts
+                            </p>
+                        </div>
+                    </div>
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-number">5</div>
+                        <div class="timeline-content">
+                            <h4 class="timeline-step-title">IFT Hall of Fame</h4>
+                            <p class="timeline-step-description">
+                                Top 24 ideas nationally recognized and inducted into the prestigious Hall of Fame
+                            </p>
+                        </div>
+                    </div>
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-number">6</div>
+                        <div class="timeline-content">
+                            <h4 class="timeline-step-title">Residential Bootcamp</h4>
+                            <p class="timeline-step-description">
+                                3-day intensive training covering BMC, MVP development, GTM strategy, and pitch perfection
+                            </p>
+                        </div>
+                    </div>
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-number">7</div>
+                        <div class="timeline-content">
+                            <h4 class="timeline-step-title">Grand National Showcase</h4>
+                            <p class="timeline-step-description">
+                                Live pitch to investors, VCs, and industry jury for seed funding opportunities
+                            </p>
+                        </div>
+                    </div>
+                    <div class="timeline-item fade-in">
+                        <div class="timeline-number">8</div>
+                        <div class="timeline-content">
+                            <h4 class="timeline-step-title">National Recognition</h4>
+                            <p class="timeline-step-description">
+                                Awards, cash prizes, media exposure, and global entrepreneurship opportunities
+                            </p>
                         </div>
                     </div>
                 </div>

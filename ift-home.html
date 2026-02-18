@@ -1,0 +1,2223 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>IFT - India's Future Tycoons | ENpower</title>
+    <meta
+        content="India's Future Tycoons (IFT) - India's first national entrepreneurship search & mentorship platform for young innovators aged 13-18."
+        name="description" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#7B2D8E",
+                        "primary-dark": "#5A1D6B",
+                        "primary-light": "#9B4DBA",
+                        "primary-soft": "#C78DD8",
+                        "accent": "#F5C518",
+                        "accent-dark": "#D4A80F",
+                        "accent-light": "#FFD94A",
+                        "bg-dark": "#0A0A0A",
+                        "bg-card": "#111111",
+                        "bg-elevated": "#1A1A1A",
+                        "glass": "rgba(123, 45, 142, 0.05)",
+                        "glass-border": "rgba(123, 45, 142, 0.12)",
+                    },
+                    fontFamily: { "display": ["Inter", "sans-serif"] },
+                },
+            },
+        }
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0A0A0A
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #7B2D8E;
+            border-radius: 3px
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            overflow-x: hidden
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(123, 45, 142, 0.15)
+        }
+
+        .text-gradient {
+            background: linear-gradient(90deg, rgba(105, 38, 125, 1) 0%, rgba(250, 206, 72, 1) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent
+        }
+
+        .text-gradient-gold {
+            background: linear-gradient(135deg, #F5C518, #FFD94A);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent
+        }
+
+        .card-3d {
+            transition: transform .4s cubic-bezier(.25, .46, .45, .94), box-shadow .4s ease
+        }
+
+        .card-3d:hover {
+            transform: translateY(-8px) rotateX(2deg) rotateY(-2deg);
+            box-shadow: 0 25px 60px rgba(123, 45, 142, 0.25)
+        }
+
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 2px;
+            background: rgba(123, 45, 142, 0.15);
+            transform: translateX(-50%);
+            z-index: 0
+        }
+
+        .timeline-fill {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 3px;
+            height: 0%;
+            background: linear-gradient(to bottom, #9B4DBA, #c06dde);
+            transform: translateX(-50%);
+            z-index: 0;
+            border-radius: 2px;
+            box-shadow: 0 0 8px rgba(123, 45, 142, 0.5), 0 0 20px rgba(123, 45, 142, 0.3);
+        }
+
+        .glow-purple {
+            box-shadow: 0 0 30px rgba(123, 45, 142, 0.4)
+        }
+
+        .glow-purple-sm {
+            box-shadow: 0 0 15px rgba(123, 45, 142, 0.25)
+        }
+
+        .glow-gold {
+            box-shadow: 0 0 25px rgba(245, 197, 24, 0.3)
+        }
+
+        .hero-title-glow {
+            text-shadow: 0 0 20px rgba(123, 45, 142, 0.3), 0 0 40px rgba(123, 45, 142, 0.12);
+        }
+
+        .hero-grid {
+            background-image: linear-gradient(rgba(123, 45, 142, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(123, 45, 142, 0.04) 1px, transparent 1px);
+            background-size: 60px 60px
+        }
+
+        .float-anim {
+            animation: floaty 6s ease-in-out infinite
+        }
+
+        @keyframes floaty {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-20px)
+            }
+        }
+
+        .perspective-container {
+            perspective: 1200px
+        }
+
+        .tilt-card {
+            transform-style: preserve-3d
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .4s cubic-bezier(.25, .46, .45, .94), padding .3s ease
+        }
+
+        .faq-answer.open {
+            max-height: 300px;
+            padding: 0 24px 20px
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none
+        }
+
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none
+        }
+
+        .parallax-section {
+            transform-style: preserve-3d
+        }
+
+        .counter {
+            font-variant-numeric: tabular-nums
+        }
+
+        .marquee-row-rtl {
+            animation: marqueeRTL 25s linear infinite;
+        }
+
+        .marquee-row-ltr {
+            animation: marqueeLTR 25s linear infinite;
+        }
+
+        .marquee-row-rtl:hover,
+        .marquee-row-ltr:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes marqueeRTL {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        @keyframes marqueeLTR {
+            0% {
+                transform: translateX(-50%);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        .btn-glow-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-glow-hover:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 0 20px rgba(245, 197, 24, 0.4), 0 8px 25px rgba(245, 197, 24, 0.2);
+        }
+
+        .btn-glow-hover.border-primary:hover {
+            box-shadow: 0 0 20px rgba(123, 45, 142, 0.4), 0 8px 25px rgba(123, 45, 142, 0.2);
+        }
+
+        .btn-glow-hover:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .btn-glow-shine {
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: none;
+            z-index: 5;
+        }
+
+        .btn-glow-hover:hover .btn-glow-shine {
+            animation: btnShine 0.6s ease forwards;
+        }
+
+        @keyframes btnShine {
+            0% {
+                left: -100%;
+            }
+
+            100% {
+                left: 100%;
+            }
+        }
+
+        /* ── STATS CARDS ── */
+        .stats-card {
+            position: relative;
+            border-radius: 24px;
+            padding: 32px;
+        }
+
+        .stats-card .border-gradient {
+            position: absolute;
+            inset: 0;
+            border-radius: 24px;
+            padding: 1px;
+            background: linear-gradient(160deg, #3d1f6e 0%, #6b21a8 18%, #a855f7 35%, #d8b4fe 48%, #f3e8ff 52%, #d8b4fe 56%, #a855f7 68%, #7c3aed 82%, #4c1d95 100%);
+            background-size: 400% 400%;
+            animation: statsFlowInside 8s ease-in-out infinite;
+            transition: opacity 0.9s ease-in-out;
+            opacity: 0;
+            z-index: 0;
+        }
+
+        .stats-card .border-gradient::after {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 100%;
+            border-radius: 23px;
+            background: #161618;
+        }
+
+        .stats-card .border-plain {
+            position: absolute;
+            inset: 0;
+            border-radius: 24px;
+            background: #161618;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            transition: opacity 0.9s ease-in-out;
+            opacity: 1;
+            z-index: 0;
+        }
+
+        .stats-card.active .border-gradient {
+            opacity: 1;
+        }
+
+        .stats-card.active .border-plain {
+            opacity: 0;
+        }
+
+        .stats-card .card-content {
+            position: relative;
+            z-index: 10;
+        }
+
+        .stats-card .card-label {
+            font-size: 0.95rem;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.38);
+            margin-bottom: 10px;
+            letter-spacing: 0.01em;
+        }
+
+        .stats-card .number-area {
+            position: relative;
+            margin-bottom: 28px;
+            line-height: 1;
+        }
+
+        .stats-card .number-base {
+            font-size: clamp(2.8rem, 5vw, 4.5rem);
+            font-weight: 300;
+            letter-spacing: -2px;
+            color: #ffffff;
+            white-space: nowrap;
+            user-select: none;
+            display: block;
+        }
+
+        .stats-card .number-base .suffix {
+            font-size: clamp(1rem, 1.8vw, 1.4rem);
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.38);
+            margin-left: 4px;
+            letter-spacing: 0;
+        }
+
+        .stats-card .number-gradient {
+            position: absolute;
+            top: 0;
+            left: 0;
+            font-size: clamp(2.8rem, 5vw, 4.5rem);
+            font-weight: 300;
+            letter-spacing: -2px;
+            white-space: nowrap;
+            user-select: none;
+            background: linear-gradient(160deg, #3d1f6e 0%, #6b21a8 18%, #a855f7 35%, #d8b4fe 48%, #f3e8ff 52%, #d8b4fe 56%, #a855f7 68%, #7c3aed 82%, #4c1d95 100%);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: statsFlowInside 8s ease-in-out infinite;
+            opacity: 0;
+            transition: opacity 0.7s ease-in-out;
+        }
+
+        .stats-card .number-gradient .suffix {
+            font-size: clamp(1rem, 1.8vw, 1.4rem);
+            font-weight: 300;
+            -webkit-text-fill-color: transparent;
+            margin-left: 6px;
+            letter-spacing: 0;
+        }
+
+        .stats-card.active .number-gradient {
+            opacity: 1;
+        }
+
+        .stats-card .number-base {
+            transition: opacity 0.7s ease-in-out;
+        }
+
+        .stats-card.active .number-base {
+            opacity: 0;
+        }
+
+        @keyframes statsFlowInside {
+            0% {
+                background-position: 0% 30%;
+            }
+
+            33% {
+                background-position: 60% 70%;
+            }
+
+            66% {
+                background-position: 100% 30%;
+            }
+
+            100% {
+                background-position: 0% 30%;
+            }
+        }
+
+        .stats-card .stats-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.07);
+            margin-bottom: 20px;
+        }
+
+        .stats-card .stats-row {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .stats-card .stats-label {
+            font-size: 0.76rem;
+            color: rgba(255, 255, 255, 0.38);
+            min-width: 90px;
+            padding-top: 1px;
+            flex-shrink: 0;
+        }
+
+        .stats-card .stats-items {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .stats-card .stats-item {
+            display: flex;
+            gap: 7px;
+            font-size: 0.76rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .stats-card .stats-item .dash {
+            color: rgba(255, 255, 255, 0.22);
+            flex-shrink: 0;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(40px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .video-glow-border {
+            position: relative;
+        }
+
+        .video-glow-border::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            z-index: -1;
+            border-radius: 1rem;
+            background: conic-gradient(from var(--glow-angle, 0deg), #7B2D8E 0%, #c06dde 15%, #7B2D8E 30%, #9B4DBA 45%, #7B2D8E 60%, #c06dde 75%, #9B4DBA 90%, #7B2D8E 100%);
+            animation: rotateBorderGlow 3s linear infinite;
+        }
+
+        .video-glow-border::after {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            z-index: -1;
+            border-radius: 1rem;
+            background: conic-gradient(from var(--glow-angle, 0deg), #7B2D8E 0%, #c06dde 15%, #7B2D8E 30%, #9B4DBA 45%, #7B2D8E 60%, #c06dde 75%, #9B4DBA 90%, #7B2D8E 100%);
+            animation: rotateBorderGlow 3s linear infinite, glowPulse 2s ease-in-out infinite;
+            filter: blur(8px);
+            opacity: 0.4;
+        }
+
+        .video-glow-border .glow-corner {
+            position: absolute;
+            width: 150px;
+            height: 4px;
+            border-radius: 0;
+            background: #9B4DBA;
+            filter: blur(6px);
+            opacity: 0;
+            z-index: -1;
+            animation: cornerGlow 4s ease-in-out infinite;
+        }
+
+        .video-glow-border .glow-corner:nth-child(1) {
+            top: -4px;
+            left: 20%;
+            width: 60%;
+            height: 4px;
+            animation-delay: 0s;
+        }
+
+        .video-glow-border .glow-corner:nth-child(2) {
+            top: 20%;
+            right: -4px;
+            width: 4px;
+            height: 60%;
+            animation-delay: 1s;
+        }
+
+        .video-glow-border .glow-corner:nth-child(3) {
+            bottom: -4px;
+            left: 20%;
+            width: 60%;
+            height: 4px;
+            animation-delay: 2s;
+        }
+
+        .video-glow-border .glow-corner:nth-child(4) {
+            top: 20%;
+            left: -4px;
+            width: 4px;
+            height: 60%;
+            animation-delay: 3s;
+        }
+
+        @keyframes cornerGlow {
+
+            0%,
+            100% {
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        @keyframes glowPulse {
+
+            0%,
+            100% {
+                filter: blur(6px);
+                opacity: 0.3;
+            }
+
+            50% {
+                filter: blur(10px);
+                opacity: 0.5;
+            }
+        }
+
+        @property --glow-angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
+        }
+
+        @keyframes rotateBorderGlow {
+            0% {
+                --glow-angle: 0deg;
+            }
+
+            100% {
+                --glow-angle: 360deg;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-bg-dark text-gray-200 font-display antialiased">
+
+    <!-- Navbar -->
+    <nav id="navbar" class="fixed w-full z-50 top-0 transition-all duration-500 border-b border-transparent">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="#" class="flex-shrink-0 flex items-center cursor-pointer group">
+                    <img src="assets/IFT_logo.png" alt="IFT - India's Future Tycoons"
+                        class="h-14 group-hover:scale-105 transition-transform" />
+                </a>
+                <div class="hidden md:block">
+                    <div class="flex items-center gap-1">
+                        <a class="text-gray-400 hover:text-primary px-3 py-2 rounded-lg text-sm font-medium transition-all hover:bg-white/5"
+                            href="#about">What is IFT?</a>
+                        <a class="text-gray-400 hover:text-primary px-3 py-2 rounded-lg text-sm font-medium transition-all hover:bg-white/5"
+                            href="#journey">Journey</a>
+                        <a class="text-gray-400 hover:text-primary px-3 py-2 rounded-lg text-sm font-medium transition-all hover:bg-white/5"
+                            href="#schools">For Schools</a>
+                        <a class="text-gray-400 hover:text-primary px-3 py-2 rounded-lg text-sm font-medium transition-all hover:bg-white/5"
+                            href="#mentors">Mentors</a>
+                        <a class="text-gray-400 hover:text-primary px-3 py-2 rounded-lg text-sm font-medium transition-all hover:bg-white/5"
+                            href="#hall-of-fame">Hall of Fame</a>
+                        <a class="btn-glow-hover bg-accent text-bg-dark px-5 py-2.5 rounded-full text-sm font-bold shadow-lg ml-4 relative overflow-hidden"
+                            href="#contact">
+                            <span class="btn-glow-shine"></span>
+                            <span class="relative z-10">Register Now</span>
+                        </a>
+                    </div>
+                </div>
+                <!-- Mobile menu button -->
+                <button id="mobile-menu-btn" class="md:hidden text-white">
+                    <span class="material-icons text-3xl">menu</span>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden glass-panel mx-4 mb-4 rounded-xl overflow-hidden">
+            <div class="flex flex-col p-4 gap-2">
+                <a class="text-gray-300 hover:text-primary px-3 py-2.5 rounded-lg text-sm font-medium transition-all hover:bg-white/5"
+                    href="#about">What is IFT?</a>
+                <a class="text-gray-300 hover:text-primary px-3 py-2.5 rounded-lg text-sm font-medium transition-all hover:bg-white/5"
+                    href="#journey">Journey</a>
+                <a class="text-gray-300 hover:text-primary px-3 py-2.5 rounded-lg text-sm font-medium transition-all hover:bg-white/5"
+                    href="#schools">For Schools</a>
+                <a class="text-gray-300 hover:text-primary px-3 py-2.5 rounded-lg text-sm font-medium transition-all hover:bg-white/5"
+                    href="#mentors">Mentors</a>
+                <a class="text-gray-300 hover:text-primary px-3 py-2.5 rounded-lg text-sm font-medium transition-all hover:bg-white/5"
+                    href="#hall-of-fame">Hall of Fame</a>
+                <a class="btn-glow-hover bg-accent text-bg-dark px-5 py-2.5 rounded-full text-sm font-bold text-center mt-2 relative overflow-hidden"
+                    href="#contact"><span class="btn-glow-shine"></span><span class="relative z-10">Register
+                        Now</span></a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section - Pinned with scroll-to-video -->
+    <section class="relative" id="hero-pin-wrapper" style="height: 250vh;">
+        <div class="sticky top-0 h-screen flex flex-col items-center justify-center pt-28" id="hero-sticky">
+            <!-- Background elements -->
+            <div class="absolute inset-0 bg-bg-dark z-0">
+                <div class="absolute inset-0 hero-grid"></div>
+                <div
+                    class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full filter blur-[150px] animate-pulse">
+                </div>
+                <div
+                    class="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-accent/10 rounded-full filter blur-[120px]">
+                </div>
+                <div
+                    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-primary/5 rounded-full filter blur-[100px] float-anim">
+                </div>
+            </div>
+            <!-- Hero content -->
+            <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center w-full">
+                <div class="hero-content" id="hero-text-content" style="margin-top: 450px;">
+                    <div
+                        class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary-light/30 bg-primary-light/10 text-primary-light text-xs font-semibold uppercase tracking-widest mb-8">
+                        <span class="w-2 h-2 rounded-full bg-primary-light animate-pulse"></span> Season 5 Now Open
+                    </div>
+                    <h1
+                        class="text-4xl sm:text-5xl md:text-7xl tracking-tight mb-6 leading-[1.1] text-white hero-title-glow">
+                        <span id="type-line-1"></span><br />
+                        <span class="text-gradient" id="type-line-2"></span><br />
+                        <span id="type-line-3"></span>
+                    </h1>
+                    <p class="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-gray-400 font-light leading-relaxed">
+                        Platform for Young Innovators (13–18). Empowering the next generation with skills, mindset, and
+                        courage to create real-world impact.
+                    </p>
+                    <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
+                        <button
+                            class="btn-glow-hover px-5 py-2.5 bg-accent text-bg-dark text-sm font-bold rounded-lg glow-gold hover:bg-accent-dark transition-all flex items-center justify-center gap-1.5 relative overflow-hidden">
+                            <span class="btn-glow-shine"></span>
+                            <span class="relative z-10 flex items-center gap-1.5"><span
+                                    class="material-icons text-base">school</span> I'm a Student</span>
+                        </button>
+                        <button
+                            class="btn-glow-hover px-5 py-2.5 bg-transparent border-2 border-primary hover:border-accent text-white text-sm font-bold rounded-lg hover:bg-primary/10 transition-all flex items-center justify-center gap-1.5 relative overflow-hidden">
+                            <span class="btn-glow-shine"></span>
+                            <span class="relative z-10 flex items-center gap-1.5"><span
+                                    class="material-icons text-base">business</span> I'm a School</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Video Card - scales up on scroll -->
+                <div class="mt-16 mb-20" id="hero-video-wrapper">
+                    <div class="video-glow-border relative mx-auto w-full max-w-3xl h-64 md:h-96 rounded-2xl glass-panel group tilt-card"
+                        id="hero-card">
+                        <div class="glow-corner"></div>
+                        <div class="glow-corner"></div>
+                        <div class="glow-corner"></div>
+                        <div class="glow-corner"></div>
+                        <!-- Video Player (hidden by default) -->
+                        <video id="hero-video-player"
+                            class="absolute inset-0 w-full h-full z-[2] opacity-100 pointer-events-none object-cover"
+                            src="assets/IFT FINAL PROMO SEASON 4.mp4" preload="auto" playsinline></video>
+                        <!-- Poster/Overlay -->
+                        <div class="absolute inset-0 flex items-center justify-center z-10" id="hero-video-poster"
+                            style="background: radial-gradient(ellipse at center, rgba(123,45,142,0.2) 0%, rgba(90,29,107,0.35) 40%, rgba(10,10,10,0.65) 100%);">
+                            <div class="text-center">
+                                <div class="w-16 h-16 mx-auto bg-primary rounded-full flex items-center justify-center glow-purple-sm group-hover:scale-110 transition-transform cursor-pointer shadow-lg"
+                                    id="hero-play-btn">
+                                    <span class="material-icons text-3xl text-bg-dark pl-0.5">play_arrow</span>
+                                </div>
+                                <p class="text-white text-sm mt-4 font-semibold">Watch the IFT Story</p>
+
+                            </div>
+                        </div>
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-bg-dark/70 via-transparent to-transparent z-[5]">
+                        </div>
+                        <div class="absolute bottom-0 left-0 right-0 p-8 text-left z-[5]" id="hero-card-caption">
+                            <p class="text-primary-light font-mono text-sm mb-2 tracking-widest">FUTURE READY</p>
+                            <h3 class="text-2xl font-bold text-white">Where Ideas Become Empires</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact Ticker -->
+    <section class="relative z-20 overflow-hidden py-24" id="impact-section" style="margin-top: 100px;">
+        <canvas id="star-canvas" class="absolute inset-0 w-full h-full" style="z-index:0;"></canvas>
+        <div class="absolute inset-0 bg-gradient-to-b from-bg-dark/60 via-transparent to-bg-dark/60" style="z-index:1;">
+        </div>
+        <div class="absolute w-[600px] h-[600px] rounded-full bg-primary/5 filter blur-[120px]" id="impact-orb-1"
+            style="top:30%; left:10%; z-index:1;"></div>
+        <div class="absolute w-[400px] h-[400px] rounded-full bg-accent/5 filter blur-[100px]" id="impact-orb-2"
+            style="top:40%; right:10%; z-index:1;"></div>
+
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full" style="z-index:2;">
+            <div class="text-center mb-16" id="impact-heading">
+                <p class="text-gray-500 uppercase tracking-[0.3em] text-xs font-semibold mb-3 impact-subtitle">Our
+                    Impact So Far</p>
+                <h2 class="text-3xl md:text-5xl font-bold text-white impact-title">Numbers That <span
+                        class="text-primary-soft">Speak</span></h2>
+                <div class="h-1 w-0 mx-auto bg-primary-light rounded-full mt-4" id="impact-title-line"></div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5" id="stats-cards-wrapper">
+                <!-- CARD 1 -->
+                <div class="stats-card active">
+                    <div class="border-gradient"></div>
+                    <div class="border-plain"></div>
+                    <div class="card-content">
+                        <p class="card-label">Innovative ideas submitted</p>
+                        <div class="number-area">
+                            <span class="number-base"><span class="stats-counter" data-target="5000">0</span><span
+                                    class="suffix">+ ideas</span></span>
+                            <span class="number-gradient"><span class="stats-counter-ghost"
+                                    data-target="5000">0</span><span class="suffix">+ ideas</span></span>
+                        </div>
+                        <div class="stats-divider"></div>
+                        <div class="stats-row">
+                            <span class="stats-label">What this means</span>
+                            <div class="stats-items">
+                                <div class="stats-item"><span class="dash">—</span><span>From students across
+                                        India</span></div>
+                                <div class="stats-item"><span class="dash">—</span><span>Growing every semester</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- CARD 2 -->
+                <div class="stats-card">
+                    <div class="border-gradient"></div>
+                    <div class="border-plain"></div>
+                    <div class="card-content">
+                        <p class="card-label">Partner schools nationwide</p>
+                        <div class="number-area">
+                            <span class="number-base"><span class="stats-counter" data-target="600">0</span><span
+                                    class="suffix">+ schools</span></span>
+                            <span class="number-gradient"><span class="stats-counter-ghost"
+                                    data-target="600">0</span><span class="suffix">+ schools</span></span>
+                        </div>
+                        <div class="stats-divider"></div>
+                        <div class="stats-row">
+                            <span class="stats-label">How we grow</span>
+                            <div class="stats-items">
+                                <div class="stats-item"><span class="dash">—</span><span>Nationwide school
+                                        network</span></div>
+                                <div class="stats-item"><span class="dash">—</span><span>Expanding every year</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- CARD 3 -->
+                <div class="stats-card">
+                    <div class="border-gradient"></div>
+                    <div class="border-plain"></div>
+                    <div class="card-content">
+                        <p class="card-label">Cities covered across India</p>
+                        <div class="number-area">
+                            <span class="number-base"><span class="stats-counter" data-target="250">0</span><span
+                                    class="suffix">+ cities</span></span>
+                            <span class="number-gradient"><span class="stats-counter-ghost"
+                                    data-target="250">0</span><span class="suffix">+ cities</span></span>
+                        </div>
+                        <div class="stats-divider"></div>
+                        <div class="stats-row">
+                            <span class="stats-label">Our reach</span>
+                            <div class="stats-items">
+                                <div class="stats-item"><span class="dash">—</span><span>Spanning every major
+                                        region</span></div>
+                                <div class="stats-item"><span class="dash">—</span><span>Tier 1, 2 &amp; 3 cities</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- About Section -->
+    <section class="py-24 relative overflow-hidden" id="about">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="about-text">
+                    <div
+                        class="inline-block px-3 py-1 bg-primary/10 border border-primary/20 rounded-lg text-xs font-bold text-primary uppercase tracking-widest mb-4">
+                        About IFT</div>
+                    <h2 class="text-4xl font-bold text-white mb-6">Bridging the Gap for <span
+                            class="text-primary-soft">Young
+                            Minds</span></h2>
+                    <p class="text-gray-300 text-lg leading-relaxed mb-6">
+                        Children are a powerhouse of ideas and innovation but they lack a platform to express freely,
+                        solve real-world problems, and build the confidence to innovate.
+                    </p>
+                    <p class="text-gray-400 leading-relaxed mb-6">
+                        ENpower's India's Future Tycoons (IFT) bridges this gap as India's first national
+                        entrepreneurship search and mentorship platform for young innovators (13–18). We enable young
+                        minds with the skills, mindset, and courage to create real-world impact.
+                    </p>
+                    <p class="text-gray-400 leading-relaxed mb-6">
+                        Children experience a journey where they learn how to identify real-world problems, build
+                        solutions, and develop entrepreneurial thinking through expert-led mentorship, founder
+                        bootcamps, and a national pitch stage.
+                    </p>
+                    <p class="text-gray-400 leading-relaxed mb-8">
+                        IFT is a launchpad for confidence, creativity, and purpose, helping students transform ideas
+                        into action while gaining visibility, recognition, and access to funding and global
+                        opportunities.
+                    </p>
+                    <div class="flex flex-wrap items-center gap-4 text-sm font-semibold text-primary">
+                        <span class="flex items-center gap-2"><span class="material-icons text-base">check_circle</span>
+                            Skill Development</span>
+                        <span class="flex items-center gap-2"><span class="material-icons text-base">check_circle</span>
+                            Expert Mentorship</span>
+                        <span class="flex items-center gap-2"><span class="material-icons text-base">check_circle</span>
+                            Real-World Impact</span>
+                    </div>
+                </div>
+                <div class="relative about-visual">
+                    <div class="absolute -inset-4 bg-primary/20 rounded-2xl blur-2xl"></div>
+                    <div
+                        class="relative rounded-2xl overflow-hidden shadow-2xl border border-primary/20 bg-bg-card aspect-video group cursor-pointer">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent/5 to-bg-dark flex items-center justify-center">
+                            <div
+                                class="w-20 h-20 bg-primary/90 rounded-full flex items-center justify-center glow-purple-sm group-hover:scale-110 transition-transform">
+                                <span class="material-icons text-4xl text-bg-dark pl-1">play_arrow</span>
+                            </div>
+                        </div>
+                        <div class="absolute bottom-4 left-4">
+                            <span
+                                class="text-xs font-bold bg-bg-dark/70 px-3 py-1.5 rounded-lg text-primary border border-primary/20">IFT
+                                PROMO VIDEO</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section class="relative bg-bg-card/50" id="experience-wrapper">
+        <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent">
+        </div>
+        <div id="experience" class="relative" style="overflow: hidden;">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-2">The IFT <span
+                        class="text-primary-soft">Experience</span></h2>
+                <p class="text-center text-gray-400">A structured ecosystem designed to turn students into founders.</p>
+            </div>
+            <div id="exp-cards-track" class="flex gap-6 pl-8 md:pl-20 pb-24 pr-8">
+                <div
+                    class="w-80 h-96 flex-shrink-0 glass-panel rounded-2xl p-8 flex flex-col justify-between card-3d relative group overflow-hidden exp-card">
+                    <div
+                        class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full -mr-8 -mt-8 transition-all group-hover:bg-primary/15">
+                    </div>
+                    <div>
+                        <div
+                            class="w-14 h-14 bg-gradient-to-br from-primary to-primary-dark rounded-xl flex items-center justify-center mb-6 shadow-lg text-bg-dark">
+                            <span class="material-icons text-2xl">lightbulb</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Innovate &amp; Solve</h3>
+                        <p class="text-sm text-gray-400">Identify pressing real-world problems and craft unique, viable
+                            solutions using design thinking methodology.</p>
+                    </div>
+                    <div class="text-right"><span
+                            class="text-5xl font-black text-white/5 group-hover:text-primary/15 transition-colors">01</span>
+                    </div>
+                </div>
+                <div
+                    class="w-80 h-96 flex-shrink-0 glass-panel rounded-2xl p-8 flex flex-col justify-between card-3d relative group overflow-hidden exp-card">
+                    <div
+                        class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full -mr-8 -mt-8 transition-all group-hover:bg-primary/15">
+                    </div>
+                    <div>
+                        <div
+                            class="w-14 h-14 bg-gradient-to-br from-accent to-accent-dark rounded-xl flex items-center justify-center mb-6 shadow-lg text-white">
+                            <span class="material-icons text-2xl">supervisor_account</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Industry-Led Mentorship</h3>
+                        <p class="text-sm text-gray-400">Get paired with industry leaders who guide you from raw idea to
+                            refined business model with 1-on-1 sessions.</p>
+                    </div>
+                    <div class="text-right"><span
+                            class="text-5xl font-black text-white/5 group-hover:text-primary/15 transition-colors">02</span>
+                    </div>
+                </div>
+                <div
+                    class="w-80 h-96 flex-shrink-0 glass-panel rounded-2xl p-8 flex flex-col justify-between card-3d relative group overflow-hidden exp-card">
+                    <div
+                        class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full -mr-8 -mt-8 transition-all group-hover:bg-primary/15">
+                    </div>
+                    <div>
+                        <div
+                            class="w-14 h-14 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl flex items-center justify-center mb-6 shadow-lg text-white">
+                            <span class="material-icons text-2xl">rocket_launch</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Founders Bootcamp</h3>
+                        <p class="text-sm text-gray-400">3-day residential bootcamp covering BMC, MVP, GTM strategy, and
+                            real startup tools with pitching mastery.</p>
+                    </div>
+                    <div class="text-right"><span
+                            class="text-5xl font-black text-white/5 group-hover:text-primary/15 transition-colors">03</span>
+                    </div>
+                </div>
+                <div
+                    class="w-80 h-96 flex-shrink-0 glass-panel rounded-2xl p-8 flex flex-col justify-between card-3d relative group overflow-hidden exp-card">
+                    <div
+                        class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full -mr-8 -mt-8 transition-all group-hover:bg-primary/15">
+                    </div>
+                    <div>
+                        <div
+                            class="w-14 h-14 bg-gradient-to-br from-green-500 to-teal-500 rounded-xl flex items-center justify-center mb-6 shadow-lg text-white">
+                            <span class="material-icons text-2xl">mic</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">National Pitch Platform</h3>
+                        <p class="text-sm text-gray-400">Present your startup on a grand national stage. Live pitch to a
+                            panel of VCs and angel investors.</p>
+                    </div>
+                    <div class="text-right"><span
+                            class="text-5xl font-black text-white/5 group-hover:text-primary/15 transition-colors">04</span>
+                    </div>
+                </div>
+                <div
+                    class="w-80 h-96 flex-shrink-0 glass-panel rounded-2xl p-8 flex flex-col justify-between card-3d relative group overflow-hidden exp-card">
+                    <div
+                        class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full -mr-8 -mt-8 transition-all group-hover:bg-primary/15">
+                    </div>
+                    <div>
+                        <div
+                            class="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mb-6 shadow-lg text-white">
+                            <span class="material-icons text-2xl">gavel</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Jury of Leaders</h3>
+                        <p class="text-sm text-gray-400">Feedback and evaluation from top entrepreneurs, VCs, and
+                            industry leaders who shape your journey.</p>
+                    </div>
+                    <div class="text-right"><span
+                            class="text-5xl font-black text-white/5 group-hover:text-primary/15 transition-colors">05</span>
+                    </div>
+                </div>
+                <div
+                    class="w-80 h-96 flex-shrink-0 glass-panel rounded-2xl p-8 flex flex-col justify-between card-3d relative group overflow-hidden border-primary/30 exp-card">
+                    <div
+                        class="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-bl-full -mr-8 -mt-8 transition-all group-hover:bg-primary/20">
+                    </div>
+                    <div>
+                        <div
+                            class="w-14 h-14 bg-gradient-to-br from-primary to-primary-light rounded-xl flex items-center justify-center mb-6 shadow-lg text-bg-dark">
+                            <span class="material-icons text-2xl">payments</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Seed Funding &amp; Awards</h3>
+                        <p class="text-sm text-gray-400">Winners receive grants, seed funding, awards & exposure on
+                            national & international platforms like NFTE and UNGCNI.</p>
+                    </div>
+                    <div class="text-right"><span
+                            class="text-5xl font-black text-white/5 group-hover:text-primary/15 transition-colors">06</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Journey Timeline -->
+    <section class="py-24 relative" id="journey">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-4">The IFT <span
+                    class="text-gradient">Rocket Journey</span></h2>
+            <p class="text-center text-gray-400 mb-16">Your path from idea to national recognition</p>
+            <div class="relative timeline-line space-y-16">
+                <div class="timeline-fill" id="timeline-fill"></div>
+                <!-- Step 1 - Registration -->
+                <div
+                    class="relative flex items-center justify-between md:flex-row flex-col-reverse group timeline-item">
+                    <div
+                        class="w-full md:w-5/12 p-6 glass-panel rounded-xl text-right md:pr-8 hover:bg-primary/5 transition-colors hover:border-primary/20">
+                        <h3 class="text-xl font-bold text-white">Registration</h3>
+                        <p class="text-gray-400 text-sm mt-2">School-led registrations</p>
+                        <span class="text-primary text-xs font-bold mt-2 block tracking-widest">PHASE 1</span>
+                    </div>
+                    <div class="timeline-dot absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full border-2 border-primary/30 z-20 flex items-center justify-center"
+                        style="background:#0A0A0A;">
+                        <span class="timeline-dot-num text-gray-500 font-black text-xs">1</span>
+                    </div>
+                    <div class="w-full md:w-5/12 hidden md:block"></div>
+                </div>
+                <!-- Step 2 - Idea Submission -->
+                <div class="relative flex items-center justify-between md:flex-row flex-col group timeline-item">
+                    <div class="w-full md:w-5/12 hidden md:block"></div>
+                    <div class="timeline-dot absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full border-2 border-primary/30 z-20 flex items-center justify-center"
+                        style="background:#0A0A0A;">
+                        <span class="timeline-dot-num text-gray-500 font-black text-xs">2</span>
+                    </div>
+                    <div
+                        class="w-full md:w-5/12 p-6 glass-panel rounded-xl text-left md:pl-8 hover:bg-primary/5 transition-colors hover:border-primary/20">
+                        <h3 class="text-xl font-bold text-white">Idea Submission</h3>
+                        <p class="text-gray-400 text-sm mt-2">Problem-first approach</p>
+                        <span class="text-primary text-xs font-bold mt-2 block tracking-widest">PHASE 2</span>
+                    </div>
+                </div>
+                <!-- Step 3 - Top 400 -->
+                <div
+                    class="relative flex items-center justify-between md:flex-row flex-col-reverse group timeline-item">
+                    <div
+                        class="w-full md:w-5/12 p-6 glass-panel rounded-xl text-right md:pr-8 hover:bg-primary/5 transition-colors hover:border-primary/20">
+                        <h3 class="text-xl font-bold text-white">Top 400 Ideas Showcase</h3>
+                        <p class="text-gray-400 text-sm mt-2">Zonal-level mentoring &amp; showcases</p>
+                        <span class="text-primary text-xs font-bold mt-2 block tracking-widest">PHASE 3</span>
+                    </div>
+                    <div class="timeline-dot absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full border-2 border-primary/30 z-20 flex items-center justify-center"
+                        style="background:#0A0A0A;">
+                        <span class="timeline-dot-num text-gray-500 font-black text-xs">3</span>
+                    </div>
+                    <div class="w-full md:w-5/12 hidden md:block"></div>
+                </div>
+                <!-- Step 4 - Top 100 -->
+                <div class="relative flex items-center justify-between md:flex-row flex-col group timeline-item">
+                    <div class="w-full md:w-5/12 hidden md:block"></div>
+                    <div class="timeline-dot absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full border-2 border-primary/30 z-20 flex items-center justify-center"
+                        style="background:#0A0A0A;">
+                        <span class="timeline-dot-num text-gray-500 font-black text-xs">4</span>
+                    </div>
+                    <div
+                        class="w-full md:w-5/12 p-6 glass-panel rounded-xl text-left md:pl-8 hover:bg-primary/5 transition-colors hover:border-primary/20">
+                        <h3 class="text-xl font-bold text-white">Top 100 Ideas Showcase</h3>
+                        <p class="text-gray-400 text-sm mt-2">National-level mentoring &amp; showcases</p>
+                        <span class="text-primary text-xs font-bold mt-2 block tracking-widest">PHASE 4</span>
+                    </div>
+                </div>
+                <!-- Step 5 - Hall of Fame -->
+                <div
+                    class="relative flex items-center justify-between md:flex-row flex-col-reverse group timeline-item">
+                    <div
+                        class="w-full md:w-5/12 p-6 glass-panel rounded-xl text-right md:pr-8 hover:bg-primary/5 transition-colors hover:border-primary/20">
+                        <h3 class="text-xl font-bold text-white">IFT Hall of Fame</h3>
+                        <p class="text-gray-400 text-sm mt-2">Top 24 ideas nationally recognized</p>
+                        <span class="text-primary text-xs font-bold mt-2 block tracking-widest">PHASE 5</span>
+                    </div>
+                    <div class="timeline-dot absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full border-2 border-primary/30 z-20 flex items-center justify-center"
+                        style="background:#0A0A0A;">
+                        <span class="timeline-dot-num text-gray-500 font-black text-xs">5</span>
+                    </div>
+                    <div class="w-full md:w-5/12 hidden md:block"></div>
+                </div>
+                <!-- Step 6 - Residential Bootcamp -->
+                <div class="relative flex items-center justify-between md:flex-row flex-col group timeline-item">
+                    <div class="w-full md:w-5/12 hidden md:block"></div>
+                    <div class="timeline-dot absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full border-2 border-primary/30 z-20 flex items-center justify-center"
+                        style="background:#0A0A0A;">
+                        <span class="timeline-dot-num text-gray-500 font-black text-xs">6</span>
+                    </div>
+                    <div
+                        class="w-full md:w-5/12 p-6 glass-panel rounded-xl text-left md:pl-8 hover:bg-primary/5 transition-colors hover:border-primary/20">
+                        <h3 class="text-xl font-bold text-white">Residential Founder's Bootcamp</h3>
+                        <p class="text-gray-400 text-sm mt-2">3 days | Real startup tools</p>
+                        <p class="text-gray-500 text-xs mt-1">BMC | MVP | GTM | Pitching</p>
+                        <span class="text-primary text-xs font-bold mt-2 block tracking-widest">PHASE 6</span>
+                    </div>
+                </div>
+                <!-- Step 7 - Grand National Showcase -->
+                <div
+                    class="relative flex items-center justify-between md:flex-row flex-col-reverse group timeline-item">
+                    <div
+                        class="w-full md:w-5/12 p-6 glass-panel rounded-xl text-right md:pr-8 hover:bg-primary/5 transition-colors hover:border-primary/20">
+                        <h3 class="text-xl font-bold text-white">Grand National Showcase</h3>
+                        <p class="text-gray-400 text-sm mt-2">Live pitch | Seed funding | Jury</p>
+                        <span class="text-primary text-xs font-bold mt-2 block tracking-widest">PHASE 7</span>
+                    </div>
+                    <div class="timeline-dot absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full border-2 border-primary/30 z-20 flex items-center justify-center"
+                        style="background:#0A0A0A;">
+                        <span class="timeline-dot-num text-gray-500 font-black text-xs">7</span>
+                    </div>
+                    <div class="w-full md:w-5/12 hidden md:block"></div>
+                </div>
+                <!-- Step 8 - National Recognition (Finale) -->
+                <div class="relative flex items-center justify-between md:flex-row flex-col group timeline-item">
+                    <div class="w-full md:w-5/12 hidden md:block"></div>
+                    <div class="timeline-dot absolute left-1/2 transform -translate-x-1/2 w-14 h-14 rounded-full border-2 border-primary/30 z-20 flex items-center justify-center"
+                        style="background:#0A0A0A;">
+                        <span class="timeline-dot-num material-icons text-gray-500 text-xl">emoji_events</span>
+                    </div>
+                    <div
+                        class="w-full md:w-5/12 p-6 bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/30 rounded-xl text-left md:pl-8">
+                        <h3 class="text-xl font-bold text-white">National Recognition</h3>
+                        <p class="text-gray-400 text-sm mt-2">Awards | Media | Global opportunities</p>
+                        <span class="text-primary text-xs font-bold mt-2 block tracking-widest">FINALE</span>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-16">
+                <a href="#contact"
+                    class="btn-glow-hover inline-flex items-center gap-2 px-8 py-4 bg-accent text-bg-dark font-bold rounded-xl glow-gold hover:bg-accent-dark transition-all relative overflow-hidden">
+                    <span class="btn-glow-shine"></span>
+                    <span class="relative z-10 flex items-center gap-2">Start Your IFT Journey Today <span
+                            class="material-icons">arrow_forward</span></span>
+                </a>
+            </div>
+        </div>
+    </section>
+    <!-- Hall of Fame -->
+    <section class="py-24 bg-bg-card/60" id="hall-of-fame">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-end mb-12">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-white">IFT Hall of <span
+                            class="text-primary-soft">Fame</span></h2>
+                    <p class="text-gray-400 mt-2">Celebrating our Top 24 Innovators.</p>
+                </div>
+                <button
+                    class="hidden md:flex items-center gap-2 text-primary hover:text-white transition-colors text-sm font-semibold uppercase tracking-wider">
+                    Success Stories <span class="material-icons text-sm">arrow_forward</span>
+                </button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div
+                    class="group relative rounded-xl overflow-hidden aspect-[4/5] cursor-pointer hall-card glass-panel">
+                    <img src="https://images.unsplash.com/photo-1529390079861-591de354faf5?w=400&h=500&fit=crop&crop=faces"
+                        alt="Team EcoSolve" class="absolute inset-0 w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80">
+                    </div>
+                    <div class="absolute top-4 right-4"><span
+                            class="material-icons text-primary text-3xl">emoji_events</span></div>
+                    <div
+                        class="absolute bottom-0 left-0 right-0 p-5 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <div class="text-primary-soft text-xs font-bold mb-1 tracking-widest">WINNER</div>
+                        <h3 class="text-lg font-bold text-white">Team EcoSolve</h3>
+                        <p class="text-primary-light text-xs mb-2">Sustainable Water Purifier</p>
+                        <p class="text-gray-300 text-xs opacity-0 group-hover:opacity-100 transition-opacity delay-100">
+                            Built a low-cost water purification device for rural communities.</p>
+                    </div>
+                </div>
+                <div
+                    class="group relative rounded-xl overflow-hidden aspect-[4/5] cursor-pointer hall-card glass-panel">
+                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=500&fit=crop&crop=faces"
+                        alt="Team FinLit" class="absolute inset-0 w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80">
+                    </div>
+                    <div class="absolute top-4 right-4"><span
+                            class="material-icons text-gray-500 text-2xl">workspace_premium</span></div>
+                    <div
+                        class="absolute bottom-0 left-0 right-0 p-5 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <div class="text-gray-400 text-xs font-bold mb-1 tracking-widest">RUNNER UP</div>
+                        <h3 class="text-lg font-bold text-white">Team FinLit</h3>
+                        <p class="text-primary-light text-xs mb-2">Financial Literacy App</p>
+                        <p class="text-gray-300 text-xs opacity-0 group-hover:opacity-100 transition-opacity delay-100">
+                            Gamified financial education for teenagers across India.</p>
+                    </div>
+                </div>
+                <div
+                    class="group relative rounded-xl overflow-hidden aspect-[4/5] cursor-pointer hall-card glass-panel">
+                    <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=400&h=500&fit=crop&crop=faces"
+                        alt="Team AgroTech" class="absolute inset-0 w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80">
+                    </div>
+                    <div class="absolute top-4 right-4"><span class="material-icons text-gray-500 text-2xl">star</span>
+                    </div>
+                    <div
+                        class="absolute bottom-0 left-0 right-0 p-5 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                        <div class="text-gray-400 text-xs font-bold mb-1 tracking-widest">TOP 24</div>
+                        <h3 class="text-lg font-bold text-white">Team AgroTech</h3>
+                        <p class="text-primary-light text-xs mb-2">Smart Farming Drone</p>
+                        <p class="text-gray-300 text-xs opacity-0 group-hover:opacity-100 transition-opacity delay-100">
+                            Secured ₹5 Lakh funding for prototype development.</p>
+                    </div>
+                </div>
+                <div
+                    class="group relative rounded-xl overflow-hidden aspect-[4/5] cursor-pointer border border-primary/30 hall-card">
+                    <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&h=500&fit=crop&crop=center"
+                        alt="Season Recap" class="absolute inset-0 w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black/60 flex items-center justify-center z-10">
+                        <div class="text-center">
+                            <span
+                                class="material-icons text-5xl text-primary opacity-80 group-hover:scale-110 transition-transform">play_circle_outline</span>
+                            <p class="text-white text-sm mt-3 font-bold">Watch Success Stories</p>
+                        </div>
+                    </div>
+                    <div class="absolute bottom-0 left-0 right-0 p-4 bg-bg-dark/80 z-20">
+                        <h3 class="text-lg font-bold text-white">Season Recap</h3>
+                        <p class="text-gray-400 text-xs">Watch the full journey</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- IFT for Schools -->
+    <section class="py-24 relative overflow-hidden" id="schools">
+        <div class="absolute right-0 top-0 w-1/2 h-full bg-gradient-to-l from-primary/5 to-transparent"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div
+                class="glass-panel p-10 md:p-16 rounded-3xl border border-primary/20 bg-gradient-to-br from-white/5 to-transparent school-section">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <div
+                            class="inline-block px-3 py-1 bg-primary/10 border border-primary/20 rounded-lg text-xs font-bold text-primary mb-4 tracking-widest">
+                            NEP 2020 COMPLIANT</div>
+                        <h2 class="text-4xl font-bold text-primary-soft mb-6">IFT for Schools</h2>
+                        <ul class="space-y-5 mb-8">
+                            <li class="flex items-start text-gray-300">
+                                <span class="material-icons text-primary mr-3 mt-1">school</span>
+                                <div>
+                                    <strong class="text-white block">This is where NEP 2020 goals come alive!</strong>
+                                    <span class="text-sm">Innovation, Experiential Learning, Vocational Exposure</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start text-gray-300">
+                                <span class="material-icons text-primary mr-3 mt-1">psychology</span>
+                                <div>
+                                    <strong class="text-white block">Opportunity to be a Future Skill Leader</strong>
+                                    <span class="text-sm">21st Century Skill Building | Entrepreneurial Mindset | Tech &
+                                        Design Thinking Skills</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start text-gray-300">
+                                <span class="material-icons text-primary mr-3 mt-1">military_tech</span>
+                                <div>
+                                    <strong class="text-white block">National Recognition For School & Students</strong>
+                                    <span class="text-sm">Awards, Recognition & Seed Funding | Opportunities with
+                                        Prestigious Platforms Like NFTE, UNGCNI, Inspire MANAK</span>
+                                </div>
+                            </li>
+
+                        </ul>
+                        <a href="#contact"
+                            class="btn-glow-hover inline-block bg-accent text-bg-dark font-bold px-8 py-3 rounded-xl glow-gold hover:bg-accent-dark transition-all relative overflow-hidden">
+                            <span class="btn-glow-shine"></span>
+                            <span class="relative z-10">Bring IFT to Your School</span>
+                        </a>
+                    </div>
+                    <div class="relative">
+                        <div class="absolute -inset-4 bg-primary/10 rounded-2xl blur-xl"></div>
+                        <div class="relative glass-panel rounded-2xl p-8 border border-primary/15 text-center">
+                            <span class="material-icons text-7xl text-primary mb-4">apartment</span>
+                            <h3 class="text-2xl font-bold text-white mb-2">600+ Partner Schools</h3>
+                            <p class="text-gray-400 text-sm">Join India's largest school innovation network</p>
+                            <div class="mt-6 grid grid-cols-3 gap-4 text-center">
+                                <div>
+                                    <div class="text-2xl font-bold text-primary-light">250+</div>
+                                    <div class="text-xs text-gray-500">Cities</div>
+                                </div>
+                                <div>
+                                    <div class="text-2xl font-bold text-primary-light">5000+</div>
+                                    <div class="text-xs text-gray-500">Ideas</div>
+                                </div>
+                                <div>
+                                    <div class="text-2xl font-bold text-primary-light">24</div>
+                                    <div class="text-xs text-gray-500">Top Teams</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mentors & Jury -->
+    <section class="py-24 bg-bg-dark" id="mentors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-white">Our Mentor <span
+                        class="text-primary-soft">Network</span></h2>
+                <p class="text-gray-400 mt-2">Learn from the best minds in Business, Tech, and Design.</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="text-center group mentor-card">
+                    <div
+                        class="relative w-32 h-32 mx-auto rounded-full overflow-hidden border-2 border-primary/30 p-1 group-hover:border-primary transition-all group-hover:glow-purple-sm">
+                        <img src="https://i.pravatar.cc/200?img=11" alt="Industry Expert"
+                            class="w-full h-full rounded-full object-cover">
+                    </div>
+                    <h3 class="text-white font-bold mt-4 text-lg">Industry Expert</h3>
+                    <p class="text-primary text-sm">CEO, TechFlow</p>
+                </div>
+                <div class="text-center group mentor-card">
+                    <div
+                        class="relative w-32 h-32 mx-auto rounded-full overflow-hidden border-2 border-primary/30 p-1 group-hover:border-primary transition-all group-hover:glow-purple-sm">
+                        <img src="https://i.pravatar.cc/200?img=32" alt="Startup Founder"
+                            class="w-full h-full rounded-full object-cover">
+                    </div>
+                    <h3 class="text-white font-bold mt-4 text-lg">Startup Founder</h3>
+                    <p class="text-primary text-sm">Founder, GreenEarth</p>
+                </div>
+                <div class="text-center group mentor-card">
+                    <div
+                        class="relative w-32 h-32 mx-auto rounded-full overflow-hidden border-2 border-primary/30 p-1 group-hover:border-primary transition-all group-hover:glow-purple-sm">
+                        <img src="https://i.pravatar.cc/200?img=53" alt="VC Partner"
+                            class="w-full h-full rounded-full object-cover">
+                    </div>
+                    <h3 class="text-white font-bold mt-4 text-lg">VC Partner</h3>
+                    <p class="text-primary text-sm">VC, EarlyStage Fund</p>
+                </div>
+                <div class="text-center group mentor-card">
+                    <div
+                        class="relative w-32 h-32 mx-auto rounded-full overflow-hidden border-2 border-primary/30 p-1 group-hover:border-primary transition-all group-hover:glow-purple-sm">
+                        <img src="https://i.pravatar.cc/200?img=48" alt="Design Leader"
+                            class="w-full h-full rounded-full object-cover">
+                    </div>
+                    <h3 class="text-white font-bold mt-4 text-lg">Design Leader</h3>
+                    <p class="text-primary text-sm">Head of Design, InnoLabs</p>
+                </div>
+            </div>
+            <!-- Jury Speaks -->
+            <div class="mt-16 glass-panel p-8 rounded-xl max-w-3xl mx-auto text-center relative testimonial-card">
+                <span class="material-icons text-6xl text-primary/20 absolute top-4 left-4">format_quote</span>
+                <p class="text-xl text-gray-200 italic relative z-10 leading-relaxed">
+                    "IFT gave me the confidence to believe that age is just a number. My idea is now a registered
+                    startup, and I'm only 16!"
+                </p>
+                <div class="mt-6">
+                    <div class="text-white font-bold">Aarav Sharma</div>
+                    <div class="text-primary text-sm">Season 4 Winner</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners -->
+    <section class="py-20 border-y border-primary/10 bg-bg-card/40" id="partners">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <span class="text-gray-500 uppercase tracking-[0.2em] text-sm font-semibold">Partners &amp;
+                    Engagements</span>
+            </div>
+            <!-- Row 1: Right to Left -->
+            <div class="overflow-hidden mb-6">
+                <div class="marquee-row-rtl flex items-center gap-16 whitespace-nowrap">
+                    <div
+                        class="text-2xl font-bold text-gray-500 hover:text-primary transition-colors cursor-pointer font-serif">
+                        FORBES</div>
+                    <div
+                        class="text-2xl font-bold text-gray-500 hover:text-primary transition-colors cursor-pointer tracking-tighter">
+                        TECHCRUNCH</div>
+                    <div
+                        class="text-2xl font-bold text-gray-500 hover:text-primary transition-colors cursor-pointer font-mono">
+                        NFTE</div>
+                    <div
+                        class="text-2xl font-bold text-gray-500 hover:text-primary transition-colors cursor-pointer italic">
+                        UNGCNI</div>
+                    <div class="text-2xl font-bold text-gray-500 hover:text-primary transition-colors cursor-pointer">
+                        CNBC</div>
+                    <div class="text-2xl font-bold text-gray-500 hover:text-primary transition-colors cursor-pointer">
+                        NDTV</div>
+                    <div
+                        class="text-2xl font-bold text-gray-500 hover:text-primary transition-colors cursor-pointer tracking-wide">
+                        YOURSTORY</div>
+                    <!-- Duplicate for seamless loop -->
+                    <div
+                        class="text-2xl font-bold text-gray-500 hover:text-primary transition-colors cursor-pointer font-serif">
+                        FORBES</div>
+                    <div
+                        class="text-2xl font-bold text-gray-500 hover:text-primary transition-colors cursor-pointer tracking-tighter">
+                        TECHCRUNCH</div>
+                    <div
+                        class="text-2xl font-bold text-gray-500 hover:text-primary transition-colors cursor-pointer font-mono">
+                        NFTE</div>
+                    <div
+                        class="text-2xl font-bold text-gray-500 hover:text-primary transition-colors cursor-pointer italic">
+                        UNGCNI</div>
+                    <div class="text-2xl font-bold text-gray-500 hover:text-primary transition-colors cursor-pointer">
+                        CNBC</div>
+                    <div class="text-2xl font-bold text-gray-500 hover:text-primary transition-colors cursor-pointer">
+                        NDTV</div>
+                    <div
+                        class="text-2xl font-bold text-gray-500 hover:text-primary transition-colors cursor-pointer tracking-wide">
+                        YOURSTORY</div>
+                </div>
+            </div>
+            <!-- Row 2: Left to Right -->
+            <div class="overflow-hidden">
+                <div class="marquee-row-ltr flex items-center gap-16 whitespace-nowrap">
+                    <div class="text-2xl font-bold text-gray-500 hover:text-primary transition-colors cursor-pointer">
+                        INSPIRE MANAK</div>
+                    <div
+                        class="text-2xl font-bold text-gray-500 hover:text-primary transition-colors cursor-pointer font-mono">
+                        STARTUP INDIA</div>
+                    <div
+                        class="text-2xl font-bold text-gray-500 hover:text-primary transition-colors cursor-pointer italic">
+                        TIMES NOW</div>
+                    <div
+                        class="text-2xl font-bold text-gray-500 hover:text-primary transition-colors cursor-pointer font-serif">
+                        ECONOMIC TIMES</div>
+                    <div
+                        class="text-2xl font-bold text-gray-500 hover:text-primary transition-colors cursor-pointer tracking-tighter">
+                        INC42</div>
+                    <div class="text-2xl font-bold text-gray-500 hover:text-primary transition-colors cursor-pointer">
+                        MINT</div>
+                    <div
+                        class="text-2xl font-bold text-gray-500 hover:text-primary transition-colors cursor-pointer tracking-wide">
+                        BUSINESS TODAY</div>
+                    <!-- Duplicate for seamless loop -->
+                    <div class="text-2xl font-bold text-gray-500 hover:text-primary transition-colors cursor-pointer">
+                        INSPIRE MANAK</div>
+                    <div
+                        class="text-2xl font-bold text-gray-500 hover:text-primary transition-colors cursor-pointer font-mono">
+                        STARTUP INDIA</div>
+                    <div
+                        class="text-2xl font-bold text-gray-500 hover:text-primary transition-colors cursor-pointer italic">
+                        TIMES NOW</div>
+                    <div
+                        class="text-2xl font-bold text-gray-500 hover:text-primary transition-colors cursor-pointer font-serif">
+                        ECONOMIC TIMES</div>
+                    <div
+                        class="text-2xl font-bold text-gray-500 hover:text-primary transition-colors cursor-pointer tracking-tighter">
+                        INC42</div>
+                    <div class="text-2xl font-bold text-gray-500 hover:text-primary transition-colors cursor-pointer">
+                        MINT</div>
+                    <div
+                        class="text-2xl font-bold text-gray-500 hover:text-primary transition-colors cursor-pointer tracking-wide">
+                        BUSINESS TODAY</div>
+                </div>
+            </div>
+            <!-- About ENpower -->
+            <div
+                class="mt-20 glass-panel p-8 rounded-xl flex flex-col md:flex-row items-center gap-8 border-l-4 border-primary">
+                <div class="md:w-1/4">
+                    <h3 class="text-2xl font-bold text-white">About <span class="text-primary">ENpower</span></h3>
+                </div>
+                <div class="md:w-3/4 text-gray-400 text-sm leading-relaxed border-l border-white/10 pl-0 md:pl-8">
+                    ENpower is a future-skills ecosystem enabling young minds to build the skills, mindset, and
+                    confidence required to create meaningful real-world impact. IFT, an initiative by ENpower, provides
+                    a national platform for students to showcase their innovation and entrepreneurial potential.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="py-24 relative" id="contact">
+        <div class="absolute inset-0 bg-gradient-to-b from-bg-dark to-primary/5 opacity-50 z-0"></div>
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold text-white">Join the <span class="text-gradient">Revolution</span></h2>
+                <p class="text-gray-400 mt-2">Whether you are a school or a sponsor, we'd love to partner with you.</p>
+                <p class="text-gray-500 text-sm mt-1">contact@enlearning.in</p>
+            </div>
+            <div class="glass-panel rounded-2xl overflow-hidden shadow-2xl">
+                <div class="flex border-b border-white/10" id="contact-tabs">
+                    <button
+                        class="contact-tab flex-1 py-4 text-center font-bold text-bg-dark bg-accent border-b-2 border-accent active"
+                        data-tab="school">Bring IFT to My School</button>
+                    <button
+                        class="contact-tab flex-1 py-4 text-center font-bold text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
+                        data-tab="sponsor">Sponsor IFT</button>
+                </div>
+                <!-- School Form -->
+                <div class="p-8 md:p-12 contact-form" id="form-school">
+                    <form class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label
+                                    class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Full
+                                    Name</label>
+                                <input
+                                    class="w-full bg-bg-dark/60 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
+                                    placeholder="Your Name" type="text" />
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Role</label>
+                                <select
+                                    class="w-full bg-bg-dark/60 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors">
+                                    <option>Teacher</option>
+                                    <option>Principal</option>
+                                    <option>School Leader</option>
+                                    <option>Coordinator</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label
+                                    class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Email
+                                    ID</label>
+                                <input
+                                    class="w-full bg-bg-dark/60 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
+                                    placeholder="you@school.com" type="email" />
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Contact
+                                    Number</label>
+                                <input
+                                    class="w-full bg-bg-dark/60 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
+                                    placeholder="+91 98765 43210" type="tel" />
+                            </div>
+                        </div>
+                        <div>
+                            <label
+                                class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">School
+                                Name &amp; City</label>
+                            <input
+                                class="w-full bg-bg-dark/60 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
+                                placeholder="St. Mary's High School, Mumbai" type="text" />
+                        </div>
+                        <button
+                            class="btn-glow-hover w-full py-4 bg-accent hover:bg-accent-dark text-bg-dark font-bold rounded-lg glow-gold transition-all mt-4 relative overflow-hidden"
+                            type="button"
+                            onclick="this.textContent='Thank you for reaching out!';this.disabled=true;this.classList.add('opacity-70')">
+                            <span class="btn-glow-shine"></span>
+                            <span class="relative z-10">Submit Inquiry</span></button>
+                    </form>
+                </div>
+                <!-- Sponsor Form -->
+                <div class="p-8 md:p-12 contact-form hidden" id="form-sponsor">
+                    <form class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label
+                                    class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Organization
+                                    / Foundation</label>
+                                <input
+                                    class="w-full bg-bg-dark/60 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
+                                    placeholder="Organization Name" type="text" />
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Designation</label>
+                                <input
+                                    class="w-full bg-bg-dark/60 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
+                                    placeholder="Your Designation" type="text" />
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label
+                                    class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Email
+                                    ID</label>
+                                <input
+                                    class="w-full bg-bg-dark/60 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
+                                    placeholder="you@company.com" type="email" />
+                            </div>
+                            <div>
+                                <label
+                                    class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Contact
+                                    Number</label>
+                                <input
+                                    class="w-full bg-bg-dark/60 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
+                                    placeholder="+91 98765 43210" type="tel" />
+                            </div>
+                        </div>
+                        <button
+                            class="btn-glow-hover w-full py-4 bg-accent hover:bg-accent-dark text-bg-dark font-bold rounded-lg glow-gold transition-all mt-4 relative overflow-hidden"
+                            type="button"
+                            onclick="this.textContent='Thank you for reaching out!';this.disabled=true;this.classList.add('opacity-70')">
+                            <span class="btn-glow-shine"></span>
+                            <span class="relative z-10">Submit</span></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-24 bg-bg-dark" id="faq">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center text-white mb-12">Frequently Asked <span
+                    class="text-primary-soft">Questions</span></h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="faq-container">
+                <!-- Left Column -->
+                <div class="space-y-4">
+                    <div
+                        class="faq-item border border-white/10 rounded-lg overflow-hidden bg-white/5 hover:border-primary/30 transition-colors">
+                        <button
+                            class="faq-btn w-full px-6 py-4 text-left flex justify-between items-center text-white font-medium focus:outline-none"
+                            onclick="toggleFaq(this)">
+                            <span>What is India's Future Tycoons (IFT)?</span>
+                            <span
+                                class="material-icons text-primary faq-icon transition-transform duration-300">add</span>
+                        </button>
+                        <div class="faq-answer text-gray-400 text-sm px-6">IFT is India's first-ever entrepreneurship
+                            search &amp; mentorship platform for young adults (students). It allows students to showcase
+                            ideas, get expert mentorship, and refine ventures that solve real-world problems.</div>
+                    </div>
+                    <div
+                        class="faq-item border border-white/10 rounded-lg overflow-hidden bg-white/5 hover:border-primary/30 transition-colors">
+                        <button
+                            class="faq-btn w-full px-6 py-4 text-left flex justify-between items-center text-white font-medium focus:outline-none"
+                            onclick="toggleFaq(this)">
+                            <span>Who can participate in IFT?</span>
+                            <span
+                                class="material-icons text-primary faq-icon transition-transform duration-300">add</span>
+                        </button>
+                        <div class="faq-answer text-gray-400 text-sm px-6">Students aged 13–18 years from any school in
+                            India can register and submit their ideas, either individually or as teams.</div>
+                    </div>
+                    <div
+                        class="faq-item border border-white/10 rounded-lg overflow-hidden bg-white/5 hover:border-primary/30 transition-colors">
+                        <button
+                            class="faq-btn w-full px-6 py-4 text-left flex justify-between items-center text-white font-medium focus:outline-none"
+                            onclick="toggleFaq(this)">
+                            <span>What are the fees to participate?</span>
+                            <span
+                                class="material-icons text-primary faq-icon transition-transform duration-300">add</span>
+                        </button>
+                        <div class="faq-answer text-gray-400 text-sm px-6">Participation in IFT is completely FREE for
+                            students.</div>
+                    </div>
+                    <div
+                        class="faq-item border border-white/10 rounded-lg overflow-hidden bg-white/5 hover:border-primary/30 transition-colors">
+                        <button
+                            class="faq-btn w-full px-6 py-4 text-left flex justify-between items-center text-white font-medium focus:outline-none"
+                            onclick="toggleFaq(this)">
+                            <span>What is the structure of the program?</span>
+                            <span
+                                class="material-icons text-primary faq-icon transition-transform duration-300">add</span>
+                        </button>
+                        <div class="faq-answer text-gray-400 text-sm px-6">IFT is carried out in multiple levels: Idea
+                            submission &amp; shortlisting, interactive learning sessions, mentorship and refinement,
+                            residential boot camps, and final pitch showcase to judges.</div>
+                    </div>
+                    <div
+                        class="faq-item border border-white/10 rounded-lg overflow-hidden bg-white/5 hover:border-primary/30 transition-colors">
+                        <button
+                            class="faq-btn w-full px-6 py-4 text-left flex justify-between items-center text-white font-medium focus:outline-none"
+                            onclick="toggleFaq(this)">
+                            <span>What happens at the bootcamp and finale?</span>
+                            <span
+                                class="material-icons text-primary faq-icon transition-transform duration-300">add</span>
+                        </button>
+                        <div class="faq-answer text-gray-400 text-sm px-6">Top ideas are invited to a 3-day residential
+                            bootcamp with 1-on-1 mentorship from experts, preparation for the grand finale pitch, and
+                            competition for prizes, recognition, and investor attention.</div>
+                    </div>
+                </div>
+                <!-- Right Column -->
+                <div class="space-y-4">
+                    <div
+                        class="faq-item border border-white/10 rounded-lg overflow-hidden bg-white/5 hover:border-primary/30 transition-colors">
+                        <button
+                            class="faq-btn w-full px-6 py-4 text-left flex justify-between items-center text-white font-medium focus:outline-none"
+                            onclick="toggleFaq(this)">
+                            <span>What can participants win?</span>
+                            <span
+                                class="material-icons text-primary faq-icon transition-transform duration-300">add</span>
+                        </button>
+                        <div class="faq-answer text-gray-400 text-sm px-6">Cash prizes &amp; awards, mentorship and
+                            networking opportunities, possibilities of seed funding, and exposure on national &amp;
+                            international platforms such as NFTE and UNGCNI events.</div>
+                    </div>
+                    <div
+                        class="faq-item border border-white/10 rounded-lg overflow-hidden bg-white/5 hover:border-primary/30 transition-colors">
+                        <button
+                            class="faq-btn w-full px-6 py-4 text-left flex justify-between items-center text-white font-medium focus:outline-none"
+                            onclick="toggleFaq(this)">
+                            <span>Is it just a competition?</span>
+                            <span
+                                class="material-icons text-primary faq-icon transition-transform duration-300">add</span>
+                        </button>
+                        <div class="faq-answer text-gray-400 text-sm px-6">No, it's more than a contest. IFT is an
+                            experiential learning journey that builds an entrepreneurial mindset and real-world
+                            problem-solving skills, not just idea pitching.</div>
+                    </div>
+                    <div
+                        class="faq-item border border-white/10 rounded-lg overflow-hidden bg-white/5 hover:border-primary/30 transition-colors">
+                        <button
+                            class="faq-btn w-full px-6 py-4 text-left flex justify-between items-center text-white font-medium focus:outline-none"
+                            onclick="toggleFaq(this)">
+                            <span>How does IFT benefit students beyond prizes?</span>
+                            <span
+                                class="material-icons text-primary faq-icon transition-transform duration-300">add</span>
+                        </button>
+                        <div class="faq-answer text-gray-400 text-sm px-6">IFT helps participants in building life
+                            skills like creativity, critical thinking, collaboration, and leadership, and learn to
+                            convert problems into solutions.</div>
+                    </div>
+                    <div
+                        class="faq-item border border-white/10 rounded-lg overflow-hidden bg-white/5 hover:border-primary/30 transition-colors">
+                        <button
+                            class="faq-btn w-full px-6 py-4 text-left flex justify-between items-center text-white font-medium focus:outline-none"
+                            onclick="toggleFaq(this)">
+                            <span>How to bring IFT to our school?</span>
+                            <span
+                                class="material-icons text-primary faq-icon transition-transform duration-300">add</span>
+                        </button>
+                        <div class="faq-answer text-gray-400 text-sm px-6">Schools can fill in the form above &amp; our
+                            team will get in touch with your team.</div>
+                    </div>
+                    <div
+                        class="faq-item border border-white/10 rounded-lg overflow-hidden bg-white/5 hover:border-primary/30 transition-colors">
+                        <button
+                            class="faq-btn w-full px-6 py-4 text-left flex justify-between items-center text-white font-medium focus:outline-none"
+                            onclick="toggleFaq(this)">
+                            <span>How do I register or learn more?</span>
+                            <span
+                                class="material-icons text-primary faq-icon transition-transform duration-300">add</span>
+                        </button>
+                        <div class="faq-answer text-gray-400 text-sm px-6">You can register or get more details on the
+                            official platform dedicated to IFT — India's Future Tycoons, via ENpower's website.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-primary/10 bg-bg-dark py-12">
+        <div
+            class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <a href="#" class="flex items-center">
+                <img src="IFT-new-logo.png" alt="IFT - India's Future Tycoons" class="h-12" />
+            </a>
+            <div class="text-gray-500 text-sm">© 2026 ENpower. All rights reserved.</div>
+            <div class="flex space-x-6">
+                <a class="text-gray-500 hover:text-primary transition-colors" href="#"><span
+                        class="material-icons">language</span></a>
+                <a class="text-gray-500 hover:text-primary transition-colors" href="#"><span
+                        class="material-icons">mail</span></a>
+                <a class="text-gray-500 hover:text-primary transition-colors" href="#"><span
+                        class="material-icons">videocam</span></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Register GSAP ScrollTrigger
+        gsap.registerPlugin(ScrollTrigger);
+
+        // ===== NAVBAR SCROLL EFFECT =====
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('glass-panel', 'border-b', 'border-primary/10');
+            } else {
+                navbar.classList.remove('glass-panel', 'border-b', 'border-primary/10');
+            }
+        });
+
+        // ===== STAR STREAKS BACKGROUND =====
+        (function () {
+            const canvas = document.getElementById('star-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const section = document.getElementById('impact-section');
+            let W, H, cxS, cyS, stars = [];
+            const STAR_COUNT = 200;
+
+            function resizeCanvas() {
+                W = canvas.width = section.offsetWidth;
+                H = canvas.height = section.offsetHeight;
+                cxS = W / 2;
+                cyS = H / 2;
+            }
+
+            function getRandomInt(min, max) {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+            function remap(v, is, ie, os, oe) {
+                return os + (oe - os) * ((v - is) / (ie - is));
+            }
+
+            class StarStreak {
+                constructor() { this.reset(true); }
+                reset(initial = false) {
+                    this.x = getRandomInt(-cxS, cxS);
+                    this.y = getRandomInt(-cyS, cyS);
+                    this.counter = initial ? getRandomInt(1, W) : W;
+                    this.maxW = 0.3 + Math.random() * 1.4;
+                    this.speed = getRandomInt(2, 6);
+                    this.alpha = 0.25 + Math.random() * 0.55;
+                }
+                update() {
+                    this.counter -= this.speed;
+                    if (this.counter < 1) this.reset();
+                }
+                draw() {
+                    const xR = this.x / this.counter;
+                    const yR = this.y / this.counter;
+                    const headX = remap(xR, 0, 1, 0, W);
+                    const headY = remap(yR, 0, 1, 0, H);
+                    const prevC = this.counter + this.speed * 3;
+                    const tailX = remap(this.x / prevC, 0, 1, 0, W);
+                    const tailY = remap(this.y / prevC, 0, 1, 0, H);
+                    const lw = remap(this.counter, 0, W, this.maxW, 0);
+                    const grad = ctx.createLinearGradient(tailX, tailY, headX, headY);
+                    grad.addColorStop(0, 'rgba(255,255,255,0)');
+                    grad.addColorStop(1, `rgba(255,255,255,${this.alpha})`);
+                    ctx.beginPath();
+                    ctx.moveTo(tailX, tailY);
+                    ctx.lineTo(headX, headY);
+                    ctx.strokeStyle = grad;
+                    ctx.lineWidth = Math.max(lw, 0.15);
+                    ctx.stroke();
+                }
+            }
+
+            function initStars() {
+                resizeCanvas();
+                stars = Array.from({ length: STAR_COUNT }, () => new StarStreak());
+            }
+            initStars();
+            window.addEventListener('resize', initStars);
+
+            let isVisible = false;
+            const observer = new IntersectionObserver((entries) => {
+                isVisible = entries[0].isIntersecting;
+            }, { threshold: 0.1 });
+            observer.observe(section);
+
+            let prev = 0;
+            const FPS = 60, INTERVAL = 1000 / FPS;
+            function starLoop(ts) {
+                requestAnimationFrame(starLoop);
+                if (!isVisible) return;
+                const dt = ts - prev;
+                if (dt < INTERVAL) return;
+                prev = ts - (dt % INTERVAL);
+                ctx.fillStyle = 'rgba(10,10,10,0.82)';
+                ctx.fillRect(0, 0, W, H);
+                ctx.save();
+                ctx.translate(cxS, cyS);
+                for (const s of stars) { s.update(); s.draw(); }
+                ctx.restore();
+            }
+            requestAnimationFrame(starLoop);
+        })();
+
+        // ===== MOBILE MENU =====
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            const icon = mobileBtn.querySelector('.material-icons');
+            icon.textContent = mobileMenu.classList.contains('hidden') ? 'menu' : 'close';
+        });
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+        });
+
+        // ===== HERO SCROLL-TO-VIDEO ANIMATION =====
+        const heroTextContent = document.getElementById('hero-text-content');
+        const heroVideoWrapper = document.getElementById('hero-video-wrapper');
+        const heroCard = document.getElementById('hero-card');
+        const heroPinWrapper = document.getElementById('hero-pin-wrapper');
+
+        // ===== TYPING ANIMATION =====
+        function startTyping() {
+            const lines = [
+                { el: document.getElementById('type-line-1'), text: "India's First-Ever" },
+                { el: document.getElementById('type-line-2'), text: "National Entrepreneurship" },
+                { el: document.getElementById('type-line-3'), text: "Search & Mentorship" }
+            ];
+            let lineIndex = 0;
+            let charIndex = 0;
+            const speed = 50;
+            const lineDelay = 300;
+
+            function typeChar() {
+                if (lineIndex >= lines.length) {
+                    return;
+                }
+                const current = lines[lineIndex];
+                if (charIndex < current.text.length) {
+                    current.el.textContent += current.text[charIndex];
+                    charIndex++;
+                    setTimeout(typeChar, speed);
+                } else {
+                    // Move to next line
+                    lineIndex++;
+                    charIndex = 0;
+                    setTimeout(typeChar, lineDelay);
+                }
+            }
+            typeChar();
+        }
+
+        // Initial entrance animation — dramatic reveal
+        const heroTl = gsap.timeline({ defaults: { ease: 'power3.out' }, delay: 0.3 });
+        heroTl
+            // Badge slides down from top
+            .from('#hero-text-content > div:first-child', { y: -30, opacity: 0, scale: 0.8, duration: 0.6 })
+            // Typing starts after badge
+            .add(() => startTyping(), '-=0.1')
+            // Subtitle fades in after typing completes
+            .from('#hero-text-content p', { y: 40, opacity: 0, duration: 0.8 }, '+=2.8')
+            // CTA buttons pop in with stagger
+            .fromTo('#hero-text-content button', { y: 30, opacity: 0, scale: 0.9 }, { y: 0, opacity: 1, scale: 1, duration: 0.6, stagger: 0.15, ease: 'back.out(1.7)' }, '-=0.3')
+            // Video card rises from below with slight rotation
+            .from('#hero-video-wrapper', { y: 120, opacity: 0, scale: 0.9, rotateX: 8, duration: 1.4, ease: 'power4.out' }, '-=0.5');
+
+        // Scroll-driven: text fades out, video centers and scales up
+        const heroScrollTl = gsap.timeline({
+            scrollTrigger: {
+                trigger: heroPinWrapper,
+                start: 'top top',
+                end: '+=150%',
+                scrub: 0.5,
+            }
+        });
+
+        heroScrollTl
+            // Phase 1: Fade out text content
+            .to(heroTextContent, { opacity: 0, y: -60, duration: 0.4, ease: 'power2.in' })
+            // Phase 2: Slide video up to center and scale
+            .to(heroVideoWrapper, {
+                y: '-60vh',
+                duration: 0.6,
+                ease: 'power2.inOut'
+            }, '-=0.2')
+            .to(heroCard, {
+                scale: 1.6,
+                borderRadius: 0,
+                duration: 0.6,
+                ease: 'power2.inOut'
+            }, '<')
+            .to('#hero-card-caption', { opacity: 0, duration: 0.2 }, '<');
+
+
+
+        // 3D Tilt on hover
+        if (heroCard) {
+            heroCard.addEventListener('mousemove', (e) => {
+                const rect = heroCard.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width - 0.5;
+                const y = (e.clientY - rect.top) / rect.height - 0.5;
+                gsap.to(heroCard, { rotateY: x * 12, rotateX: -y * 8, duration: 0.4, ease: 'power2.out' });
+            });
+            heroCard.addEventListener('mouseleave', () => {
+                gsap.to(heroCard, { rotateY: 0, rotateX: 0, duration: 0.6, ease: 'elastic.out(1, 0.5)' });
+            });
+        }
+
+        // Play Video on click
+        const playBtn = document.getElementById('hero-play-btn');
+        const videoPlayer = document.getElementById('hero-video-player');
+        const videoPoster = document.getElementById('hero-video-poster');
+        if (playBtn && videoPlayer) {
+            playBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                videoPlayer.style.zIndex = '30';
+                videoPlayer.controls = true;
+                videoPlayer.play();
+                gsap.to(videoPoster, { opacity: 0, duration: 0.5, onComplete: () => { videoPoster.style.display = 'none'; } });
+                videoPlayer.classList.remove('pointer-events-none');
+            });
+        }
+
+        // ===== IMPACT SECTION ANIMATION =====
+        gsap.set('.impact-subtitle', { y: 20, opacity: 0 });
+        gsap.set('.impact-title', { y: 40, opacity: 0, scale: 0.9 });
+        gsap.set('#impact-title-line', { width: 0 });
+        gsap.set('.stats-card', { y: 40, opacity: 0 });
+
+        ScrollTrigger.create({
+            trigger: '#impact-section',
+            start: 'top 75%',
+            once: true,
+            onEnter: () => {
+                const tl = gsap.timeline();
+                tl.to('.impact-subtitle', { y: 0, opacity: 1, duration: 0.5, ease: 'power3.out' });
+                tl.to('.impact-title', { y: 0, opacity: 1, scale: 1, duration: 0.6, ease: 'power3.out' }, '-=0.3');
+                tl.to('#impact-title-line', { width: '80px', duration: 0.5, ease: 'power2.out' }, '-=0.3');
+                tl.to('.stats-card', { y: 0, opacity: 1, duration: 0.7, stagger: 0.15, ease: 'power3.out' }, '-=0.2');
+
+                // Counter animation
+                document.querySelectorAll('.stats-counter').forEach(counter => {
+                    const target = parseInt(counter.dataset.target);
+                    const ghost = counter.closest('.number-area').querySelector('.stats-counter-ghost');
+                    gsap.to({ val: 0 }, {
+                        val: target,
+                        duration: 2.5,
+                        delay: 0.3,
+                        ease: 'power2.out',
+                        onUpdate: function () {
+                            const v = Math.floor(this.targets()[0].val).toLocaleString();
+                            counter.textContent = v;
+                            if (ghost) ghost.textContent = v;
+                        }
+                    });
+                });
+            }
+        });
+
+        // Stats cards cycling
+        (function () {
+            const statsCards = Array.from(document.querySelectorAll('.stats-card'));
+            if (!statsCards.length) return;
+            let currentCard = 0;
+            function cycleCards() {
+                statsCards[currentCard].classList.remove('active');
+                currentCard = (currentCard + 1) % statsCards.length;
+                statsCards[currentCard].classList.add('active');
+                setTimeout(cycleCards, 2800);
+            }
+            setTimeout(cycleCards, 2800);
+        })();
+
+        // BG orbs parallax on scroll
+        gsap.to('#impact-orb-1', {
+            x: 80, y: -30,
+            scrollTrigger: { trigger: '#impact-section', start: 'top bottom', end: 'bottom top', scrub: 1 }
+        });
+        gsap.to('#impact-orb-2', {
+            x: -60, y: 40,
+            scrollTrigger: { trigger: '#impact-section', start: 'top bottom', end: 'bottom top', scrub: 1 }
+        });
+
+        // ===== ABOUT SECTION =====
+        gsap.from('.about-text', {
+            scrollTrigger: { trigger: '.about-text', start: 'top 80%', toggleActions: 'play none none none' },
+            x: -60, opacity: 0, duration: 1, ease: 'power3.out'
+        });
+        gsap.from('.about-visual', {
+            scrollTrigger: { trigger: '.about-visual', start: 'top 80%', toggleActions: 'play none none none' },
+            x: 60, opacity: 0, duration: 1, ease: 'power3.out'
+        });
+
+        // ===== EXPERIENCE HORIZONTAL SCROLL =====
+        const expTrack = document.getElementById('exp-cards-track');
+        const expSection = document.getElementById('experience');
+        if (expTrack && expSection) {
+            const totalScrollWidth = expTrack.scrollWidth - window.innerWidth;
+
+            gsap.to(expTrack, {
+                x: -totalScrollWidth,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: '#experience-wrapper',
+                    pin: expSection,
+                    start: 'top top',
+                    end: () => '+=' + totalScrollWidth,
+                    scrub: 1,
+                    invalidateOnRefresh: true,
+                }
+            });
+
+            // Cards fade in
+            gsap.from('.exp-card', {
+                scrollTrigger: { trigger: '#experience-wrapper', start: 'top 75%', toggleActions: 'play none none none' },
+                y: 50, opacity: 0, duration: 0.8, stagger: 0.12, ease: 'power3.out'
+            });
+        }
+
+        // ===== TIMELINE ANIMATION (dots fill/unfill with timeline) =====
+        const timelineLine = document.querySelector('.timeline-line');
+        const timelineFill = document.getElementById('timeline-fill');
+        const timelineItems = document.querySelectorAll('.timeline-item');
+        const dotStates = [];
+
+        // Prepare dot fill animations (everything else stays visible)
+        timelineItems.forEach((item) => {
+            const dot = item.querySelector('.timeline-dot');
+            const numSpan = item.querySelector('.timeline-dot-num');
+            dotStates.push({ item, dot, numSpan, filled: false });
+        });
+
+        // Single ScrollTrigger — fill line + dot fills synced
+        if (timelineLine && timelineFill) {
+            ScrollTrigger.create({
+                trigger: timelineLine,
+                start: 'top 80%',
+                end: 'bottom 20%',
+                scrub: true,
+                onUpdate: (self) => {
+                    const progress = self.progress;
+                    timelineFill.style.height = (progress * 100) + '%';
+
+                    const lineRect = timelineLine.getBoundingClientRect();
+                    const fillHeight = lineRect.height * progress;
+
+                    dotStates.forEach((entry) => {
+                        const itemRect = entry.item.getBoundingClientRect();
+                        const itemCenter = itemRect.top + itemRect.height / 2 - lineRect.top;
+
+                        if (fillHeight >= itemCenter && !entry.filled) {
+                            entry.filled = true;
+                            gsap.to(entry.dot, {
+                                backgroundColor: '#7B2D8E',
+                                borderColor: '#7B2D8E',
+                                boxShadow: '0 0 15px rgba(123, 45, 142, 0.5)',
+                                scale: 1.15,
+                                duration: 0.3,
+                                ease: 'power2.out',
+                                onComplete: () => gsap.to(entry.dot, { scale: 1, duration: 0.2 })
+                            });
+                            if (entry.numSpan) {
+                                gsap.to(entry.numSpan, { color: '#0A0A0A', duration: 0.3 });
+                            }
+                        } else if (fillHeight < itemCenter && entry.filled) {
+                            entry.filled = false;
+                            gsap.to(entry.dot, {
+                                backgroundColor: '#0A0A0A',
+                                borderColor: 'rgba(123, 45, 142, 0.3)',
+                                boxShadow: '0 0 0px rgba(123, 45, 142, 0)',
+                                scale: 1,
+                                duration: 0.3,
+                                ease: 'power2.out'
+                            });
+                            if (entry.numSpan) {
+                                gsap.to(entry.numSpan, { color: '#6b7280', duration: 0.3 });
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        // ===== HALL OF FAME CARDS =====
+        gsap.from('.hall-card', {
+            scrollTrigger: { trigger: '#hall-of-fame', start: 'top 75%', toggleActions: 'play none none none' },
+            y: 60, opacity: 0, scale: 0.95, duration: 0.8, stagger: 0.15, ease: 'power3.out'
+        });
+
+        // ===== SCHOOL SECTION =====
+        gsap.from('.school-section', {
+            scrollTrigger: { trigger: '.school-section', start: 'top 80%', toggleActions: 'play none none none' },
+            y: 50, opacity: 0, duration: 1, ease: 'power3.out'
+        });
+
+        // ===== MENTOR CARDS =====
+        gsap.from('.mentor-card', {
+            scrollTrigger: { trigger: '#mentors', start: 'top 75%', toggleActions: 'play none none none' },
+            y: 40, opacity: 0, scale: 0.9, duration: 0.7, stagger: 0.12, ease: 'back.out(1.5)'
+        });
+
+        // ===== TESTIMONIAL =====
+        gsap.from('.testimonial-card', {
+            scrollTrigger: { trigger: '.testimonial-card', start: 'top 85%', toggleActions: 'play none none none' },
+            y: 40, opacity: 0, duration: 1, ease: 'power3.out'
+        });
+
+        // ===== FAQ ACCORDION =====
+        function toggleFaq(btn) {
+            const answer = btn.nextElementSibling;
+            const icon = btn.querySelector('.faq-icon');
+            const isOpen = answer.classList.contains('open');
+
+            // Close all others
+            document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+            document.querySelectorAll('.faq-icon').forEach(ic => { ic.textContent = 'add'; ic.style.transform = 'rotate(0deg)'; });
+
+            if (!isOpen) {
+                answer.classList.add('open');
+                icon.textContent = 'remove';
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        // FAQ items scroll animation
+        gsap.from('.faq-item', {
+            scrollTrigger: { trigger: '#faq', start: 'top 75%', toggleActions: 'play none none none' },
+            y: 30, opacity: 0, duration: 0.5, stagger: 0.08, ease: 'power3.out'
+        });
+
+        // ===== CONTACT TABS =====
+        document.querySelectorAll('.contact-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.contact-tab').forEach(t => {
+                    t.classList.remove('active', 'text-bg-dark', 'bg-accent', 'border-b-2', 'border-accent');
+                    t.classList.add('text-gray-400');
+                });
+                tab.classList.add('active', 'text-bg-dark', 'bg-accent', 'border-b-2', 'border-accent');
+                tab.classList.remove('text-gray-400');
+
+                document.querySelectorAll('.contact-form').forEach(f => f.classList.add('hidden'));
+                document.getElementById('form-' + tab.dataset.tab).classList.remove('hidden');
+            });
+        });
+
+        // ===== PARALLAX ON MOUSE MOVE (3D DEPTH EFFECT) =====
+        document.addEventListener('mousemove', (e) => {
+            const moveX = (e.clientX / window.innerWidth - 0.5) * 2;
+            const moveY = (e.clientY / window.innerHeight - 0.5) * 2;
+
+            gsap.to('.float-anim', { x: moveX * 15, y: moveY * 10, duration: 1, ease: 'power2.out' });
+        });
+
+        // ===== SMOOTH SECTION HEADINGS =====
+        document.querySelectorAll('section h2').forEach(h2 => {
+            if (h2.closest('#impact-section')) return;
+            gsap.from(h2, {
+                scrollTrigger: { trigger: h2, start: 'top 85%', toggleActions: 'play none none none' },
+                y: 30, opacity: 0, duration: 0.8, ease: 'power3.out'
+            });
+        });
+
+        // ===== PARTNER LOGOS =====
+        gsap.from('#partners .flex > div', {
+            scrollTrigger: { trigger: '#partners', start: 'top 80%', toggleActions: 'play none none none' },
+            y: 20, opacity: 0, duration: 0.6, stagger: 0.1, ease: 'power3.out'
+        });
+    </script>
+</body>
+
+</html>
