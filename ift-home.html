@@ -538,13 +538,29 @@
         }
 
         @keyframes cornerGlow {
-            0%, 100% { opacity: 0; }
-            50% { opacity: 0.5; }
+
+            0%,
+            100% {
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
         }
 
         @keyframes glowPulse {
-            0%, 100% { filter: blur(6px); opacity: 0.3; }
-            50% { filter: blur(10px); opacity: 0.5; }
+
+            0%,
+            100% {
+                filter: blur(6px);
+                opacity: 0.3;
+            }
+
+            50% {
+                filter: blur(10px);
+                opacity: 0.5;
+            }
         }
 
         @property --glow-angle {
@@ -554,8 +570,13 @@
         }
 
         @keyframes rotateBorderGlow {
-            0% { --glow-angle: 0deg; }
-            100% { --glow-angle: 360deg; }
+            0% {
+                --glow-angle: 0deg;
+            }
+
+            100% {
+                --glow-angle: 360deg;
+            }
         }
 
         /* Mentor Cards with 3D Tilt */
@@ -712,14 +733,12 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: linear-gradient(
-                45deg,
-                transparent 30%,
-                rgba(255, 255, 255, 0.1) 40%,
-                rgba(255, 255, 255, 0.3) 50%,
-                rgba(255, 255, 255, 0.1) 60%,
-                transparent 70%
-            );
+            background: linear-gradient(45deg,
+                    transparent 30%,
+                    rgba(255, 255, 255, 0.1) 40%,
+                    rgba(255, 255, 255, 0.3) 50%,
+                    rgba(255, 255, 255, 0.1) 60%,
+                    transparent 70%);
             animation: glassShine 3s infinite;
         }
 
@@ -727,6 +746,7 @@
             0% {
                 transform: translateX(-100%) translateY(-100%) rotate(45deg);
             }
+
             100% {
                 transform: translateX(100%) translateY(100%) rotate(45deg);
             }
@@ -739,11 +759,13 @@
                 border-color: rgba(155, 77, 186, 0.8);
                 transform: translateY(-10px);
             }
+
             50% {
                 opacity: 1;
                 background: rgba(123, 45, 142, 0.4);
                 border-color: rgba(155, 77, 186, 0.8);
             }
+
             100% {
                 opacity: 1;
                 background: rgba(123, 45, 142, 0.1);
@@ -759,11 +781,14 @@
         }
 
         @keyframes blink {
-            0%, 100% {
+
+            0%,
+            100% {
                 opacity: 1;
                 transform: scale(1);
                 box-shadow: 0 0 8px rgba(245, 197, 24, 0.8);
             }
+
             50% {
                 opacity: 0.3;
                 transform: scale(0.8);
@@ -847,16 +872,17 @@
             <!-- Background elements -->
             <div class="absolute inset-0 bg-bg-dark z-0">
                 <canvas id="hero-star-canvas" class="absolute inset-0 w-full h-full" style="z-index:0;"></canvas>
-                <div class="absolute inset-0 bg-gradient-to-b from-bg-dark/40 via-transparent to-bg-dark/60" style="z-index:1;"></div>
+                <div class="absolute inset-0 bg-gradient-to-b from-bg-dark/40 via-transparent to-bg-dark/60"
+                    style="z-index:1;"></div>
                 <div class="absolute inset-0 hero-grid" style="z-index:2;"></div>
-                <div
-                    class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full filter blur-[150px] animate-pulse" style="z-index:3;">
+                <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full filter blur-[150px] animate-pulse"
+                    style="z-index:3;">
                 </div>
-                <div
-                    class="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-accent/10 rounded-full filter blur-[120px]" style="z-index:3;">
+                <div class="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-accent/10 rounded-full filter blur-[120px]"
+                    style="z-index:3;">
                 </div>
-                <div
-                    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-primary/5 rounded-full filter blur-[100px] float-anim" style="z-index:3;">
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-primary/5 rounded-full filter blur-[100px] float-anim"
+                    style="z-index:3;">
                 </div>
             </div>
             <!-- Hero content -->
@@ -873,7 +899,7 @@
                         <span id="type-line-3"></span>
                     </h1>
                     <p class="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-gray-400 font-light leading-relaxed">
-                        Platform for Young Innovators (13–18). Empowering the next generation with skills, mindset, and
+                        for Young Innovators (13–18). Empowering the next generation with skills, mindset, and
                         courage to create real-world impact.
                     </p>
                     <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
@@ -1203,7 +1229,7 @@
     <section class="py-24 relative" id="journey">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-4">The IFT <span
-                    class="text-gradient">Rocket Journey</span></h2>
+                    class="text-gradient">Journey</span></h2>
             <p class="text-center text-gray-400 mb-16">Your path from idea to national recognition</p>
             <div class="relative timeline-line space-y-16">
                 <div class="timeline-fill" id="timeline-fill"></div>
@@ -1291,7 +1317,7 @@
                         class="w-full md:w-5/12 p-6 glass-panel rounded-xl text-left md:pl-8 hover:bg-primary/5 transition-colors hover:border-primary/20">
                         <h3 class="text-xl font-bold text-white">Residential Founder's Bootcamp</h3>
                         <p class="text-gray-400 text-sm mt-2">3 days | Real startup tools</p>
-                        <p class="text-gray-500 text-xs mt-1">BMC | MVP | GTM | Pitching</p>
+                        <p class="text-gray-400 text-sm mt-1">BMC | MVP | GTM | Pitching</p>
                         <span class="text-primary text-xs font-bold mt-2 block tracking-widest">PHASE 6</span>
                     </div>
                 </div>
@@ -1425,162 +1451,193 @@
     <!-- BEGIN: Cinematic Product Reveal Section -->
     <!-- Outer wrapper is tall to provide scroll room; inner #schools-pin is what gets pinned -->
     <div id="schools" style="position:relative;">
-      <!-- Pinnable inner panel — full viewport height, centered -->
-      <div id="schools-pin" class="relative w-full overflow-hidden flex items-center" style="height:100vh;">
-        <!-- Background Decorative Glows -->
-        <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] purple-radial-glow pointer-events-none" style="z-index:0;"></div>
-        <div class="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] purple-radial-glow pointer-events-none" style="z-index:0;"></div>
+        <!-- Pinnable inner panel — full viewport height, centered -->
+        <div id="schools-pin" class="relative w-full overflow-hidden flex items-center" style="height:100vh;">
+            <!-- Background Decorative Glows -->
+            <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] purple-radial-glow pointer-events-none"
+                style="z-index:0;"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] purple-radial-glow pointer-events-none"
+                style="z-index:0;"></div>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative" style="z-index:1;">
-          <div class="flex flex-col lg:flex-row gap-12 items-center">
-            <!-- LEFT: heading + narrative stack + button (always visible) -->
-            <div class="w-full lg:w-1/2 z-10 pt-16">
-              <!-- Section heading — left-aligned, matching site style -->
-              <div class="mb-10">
-                <p class="text-gray-500 uppercase tracking-[0.3em] text-xs font-semibold mb-3">NEP 2020 Compliant</p>
-                <h2 class="text-3xl md:text-4xl font-bold text-white">IFT for <span class="text-primary-soft text-gradient">Schools</span></h2>
-                <p class="text-gray-400 mt-2">Where NEP 2020 goals come alive — innovation, skills &amp; national recognition.</p>
-              </div>
-              <!-- Narrative Blocks — stack on top of each other, animated by scroll -->
-              <div class="relative" style="height:200px;" data-purpose="narrative-stack">
-                <article class="absolute inset-0 flex flex-col justify-start pointer-events-none opacity-0" style="transform:translateY(30px);" id="narrative-1">
-                  <h3 class="text-xl md:text-2xl font-semibold mb-3 text-white">Innovation &amp; Vocational Exposure</h3>
-                  <p class="text-gray-400 leading-relaxed max-w-lg">Aligning with NEP 2020 goals to foster creativity, coding, and design thinking from an early age, preparing students for the real world.</p>
-                </article>
-                <article class="absolute inset-0 flex flex-col justify-start pointer-events-none opacity-0" style="transform:translateY(30px);" id="narrative-2">
-                  <h3 class="text-xl md:text-2xl font-semibold mb-3 text-white">Future Skill Leaders</h3>
-                  <p class="text-gray-400 leading-relaxed max-w-lg">Empowering students with 21st-century skills. We bridge the gap between classroom theory and industry-standard practical application.</p>
-                </article>
-                <article class="absolute inset-0 flex flex-col justify-start pointer-events-none opacity-0" style="transform:translateY(30px);" id="narrative-3">
-                  <h3 class="text-xl md:text-2xl font-semibold mb-3 text-white">National Recognition</h3>
-                  <p class="text-gray-400 leading-relaxed max-w-lg">Our partner schools gain access to exclusive innovation awards, national competitions, and potential seed funding for student ventures.</p>
-                </article>
-              </div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative" style="z-index:1;">
+                <div class="flex flex-col lg:flex-row gap-12 items-center">
+                    <!-- LEFT: heading + narrative stack + button (always visible) -->
+                    <div class="w-full lg:w-1/2 z-10 pt-16">
+                        <!-- Section heading — left-aligned, matching site style -->
+                        <div class="mb-10">
+                            <p class="text-gray-500 uppercase tracking-[0.3em] text-xs font-semibold mb-3">NEP 2020
+                                Compliant</p>
+                            <h2 class="text-3xl md:text-4xl font-bold text-white">IFT for <span
+                                    class="text-primary-soft text-gradient">Schools</span></h2>
+                            <p class="text-gray-400 mt-2">Where NEP 2020 goals come alive — innovation, skills &amp;
+                                national recognition.</p>
+                        </div>
+                        <!-- Narrative Blocks — stack on top of each other, animated by scroll -->
+                        <div class="relative" style="height:200px;" data-purpose="narrative-stack">
+                            <article class="absolute inset-0 flex flex-col justify-start pointer-events-none opacity-0"
+                                style="transform:translateY(30px);" id="narrative-1">
+                                <h3 class="text-xl md:text-2xl font-semibold mb-3 text-white">Innovation &amp;
+                                    Vocational Exposure</h3>
+                                <p class="text-gray-400 leading-relaxed max-w-lg">Aligning with NEP 2020 goals to foster
+                                    creativity, coding, and design thinking from an early age, preparing students for
+                                    the real world.</p>
+                            </article>
+                            <article class="absolute inset-0 flex flex-col justify-start pointer-events-none opacity-0"
+                                style="transform:translateY(30px);" id="narrative-2">
+                                <h3 class="text-xl md:text-2xl font-semibold mb-3 text-white">Future Skill Leaders</h3>
+                                <p class="text-gray-400 leading-relaxed max-w-lg">Empowering students with 21st-century
+                                    skills. We bridge the gap between classroom theory and industry-standard practical
+                                    application.</p>
+                            </article>
+                            <article class="absolute inset-0 flex flex-col justify-start pointer-events-none opacity-0"
+                                style="transform:translateY(30px);" id="narrative-3">
+                                <h3 class="text-xl md:text-2xl font-semibold mb-3 text-white">National Recognition</h3>
+                                <p class="text-gray-400 leading-relaxed max-w-lg">Our partner schools gain access to
+                                    exclusive innovation awards, national competitions, and potential seed funding for
+                                    student ventures.</p>
+                            </article>
+                        </div>
 
-              <!-- Button — always visible below narrative stack -->
-              <div class="mt-8">
-                <a href="#contact" class="btn-glow-hover inline-block bg-accent text-bg-dark font-bold px-8 py-3 rounded-xl glow-gold hover:bg-accent-dark transition-all relative overflow-hidden">
-                  <span class="btn-glow-shine"></span>
-                  <span class="relative z-10">Bring IFT to Your School</span>
-                </a>
-              </div>
+                        <!-- Button — always visible below narrative stack -->
+                        <div class="mt-8">
+                            <a href="#contact"
+                                class="btn-glow-hover inline-block bg-accent text-bg-dark font-bold px-8 py-3 rounded-xl glow-gold hover:bg-accent-dark transition-all relative overflow-hidden">
+                                <span class="btn-glow-shine"></span>
+                                <span class="relative z-10">Bring IFT to Your School</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT: stacked glass cards — all at same position, layer on top as you scroll -->
+                    <div class="w-full lg:w-1/2 relative flex items-center justify-center" style="height:320px;">
+
+                        <!-- Card 1 — NEP Compliant -->
+                        <div class="absolute inset-0 rounded-2xl overflow-hidden opacity-0"
+                            style="z-index:10;transform:translateX(80px);background:#1a0a2e;border:1px solid rgba(139,92,246,0.35);"
+                            id="card-1">
+                            <div style="height:3px;background:linear-gradient(90deg,#7c3aed,#a78bfa);"></div>
+                            <div class="flex flex-col justify-center p-7 h-full">
+                                <div class="w-9 h-9 rounded-lg overflow-hidden mb-4">
+                                    <img src="assets/gifs/idea.gif" alt="Innovation"
+                                        style="width:36px;height:36px;object-fit:cover;" />
+                                </div>
+                                <span class="text-purple-400 text-xs font-bold uppercase tracking-widest mb-1">NEP
+                                    2020</span>
+                                <h4 class="font-bold text-white text-xl leading-tight mb-3">NEP Compliant</h4>
+                                <p class="text-gray-300 text-sm leading-relaxed">Innovation, experiential learning &amp;
+                                    vocational exposure built in from day one.</p>
+                            </div>
+                        </div>
+
+                        <!-- Card 2 — Future Ready -->
+                        <div class="absolute inset-0 rounded-2xl overflow-hidden opacity-0"
+                            style="z-index:20;transform:translateX(80px);background:#0a1628;border:1px solid rgba(59,130,246,0.35);"
+                            id="card-2">
+                            <div style="height:3px;background:linear-gradient(90deg,#2563eb,#60a5fa);"></div>
+                            <div class="flex flex-col justify-center p-7 h-full">
+                                <div class="w-9 h-9 rounded-lg overflow-hidden mb-4">
+                                    <img src="assets/gifs/mentorship.gif" alt="Mentorship"
+                                        style="width:36px;height:36px;object-fit:cover;" />
+                                </div>
+                                <span class="text-blue-400 text-xs font-bold uppercase tracking-widest mb-1">21st
+                                    Century</span>
+                                <h4 class="font-bold text-white text-xl leading-tight mb-3">Future Ready</h4>
+                                <p class="text-gray-300 text-sm leading-relaxed">Design thinking, coding &amp;
+                                    entrepreneurial mindset for the real world.</p>
+                            </div>
+                        </div>
+
+                        <!-- Card 3 — National Recognition -->
+                        <div class="absolute inset-0 rounded-2xl overflow-hidden opacity-0"
+                            style="z-index:30;transform:translateX(80px);background:#1a1200;border:1px solid rgba(245,158,11,0.35);"
+                            id="card-3">
+                            <div style="height:3px;background:linear-gradient(90deg,#d97706,#fbbf24);"></div>
+                            <div class="flex flex-col justify-center p-7 h-full">
+                                <div class="w-9 h-9 rounded-lg overflow-hidden mb-4">
+                                    <img src="assets/gifs/recognition.gif" alt="Recognition"
+                                        style="width:36px;height:36px;object-fit:cover;" />
+                                </div>
+                                <span
+                                    class="text-amber-400 text-xs font-bold uppercase tracking-widest mb-1">Nationwide</span>
+                                <h4 class="font-bold text-white text-xl leading-tight mb-3">National Recognition</h4>
+                                <p class="text-gray-300 text-sm leading-relaxed">Grants, awards &amp; prestigious
+                                    platforms — NFTE, UNGCNI, Inspire MANAK.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
-
-            <!-- RIGHT: stacked glass cards — all at same position, layer on top as you scroll -->
-            <div class="w-full lg:w-1/2 relative flex items-center justify-center" style="height:320px;">
-
-              <!-- Card 1 — NEP Compliant -->
-              <div class="absolute inset-0 rounded-2xl overflow-hidden opacity-0" style="z-index:10;transform:translateX(80px);background:#1a0a2e;border:1px solid rgba(139,92,246,0.35);" id="card-1">
-                <div style="height:3px;background:linear-gradient(90deg,#7c3aed,#a78bfa);"></div>
-                <div class="flex flex-col justify-center p-7 h-full">
-                  <div class="w-9 h-9 rounded-lg overflow-hidden mb-4">
-                    <img src="assets/gifs/idea.gif" alt="Innovation" style="width:36px;height:36px;object-fit:cover;" />
-                  </div>
-                  <span class="text-purple-400 text-xs font-bold uppercase tracking-widest mb-1">NEP 2020</span>
-                  <h4 class="font-bold text-white text-xl leading-tight mb-3">NEP Compliant</h4>
-                  <p class="text-gray-300 text-sm leading-relaxed">Innovation, experiential learning &amp; vocational exposure built in from day one.</p>
-                </div>
-              </div>
-
-              <!-- Card 2 — Future Ready -->
-              <div class="absolute inset-0 rounded-2xl overflow-hidden opacity-0" style="z-index:20;transform:translateX(80px);background:#0a1628;border:1px solid rgba(59,130,246,0.35);" id="card-2">
-                <div style="height:3px;background:linear-gradient(90deg,#2563eb,#60a5fa);"></div>
-                <div class="flex flex-col justify-center p-7 h-full">
-                  <div class="w-9 h-9 rounded-lg overflow-hidden mb-4">
-                    <img src="assets/gifs/mentorship.gif" alt="Mentorship" style="width:36px;height:36px;object-fit:cover;" />
-                  </div>
-                  <span class="text-blue-400 text-xs font-bold uppercase tracking-widest mb-1">21st Century</span>
-                  <h4 class="font-bold text-white text-xl leading-tight mb-3">Future Ready</h4>
-                  <p class="text-gray-300 text-sm leading-relaxed">Design thinking, coding &amp; entrepreneurial mindset for the real world.</p>
-                </div>
-              </div>
-
-              <!-- Card 3 — National Recognition -->
-              <div class="absolute inset-0 rounded-2xl overflow-hidden opacity-0" style="z-index:30;transform:translateX(80px);background:#1a1200;border:1px solid rgba(245,158,11,0.35);" id="card-3">
-                <div style="height:3px;background:linear-gradient(90deg,#d97706,#fbbf24);"></div>
-                <div class="flex flex-col justify-center p-7 h-full">
-                  <div class="w-9 h-9 rounded-lg overflow-hidden mb-4">
-                    <img src="assets/gifs/recognition.gif" alt="Recognition" style="width:36px;height:36px;object-fit:cover;" />
-                  </div>
-                  <span class="text-amber-400 text-xs font-bold uppercase tracking-widest mb-1">Nationwide</span>
-                  <h4 class="font-bold text-white text-xl leading-tight mb-3">National Recognition</h4>
-                  <p class="text-gray-300 text-sm leading-relaxed">Grants, awards &amp; prestigious platforms — NFTE, UNGCNI, Inspire MANAK.</p>
-                </div>
-              </div>
-
-            </div>
-          </div>
         </div>
-      </div>
     </div>
     <!-- END: Cinematic Product Reveal Section -->
 
     <!-- BEGIN: GSAP Schools Animation Logic -->
     <script data-purpose="gsap-schools-setup">
-      (function() {
-        function initSchoolsAnimation() {
-          if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
-            setTimeout(initSchoolsAnimation, 100);
-            return;
-          }
-          gsap.registerPlugin(ScrollTrigger);
-          const mm = gsap.matchMedia();
+            (function () {
+                function initSchoolsAnimation() {
+                    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+                        setTimeout(initSchoolsAnimation, 100);
+                        return;
+                    }
+                    gsap.registerPlugin(ScrollTrigger);
+                    const mm = gsap.matchMedia();
 
-          // Desktop: pin the panel and sequence narratives + stacking cards
-          mm.add("(min-width: 1024px)", () => {
-            const tl = gsap.timeline({
-              scrollTrigger: {
-                trigger: "#schools-pin",
-                start: "top top",
-                end: "+=2400",
-                scrub: 1,
-                pin: true,
-                anticipatePin: 1,
-              }
-            });
+                    // Desktop: pin the panel and sequence narratives + stacking cards
+                    mm.add("(min-width: 1024px)", () => {
+                        const tl = gsap.timeline({
+                            scrollTrigger: {
+                                trigger: "#schools-pin",
+                                start: "top top",
+                                end: "+=2400",
+                                scrub: 1,
+                                pin: true,
+                                anticipatePin: 1,
+                            }
+                        });
 
-            // Step 1: Narrative 1 in, Card 1 slides in from right — stays
-            tl.to("#narrative-1", { opacity: 1, y: 0, duration: 1 }, 0)
-              .to("#card-1",      { opacity: 1, x: 0, duration: 1 }, 0);
+                        // Step 1: Narrative 1 in, Card 1 slides in from right — stays
+                        tl.to("#narrative-1", { opacity: 1, y: 0, duration: 1 }, 0)
+                            .to("#card-1", { opacity: 1, x: 0, duration: 1 }, 0);
 
-            // Step 2: swap narrative, Card 2 slides in on top — Card 1 stays visible beneath
-            tl.to("#narrative-1", { opacity: 0, y: -20, duration: 0.6 }, "+=0.8")
-              .to("#narrative-2", { opacity: 1, y: 0, duration: 0.8 })
-              .to("#card-2",      { opacity: 1, x: 0, duration: 1 }, "<");
+                        // Step 2: swap narrative, Card 2 slides in on top — Card 1 stays visible beneath
+                        tl.to("#narrative-1", { opacity: 0, y: -20, duration: 0.6 }, "+=0.8")
+                            .to("#narrative-2", { opacity: 1, y: 0, duration: 0.8 })
+                            .to("#card-2", { opacity: 1, x: 0, duration: 1 }, "<");
 
-            // Step 3: swap narrative, Card 3 slides in on top — Cards 1 & 2 stay beneath
-            tl.to("#narrative-2", { opacity: 0, y: -20, duration: 0.6 }, "+=0.8")
-              .to("#narrative-3", { opacity: 1, y: 0, pointerEvents: "auto", duration: 0.8 })
-              .to("#card-3",      { opacity: 1, x: 0, duration: 1 }, "<");
+                        // Step 3: swap narrative, Card 3 slides in on top — Cards 1 & 2 stay beneath
+                        tl.to("#narrative-2", { opacity: 0, y: -20, duration: 0.6 }, "+=0.8")
+                            .to("#narrative-3", { opacity: 1, y: 0, pointerEvents: "auto", duration: 0.8 })
+                            .to("#card-3", { opacity: 1, x: 0, duration: 1 }, "<");
 
-            return () => tl.kill();
-          });
+                        return () => tl.kill();
+                    });
 
-          // Mobile: simple sequential fade-ins
-          mm.add("(max-width: 1023px)", () => {
-            ["#narrative-1", "#narrative-2", "#narrative-3"].forEach((id) => {
-              gsap.to(id, {
-                opacity: 1, y: 0,
-                scrollTrigger: {
-                  trigger: "#schools",
-                  start: "top 70%",
-                  toggleActions: "play none none reverse"
+                    // Mobile: simple sequential fade-ins
+                    mm.add("(max-width: 1023px)", () => {
+                        ["#narrative-1", "#narrative-2", "#narrative-3"].forEach((id) => {
+                            gsap.to(id, {
+                                opacity: 1, y: 0,
+                                scrollTrigger: {
+                                    trigger: "#schools",
+                                    start: "top 70%",
+                                    toggleActions: "play none none reverse"
+                                }
+                            });
+                        });
+                        gsap.to("#card-1, #card-2, #card-3", {
+                            opacity: 1, y: 0,
+                            scrollTrigger: { trigger: "#schools", start: "top 70%", toggleActions: "play none none reverse" }
+                        });
+                    });
                 }
-              });
-            });
-            gsap.to("#card-1, #card-2, #card-3", {
-              opacity: 1, y: 0,
-              scrollTrigger: { trigger: "#schools", start: "top 70%", toggleActions: "play none none reverse" }
-            });
-          });
-        }
 
-        if (document.readyState === 'loading') {
-          document.addEventListener('DOMContentLoaded', initSchoolsAnimation);
-        } else {
-          initSchoolsAnimation();
-        }
-      })();
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', initSchoolsAnimation);
+                } else {
+                    initSchoolsAnimation();
+                }
+            })();
     </script>
     <!-- END: GSAP Schools Animation Logic -->
 
@@ -1588,7 +1645,8 @@
     <section class="py-24 bg-bg-dark" id="mentors">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-3xl font-bold text-white">Our Mentor <span class="text-primary-soft text-gradient">Network</span></h2>
+                <h2 class="text-3xl font-bold text-white">Our Mentor <span
+                        class="text-primary-soft text-gradient">Network</span></h2>
                 <p class="text-gray-400 mt-2">Learn from the best minds in Business, Tech, and Design.</p>
             </div>
 
@@ -1768,7 +1826,8 @@
             <div
                 class="mt-20 glass-panel p-8 rounded-xl flex flex-col md:flex-row items-center gap-8 border-l-4 border-primary">
                 <div class="md:w-1/4">
-                    <h3 class="text-2xl font-bold text-white">About <span class="text-primary text-gradient">ENpower</span></h3>
+                    <h3 class="text-2xl font-bold text-white">About <span
+                            class="text-primary text-gradient">ENpower</span></h3>
                 </div>
                 <div class="md:w-3/4 text-gray-400 text-sm leading-relaxed border-l border-white/10 pl-0 md:pl-8">
                     ENpower is a future-skills ecosystem enabling young minds to build the skills, mindset, and
@@ -1931,6 +1990,18 @@
                         <button
                             class="faq-btn w-full px-6 py-4 text-left flex justify-between items-center text-white font-medium focus:outline-none"
                             onclick="toggleFaq(this)">
+                            <span>How to bring IFT to our school?</span>
+                            <span
+                                class="material-icons text-primary faq-icon transition-transform duration-300">add</span>
+                        </button>
+                        <div class="faq-answer text-gray-400 text-sm px-6">Schools can fill in the form above &amp; our
+                            team will get in touch with your team.</div>
+                    </div>
+                    <div
+                        class="faq-item border border-white/10 rounded-lg overflow-hidden bg-white/5 hover:border-primary/30 transition-colors">
+                        <button
+                            class="faq-btn w-full px-6 py-4 text-left flex justify-between items-center text-white font-medium focus:outline-none"
+                            onclick="toggleFaq(this)">
                             <span>Who can participate in IFT?</span>
                             <span
                                 class="material-icons text-primary faq-icon transition-transform duration-300">add</span>
@@ -1959,22 +2030,15 @@
                             <span
                                 class="material-icons text-primary faq-icon transition-transform duration-300">add</span>
                         </button>
-                        <div class="faq-answer text-gray-400 text-sm px-6">IFT is carried out in multiple levels: Idea
-                            submission &amp; shortlisting, interactive learning sessions, mentorship and refinement,
-                            residential boot camps, and final pitch showcase to judges.</div>
-                    </div>
-                    <div
-                        class="faq-item border border-white/10 rounded-lg overflow-hidden bg-white/5 hover:border-primary/30 transition-colors">
-                        <button
-                            class="faq-btn w-full px-6 py-4 text-left flex justify-between items-center text-white font-medium focus:outline-none"
-                            onclick="toggleFaq(this)">
-                            <span>What happens at the bootcamp and finale?</span>
-                            <span
-                                class="material-icons text-primary faq-icon transition-transform duration-300">add</span>
-                        </button>
-                        <div class="faq-answer text-gray-400 text-sm px-6">Top ideas are invited to a 3-day residential
-                            bootcamp with 1-on-1 mentorship from experts, preparation for the grand finale pitch, and
-                            competition for prizes, recognition, and investor attention.</div>
+                        <div class="faq-answer text-gray-400 text-sm px-6">IFT is carried out in multiple levels of learning and evaluation: 
+                            <ul class="list-disc list-inside mt-2 space-y-1">
+                                <li>Idea submission &amp; shortlisting</li>
+                                <li>Interactive learning sessions</li>
+                                <li>Mentorship and refinement of ideas</li>
+                                <li>Residential boot camps</li>
+                                <li>Final pitch showcase to judges</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <!-- Right Column -->
@@ -1984,13 +2048,35 @@
                         <button
                             class="faq-btn w-full px-6 py-4 text-left flex justify-between items-center text-white font-medium focus:outline-none"
                             onclick="toggleFaq(this)">
+                            <span>What happens at the bootcamp and finale?</span>
+                            <span
+                                class="material-icons text-primary faq-icon transition-transform duration-300">add</span>
+                        </button>
+                        <div class="faq-answer text-gray-400 text-sm px-6">Top ideas of the year are invited to a 3-day residential bootcamp where:
+                            <ul class="list-disc list-inside mt-2 space-y-1">
+                                <li>Students get 1-on-1 mentorship from industry experts & entrepreneurs</li>
+                                <li>They prepare for the grand finale pitch</li>
+                                <li>They compete for prizes, recognition, and investor attention</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div
+                        class="faq-item border border-white/10 rounded-lg overflow-hidden bg-white/5 hover:border-primary/30 transition-colors">
+                        <button
+                            class="faq-btn w-full px-6 py-4 text-left flex justify-between items-center text-white font-medium focus:outline-none"
+                            onclick="toggleFaq(this)">
                             <span>What can participants win?</span>
                             <span
                                 class="material-icons text-primary faq-icon transition-transform duration-300">add</span>
                         </button>
-                        <div class="faq-answer text-gray-400 text-sm px-6">Cash prizes &amp; awards, mentorship and
-                            networking opportunities, possibilities of seed funding, and exposure on national &amp;
-                            international platforms such as NFTE and UNGCNI events.</div>
+                        <div class="faq-answer text-gray-400 text-sm px-6">
+                            <ul class="list-disc list-inside mt-2 space-y-1">
+                                <li>Cash prizes &amp; awards</li>
+                                <li>Mentorship and networking opportunities with expert judges</li>
+                                <li>Possibilities of seed funding for their venture ideas</li>
+                                <li>Exposure on national &amp; international platforms such as NFTE and UNGCNI events</li>
+                            </ul>
+                        </div>
                     </div>
                     <div
                         class="faq-item border border-white/10 rounded-lg overflow-hidden bg-white/5 hover:border-primary/30 transition-colors">
@@ -2010,6 +2096,18 @@
                         <button
                             class="faq-btn w-full px-6 py-4 text-left flex justify-between items-center text-white font-medium focus:outline-none"
                             onclick="toggleFaq(this)">
+                            <span>How do I register or learn more?</span>
+                            <span
+                                class="material-icons text-primary faq-icon transition-transform duration-300">add</span>
+                        </button>
+                        <div class="faq-answer text-gray-400 text-sm px-6">You can register or get more details on the
+                            official platform dedicated to IFT — India's Future Tycoons, via ENpower's website.</div>
+                    </div>
+                    <div
+                        class="faq-item border border-white/10 rounded-lg overflow-hidden bg-white/5 hover:border-primary/30 transition-colors">
+                        <button
+                            class="faq-btn w-full px-6 py-4 text-left flex justify-between items-center text-white font-medium focus:outline-none"
+                            onclick="toggleFaq(this)">
                             <span>How does IFT benefit students beyond prizes?</span>
                             <span
                                 class="material-icons text-primary faq-icon transition-transform duration-300">add</span>
@@ -2017,30 +2115,6 @@
                         <div class="faq-answer text-gray-400 text-sm px-6">IFT helps participants in building life
                             skills like creativity, critical thinking, collaboration, and leadership, and learn to
                             convert problems into solutions.</div>
-                    </div>
-                    <div
-                        class="faq-item border border-white/10 rounded-lg overflow-hidden bg-white/5 hover:border-primary/30 transition-colors">
-                        <button
-                            class="faq-btn w-full px-6 py-4 text-left flex justify-between items-center text-white font-medium focus:outline-none"
-                            onclick="toggleFaq(this)">
-                            <span>How to bring IFT to our school?</span>
-                            <span
-                                class="material-icons text-primary faq-icon transition-transform duration-300">add</span>
-                        </button>
-                        <div class="faq-answer text-gray-400 text-sm px-6">Schools can fill in the form above &amp; our
-                            team will get in touch with your team.</div>
-                    </div>
-                    <div
-                        class="faq-item border border-white/10 rounded-lg overflow-hidden bg-white/5 hover:border-primary/30 transition-colors">
-                        <button
-                            class="faq-btn w-full px-6 py-4 text-left flex justify-between items-center text-white font-medium focus:outline-none"
-                            onclick="toggleFaq(this)">
-                            <span>How do I register or learn more?</span>
-                            <span
-                                class="material-icons text-primary faq-icon transition-transform duration-300">add</span>
-                        </button>
-                        <div class="faq-answer text-gray-400 text-sm px-6">You can register or get more details on the
-                            official platform dedicated to IFT — India's Future Tycoons, via ENpower's website.</div>
                     </div>
                 </div>
             </div>
@@ -2274,7 +2348,7 @@
             const lines = [
                 { el: document.getElementById('type-line-1'), text: "India's First-Ever" },
                 { el: document.getElementById('type-line-2'), text: "National Entrepreneurship" },
-                { el: document.getElementById('type-line-3'), text: "Search & Mentorship" }
+                { el: document.getElementById('type-line-3'), text: "Search & Mentorship Platform" }
             ];
             let lineIndex = 0;
             let charIndex = 0;
