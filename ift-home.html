@@ -59,7 +59,7 @@
         }
 
         html {
-            scroll-behavior: smooth
+            scroll-behavior: auto
         }
 
         body {
@@ -93,7 +93,8 @@
 
         .card-3d:hover {
             transform: translateY(-8px) rotateX(2deg) rotateY(-2deg);
-            box-shadow: 0 25px 60px rgba(123, 45, 142, 0.25)
+            /* box-shadow: 0 25px 60px rgba(123, 45, 142, 0.25) */
+            box-shadow: 0 5px 20px rgba(123, 45, 142, 0.12);
         }
 
         .timeline-line::before {
@@ -473,7 +474,7 @@
             right: -1px;
             bottom: -1px;
             z-index: -1;
-            border-radius: 1rem;
+            border-radius: 15px;
             background: conic-gradient(from var(--glow-angle, 0deg), #7B2D8E 0%, #c06dde 15%, #7B2D8E 30%, #9B4DBA 45%, #7B2D8E 60%, #c06dde 75%, #9B4DBA 90%, #7B2D8E 100%);
             animation: rotateBorderGlow 3s linear infinite;
         }
@@ -486,7 +487,7 @@
             right: -3px;
             bottom: -3px;
             z-index: -1;
-            border-radius: 1rem;
+            border-radius: 15px;
             background: conic-gradient(from var(--glow-angle, 0deg), #7B2D8E 0%, #c06dde 15%, #7B2D8E 30%, #9B4DBA 45%, #7B2D8E 60%, #c06dde 75%, #9B4DBA 90%, #7B2D8E 100%);
             animation: rotateBorderGlow 3s linear infinite, glowPulse 2s ease-in-out infinite;
             filter: blur(8px);
@@ -495,45 +496,45 @@
 
         .video-glow-border .glow-corner {
             position: absolute;
-            width: 150px;
-            height: 4px;
+            width: 60px;
+            height: 2px;
             border-radius: 0;
             background: #9B4DBA;
-            filter: blur(6px);
+            filter: blur(3px);
             opacity: 0;
             z-index: -1;
             animation: cornerGlow 4s ease-in-out infinite;
         }
 
         .video-glow-border .glow-corner:nth-child(1) {
-            top: -4px;
-            left: 20%;
-            width: 60%;
-            height: 4px;
+            top: -2px;
+            left: 30%;
+            width: 40%;
+            height: 2px;
             animation-delay: 0s;
         }
 
         .video-glow-border .glow-corner:nth-child(2) {
-            top: 20%;
-            right: -4px;
-            width: 4px;
-            height: 60%;
+            top: 30%;
+            right: -2px;
+            width: 2px;
+            height: 40%;
             animation-delay: 1s;
         }
 
         .video-glow-border .glow-corner:nth-child(3) {
-            bottom: -4px;
-            left: 20%;
-            width: 60%;
-            height: 4px;
+            bottom: -2px;
+            left: 30%;
+            width: 40%;
+            height: 2px;
             animation-delay: 2s;
         }
 
         .video-glow-border .glow-corner:nth-child(4) {
-            top: 20%;
-            left: -4px;
-            width: 4px;
-            height: 60%;
+            top: 30%;
+            left: -2px;
+            width: 2px;
+            height: 40%;
             animation-delay: 3s;
         }
 
@@ -545,7 +546,7 @@
             }
 
             50% {
-                opacity: 0.5;
+                opacity: 0.1;
             }
         }
 
@@ -553,13 +554,13 @@
 
             0%,
             100% {
-                filter: blur(6px);
+                filter: blur(2px);
                 opacity: 0.3;
             }
 
             50% {
-                filter: blur(10px);
-                opacity: 0.5;
+                filter: blur(2px);
+                opacity: 0.1;
             }
         }
 
@@ -598,7 +599,7 @@
 
         .mentor-card:hover {
             border-color: rgba(123, 45, 142, 0.5);
-            box-shadow: 0 20px 60px rgba(123, 45, 142, 0.3);
+            box-shadow: 0 0px 20px rgba(123, 45, 142, 0.3)
         }
 
         .mentor-avatar {
@@ -919,7 +920,7 @@
                 </div>
                 <!-- Video Card - scales up on scroll -->
                 <div class="mt-16 mb-20" id="hero-video-wrapper">
-                    <div class="video-glow-border relative mx-auto w-full max-w-3xl h-64 md:h-96 rounded-2xl glass-panel group tilt-card"
+                    <div class="video-glow-border relative mx-auto w-full max-w-3xl h-64 md:h-96 glass-panel group tilt-card" style="border-radius:15px;"
                         id="hero-card">
                         <div class="glow-corner"></div>
                         <div class="glow-corner"></div>
@@ -927,14 +928,14 @@
                         <div class="glow-corner"></div>
                         <!-- Video Player (hidden by default) -->
                         <video id="hero-video-player"
-                            class="absolute inset-0 w-full h-full z-[2] opacity-100 pointer-events-none object-cover"
+                            class="absolute inset-0 w-full h-full z-[2] opacity-100 pointer-events-none object-cover" style="border-radius: 15px;"
                             src="assets/IFT FINAL PROMO SEASON 4.mp4" preload="auto" playsinline></video>
                         <!-- Poster/Overlay -->
                         <div class="absolute inset-0 flex items-center justify-center z-10" id="hero-video-poster"
                             style="background: radial-gradient(ellipse at center, rgba(123,45,142,0.2) 0%, rgba(90,29,107,0.35) 40%, rgba(10,10,10,0.65) 100%);">
                             <div class="text-center">
-                                <div class="w-16 h-16 mx-auto bg-primary rounded-full flex items-center justify-center glow-purple-sm group-hover:scale-110 transition-transform cursor-pointer shadow-lg"
-                                    id="hero-play-btn">
+                                <div class="w-16 h-16 mx-auto rounded-full flex items-center justify-center glow-purple-sm group-hover:scale-110 transition-transform cursor-pointer shadow-lg"
+                                    id="hero-play-btn" style="background-color: rgba(250, 206, 72, 1);">
                                     <span class="material-icons text-3xl text-bg-dark pl-0.5">play_arrow</span>
                                 </div>
                                 <p class="text-white text-sm mt-4 font-semibold">Watch the IFT Story</p>
@@ -1066,7 +1067,7 @@
                         students build solutions, gain innovation confidence, earn recognition, access funding, and
                         unlock global opportunities.
                     </p>
-                    <div class="flex flex-wrap items-center gap-4 text-sm font-semibold text-primary">
+                    <div class="flex flex-wrap items-center gap-4 text-sm font-semibold [color:#f5c646]">
                         <span class="flex items-center gap-2"><span class="material-icons text-base">check_circle</span>
                             Skill Development</span>
                         <span class="flex items-center gap-2"><span class="material-icons text-base">check_circle</span>
@@ -1076,19 +1077,19 @@
                     </div>
                 </div>
                 <div class="relative about-visual">
-                    <div class="absolute -inset-4 bg-primary/20 rounded-2xl blur-2xl"></div>
+                    <div class="absolute -inset-4 bg-primary/10 rounded-2xl blur-2xl"></div>
                     <div
-                        class="relative rounded-2xl overflow-hidden shadow-2xl border border-primary/20 bg-bg-card aspect-video group cursor-pointer">
+                        class="relative overflow-hidden border border-primary/20 bg-bg-card aspect-video group cursor-pointer" style="border-radius:15px;">
                         <div
                             class="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent/5 to-bg-dark flex items-center justify-center">
                             <div
-                                class="w-20 h-20 bg-primary/90 rounded-full flex items-center justify-center glow-purple-sm group-hover:scale-110 transition-transform">
+                                class="w-20 h-20 [background-color:#f5c646] rounded-full flex items-center justify-center glow-purple-sm group-hover:scale-110 transition-transform">
                                 <span class="material-icons text-4xl text-bg-dark pl-1">play_arrow</span>
                             </div>
                         </div>
                         <div class="absolute bottom-4 left-4">
                             <span
-                                class="text-xs font-bold bg-bg-dark/70 px-3 py-1.5 rounded-lg text-primary border border-primary/20">IFT
+                                class="text-xs font-bold bg-bg-dark/70 px-3 py-1.5 rounded-lg [color:#f5c646] border border-primary/20">IFT
                                 PROMO VIDEO</span>
                         </div>
                     </div>
@@ -1123,7 +1124,7 @@
                             solutions using design thinking methodology.</p>
                     </div>
                     <div class="text-right"><span
-                            class="text-5xl font-black text-white/5 group-hover:text-primary/15 transition-colors">01</span>
+                            class="text-5xl font-black text-white/5 group-hover:[color:#9b4dba] transition-colors">01</span>
                     </div>
                 </div>
                 <div
@@ -1142,7 +1143,7 @@
                             refined business model with 1-on-1 sessions.</p>
                     </div>
                     <div class="text-right"><span
-                            class="text-5xl font-black text-white/5 group-hover:text-primary/15 transition-colors">02</span>
+                            class="text-5xl font-black text-white/5 group-hover:[color:#9b4dba] transition-colors">02</span>
                     </div>
                 </div>
                 <div
@@ -1161,7 +1162,7 @@
                             real startup tools with pitching mastery.</p>
                     </div>
                     <div class="text-right"><span
-                            class="text-5xl font-black text-white/5 group-hover:text-primary/15 transition-colors">03</span>
+                            class="text-5xl font-black text-white/5 group-hover:[color:#9b4dba] transition-colors">03</span>
                     </div>
                 </div>
                 <div
@@ -1180,7 +1181,7 @@
                             panel of VCs and angel investors.</p>
                     </div>
                     <div class="text-right"><span
-                            class="text-5xl font-black text-white/5 group-hover:text-primary/15 transition-colors">04</span>
+                            class="text-5xl font-black text-white/5 group-hover:[color:#9b4dba] transition-colors">04</span>
                     </div>
                 </div>
                 <div
@@ -1199,7 +1200,7 @@
                             industry leaders who shape your journey.</p>
                     </div>
                     <div class="text-right"><span
-                            class="text-5xl font-black text-white/5 group-hover:text-primary/15 transition-colors">05</span>
+                            class="text-5xl font-black text-white/5 group-hover:[color:#9b4dba] transition-colors">05</span>
                     </div>
                 </div>
                 <div
@@ -1218,7 +1219,7 @@
                             national & international platforms like NFTE and UNGCNI.</p>
                     </div>
                     <div class="text-right"><span
-                            class="text-5xl font-black text-white/5 group-hover:text-primary/15 transition-colors">06</span>
+                            class="text-5xl font-black text-white/5 group-hover:[color:#9b4dba] transition-colors">06</span>
                     </div>
                 </div>
             </div>
@@ -1240,11 +1241,11 @@
                         class="w-full md:w-5/12 p-6 glass-panel rounded-xl text-right md:pr-8 hover:bg-primary/5 transition-colors hover:border-primary/20">
                         <h3 class="text-xl font-bold text-white">Registration</h3>
                         <p class="text-gray-400 text-sm mt-2">School-led registrations</p>
-                        <span class="text-primary text-xs font-bold mt-2 block tracking-widest">PHASE 1</span>
+                        <span class="[color:#f5c646] text-xs font-bold mt-2 block tracking-widest">PHASE 1</span>
                     </div>
                     <div class="timeline-dot absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full border-2 border-primary/30 z-20 flex items-center justify-center"
-                        style="background:#0A0A0A;">
-                        <span class="timeline-dot-num text-gray-500 font-black text-xs">1</span>
+                        style="background:#0a0a0a;">
+                        <span class="timeline-dot-num font-black text-xs" style="color:#f5c646;">1</span>
                     </div>
                     <div class="w-full md:w-5/12 hidden md:block"></div>
                 </div>
@@ -1253,27 +1254,28 @@
                     <div class="w-full md:w-5/12 hidden md:block"></div>
                     <div class="timeline-dot absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full border-2 border-primary/30 z-20 flex items-center justify-center"
                         style="background:#0A0A0A;">
-                        <span class="timeline-dot-num text-gray-500 font-black text-xs">2</span>
+                        <span class="timeline-dot-num font-black text-xs" style="color:#f5c646;">2</span>
                     </div>
                     <div
                         class="w-full md:w-5/12 p-6 glass-panel rounded-xl text-left md:pl-8 hover:bg-primary/5 transition-colors hover:border-primary/20">
                         <h3 class="text-xl font-bold text-white">Idea Submission</h3>
                         <p class="text-gray-400 text-sm mt-2">Problem-first approach</p>
-                        <span class="text-primary text-xs font-bold mt-2 block tracking-widest">PHASE 2</span>
+                        <span class="[color:#f5c646] text-xs font-bold mt-2 block tracking-widest">PHASE 2</span>
                     </div>
                 </div>
                 <!-- Step 3 - Top 400 -->
+
                 <div
                     class="relative flex items-center justify-between md:flex-row flex-col-reverse group timeline-item">
                     <div
                         class="w-full md:w-5/12 p-6 glass-panel rounded-xl text-right md:pr-8 hover:bg-primary/5 transition-colors hover:border-primary/20">
                         <h3 class="text-xl font-bold text-white">Top 400 Ideas Showcase</h3>
                         <p class="text-gray-400 text-sm mt-2">Zonal-level mentoring &amp; showcases</p>
-                        <span class="text-primary text-xs font-bold mt-2 block tracking-widest">PHASE 3</span>
+                        <span class="[color:#f5c646] text-xs font-bold mt-2 block tracking-widest">PHASE 3</span>
                     </div>
                     <div class="timeline-dot absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full border-2 border-primary/30 z-20 flex items-center justify-center"
                         style="background:#0A0A0A;">
-                        <span class="timeline-dot-num text-gray-500 font-black text-xs">3</span>
+                        <span class="timeline-dot-num font-black text-xs" style="color:#f5c646;">3</span>
                     </div>
                     <div class="w-full md:w-5/12 hidden md:block"></div>
                 </div>
@@ -1282,13 +1284,13 @@
                     <div class="w-full md:w-5/12 hidden md:block"></div>
                     <div class="timeline-dot absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full border-2 border-primary/30 z-20 flex items-center justify-center"
                         style="background:#0A0A0A;">
-                        <span class="timeline-dot-num text-gray-500 font-black text-xs">4</span>
+                        <span class="timeline-dot-num font-black text-xs" style="color:#f5c646;">4</span>
                     </div>
                     <div
                         class="w-full md:w-5/12 p-6 glass-panel rounded-xl text-left md:pl-8 hover:bg-primary/5 transition-colors hover:border-primary/20">
                         <h3 class="text-xl font-bold text-white">Top 100 Ideas Showcase</h3>
                         <p class="text-gray-400 text-sm mt-2">National-level mentoring &amp; showcases</p>
-                        <span class="text-primary text-xs font-bold mt-2 block tracking-widest">PHASE 4</span>
+                        <span class="[color:#f5c646] text-xs font-bold mt-2 block tracking-widest">PHASE 4</span>
                     </div>
                 </div>
                 <!-- Step 5 - Hall of Fame -->
@@ -1298,11 +1300,11 @@
                         class="w-full md:w-5/12 p-6 glass-panel rounded-xl text-right md:pr-8 hover:bg-primary/5 transition-colors hover:border-primary/20">
                         <h3 class="text-xl font-bold text-white">IFT Hall of Fame</h3>
                         <p class="text-gray-400 text-sm mt-2">Top 24 ideas nationally recognized</p>
-                        <span class="text-primary text-xs font-bold mt-2 block tracking-widest">PHASE 5</span>
+                        <span class="[color:#f5c646] text-xs font-bold mt-2 block tracking-widest">PHASE 5</span>
                     </div>
                     <div class="timeline-dot absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full border-2 border-primary/30 z-20 flex items-center justify-center"
                         style="background:#0A0A0A;">
-                        <span class="timeline-dot-num text-gray-500 font-black text-xs">5</span>
+                        <span class="timeline-dot-num font-black text-xs" style="color:#f5c646;">5</span>
                     </div>
                     <div class="w-full md:w-5/12 hidden md:block"></div>
                 </div>
@@ -1311,14 +1313,14 @@
                     <div class="w-full md:w-5/12 hidden md:block"></div>
                     <div class="timeline-dot absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full border-2 border-primary/30 z-20 flex items-center justify-center"
                         style="background:#0A0A0A;">
-                        <span class="timeline-dot-num text-gray-500 font-black text-xs">6</span>
+                        <span class="timeline-dot-num font-black text-xs" style="color:#f5c646;">6</span>
                     </div>
                     <div
                         class="w-full md:w-5/12 p-6 glass-panel rounded-xl text-left md:pl-8 hover:bg-primary/5 transition-colors hover:border-primary/20">
                         <h3 class="text-xl font-bold text-white">Residential Founder's Bootcamp</h3>
                         <p class="text-gray-400 text-sm mt-2">3 days | Real startup tools</p>
                         <p class="text-gray-400 text-sm mt-1">BMC | MVP | GTM | Pitching</p>
-                        <span class="text-primary text-xs font-bold mt-2 block tracking-widest">PHASE 6</span>
+                        <span class="[color:#f5c646] text-xs font-bold mt-2 block tracking-widest">PHASE 6</span>
                     </div>
                 </div>
                 <!-- Step 7 - Grand National Showcase -->
@@ -1328,26 +1330,26 @@
                         class="w-full md:w-5/12 p-6 glass-panel rounded-xl text-right md:pr-8 hover:bg-primary/5 transition-colors hover:border-primary/20">
                         <h3 class="text-xl font-bold text-white">Grand National Showcase</h3>
                         <p class="text-gray-400 text-sm mt-2">Live pitch | Seed funding | Jury</p>
-                        <span class="text-primary text-xs font-bold mt-2 block tracking-widest">PHASE 7</span>
+                        <span class="[color:#f5c646] text-xs font-bold mt-2 block tracking-widest">PHASE 7</span>
                     </div>
                     <div class="timeline-dot absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full border-2 border-primary/30 z-20 flex items-center justify-center"
                         style="background:#0A0A0A;">
-                        <span class="timeline-dot-num text-gray-500 font-black text-xs">7</span>
+                        <span class="timeline-dot-num font-black text-xs" style="color:#f5c646;">7</span>
                     </div>
                     <div class="w-full md:w-5/12 hidden md:block"></div>
                 </div>
                 <!-- Step 8 - National Recognition (Finale) -->
                 <div class="relative flex items-center justify-between md:flex-row flex-col group timeline-item">
                     <div class="w-full md:w-5/12 hidden md:block"></div>
-                    <div class="timeline-dot absolute left-1/2 transform -translate-x-1/2 w-14 h-14 rounded-full border-2 border-primary/30 z-20 flex items-center justify-center"
-                        style="background:#0A0A0A;">
-                        <span class="timeline-dot-num material-icons text-gray-500 text-xl">emoji_events</span>
+                    <div class="timeline-dot absolute left-1/2 transform -translate-x-1/2 w-14 h-14 rounded-full border-2 z-20 flex items-center justify-center"
+                        style="background:#0A0A0A;border-color:rgba(245,198,70,0.6);">
+                        <span class="timeline-dot-num material-icons text-xl" style="color:#f5c646;">emoji_events</span>
                     </div>
                     <div
-                        class="w-full md:w-5/12 p-6 bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/30 rounded-xl text-left md:pl-8">
+                        class="w-full md:w-5/12 p-6 rounded-xl text-left md:pl-8 border" style="background:linear-gradient(135deg,rgba(245,198,70,0.12) 0%,rgba(245,198,70,0.04) 100%);border-color:rgba(245,198,70,0.3);">
                         <h3 class="text-xl font-bold text-white">National Recognition</h3>
                         <p class="text-gray-400 text-sm mt-2">Awards | Media | Global opportunities</p>
-                        <span class="text-primary text-xs font-bold mt-2 block tracking-widest">FINALE</span>
+                        <span class="text-xs font-bold mt-2 block tracking-widest" style="color:#f5c646;">FINALE</span>
                     </div>
                 </div>
             </div>
@@ -1531,15 +1533,15 @@
 
                         <!-- Card 2 — Future Ready -->
                         <div class="absolute inset-0 rounded-2xl overflow-hidden opacity-0"
-                            style="z-index:20;transform:translateX(80px);background:#0a1628;border:1px solid rgba(59,130,246,0.35);"
+                            style="z-index:20;transform:translateX(80px);background:#4f3119;border:1px solid rgba(59,130,246,0.35);"
                             id="card-2">
-                            <div style="height:3px;background:linear-gradient(90deg,#2563eb,#60a5fa);"></div>
+                            <div style="height:3px;background:#c08a5e;"></div>
                             <div class="flex flex-col justify-center p-7 h-full">
                                 <div class="w-9 h-9 rounded-lg overflow-hidden mb-4">
                                     <img src="assets/gifs/mentorship.gif" alt="Mentorship"
                                         style="width:36px;height:36px;object-fit:cover;" />
                                 </div>
-                                <span class="text-blue-400 text-xs font-bold uppercase tracking-widest mb-1">21st
+                                <span class="[color:#c08a5e] text-xs font-bold uppercase tracking-widest mb-1">21st
                                     Century</span>
                                 <h4 class="font-bold text-white text-xl leading-tight mb-3">Future Ready</h4>
                                 <p class="text-gray-300 text-sm leading-relaxed">Design thinking, coding &amp;
@@ -2128,7 +2130,9 @@
             <a href="#" class="flex items-center">
                 <img src="assets/IFT_logo.png" alt="IFT - India's Future Tycoons" class="h-12" />
             </a>
-            <div class="text-gray-500 text-sm">© 2026 ENpower. All rights reserved.</div>
+            <div class="text-gray-500 text-sm">© 2026 ENpower. All rights reserved.<br />
+                <span class="text-gray-500 text-sm">Designed & Developed By Techinfinity</span>
+            </div>
             <div class="flex space-x-6">
                 <a class="text-gray-500 hover:text-primary transition-colors" href="#"><span
                         class="material-icons">language</span></a>
@@ -2337,6 +2341,54 @@
             link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
         });
 
+        // ===== SMOOTH NAV SCROLL =====
+        const NAVBAR_HEIGHT = 88;
+
+        // For sections after GSAP-pinned blocks, getBoundingClientRect is wrong
+        // while pinned. Instead we snapshot each section's scroll position
+        // using ScrollTrigger's own coordinate system after all pins are set up.
+        const sectionScrollMap = {};
+
+        function buildScrollMap() {
+            sectionScrollMap['about']        = getScrollPos('about');
+            sectionScrollMap['journey']      = getScrollPos('journey');
+            sectionScrollMap['schools']      = getScrollPos('schools');
+            sectionScrollMap['mentors']      = getScrollPos('mentors');
+            sectionScrollMap['hall-of-fame'] = getScrollPos('hall-of-fame');
+        }
+
+        function getScrollPos(id) {
+            const el = document.getElementById(id);
+            if (!el) return 0;
+            // ScrollTrigger.getAll() gives us the start scroll value for each
+            // pinned trigger — the section's rect at rest is then correctly mapped.
+            // We temporarily scroll to 0, read offsetTop, then restore.
+            // Simpler: use el.getBoundingClientRect().top + window.scrollY,
+            // but call after ScrollTrigger.refresh() so all pins are recalculated.
+            ScrollTrigger.refresh();
+            return el.getBoundingClientRect().top + window.scrollY;
+        }
+
+        // Build after GSAP pins have initialised (500ms safety margin)
+        setTimeout(buildScrollMap, 800);
+        window.addEventListener('resize', () => setTimeout(buildScrollMap, 300));
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (!href || href === '#') return;
+                const id = href.replace('#', '');
+                const target = document.querySelector(href);
+                if (!target) return;
+                e.preventDefault();
+
+                // Rebuild map at click time so position is always fresh
+                ScrollTrigger.refresh();
+                const docTop = target.getBoundingClientRect().top + window.scrollY;
+                window.scrollTo({ top: docTop - NAVBAR_HEIGHT, behavior: 'smooth' });
+            });
+        });
+
         // ===== HERO SCROLL-TO-VIDEO ANIMATION =====
         const heroTextContent = document.getElementById('hero-text-content');
         const heroVideoWrapper = document.getElementById('hero-video-wrapper');
@@ -2394,26 +2446,26 @@
                 trigger: heroPinWrapper,
                 start: 'top top',
                 end: '+=150%',
-                scrub: 0.5,
+                scrub: 1.2,
             }
         });
 
         heroScrollTl
             // Phase 1: Fade out text content
-            .to(heroTextContent, { opacity: 0, y: -60, duration: 0.4, ease: 'power2.in' })
+            .to(heroTextContent, { opacity: 0, y: -40, duration: 0.5, ease: 'power2.inOut' })
             // Phase 2: Slide video up to center and scale
             .to(heroVideoWrapper, {
                 y: '-60vh',
-                duration: 0.6,
+                duration: 0.7,
                 ease: 'power2.inOut'
-            }, '-=0.2')
+            }, '-=0.3')
             .to(heroCard, {
                 scale: 1.6,
                 borderRadius: 0,
-                duration: 0.6,
+                duration: 0.7,
                 ease: 'power2.inOut'
             }, '<')
-            .to('#hero-card-caption', { opacity: 0, duration: 0.2 }, '<');
+            .to('#hero-card-caption', { opacity: 0, duration: 0.3 }, '<');
 
 
 
@@ -2507,12 +2559,12 @@
 
         // ===== ABOUT SECTION =====
         gsap.from('.about-text', {
-            scrollTrigger: { trigger: '.about-text', start: 'top 80%', toggleActions: 'play none none none' },
-            x: -60, opacity: 0, duration: 1, ease: 'power3.out'
+            scrollTrigger: { trigger: '.about-text', start: 'top 75%', toggleActions: 'play none none none' },
+            x: -40, opacity: 0, duration: 1.2, ease: 'power3.out'
         });
         gsap.from('.about-visual', {
-            scrollTrigger: { trigger: '.about-visual', start: 'top 80%', toggleActions: 'play none none none' },
-            x: 60, opacity: 0, duration: 1, ease: 'power3.out'
+            scrollTrigger: { trigger: '.about-visual', start: 'top 75%', toggleActions: 'play none none none' },
+            x: 40, opacity: 0, duration: 1.2, ease: 'power3.out'
         });
 
         // ===== EXPERIENCE HORIZONTAL SCROLL =====
@@ -2537,7 +2589,7 @@
             // Cards fade in
             gsap.from('.exp-card', {
                 scrollTrigger: { trigger: '#experience-wrapper', start: 'top 75%', toggleActions: 'play none none none' },
-                y: 50, opacity: 0, duration: 0.8, stagger: 0.12, ease: 'power3.out'
+                y: 30, opacity: 0, duration: 1, stagger: 0.1, ease: 'power3.out'
             });
         }
 
@@ -2558,9 +2610,9 @@
         if (timelineLine && timelineFill) {
             ScrollTrigger.create({
                 trigger: timelineLine,
-                start: 'top 80%',
-                end: 'bottom 20%',
-                scrub: true,
+                start: 'top 75%',
+                end: 'bottom 25%',
+                scrub: 1.5,
                 onUpdate: (self) => {
                     const progress = self.progress;
                     timelineFill.style.height = (progress * 100) + '%';
@@ -2584,7 +2636,7 @@
                                 onComplete: () => gsap.to(entry.dot, { scale: 1, duration: 0.2 })
                             });
                             if (entry.numSpan) {
-                                gsap.to(entry.numSpan, { color: '#0A0A0A', duration: 0.3 });
+                                gsap.to(entry.numSpan, { color: '#f5c646', duration: 0.3 });
                             }
                         } else if (fillHeight < itemCenter && entry.filled) {
                             entry.filled = false;
@@ -2597,7 +2649,7 @@
                                 ease: 'power2.out'
                             });
                             if (entry.numSpan) {
-                                gsap.to(entry.numSpan, { color: '#6b7280', duration: 0.3 });
+                                gsap.to(entry.numSpan, { color: '#f5c646', duration: 0.3 });
                             }
                         }
                     });
@@ -2608,7 +2660,7 @@
         // ===== HALL OF FAME CARDS =====
         gsap.from('.hall-card', {
             scrollTrigger: { trigger: '#hall-of-fame', start: 'top 75%', toggleActions: 'play none none none' },
-            y: 60, opacity: 0, scale: 0.95, duration: 0.8, stagger: 0.15, ease: 'power3.out'
+            y: 40, opacity: 0, scale: 0.97, duration: 1, stagger: 0.1, ease: 'power3.out'
         });
 
         // ===== SCHOOL SECTION (handled inline by gsap-schools-setup script) =====
@@ -2617,23 +2669,23 @@
         gsap.from('.mentor-card', {
             scrollTrigger: {
                 trigger: '#mentors',
-                start: 'top 80%',
+                start: 'top 78%',
                 toggleActions: 'play none none none',
                 once: true
             },
-            y: 40,
+            y: 30,
             opacity: 0,
-            scale: 0.9,
-            duration: 0.7,
-            stagger: 0.12,
-            ease: 'back.out(1.5)',
+            scale: 0.95,
+            duration: 1,
+            stagger: 0.1,
+            ease: 'power3.out',
             clearProps: 'all'
         });
 
         // ===== TESTIMONIAL =====
         gsap.from('.testimonial-card', {
-            scrollTrigger: { trigger: '.testimonial-card', start: 'top 85%', toggleActions: 'play none none none' },
-            y: 40, opacity: 0, duration: 1, ease: 'power3.out'
+            scrollTrigger: { trigger: '.testimonial-card', start: 'top 80%', toggleActions: 'play none none none' },
+            y: 25, opacity: 0, duration: 1.2, ease: 'power3.out'
         });
 
         // ===== FAQ ACCORDION =====
@@ -2656,7 +2708,7 @@
         // FAQ items scroll animation
         gsap.from('.faq-item', {
             scrollTrigger: { trigger: '#faq', start: 'top 75%', toggleActions: 'play none none none' },
-            y: 30, opacity: 0, duration: 0.5, stagger: 0.08, ease: 'power3.out'
+            y: 20, opacity: 0, duration: 0.8, stagger: 0.07, ease: 'power3.out'
         });
 
         // ===== CONTACT TABS =====
@@ -2686,8 +2738,8 @@
         document.querySelectorAll('section h2').forEach(h2 => {
             if (h2.closest('#impact-section')) return;
             gsap.from(h2, {
-                scrollTrigger: { trigger: h2, start: 'top 85%', toggleActions: 'play none none none' },
-                y: 30, opacity: 0, duration: 0.8, ease: 'power3.out'
+                scrollTrigger: { trigger: h2, start: 'top 80%', toggleActions: 'play none none none' },
+                y: 20, opacity: 0, duration: 1, ease: 'power3.out'
             });
         });
 
