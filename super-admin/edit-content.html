@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Edit Content | Super Admin | ENpower IFT</title>
+
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --primary: #5E2A97;
+            --primary-light: #E8D4F0;
+            --background-light: #F7F7F7;
+            --surface-light: #FFFFFF;
+            --border-light: #EEEEEE;
+            --text-dark: #222222;
+            --text-muted: #666666;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-light);
+            color: var(--text-dark);
+            overflow: hidden;
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+
+        .main-container { display: flex; height: 100vh; width: 100%; }
+        #sidebar-container { flex-shrink: 0; }
+
+        .main-content {
+            flex: 1; display: flex; flex-direction: column;
+            height: 100%; overflow-y: auto;
+        }
+
+        .content-wrapper {
+            flex: 1; padding: 32px;
+            max-width: 1200px; margin: 0 auto; width: 100%;
+        }
+
+        /* Page Header */
+        .page-header {
+            margin-bottom: 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .page-header h1 { font-size: 1.75rem; font-weight: 700; margin-bottom: 6px; }
+
+        .breadcrumb {
+            font-size: 0.875rem; color: var(--text-muted);
+            background: none; padding: 0; margin: 0;
+        }
+
+        .breadcrumb-item a { color: var(--text-muted); text-decoration: none; }
+        .breadcrumb-item a:hover { color: var(--primary); }
+        .breadcrumb-item.active { color: var(--text-dark); }
+
+        /* Last modified banner */
+        .edit-banner {
+            background: rgba(94,42,151,0.05);
+            border: 1px solid rgba(94,42,151,0.15);
+            border-radius: 10px;
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 24px;
+            font-size: 0.8125rem;
+            color: var(--text-muted);
+        }
+
+        .edit-banner .material-symbols-outlined { font-size: 18px; color: var(--primary); }
+        .edit-banner strong { color: var(--text-dark); }
+
+        /* Cards */
+        .form-card {
+            background: var(--surface-light);
+            border-radius: 12px;
+            padding: 28px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+            border: 1px solid var(--border-light);
+            margin-bottom: 20px;
+        }
+
+        .form-card-title {
+            font-size: 0.8125rem; font-weight: 700;
+            color: var(--text-muted); text-transform: uppercase;
+            letter-spacing: 0.06em; margin-bottom: 20px;
+            display: flex; align-items: center; gap: 8px;
+        }
+
+        .form-card-title .material-symbols-outlined { font-size: 18px; color: var(--primary); }
+
+        /* Form Controls */
+        .field-label {
+            font-size: 0.875rem; font-weight: 600;
+            color: var(--text-dark); margin-bottom: 6px; display: block;
+        }
+
+        .field-hint { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
+
+        .form-input {
+            width: 100%; padding: 10px 14px;
+            border: 1px solid var(--border-light);
+            border-radius: 8px; font-size: 0.875rem;
+            font-family: 'Poppins', sans-serif;
+            background: #f8fafc; color: var(--text-dark);
+            transition: all 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none; border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(94,42,151,0.1);
+            background: #fff;
+        }
+
+        .form-input::placeholder { color: #aaa; }
+
+        textarea.form-input {
+            resize: vertical; min-height: 260px; line-height: 1.6;
+        }
+
+        select.form-input { cursor: pointer; }
+
+        /* Content Type badge (read-only display) */
+        .type-badge {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 12px 16px; border-radius: 10px;
+            border: 2px solid; font-size: 0.875rem; font-weight: 600;
+        }
+
+        .type-badge.announcement { border-color: #bfdbfe; background: rgba(59,130,246,0.06); color: #2563eb; }
+        .type-badge.resource     { border-color: rgba(94,42,151,0.3); background: rgba(94,42,151,0.06); color: var(--primary); }
+        .type-badge.faq          { border-color: #fde68a; background: rgba(245,158,11,0.06); color: #d97706; }
+        .type-badge.banner       { border-color: #99f6e4; background: rgba(20,184,166,0.06); color: #0f766e; }
+
+        .type-badge .type-icon {
+            width: 32px; height: 32px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .type-badge.announcement .type-icon { background: rgba(59,130,246,0.1); color: #3b82f6; }
+        .type-badge.resource     .type-icon { background: rgba(94,42,151,0.1); color: var(--primary); }
+        .type-badge.faq          .type-icon { background: rgba(245,158,11,0.1); color: #f59e0b; }
+        .type-badge.banner       .type-icon { background: rgba(20,184,166,0.1); color: #14b8a6; }
+
+        /* Toolbar */
+        .editor-toolbar {
+            display: flex; gap: 4px; padding: 8px 10px;
+            background: #f8fafc; border: 1px solid var(--border-light);
+            border-bottom: none; border-radius: 8px 8px 0 0;
+        }
+
+        .editor-toolbar button {
+            width: 32px; height: 32px;
+            border: 1px solid var(--border-light); background: #fff;
+            border-radius: 6px; font-family: 'Poppins', sans-serif;
+            font-size: 0.8125rem; font-weight: 700; cursor: pointer;
+            color: var(--text-muted); display: flex;
+            align-items: center; justify-content: center; transition: all 0.2s;
+        }
+
+        .editor-toolbar button:hover { border-color: var(--primary); color: var(--primary); }
+        .editor-toolbar .divider { width: 1px; background: var(--border-light); margin: 4px; }
+
+        textarea#contentBody { border-radius: 0 0 8px 8px; }
+
+        /* Status Chips */
+        .status-options { display: flex; gap: 8px; flex-wrap: wrap; }
+
+        .status-chip {
+            padding: 7px 16px; border-radius: 8px;
+            border: 2px solid var(--border-light);
+            font-size: 0.8125rem; font-weight: 600; cursor: pointer;
+            transition: all 0.2s; display: flex; align-items: center; gap: 6px;
+            background: #f8fafc;
+        }
+
+        .status-chip input[type="radio"] { display: none; }
+        .status-chip:hover { border-color: var(--primary); }
+        .status-chip.selected-draft     { border-color: #64748b; background: #f1f5f9; color: #64748b; }
+        .status-chip.selected-published { border-color: #16a34a; background: #dcfce7; color: #16a34a; }
+        .status-chip.selected-scheduled { border-color: #d97706; background: #fef3c7; color: #d97706; }
+
+        #scheduleFields { display: none; margin-top: 14px; }
+
+        /* Revision history list */
+        .revision-item {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 0; border-bottom: 1px solid #f1f5f9;
+            font-size: 0.8125rem;
+        }
+
+        .revision-item:last-child { border-bottom: none; }
+        .revision-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); margin-right: 10px; flex-shrink: 0; }
+        .revision-label { color: var(--text-dark); font-weight: 500; }
+        .revision-meta  { color: var(--text-muted); font-size: 0.75rem; }
+        .revision-restore {
+            background: none; border: none; color: var(--primary);
+            font-size: 0.75rem; font-weight: 600; cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .revision-restore:hover { text-decoration: underline; }
+
+        /* Image Upload Zone */
+        .upload-zone {
+            border: 2px dashed var(--border-light); border-radius: 10px;
+            padding: 28px; text-align: center; cursor: pointer;
+            transition: all 0.2s; background: #f8fafc;
+        }
+
+        .upload-zone:hover { border-color: var(--primary); background: rgba(94,42,151,0.03); }
+        .upload-zone .material-symbols-outlined { font-size: 36px; color: #d1d5db; margin-bottom: 8px; display: block; }
+        .upload-zone p { font-size: 0.875rem; color: var(--text-muted); margin: 0; }
+        .upload-zone span { font-size: 0.75rem; color: #aaa; }
+        .upload-zone input[type="file"] { display: none; }
+
+        #imagePreview { margin-top: 12px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-light); }
+        #imagePreview img { width: 100%; max-height: 180px; object-fit: cover; display: block; }
+
+        /* Char counter */
+        .char-counter { font-size: 0.75rem; color: var(--text-muted); text-align: right; margin-top: 4px; }
+        .char-counter.warn { color: #d97706; }
+        .char-counter.over { color: #dc2626; }
+
+        /* Buttons */
+        .btn-primary-custom {
+            background: var(--primary); color: #fff; border: none;
+            padding: 11px 24px; border-radius: 8px;
+            font-size: 0.875rem; font-weight: 600;
+            font-family: 'Poppins', sans-serif; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;
+        }
+
+        .btn-primary-custom:hover { background: #4a1f7a; }
+
+        .btn-outline-custom {
+            background: #fff; color: var(--text-dark);
+            border: 1px solid var(--border-light); padding: 11px 20px;
+            border-radius: 8px; font-size: 0.875rem; font-weight: 500;
+            font-family: 'Poppins', sans-serif; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;
+        }
+
+        .btn-outline-custom:hover { border-color: var(--primary); color: var(--primary); }
+
+        .btn-danger-outline {
+            background: #fff; color: #dc2626;
+            border: 1px solid #fecaca; padding: 11px 20px;
+            border-radius: 8px; font-size: 0.875rem; font-weight: 500;
+            font-family: 'Poppins', sans-serif; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;
+        }
+
+        .btn-danger-outline:hover { background: #fee2e2; }
+
+        /* Sticky Action Bar */
+        .action-bar {
+            position: sticky; bottom: 0; background: #fff;
+            border-top: 1px solid var(--border-light);
+            padding: 16px 32px; display: flex;
+            align-items: center; justify-content: space-between;
+            gap: 12px; flex-wrap: wrap; z-index: 50;
+        }
+
+        /* Unsaved changes indicator */
+        .unsaved-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: #f59e0b; display: inline-block; margin-right: 6px;
+        }
+
+        /* Toast */
+        .toast-container {
+            position: fixed; bottom: 80px; right: 24px;
+            z-index: 2000; display: flex; flex-direction: column; gap: 8px;
+        }
+
+        .toast {
+            background: #1e293b; color: #fff;
+            padding: 12px 18px; border-radius: 10px;
+            font-size: 0.8125rem; font-weight: 500;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            display: flex; align-items: center; gap: 10px;
+            animation: toastIn 0.3s ease;
+        }
+
+        .toast.success { background: #166534; }
+        .toast.warning { background: #92400e; }
+        .toast.danger  { background: #991b1b; }
+
+        @keyframes toastIn {
+            from { transform: translateX(80px); opacity: 0; }
+            to   { transform: translateX(0); opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper { padding: 16px; }
+        }
+    </style>
+</head>
+
+<body>
+<div class="main-container">
+    <div id="sidebar-container"></div>
+
+    <div class="main-content">
+        <div id="header-container"></div>
+
+        <div class="content-wrapper">
+
+            <!-- Page Header -->
+            <div class="page-header">
+                <div>
+                    <h1>Edit Content</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="dashboard.html">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="content.html">Content</a></li>
+                            <li class="breadcrumb-item active" id="breadcrumbTitle">Edit</li>
+                        </ol>
+                    </nav>
+                </div>
+                <a href="content.html" class="btn-outline-custom">
+                    <span class="material-symbols-outlined" style="font-size:16px;">arrow_back</span>
+                    Back to Content
+                </a>
+            </div>
+
+            <!-- Edit Banner -->
+            <div class="edit-banner">
+                <span class="material-symbols-outlined">edit_note</span>
+                Editing: <strong id="bannerTitle">Loading...</strong>
+                &nbsp;·&nbsp; Last modified: <strong id="bannerDate">—</strong>
+                &nbsp;·&nbsp; ID: <strong id="bannerId" style="font-family:monospace;">—</strong>
+            </div>
+
+            <div class="row g-4">
+
+                <!-- Left Column -->
+                <div class="col-lg-8">
+
+                    <!-- Content Type (read-only) -->
+                    <div class="form-card">
+                        <div class="form-card-title">
+                            <span class="material-symbols-outlined">category</span>
+                            Content Type
+                        </div>
+                        <div id="typeBadgeContainer"></div>
+                        <p class="field-hint mt-2">Content type cannot be changed after creation.</p>
+                    </div>
+
+                    <!-- Basic Info -->
+                    <div class="form-card">
+                        <div class="form-card-title">
+                            <span class="material-symbols-outlined">info</span>
+                            Basic Information
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="field-label" for="contentTitle">Title <span style="color:#ef4444;">*</span></label>
+                            <input type="text" id="contentTitle" class="form-input"
+                                   maxlength="120"
+                                   oninput="markUnsaved(); updateCharCount('contentTitle', 'titleCount', 120)" />
+                            <div class="d-flex justify-content-between align-items-center">
+                                <p class="field-hint">Keep it concise — ideally under 80 characters.</p>
+                                <span class="char-counter" id="titleCount">0 / 120</span>
+                            </div>
+                        </div>
+
+                        <div class="mb-0">
+                            <label class="field-label" for="contentSubtitle">Subtitle / Short Description</label>
+                            <input type="text" id="contentSubtitle" class="form-input"
+                                   maxlength="200"
+                                   oninput="markUnsaved()" />
+                        </div>
+                    </div>
+
+                    <!-- Content Body -->
+                    <div class="form-card">
+                        <div class="form-card-title">
+                            <span class="material-symbols-outlined">article</span>
+                            Content Body
+                        </div>
+
+                        <div class="editor-toolbar">
+                            <button title="Bold" onclick="insertMd('**', '**')"><b>B</b></button>
+                            <button title="Italic" onclick="insertMd('_', '_')"><i>I</i></button>
+                            <div class="divider"></div>
+                            <button title="Heading" onclick="insertMd('## ', '')">
+                                <span class="material-symbols-outlined" style="font-size:15px;">title</span>
+                            </button>
+                            <button title="Bullet list" onclick="insertMd('\n- ', '')">
+                                <span class="material-symbols-outlined" style="font-size:15px;">format_list_bulleted</span>
+                            </button>
+                            <button title="Link" onclick="insertMd('[', '](url)')">
+                                <span class="material-symbols-outlined" style="font-size:15px;">link</span>
+                            </button>
+                        </div>
+                        <textarea id="contentBody" class="form-input"
+                                  maxlength="5000"
+                                  oninput="markUnsaved(); updateCharCount('contentBody', 'bodyCount', 5000)"></textarea>
+                        <div class="d-flex justify-content-end">
+                            <span class="char-counter" id="bodyCount">0 / 5000</span>
+                        </div>
+                    </div>
+
+                    <!-- Media (banners only) -->
+                    <div class="form-card" id="mediaCard" style="display:none;">
+                        <div class="form-card-title">
+                            <span class="material-symbols-outlined">image</span>
+                            Media / Image
+                        </div>
+                        <div class="upload-zone" onclick="document.getElementById('fileInput').click()">
+                            <span class="material-symbols-outlined">cloud_upload</span>
+                            <p>Click to replace image, or <strong style="color:var(--primary);">browse</strong></p>
+                            <span>PNG, JPG, WebP — max 5MB</span>
+                            <input type="file" id="fileInput" accept="image/*" onchange="previewImage(event)" />
+                        </div>
+                        <div id="imagePreview">
+                            <img id="previewImg" src="" alt="Preview" />
+                        </div>
+                        <div class="mt-3">
+                            <label class="field-label" for="imageAlt">Alt Text</label>
+                            <input type="text" id="imageAlt" class="form-input" oninput="markUnsaved()" />
+                        </div>
+                        <div class="mt-3">
+                            <label class="field-label" for="imageLink">CTA Link</label>
+                            <input type="url" id="imageLink" class="form-input" oninput="markUnsaved()" />
+                        </div>
+                    </div>
+
+                    <!-- Revision History -->
+                    <div class="form-card">
+                        <div class="form-card-title">
+                            <span class="material-symbols-outlined">history</span>
+                            Revision History
+                        </div>
+                        <div id="revisionList">
+                            <div class="revision-item">
+                                <div class="d-flex align-items-center">
+                                    <div class="revision-dot"></div>
+                                    <div>
+                                        <div class="revision-label">Current version</div>
+                                        <div class="revision-meta" id="rev1Date">—</div>
+                                    </div>
+                                </div>
+                                <span style="font-size:0.75rem; color:#16a34a; font-weight:600;">Active</span>
+                            </div>
+                            <div class="revision-item">
+                                <div class="d-flex align-items-center">
+                                    <div class="revision-dot" style="background:#94a3b8;"></div>
+                                    <div>
+                                        <div class="revision-label">Previous version</div>
+                                        <div class="revision-meta" id="rev2Date">—</div>
+                                    </div>
+                                </div>
+                                <button class="revision-restore" onclick="showToast('Previous version restored.', 'success')">Restore</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Right Column: Settings -->
+                <div class="col-lg-4">
+
+                    <!-- Publish Settings -->
+                    <div class="form-card">
+                        <div class="form-card-title">
+                            <span class="material-symbols-outlined">settings</span>
+                            Publish Settings
+                        </div>
+
+                        <label class="field-label">Status</label>
+                        <div class="status-options">
+                            <label class="status-chip" id="chip-draft" onclick="selectStatus('Draft', this)">
+                                <input type="radio" name="status" value="Draft" />
+                                <span class="material-symbols-outlined" style="font-size:15px;">draft</span> Draft
+                            </label>
+                            <label class="status-chip" id="chip-published" onclick="selectStatus('Published', this)">
+                                <input type="radio" name="status" value="Published" />
+                                <span class="material-symbols-outlined" style="font-size:15px;">check_circle</span> Published
+                            </label>
+                            <label class="status-chip" id="chip-scheduled" onclick="selectStatus('Scheduled', this)">
+                                <input type="radio" name="status" value="Scheduled" />
+                                <span class="material-symbols-outlined" style="font-size:15px;">schedule</span> Scheduled
+                            </label>
+                        </div>
+
+                        <div id="scheduleFields">
+                            <label class="field-label mt-3" for="scheduleDate">Publish Date & Time</label>
+                            <input type="datetime-local" id="scheduleDate" class="form-input" oninput="markUnsaved()" />
+                        </div>
+                    </div>
+
+                    <!-- Visibility -->
+                    <div class="form-card">
+                        <div class="form-card-title">
+                            <span class="material-symbols-outlined">visibility</span>
+                            Visibility
+                        </div>
+                        <label class="field-label" for="visibilitySelect">Visible To</label>
+                        <select id="visibilitySelect" class="form-input" onchange="markUnsaved()">
+                            <option value="all">All Users</option>
+                            <option value="students">Students Only</option>
+                            <option value="jury">Jury Only</option>
+                            <option value="admins">Admins Only</option>
+                        </select>
+                    </div>
+
+                    <!-- Author -->
+                    <div class="form-card">
+                        <div class="form-card-title">
+                            <span class="material-symbols-outlined">person</span>
+                            Author Details
+                        </div>
+                        <div class="mb-3">
+                            <label class="field-label" for="authorName">Author Name</label>
+                            <input type="text" id="authorName" class="form-input" oninput="markUnsaved()" />
+                        </div>
+                        <div class="mb-0">
+                            <label class="field-label" for="contentTags">Tags</label>
+                            <input type="text" id="contentTags" class="form-input" oninput="markUnsaved()" placeholder="e.g. season4, registration" />
+                        </div>
+                    </div>
+
+                    <!-- Danger Zone -->
+                    <div class="form-card" style="border-color:#fecaca;">
+                        <div class="form-card-title" style="color:#dc2626;">
+                            <span class="material-symbols-outlined" style="color:#dc2626;">warning</span>
+                            Danger Zone
+                        </div>
+                        <p style="font-size:0.8125rem; color:var(--text-muted); margin-bottom:16px;">
+                            These actions are permanent and cannot be undone.
+                        </p>
+                        <div class="d-flex flex-column gap-2">
+                            <button class="btn-danger-outline" onclick="archiveContent()" style="justify-content:flex-start;">
+                                <span class="material-symbols-outlined" style="font-size:16px;">inventory_2</span>
+                                Archive Content
+                            </button>
+                            <button class="btn-danger-outline" onclick="deleteContent()" style="justify-content:flex-start;">
+                                <span class="material-symbols-outlined" style="font-size:16px;">delete_forever</span>
+                                Delete Permanently
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div><!-- /content-wrapper -->
+
+        <!-- Sticky Action Bar -->
+        <div class="action-bar">
+            <div style="font-size:0.8125rem; color:var(--text-muted);" id="unsavedIndicator" style="display:none;">
+            </div>
+            <div class="d-flex gap-2">
+                <button class="btn-outline-custom" onclick="discardChanges()">
+                    <span class="material-symbols-outlined" style="font-size:16px;">undo</span>
+                    Discard Changes
+                </button>
+                <button class="btn-primary-custom" onclick="saveChanges()">
+                    <span class="material-symbols-outlined" style="font-size:16px;">save</span>
+                    Save Changes
+                </button>
+            </div>
+        </div>
+
+    </div><!-- /main-content -->
+</div><!-- /main-container -->
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// ── Sample data store (mirrors content.html) ─────────────────────────────────
+const contentData = {
+    announcements: [
+        { id: 'ANN001', title: 'IFT Season 4 Registration Now Open', author: 'Admin', date: '2026-03-20', status: 'Published', body: 'We are excited to announce that Season 4 registrations are now open for all eligible students across India. Apply before the deadline to secure your spot.' },
+        { id: 'ANN002', title: 'Jury Panel Announcement — Phase 2', author: 'Admin', date: '2026-03-18', status: 'Published', body: 'Meet our esteemed jury members for Phase 2 evaluation. The panel includes industry leaders from Fintech, Healthcare, and EdTech sectors.' },
+        { id: 'ANN003', title: 'Submission Deadline Extended by 7 Days', author: 'Admin', date: '2026-03-15', status: 'Published', body: 'Due to overwhelming response, we have extended the submission deadline by 7 days. Final deadline is now 30th March 2026.' },
+        { id: 'ANN004', title: 'IFT Orientation Webinar — April 5th', author: 'Admin', date: '2026-03-25', status: 'Scheduled', scheduledFor: '2026-04-05T10:00', body: 'Join us for a live orientation session covering the competition format, evaluation criteria, and tips to build a winning pitch.' },
+        { id: 'ANN005', title: 'Meet the Mentors — Draft in Progress', author: 'Content Team', date: '2026-03-22', status: 'Draft', body: 'This announcement will introduce the mentor network available to all registered participants during the IFT journey.' },
+        { id: 'ANN006', title: 'Phase 1 Results Released', author: 'Admin', date: '2026-02-10', status: 'Archived', body: 'Congratulations to all participants who cleared Phase 1.' },
+        { id: 'ANN007', title: 'New Questionnaire Format for Season 4', author: 'Admin', date: '2026-03-10', status: 'Published', body: 'The questionnaire has been updated to include sections on sustainability, social impact, and scalability.' },
+        { id: 'ANN008', title: 'Award Ceremony — Grand Finale', author: 'Admin', date: '2026-04-01', status: 'Scheduled', scheduledFor: '2026-05-15T18:00', body: 'The Grand Finale and Award Ceremony will be held on May 15th.' },
+    ],
+    resources: [
+        { id: 'RES001', title: 'Business Plan Template — Season 4', author: 'Content Team', date: '2026-03-12', status: 'Published', body: 'Download the official business plan template for Season 4.' },
+        { id: 'RES002', title: 'Pitch Deck Guide — How to Wow the Jury', author: 'Content Team', date: '2026-03-08', status: 'Published', body: 'A comprehensive 20-page guide on creating compelling pitch decks.' },
+        { id: 'RES003', title: 'Market Research Handbook', author: 'Content Team', date: '2026-02-28', status: 'Published', body: 'Step-by-step guide to conducting primary and secondary market research.' },
+        { id: 'RES004', title: 'Financial Modelling Basics', author: 'Content Team', date: '2026-03-20', status: 'Draft', body: 'Introduction to financial projections, unit economics, and break-even analysis.' },
+        { id: 'RES005', title: 'Video Pitch Tutorial', author: 'Admin', date: '2026-03-01', status: 'Published', body: 'Learn how to record a compelling 3-minute video pitch.' },
+    ],
+    faqs: [
+        { id: 'FAQ001', title: 'Who is eligible to participate in IFT?', author: 'Admin', date: '2026-01-10', status: 'Published', body: 'IFT is open to students aged 14–22 studying in any recognised school or college across India.' },
+        { id: 'FAQ002', title: 'How many ideas can one team submit?', author: 'Admin', date: '2026-01-10', status: 'Published', body: 'Each team can submit only one idea per season.' },
+        { id: 'FAQ003', title: 'What is the evaluation process?', author: 'Admin', date: '2026-01-12', status: 'Published', body: 'Ideas are evaluated in 3 phases: AI-based preliminary scoring → Jury review → Grand finale pitching.' },
+        { id: 'FAQ004', title: 'Can I update my submission after submitting?', author: 'Admin', date: '2026-01-15', status: 'Published', body: 'Yes, you can update your submission any number of times until the official deadline.' },
+        { id: 'FAQ005', title: 'What prizes are awarded?', author: 'Admin', date: '2026-02-01', status: 'Published', body: 'Top 3 ideas in each category receive cash prizes, mentorship opportunities, and incubation support.' },
+        { id: 'FAQ006', title: 'How do I contact support?', author: 'Admin', date: '2026-01-10', status: 'Published', body: 'Reach us at support@iftindia.org or via the in-app chat.' },
+        { id: 'FAQ007', title: 'Is there a registration fee?', author: 'Admin', date: '2026-01-10', status: 'Published', body: 'No, IFT participation is completely free of charge.' },
+        { id: 'FAQ008', title: 'Do I need a mentor to participate?', author: 'Admin', date: '2026-01-20', status: 'Draft', body: 'Having a mentor is optional but strongly recommended.' },
+    ],
+    banners: [
+        { id: 'BAN001', title: 'Season 4 Launch Banner — Homepage', author: 'Design Team', date: '2026-03-01', status: 'Published', body: 'Full-width hero banner for the homepage. Dimensions: 1440×560px. CTA: "Register Now".' },
+        { id: 'BAN002', title: 'Dashboard Welcome Banner', author: 'Design Team', date: '2026-03-05', status: 'Published', body: 'Student dashboard welcome banner with Season 4 branding.' },
+        { id: 'BAN003', title: 'Phase 2 Alert Banner', author: 'Design Team', date: '2026-03-18', status: 'Scheduled', scheduledFor: '2026-04-01T00:00', body: 'Notification banner to appear when Phase 2 evaluation begins.' },
+        { id: 'BAN004', title: 'Deadline Reminder Banner — Archived', author: 'Design Team', date: '2026-02-20', status: 'Archived', body: 'Previously used countdown banner for Phase 1 deadline.' },
+    ]
+};
+
+const tabLabelMap = { announcements: 'Announcement', resources: 'Resource', faqs: 'FAQ', banners: 'Banner / Media' };
+const tabIconMap  = { announcements: 'campaign', resources: 'menu_book', faqs: 'help', banners: 'image' };
+const typeClassMap = { announcements: 'announcement', resources: 'resource', faqs: 'faq', banners: 'banner' };
+
+let currentItem = null;
+let currentTab  = 'announcements';
+let hasUnsaved  = false;
+
+// ── Init ─────────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+    loadComponent('sidebar-container', '../super-admin/sidebar.html');
+    loadComponent('header-container', '../super-admin/header.html');
+
+    // Read URL params: ?id=ANN001&tab=announcements
+    const params = new URLSearchParams(window.location.search);
+    const id  = params.get('id')  || 'ANN001';
+    const tab = params.get('tab') || 'announcements';
+    currentTab = tab;
+
+    loadItem(id, tab);
+});
+
+function loadComponent(containerId, path) {
+    fetch(path).then(r => r.text()).then(html => {
+        document.getElementById(containerId).innerHTML = html;
+    }).catch(() => {});
+}
+
+function loadItem(id, tab) {
+    const data = contentData[tab] || contentData.announcements;
+    const item = data.find(d => d.id === id) || data[0];
+    if (!item) return;
+    currentItem = { ...item };
+
+    // Breadcrumb & banner
+    document.getElementById('breadcrumbTitle').textContent = item.title.substring(0, 30) + '…';
+    document.getElementById('bannerTitle').textContent = item.title;
+    document.getElementById('bannerDate').textContent  = formatDate(item.date);
+    document.getElementById('bannerId').textContent    = item.id;
+
+    // Revision dates
+    const d    = new Date(item.date);
+    const prev = new Date(d); prev.setDate(prev.getDate() - 5);
+    document.getElementById('rev1Date').textContent = formatDate(item.date) + ' · by ' + item.author;
+    document.getElementById('rev2Date').textContent = formatDate(prev.toISOString().split('T')[0]) + ' · by ' + item.author;
+
+    // Type badge
+    const tc = typeClassMap[tab] || 'announcement';
+    document.getElementById('typeBadgeContainer').innerHTML = `
+        <div class="type-badge ${tc}">
+            <div class="type-icon">
+                <span class="material-symbols-outlined" style="font-size:18px;">${tabIconMap[tab]}</span>
+            </div>
+            ${tabLabelMap[tab]}
+        </div>`;
+
+    // Show media card for banners
+    document.getElementById('mediaCard').style.display = tab === 'banners' ? 'block' : 'none';
+
+    // Fill fields
+    document.getElementById('contentTitle').value    = item.title;
+    document.getElementById('contentSubtitle').value = item.subtitle || '';
+    document.getElementById('contentBody').value     = item.body;
+    document.getElementById('authorName').value      = item.author;
+    document.getElementById('contentTags').value     = item.tags || '';
+
+    updateCharCount('contentTitle', 'titleCount', 120);
+    updateCharCount('contentBody',  'bodyCount',  5000);
+
+    // Status
+    selectStatus(item.status, document.getElementById('chip-' + item.status.toLowerCase()));
+    if (item.scheduledFor) {
+        document.getElementById('scheduleDate').value = item.scheduledFor;
+    }
+}
+
+// ── Status ─────────────────────────────────────────────────────────────────────
+let currentStatus = 'Draft';
+
+function selectStatus(status, el) {
+    if (!el) return;
+    document.querySelectorAll('.status-chip').forEach(c => c.className = 'status-chip');
+    if (status === 'Draft')      el.classList.add('selected-draft');
+    if (status === 'Published')  el.classList.add('selected-published');
+    if (status === 'Scheduled')  el.classList.add('selected-scheduled');
+    currentStatus = status;
+    document.getElementById('scheduleFields').style.display = status === 'Scheduled' ? 'block' : 'none';
+}
+
+// ── Unsaved Changes ────────────────────────────────────────────────────────────
+function markUnsaved() {
+    hasUnsaved = true;
+    document.getElementById('unsavedIndicator').innerHTML =
+        `<span class="unsaved-dot"></span> You have unsaved changes`;
+}
+
+// ── Char Counter ───────────────────────────────────────────────────────────────
+function updateCharCount(fieldId, counterId, max) {
+    const len = document.getElementById(fieldId).value.length;
+    const el  = document.getElementById(counterId);
+    el.textContent = `${len} / ${max}`;
+    el.className   = 'char-counter' + (len > max * 0.9 ? ' warn' : '') + (len >= max ? ' over' : '');
+}
+
+// ── Toolbar ────────────────────────────────────────────────────────────────────
+function insertMd(before, after) {
+    const ta  = document.getElementById('contentBody');
+    const s   = ta.selectionStart, e = ta.selectionEnd;
+    const sel = ta.value.substring(s, e);
+    ta.value  = ta.value.substring(0, s) + before + sel + after + ta.value.substring(e);
+    ta.selectionStart = s + before.length;
+    ta.selectionEnd   = s + before.length + sel.length;
+    ta.focus(); markUnsaved();
+}
+
+// ── Image Upload ───────────────────────────────────────────────────────────────
+function previewImage(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+        document.getElementById('previewImg').src = ev.target.result;
+        document.getElementById('imagePreview').style.display = 'block';
+    };
+    reader.readAsDataURL(file);
+    markUnsaved();
+}
+
+// ── Actions ────────────────────────────────────────────────────────────────────
+function saveChanges() {
+    const title = document.getElementById('contentTitle').value.trim();
+    const body  = document.getElementById('contentBody').value.trim();
+    if (!title) { showToast('Title is required.', 'warning'); return; }
+    if (!body)  { showToast('Content body cannot be empty.', 'warning'); return; }
+    if (currentStatus === 'Scheduled') {
+        const dt = document.getElementById('scheduleDate').value;
+        if (!dt) { showToast('Please set a schedule date.', 'warning'); return; }
+    }
+
+    hasUnsaved = false;
+    document.getElementById('unsavedIndicator').innerHTML = '';
+    showToast('Changes saved successfully.', 'success');
+    setTimeout(() => window.location.href = 'content.html', 1800);
+}
+
+function discardChanges() {
+    if (hasUnsaved) {
+        if (!confirm('Discard all unsaved changes?')) return;
+    }
+    window.location.href = 'content.html';
+}
+
+function archiveContent() {
+    if (confirm('Archive this content? It will be hidden from all users.')) {
+        showToast('Content archived.', 'info');
+        setTimeout(() => window.location.href = 'content.html', 1500);
+    }
+}
+
+function deleteContent() {
+    if (confirm('Permanently delete this content? This action cannot be undone.')) {
+        showToast('Content deleted permanently.', 'danger');
+        setTimeout(() => window.location.href = 'content.html', 1500);
+    }
+}
+
+// ── Helpers ────────────────────────────────────────────────────────────────────
+function formatDate(d) {
+    return new Date(d).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+function showToast(msg, type = 'info') {
+    const container = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    const icons = { success: 'check_circle', warning: 'warning', info: 'info', danger: 'error' };
+    toast.className = `toast ${type === 'success' ? 'success' : type === 'warning' ? 'warning' : type === 'danger' ? 'danger' : ''}`;
+    toast.innerHTML = `<span class="material-symbols-outlined" style="font-size:18px;">${icons[type]||'info'}</span> ${msg}`;
+    container.appendChild(toast);
+    setTimeout(() => toast.remove(), 3500);
+}
+
+// Warn on page leave if unsaved
+window.addEventListener('beforeunload', (e) => {
+    if (hasUnsaved) { e.preventDefault(); e.returnValue = ''; }
+});
+</script>
+
+</body>
+</html>

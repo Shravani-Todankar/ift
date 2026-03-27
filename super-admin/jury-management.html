@@ -1,0 +1,2270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Jury Management | Super Admin | ENpower IFT</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap"
+        rel="stylesheet" />
+
+    <!-- Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --primary: #5E2A97;
+            --secondary: #DEDE50;
+            --primary-light: #E8D4F0;
+            --background-light: #F7F7F7;
+            --surface-light: #FFFFFF;
+            --border-light: #EEEEEE;
+            --text-dark: #222222;
+            --text-muted: #666666;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-light);
+            color: var(--text-dark);
+            overflow: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Layout */
+        .main-container {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow-y: auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            padding: 32px;
+            max-width: 100%;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        #sidebar-container {
+            flex-shrink: 0;
+        }
+
+        /* Page Header */
+        .page-header {
+            margin-bottom: 32px;
+        }
+
+        .page-header h1 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .breadcrumb {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            background: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .breadcrumb-item a {
+            color: var(--text-muted);
+            text-decoration: none;
+        }
+
+        .breadcrumb-item a:hover {
+            color: var(--primary);
+        }
+
+        .breadcrumb-item.active {
+            color: var(--text-dark);
+        }
+
+        /* Stats Cards */
+        .stat-card {
+            background: var(--surface-light);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            border: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-icon.purple {
+            background: rgba(94, 42, 151, 0.1);
+            color: var(--primary);
+        }
+
+        .stat-icon.green {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+        }
+
+        .stat-icon.red {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+
+        .stat-icon.amber {
+            background: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+        }
+
+        .stat-icon.blue {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+
+        .stat-icon.teal {
+            background: rgba(20, 184, 166, 0.1);
+            color: #14b8a6;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin: 0;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0;
+        }
+
+        .stat-trend {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .stat-trend.positive {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .stat-trend.negative {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        /* Workload Distribution Bar */
+        .workload-bar-card {
+            background: var(--surface-light);
+            border-radius: 12px;
+            padding: 20px 24px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            border: 1px solid var(--border-light);
+            margin-bottom: 24px;
+        }
+
+        .workload-bar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .workload-bar-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .workload-bar-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .workload-track {
+            display: flex;
+            height: 32px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .workload-segment {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6875rem;
+            font-weight: 700;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .workload-segment:hover {
+            filter: brightness(1.1);
+        }
+
+        .workload-segment.optimal {
+            background: #22c55e;
+        }
+
+        .workload-segment.moderate {
+            background: #f59e0b;
+        }
+
+        .workload-segment.overloaded {
+            background: #ef4444;
+        }
+
+        .workload-segment.idle {
+            background: #94a3b8;
+        }
+
+        .workload-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .workload-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .workload-legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 3px;
+        }
+
+        .workload-legend-dot.optimal {
+            background: #22c55e;
+        }
+
+        .workload-legend-dot.moderate {
+            background: #f59e0b;
+        }
+
+        .workload-legend-dot.overloaded {
+            background: #ef4444;
+        }
+
+        .workload-legend-dot.idle {
+            background: #94a3b8;
+        }
+
+        .workload-legend-count {
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        /* Main Card */
+        .main-card {
+            background: var(--surface-light);
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            border: 1px solid var(--border-light);
+            overflow: hidden;
+        }
+
+        .main-card-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        /* Search & Filter */
+        .search-input {
+            position: relative;
+        }
+
+        .search-input .material-symbols-outlined {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 20px;
+        }
+
+        .search-input input {
+            width: 100%;
+            padding: 10px 12px 10px 44px;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            font-size: 0.875rem;
+            background: #f8fafc;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .search-input input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(94, 42, 151, 0.1);
+        }
+
+        .filter-select {
+            width: auto;
+            font-size: 0.875rem;
+            padding: 10px 12px;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            background: #f8fafc;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(94, 42, 151, 0.1);
+        }
+
+        /* Table */
+        .custom-table {
+            width: 100%;
+            font-size: 0.875rem;
+        }
+
+        .custom-table thead {
+            background: #f8fafc;
+        }
+
+        .custom-table th {
+            padding: 16px 18px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-align: left;
+            border-bottom: 1px solid var(--border-light);
+            white-space: nowrap;
+        }
+
+        .custom-table th.sortable {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .custom-table th.sortable:hover {
+            color: var(--primary);
+        }
+
+        .custom-table td {
+            padding: 16px 18px;
+            vertical-align: middle;
+            border-bottom: 1px solid #f8f9fa;
+        }
+
+        .custom-table tbody tr {
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        .custom-table tbody tr:hover {
+            background: rgba(94, 42, 151, 0.03);
+        }
+
+        .custom-table tbody tr.selected {
+            background: rgba(94, 42, 151, 0.06);
+        }
+
+        /* Table Cell Elements */
+        .jury-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .jury-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #fff;
+            flex-shrink: 0;
+        }
+
+        .jury-name {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin: 0;
+            font-size: 0.8125rem;
+        }
+
+        .jury-org {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .jury-id {
+            font-size: 0.6875rem;
+            font-weight: 700;
+            color: var(--primary);
+            font-family: monospace;
+        }
+
+        .expertise-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .expertise-tag {
+            font-size: 0.625rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: rgba(94, 42, 151, 0.08);
+            color: var(--primary);
+            white-space: nowrap;
+        }
+
+        .badge-status {
+            font-size: 0.6875rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 999px;
+            white-space: nowrap;
+        }
+
+        .badge-status.active {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-status.paused {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-status.inactive {
+            background: #e2e8f0;
+            color: #475569;
+        }
+
+        /* Capacity Bar */
+        .capacity-bar-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .capacity-bar {
+            flex: 1;
+            height: 8px;
+            background: #f1f5f9;
+            border-radius: 999px;
+            overflow: hidden;
+            min-width: 70px;
+        }
+
+        .capacity-fill {
+            height: 100%;
+            border-radius: 999px;
+            transition: width 0.3s ease;
+        }
+
+        .capacity-fill.optimal {
+            background: #22c55e;
+        }
+
+        .capacity-fill.moderate {
+            background: #f59e0b;
+        }
+
+        .capacity-fill.overloaded {
+            background: #ef4444;
+        }
+
+        .capacity-fill.idle {
+            background: #cbd5e1;
+        }
+
+        .capacity-text {
+            font-size: 0.75rem;
+            font-weight: 700;
+            min-width: 40px;
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .capacity-text.optimal {
+            color: #16a34a;
+        }
+
+        .capacity-text.moderate {
+            color: #d97706;
+        }
+
+        .capacity-text.overloaded {
+            color: #ef4444;
+        }
+
+        .capacity-text.idle {
+            color: #94a3b8;
+        }
+
+        /* Score deviation */
+        .deviation-badge {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .deviation-badge.low {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .deviation-badge.medium {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .deviation-badge.high {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        /* Action Buttons */
+        .btn-primary-custom {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.875rem;
+            box-shadow: 0 4px 6px rgba(94, 42, 151, 0.3);
+        }
+
+        .btn-primary-custom:hover {
+            background: #7B3FB5;
+        }
+
+        .btn-secondary-custom {
+            background: white;
+            color: var(--text-dark);
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.875rem;
+        }
+
+        .btn-secondary-custom:hover {
+            background: #f8fafc;
+        }
+
+        .btn-icon-action {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid var(--border-light);
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-muted);
+        }
+
+        .btn-icon-action:hover {
+            background: rgba(94, 42, 151, 0.1);
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .btn-icon-action .material-symbols-outlined {
+            font-size: 18px;
+        }
+
+        /* Quick Action Buttons in table */
+        .quick-actions {
+            display: flex;
+            gap: 4px;
+        }
+
+        /* Bulk Actions */
+        .bulk-actions {
+            display: none;
+            padding: 12px 24px;
+            background: rgba(94, 42, 151, 0.05);
+            border-bottom: 1px solid var(--border-light);
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .bulk-actions.visible {
+            display: flex;
+        }
+
+        .bulk-count {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .bulk-btn {
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid var(--border-light);
+            background: var(--surface-light);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .bulk-btn:hover {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        .bulk-btn .material-symbols-outlined {
+            font-size: 16px;
+        }
+
+        /* Checkbox */
+        .custom-checkbox {
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--border-light);
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .custom-checkbox.checked {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .custom-checkbox.checked::after {
+            content: '✓';
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* Pagination */
+        .pagination-custom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 24px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .pagination-info {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .pagination-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .page-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid var(--border-light);
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.8125rem;
+            font-weight: 600;
+        }
+
+        .page-btn:hover {
+            background: #f8fafc;
+        }
+
+        .page-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Details Sidebar */
+        .details-sidebar {
+            position: fixed;
+            top: 0;
+            right: -520px;
+            width: 520px;
+            height: 100vh;
+            background: var(--surface-light);
+            box-shadow: -4px 0 24px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .details-sidebar.open {
+            right: 0;
+        }
+
+        .details-sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .details-sidebar-overlay.show {
+            display: block;
+            opacity: 1;
+        }
+
+        .details-sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .details-sidebar-header h2 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .details-sidebar-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid var(--border-light);
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-muted);
+        }
+
+        .details-sidebar-close:hover {
+            background: #f8fafc;
+            color: var(--text-dark);
+        }
+
+        .details-sidebar-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+        }
+
+        .detail-section {
+            margin-bottom: 28px;
+        }
+
+        .detail-section-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .detail-section-title .material-symbols-outlined {
+            font-size: 18px;
+            color: var(--primary);
+        }
+
+        /* Jury Profile Card in Sidebar */
+        .jury-profile-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .jury-profile-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(94, 42, 151, 0.2);
+        }
+
+        .jury-profile-info h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 0 0 4px 0;
+        }
+
+        .jury-profile-info p {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .detail-item {
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+
+        .detail-item.full {
+            grid-column: 1 / -1;
+        }
+
+        .detail-item-label {
+            font-size: 0.6875rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 4px;
+        }
+
+        .detail-item-value {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        /* Performance Metrics */
+        .perf-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .perf-metric {
+            text-align: center;
+            padding: 16px 12px;
+            background: #f8fafc;
+            border-radius: 10px;
+        }
+
+        .perf-metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .perf-metric-label {
+            font-size: 0.6875rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        /* Assigned Ideas List in Sidebar */
+        .assigned-idea-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .assigned-idea-row:last-child {
+            border-bottom: none;
+        }
+
+        .idea-status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .idea-status-dot.evaluated {
+            background: #22c55e;
+        }
+
+        .idea-status-dot.pending {
+            background: #f59e0b;
+        }
+
+        .idea-status-dot.overdue {
+            background: #ef4444;
+        }
+
+        .assigned-idea-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .assigned-idea-name {
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .assigned-idea-meta {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+        }
+
+        .assigned-idea-score {
+            font-size: 0.8125rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        /* Score Comparison in sidebar */
+        .score-comparison {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .score-comp-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .score-comp-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            min-width: 90px;
+        }
+
+        .score-comp-bar {
+            flex: 1;
+            height: 8px;
+            background: #f1f5f9;
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .score-comp-fill {
+            height: 100%;
+            border-radius: 999px;
+        }
+
+        .score-comp-fill.jury {
+            background: var(--primary);
+        }
+
+        .score-comp-fill.ai {
+            background: #8b5cf6;
+        }
+
+        .score-comp-value {
+            font-size: 0.8125rem;
+            font-weight: 700;
+            min-width: 30px;
+            text-align: right;
+        }
+
+        .details-sidebar-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--border-light);
+            display: flex;
+            gap: 12px;
+        }
+
+        .details-sidebar-footer .btn-primary-custom,
+        .details-sidebar-footer .btn-secondary-custom {
+            flex: 1;
+            justify-content: center;
+            padding: 10px 16px;
+            font-size: 0.8125rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .custom-table th,
+            .custom-table td {
+                padding: 12px 14px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding: 16px;
+            }
+
+            .details-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .perf-metrics {
+                grid-template-columns: 1fr;
+            }
+
+            .pagination-custom {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+        <!-- Include Sidebar -->
+        <div id="sidebar-container"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Include Header -->
+            <div id="header-container"></div>
+
+            <div class="content-wrapper">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-md-6">
+                            <h1>Jury Management</h1>
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="dashboard.html">Admin</a></li>
+                                    <li class="breadcrumb-item active">Jury Management</li>
+                                </ol>
+                            </nav>
+                        </div>
+                        <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center gap-3 mt-3 mt-md-0">
+                            <button class="btn-secondary-custom" id="exportBtn">
+                                <span class="material-symbols-outlined" style="font-size: 18px;">file_download</span>
+                                Export
+                            </button>
+                            <button class="btn-primary-custom" onclick="window.location.href='onboard-jury.html'">
+                                <span class="material-symbols-outlined" style="font-size: 18px;">person_add</span>
+                                Add Jury Member
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="row g-4 mb-4">
+                    <div class="col-6 col-lg-2">
+                        <div class="stat-card">
+                            <div class="stat-icon purple">
+                                <span class="material-symbols-outlined">gavel</span>
+                            </div>
+                            <div>
+                                <p class="stat-label">Total Jury</p>
+                                <h3 class="stat-value">48</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-2">
+                        <div class="stat-card">
+                            <div class="stat-icon green">
+                                <span class="material-symbols-outlined">check_circle</span>
+                            </div>
+                            <div>
+                                <p class="stat-label">Active</p>
+                                <h3 class="stat-value" style="color: #16a34a;">38</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-2">
+                        <div class="stat-card">
+                            <div class="stat-icon red">
+                                <span class="material-symbols-outlined">warning</span>
+                            </div>
+                            <div>
+                                <p class="stat-label">Overloaded</p>
+                                <h3 class="stat-value" style="color: #ef4444;">7</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-2">
+                        <div class="stat-card">
+                            <div class="stat-icon amber">
+                                <span class="material-symbols-outlined">hourglass_empty</span>
+                            </div>
+                            <div>
+                                <p class="stat-label">Idle</p>
+                                <h3 class="stat-value" style="color: #f59e0b;">5</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-2">
+                        <div class="stat-card">
+                            <div class="stat-icon blue">
+                                <span class="material-symbols-outlined">assignment</span>
+                            </div>
+                            <div>
+                                <p class="stat-label">Total Assigned</p>
+                                <h3 class="stat-value">1,420</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-2">
+                        <div class="stat-card">
+                            <div class="stat-icon teal">
+                                <span class="material-symbols-outlined">avg_pace</span>
+                            </div>
+                            <div>
+                                <p class="stat-label">Avg Turnaround</p>
+                                <h3 class="stat-value">2.4d</h3>
+                                <span class="stat-trend positive">↓ 0.5d</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Workload Distribution Bar -->
+                <div class="workload-bar-card">
+                    <div class="workload-bar-header">
+                        <span class="workload-bar-title">Jury Workload Distribution</span>
+                        <span class="workload-bar-subtitle">Based on current assigned vs capacity ratio</span>
+                    </div>
+                    <div class="workload-track">
+                        <div class="workload-segment optimal" style="width: 50%;" title="Optimal: 24 jury members">24</div>
+                        <div class="workload-segment moderate" style="width: 14.6%;" title="Moderate: 7 jury members">7</div>
+                        <div class="workload-segment overloaded" style="width: 14.6%;" title="Overloaded: 7 jury members">7</div>
+                        <div class="workload-segment idle" style="width: 20.8%;" title="Idle: 10 jury members">10</div>
+                    </div>
+                    <div class="workload-legend">
+                        <div class="workload-legend-item" data-workload="optimal">
+                            <span class="workload-legend-dot optimal"></span>
+                            Optimal (50–80%) <span class="workload-legend-count">24</span>
+                        </div>
+                        <div class="workload-legend-item" data-workload="moderate">
+                            <span class="workload-legend-dot moderate"></span>
+                            Moderate (80–95%) <span class="workload-legend-count">7</span>
+                        </div>
+                        <div class="workload-legend-item" data-workload="overloaded">
+                            <span class="workload-legend-dot overloaded"></span>
+                            Overloaded (>95%) <span class="workload-legend-count">7</span>
+                        </div>
+                        <div class="workload-legend-item" data-workload="idle">
+                            <span class="workload-legend-dot idle"></span>
+                            Idle (<50%) <span class="workload-legend-count">10</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Data Card -->
+                <div class="main-card">
+                    <!-- Search & Filters -->
+                    <div class="main-card-header">
+                        <div class="row align-items-center g-3">
+                            <div class="col-12 col-md-4">
+                                <div class="search-input">
+                                    <span class="material-symbols-outlined">search</span>
+                                    <input type="text" id="searchInput" placeholder="Search by name, expertise, org...">
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-8 d-flex align-items-center gap-3 justify-content-md-end flex-wrap">
+                                <select class="filter-select" id="statusFilter">
+                                    <option value="">All Status</option>
+                                    <option value="active">Active</option>
+                                    <option value="paused">Paused</option>
+                                    <option value="inactive">Inactive</option>
+                                </select>
+                                <select class="filter-select" id="workloadFilter">
+                                    <option value="">All Workload</option>
+                                    <option value="optimal">Optimal</option>
+                                    <option value="moderate">Moderate</option>
+                                    <option value="overloaded">Overloaded</option>
+                                    <option value="idle">Idle</option>
+                                </select>
+                                <select class="filter-select" id="expertiseFilter">
+                                    <option value="">All Expertise</option>
+                                    <option value="technology">Technology</option>
+                                    <option value="healthcare">Healthcare</option>
+                                    <option value="education">Education</option>
+                                    <option value="sustainability">Sustainability</option>
+                                    <option value="finance">Finance</option>
+                                    <option value="social-impact">Social Impact</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bulk Actions -->
+                    <div class="bulk-actions" id="bulkActions">
+                        <span class="bulk-count"><span id="selectedCount">0</span> selected</span>
+                        <button class="bulk-btn">
+                            <span class="material-symbols-outlined">assignment</span>
+                            Assign Ideas
+                        </button>
+                        <button class="bulk-btn">
+                            <span class="material-symbols-outlined">notifications</span>
+                            Send Reminder
+                        </button>
+                        <button class="bulk-btn">
+                            <span class="material-symbols-outlined">pause_circle</span>
+                            Pause
+                        </button>
+                        <button class="bulk-btn">
+                            <span class="material-symbols-outlined">file_download</span>
+                            Export
+                        </button>
+                    </div>
+
+                    <!-- Table -->
+                    <div class="table-responsive">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 40px;">
+                                        <div class="custom-checkbox" id="selectAll"></div>
+                                    </th>
+                                    <th class="sortable" data-sort="name">Jury Member <span class="material-symbols-outlined" style="font-size: 14px; vertical-align: middle;">unfold_more</span></th>
+                                    <th>Expertise</th>
+                                    <th class="sortable" data-sort="status">Status <span class="material-symbols-outlined" style="font-size: 14px; vertical-align: middle;">unfold_more</span></th>
+                                    <th class="sortable" data-sort="assigned">Assigned <span class="material-symbols-outlined" style="font-size: 14px; vertical-align: middle;">unfold_more</span></th>
+                                    <th class="sortable" data-sort="evaluated">Evaluated <span class="material-symbols-outlined" style="font-size: 14px; vertical-align: middle;">unfold_more</span></th>
+                                    <th class="sortable" data-sort="pending">Pending <span class="material-symbols-outlined" style="font-size: 14px; vertical-align: middle;">unfold_more</span></th>
+                                    <th>Capacity</th>
+                                    <th class="sortable" data-sort="deviation">AI Deviation <span class="material-symbols-outlined" style="font-size: 14px; vertical-align: middle;">unfold_more</span></th>
+                                    <th class="sortable" data-sort="turnaround">Turnaround <span class="material-symbols-outlined" style="font-size: 14px; vertical-align: middle;">unfold_more</span></th>
+                                    <th style="width: 90px;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="juryBody">
+                                <!-- Row 1 - Optimal -->
+                                <tr data-status="active" data-workload="optimal" data-expertise="technology">
+                                    <td><div class="custom-checkbox row-checkbox"></div></td>
+                                    <td>
+                                        <div class="jury-profile">
+                                            <div class="jury-avatar" style="background: var(--primary);">MK</div>
+                                            <div>
+                                                <p class="jury-name">Dr. Meera Kapoor</p>
+                                                <p class="jury-org">IIT Delhi · AI/ML</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="expertise-tags">
+                                            <span class="expertise-tag">Technology</span>
+                                            <span class="expertise-tag">EdTech</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-status active">Active</span></td>
+                                    <td><strong>32</strong></td>
+                                    <td style="color: #16a34a; font-weight: 700;">28</td>
+                                    <td style="color: #d97706; font-weight: 700;">4</td>
+                                    <td>
+                                        <div class="capacity-bar-wrapper">
+                                            <div class="capacity-bar"><div class="capacity-fill optimal" style="width: 72%;"></div></div>
+                                            <span class="capacity-text optimal">72%</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="deviation-badge low">±1.2</span></td>
+                                    <td style="font-size: 0.8125rem; font-weight: 600;">1.8d</td>
+                                    <td>
+                                        <div class="quick-actions">
+                                            <button class="btn-icon-action view-btn" title="View Details">
+                                                <span class="material-symbols-outlined">visibility</span>
+                                            </button>
+                                            <button class="btn-icon-action" title="Assign Ideas">
+                                                <span class="material-symbols-outlined">assignment</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- Row 2 - Overloaded -->
+                                <tr data-status="active" data-workload="overloaded" data-expertise="healthcare">
+                                    <td><div class="custom-checkbox row-checkbox"></div></td>
+                                    <td>
+                                        <div class="jury-profile">
+                                            <div class="jury-avatar" style="background: #ef4444;">AM</div>
+                                            <div>
+                                                <p class="jury-name">Arvind Mehta</p>
+                                                <p class="jury-org">AIIMS Delhi · Healthcare</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="expertise-tags">
+                                            <span class="expertise-tag">Healthcare</span>
+                                            <span class="expertise-tag">Social Impact</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-status active">Active</span></td>
+                                    <td><strong>45</strong></td>
+                                    <td style="color: #16a34a; font-weight: 700;">30</td>
+                                    <td style="color: #ef4444; font-weight: 700;">15</td>
+                                    <td>
+                                        <div class="capacity-bar-wrapper">
+                                            <div class="capacity-bar"><div class="capacity-fill overloaded" style="width: 100%;"></div></div>
+                                            <span class="capacity-text overloaded">112%</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="deviation-badge high">±4.8</span></td>
+                                    <td style="font-size: 0.8125rem; font-weight: 600; color: #ef4444;">4.2d</td>
+                                    <td>
+                                        <div class="quick-actions">
+                                            <button class="btn-icon-action view-btn" title="View Details">
+                                                <span class="material-symbols-outlined">visibility</span>
+                                            </button>
+                                            <button class="btn-icon-action" title="Reassign Ideas" style="color: #ef4444; border-color: #fee2e2;">
+                                                <span class="material-symbols-outlined">swap_horiz</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- Row 3 - Optimal -->
+                                <tr data-status="active" data-workload="optimal" data-expertise="education">
+                                    <td><div class="custom-checkbox row-checkbox"></div></td>
+                                    <td>
+                                        <div class="jury-profile">
+                                            <div class="jury-avatar" style="background: #3b82f6;">PS</div>
+                                            <div>
+                                                <p class="jury-name">Prof. Priya Sharma</p>
+                                                <p class="jury-org">NIFT Mumbai · Education</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="expertise-tags">
+                                            <span class="expertise-tag">Education</span>
+                                            <span class="expertise-tag">Sustainability</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-status active">Active</span></td>
+                                    <td><strong>28</strong></td>
+                                    <td style="color: #16a34a; font-weight: 700;">24</td>
+                                    <td style="color: #d97706; font-weight: 700;">4</td>
+                                    <td>
+                                        <div class="capacity-bar-wrapper">
+                                            <div class="capacity-bar"><div class="capacity-fill optimal" style="width: 65%;"></div></div>
+                                            <span class="capacity-text optimal">65%</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="deviation-badge low">±0.8</span></td>
+                                    <td style="font-size: 0.8125rem; font-weight: 600;">1.5d</td>
+                                    <td>
+                                        <div class="quick-actions">
+                                            <button class="btn-icon-action view-btn" title="View Details">
+                                                <span class="material-symbols-outlined">visibility</span>
+                                            </button>
+                                            <button class="btn-icon-action" title="Assign Ideas">
+                                                <span class="material-symbols-outlined">assignment</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- Row 4 - Idle -->
+                                <tr data-status="active" data-workload="idle" data-expertise="finance">
+                                    <td><div class="custom-checkbox row-checkbox"></div></td>
+                                    <td>
+                                        <div class="jury-profile">
+                                            <div class="jury-avatar" style="background: #f59e0b;">RG</div>
+                                            <div>
+                                                <p class="jury-name">Rajesh Gupta</p>
+                                                <p class="jury-org">Deloitte · FinTech</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="expertise-tags">
+                                            <span class="expertise-tag">Finance</span>
+                                            <span class="expertise-tag">Technology</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-status active">Active</span></td>
+                                    <td><strong>8</strong></td>
+                                    <td style="color: #16a34a; font-weight: 700;">6</td>
+                                    <td style="color: #d97706; font-weight: 700;">2</td>
+                                    <td>
+                                        <div class="capacity-bar-wrapper">
+                                            <div class="capacity-bar"><div class="capacity-fill idle" style="width: 20%;"></div></div>
+                                            <span class="capacity-text idle">20%</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="deviation-badge low">±1.5</span></td>
+                                    <td style="font-size: 0.8125rem; font-weight: 600;">2.0d</td>
+                                    <td>
+                                        <div class="quick-actions">
+                                            <button class="btn-icon-action view-btn" title="View Details">
+                                                <span class="material-symbols-outlined">visibility</span>
+                                            </button>
+                                            <button class="btn-icon-action" title="Assign Ideas">
+                                                <span class="material-symbols-outlined">assignment</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- Row 5 - Moderate -->
+                                <tr data-status="active" data-workload="moderate" data-expertise="sustainability">
+                                    <td><div class="custom-checkbox row-checkbox"></div></td>
+                                    <td>
+                                        <div class="jury-profile">
+                                            <div class="jury-avatar" style="background: #14b8a6;">SN</div>
+                                            <div>
+                                                <p class="jury-name">Dr. Sunita Nair</p>
+                                                <p class="jury-org">TERI · Sustainability</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="expertise-tags">
+                                            <span class="expertise-tag">Sustainability</span>
+                                            <span class="expertise-tag">Social Impact</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-status active">Active</span></td>
+                                    <td><strong>38</strong></td>
+                                    <td style="color: #16a34a; font-weight: 700;">30</td>
+                                    <td style="color: #d97706; font-weight: 700;">8</td>
+                                    <td>
+                                        <div class="capacity-bar-wrapper">
+                                            <div class="capacity-bar"><div class="capacity-fill moderate" style="width: 88%;"></div></div>
+                                            <span class="capacity-text moderate">88%</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="deviation-badge medium">±2.9</span></td>
+                                    <td style="font-size: 0.8125rem; font-weight: 600;">2.8d</td>
+                                    <td>
+                                        <div class="quick-actions">
+                                            <button class="btn-icon-action view-btn" title="View Details">
+                                                <span class="material-symbols-outlined">visibility</span>
+                                            </button>
+                                            <button class="btn-icon-action" title="Assign Ideas">
+                                                <span class="material-symbols-outlined">assignment</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- Row 6 - Paused -->
+                                <tr data-status="paused" data-workload="idle" data-expertise="technology">
+                                    <td><div class="custom-checkbox row-checkbox"></div></td>
+                                    <td>
+                                        <div class="jury-profile">
+                                            <div class="jury-avatar" style="background: #94a3b8;">VP</div>
+                                            <div>
+                                                <p class="jury-name">Vikram Patel</p>
+                                                <p class="jury-org">TCS · Technology</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="expertise-tags">
+                                            <span class="expertise-tag">Technology</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-status paused">Paused</span></td>
+                                    <td><strong>20</strong></td>
+                                    <td style="color: #16a34a; font-weight: 700;">20</td>
+                                    <td style="font-weight: 700;">0</td>
+                                    <td>
+                                        <div class="capacity-bar-wrapper">
+                                            <div class="capacity-bar"><div class="capacity-fill idle" style="width: 0%;"></div></div>
+                                            <span class="capacity-text idle">0%</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="deviation-badge low">±1.0</span></td>
+                                    <td style="font-size: 0.8125rem; font-weight: 600;">2.1d</td>
+                                    <td>
+                                        <div class="quick-actions">
+                                            <button class="btn-icon-action view-btn" title="View Details">
+                                                <span class="material-symbols-outlined">visibility</span>
+                                            </button>
+                                            <button class="btn-icon-action" title="Resume">
+                                                <span class="material-symbols-outlined">play_arrow</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- Row 7 - Overloaded -->
+                                <tr data-status="active" data-workload="overloaded" data-expertise="education">
+                                    <td><div class="custom-checkbox row-checkbox"></div></td>
+                                    <td>
+                                        <div class="jury-profile">
+                                            <div class="jury-avatar" style="background: #ec4899;">AD</div>
+                                            <div>
+                                                <p class="jury-name">Anita Deshmukh</p>
+                                                <p class="jury-org">ISB Hyderabad · EdTech</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="expertise-tags">
+                                            <span class="expertise-tag">Education</span>
+                                            <span class="expertise-tag">Finance</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-status active">Active</span></td>
+                                    <td><strong>42</strong></td>
+                                    <td style="color: #16a34a; font-weight: 700;">25</td>
+                                    <td style="color: #ef4444; font-weight: 700;">17</td>
+                                    <td>
+                                        <div class="capacity-bar-wrapper">
+                                            <div class="capacity-bar"><div class="capacity-fill overloaded" style="width: 100%;"></div></div>
+                                            <span class="capacity-text overloaded">105%</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="deviation-badge medium">±3.2</span></td>
+                                    <td style="font-size: 0.8125rem; font-weight: 600; color: #ef4444;">3.9d</td>
+                                    <td>
+                                        <div class="quick-actions">
+                                            <button class="btn-icon-action view-btn" title="View Details">
+                                                <span class="material-symbols-outlined">visibility</span>
+                                            </button>
+                                            <button class="btn-icon-action" title="Reassign Ideas" style="color: #ef4444; border-color: #fee2e2;">
+                                                <span class="material-symbols-outlined">swap_horiz</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- Row 8 - Optimal -->
+                                <tr data-status="active" data-workload="optimal" data-expertise="social-impact">
+                                    <td><div class="custom-checkbox row-checkbox"></div></td>
+                                    <td>
+                                        <div class="jury-profile">
+                                            <div class="jury-avatar" style="background: #8b5cf6;">KR</div>
+                                            <div>
+                                                <p class="jury-name">Kavita Rao</p>
+                                                <p class="jury-org">Ashoka Foundation · NGO</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="expertise-tags">
+                                            <span class="expertise-tag">Social Impact</span>
+                                            <span class="expertise-tag">Sustainability</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-status active">Active</span></td>
+                                    <td><strong>30</strong></td>
+                                    <td style="color: #16a34a; font-weight: 700;">26</td>
+                                    <td style="color: #d97706; font-weight: 700;">4</td>
+                                    <td>
+                                        <div class="capacity-bar-wrapper">
+                                            <div class="capacity-bar"><div class="capacity-fill optimal" style="width: 75%;"></div></div>
+                                            <span class="capacity-text optimal">75%</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="deviation-badge low">±0.5</span></td>
+                                    <td style="font-size: 0.8125rem; font-weight: 600;">1.2d</td>
+                                    <td>
+                                        <div class="quick-actions">
+                                            <button class="btn-icon-action view-btn" title="View Details">
+                                                <span class="material-symbols-outlined">visibility</span>
+                                            </button>
+                                            <button class="btn-icon-action" title="Assign Ideas">
+                                                <span class="material-symbols-outlined">assignment</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- Row 9 - Idle -->
+                                <tr data-status="active" data-workload="idle" data-expertise="healthcare">
+                                    <td><div class="custom-checkbox row-checkbox"></div></td>
+                                    <td>
+                                        <div class="jury-profile">
+                                            <div class="jury-avatar" style="background: #059669;">NB</div>
+                                            <div>
+                                                <p class="jury-name">Dr. Nikhil Bansal</p>
+                                                <p class="jury-org">Max Healthcare · Biotech</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="expertise-tags">
+                                            <span class="expertise-tag">Healthcare</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-status active">Active</span></td>
+                                    <td><strong>10</strong></td>
+                                    <td style="color: #16a34a; font-weight: 700;">8</td>
+                                    <td style="color: #d97706; font-weight: 700;">2</td>
+                                    <td>
+                                        <div class="capacity-bar-wrapper">
+                                            <div class="capacity-bar"><div class="capacity-fill idle" style="width: 25%;"></div></div>
+                                            <span class="capacity-text idle">25%</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="deviation-badge low">±1.1</span></td>
+                                    <td style="font-size: 0.8125rem; font-weight: 600;">2.3d</td>
+                                    <td>
+                                        <div class="quick-actions">
+                                            <button class="btn-icon-action view-btn" title="View Details">
+                                                <span class="material-symbols-outlined">visibility</span>
+                                            </button>
+                                            <button class="btn-icon-action" title="Assign Ideas">
+                                                <span class="material-symbols-outlined">assignment</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- Row 10 - Inactive -->
+                                <tr data-status="inactive" data-workload="idle" data-expertise="technology">
+                                    <td><div class="custom-checkbox row-checkbox"></div></td>
+                                    <td>
+                                        <div class="jury-profile">
+                                            <div class="jury-avatar" style="background: #6b7280;">SC</div>
+                                            <div>
+                                                <p class="jury-name">Sanjay Chopra</p>
+                                                <p class="jury-org">Infosys · IT Strategy</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="expertise-tags">
+                                            <span class="expertise-tag">Technology</span>
+                                            <span class="expertise-tag">Finance</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-status inactive">Inactive</span></td>
+                                    <td><strong>15</strong></td>
+                                    <td style="color: #16a34a; font-weight: 700;">15</td>
+                                    <td style="font-weight: 700;">0</td>
+                                    <td>
+                                        <div class="capacity-bar-wrapper">
+                                            <div class="capacity-bar"><div class="capacity-fill idle" style="width: 0%;"></div></div>
+                                            <span class="capacity-text idle">0%</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="deviation-badge medium">±2.5</span></td>
+                                    <td style="font-size: 0.8125rem; font-weight: 600;">3.1d</td>
+                                    <td>
+                                        <div class="quick-actions">
+                                            <button class="btn-icon-action view-btn" title="View Details">
+                                                <span class="material-symbols-outlined">visibility</span>
+                                            </button>
+                                            <button class="btn-icon-action" title="Reactivate">
+                                                <span class="material-symbols-outlined">restart_alt</span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="pagination-custom">
+                        <span class="pagination-info">Showing <strong>1–10</strong> of <strong>48</strong> jury members</span>
+                        <div class="pagination-controls">
+                            <button class="page-btn" disabled>
+                                <span class="material-symbols-outlined" style="font-size: 18px;">chevron_left</span>
+                            </button>
+                            <button class="page-btn active">1</button>
+                            <button class="page-btn">2</button>
+                            <button class="page-btn">3</button>
+                            <button class="page-btn">4</button>
+                            <button class="page-btn">5</button>
+                            <button class="page-btn">
+                                <span class="material-symbols-outlined" style="font-size: 18px;">chevron_right</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Details Sidebar -->
+    <div class="details-sidebar-overlay" id="detailsOverlay"></div>
+    <div class="details-sidebar" id="detailsSidebar">
+        <div class="details-sidebar-header">
+            <h2>Jury Member Details</h2>
+            <button class="details-sidebar-close" id="closeSidebar">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="details-sidebar-content" id="detailsContent">
+            <!-- Jury Profile -->
+            <div class="detail-section">
+                <div class="jury-profile-card">
+                    <div class="jury-profile-avatar" style="background: var(--primary);">MK</div>
+                    <div class="jury-profile-info">
+                        <h3>Dr. Meera Kapoor</h3>
+                        <p>Professor, AI & Machine Learning · IIT Delhi</p>
+                    </div>
+                </div>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <div class="detail-item-label">Jury ID</div>
+                        <div class="detail-item-value" style="font-family: monospace; color: var(--primary);">JUR2026-0041</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-item-label">Status</div>
+                        <div class="detail-item-value"><span class="badge-status active">Active</span></div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-item-label">Season</div>
+                        <div class="detail-item-value">Season 5</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-item-label">Joined</div>
+                        <div class="detail-item-value">Feb 10, 2026</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-item-label">Email</div>
+                        <div class="detail-item-value" style="font-size: 0.8125rem;">meera.kapoor@iitd.ac.in</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-item-label">Phone</div>
+                        <div class="detail-item-value">+91 98765 43210</div>
+                    </div>
+                    <div class="detail-item full">
+                        <div class="detail-item-label">Expertise</div>
+                        <div class="detail-item-value">
+                            <div class="expertise-tags" style="margin-top: 4px;">
+                                <span class="expertise-tag">Technology</span>
+                                <span class="expertise-tag">EdTech</span>
+                                <span class="expertise-tag">AI/ML</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="detail-item full">
+                        <div class="detail-item-label">Bio</div>
+                        <div class="detail-item-value" style="font-weight: 400; line-height: 1.6;">Professor with 15 years of experience in AI research. Previously at Google Brain. Passionate about mentoring young innovators and bridging the gap between academia and industry.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Performance Metrics -->
+            <div class="detail-section">
+                <div class="detail-section-title">
+                    <span class="material-symbols-outlined">analytics</span>
+                    Performance Metrics
+                </div>
+                <div class="perf-metrics">
+                    <div class="perf-metric">
+                        <div class="perf-metric-value" style="color: var(--primary);">32</div>
+                        <div class="perf-metric-label">Assigned</div>
+                    </div>
+                    <div class="perf-metric">
+                        <div class="perf-metric-value" style="color: #16a34a;">28</div>
+                        <div class="perf-metric-label">Evaluated</div>
+                    </div>
+                    <div class="perf-metric">
+                        <div class="perf-metric-value" style="color: #d97706;">4</div>
+                        <div class="perf-metric-label">Pending</div>
+                    </div>
+                </div>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <div class="detail-item-label">Capacity</div>
+                        <div class="detail-item-value" style="color: #16a34a;">72% (Optimal)</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-item-label">Avg Turnaround</div>
+                        <div class="detail-item-value">1.8 days</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-item-label">Avg Score Given</div>
+                        <div class="detail-item-value">33.2 / 50</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-item-label">AI Deviation</div>
+                        <div class="detail-item-value"><span class="deviation-badge low">±1.2 pts</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Score Comparison: Jury vs AI -->
+            <div class="detail-section">
+                <div class="detail-section-title">
+                    <span class="material-symbols-outlined">compare</span>
+                    Jury vs AI Score (Avg)
+                </div>
+                <div class="score-comparison">
+                    <div class="score-comp-row">
+                        <span class="score-comp-label">Jury Avg</span>
+                        <div class="score-comp-bar"><div class="score-comp-fill jury" style="width: 66.4%;"></div></div>
+                        <span class="score-comp-value">33.2</span>
+                    </div>
+                    <div class="score-comp-row">
+                        <span class="score-comp-label">AI Avg</span>
+                        <div class="score-comp-bar"><div class="score-comp-fill ai" style="width: 68.8%;"></div></div>
+                        <span class="score-comp-value">34.4</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Assigned Ideas -->
+            <div class="detail-section">
+                <div class="detail-section-title">
+                    <span class="material-symbols-outlined">assignment</span>
+                    Assigned Ideas (32)
+                </div>
+                <div class="assigned-idea-row">
+                    <span class="idea-status-dot evaluated"></span>
+                    <div class="assigned-idea-info">
+                        <p class="assigned-idea-name">MediTrack — AI Health Companion</p>
+                        <span class="assigned-idea-meta">Team Pulse · DPS Noida · Mar 18</span>
+                    </div>
+                    <span class="assigned-idea-score" style="color: #16a34a;">43/50</span>
+                </div>
+                <div class="assigned-idea-row">
+                    <span class="idea-status-dot evaluated"></span>
+                    <div class="assigned-idea-info">
+                        <p class="assigned-idea-name">LearnBridge — Rural EdTech Platform</p>
+                        <span class="assigned-idea-meta">Digital Dreamers · St. Xavier's · Mar 17</span>
+                    </div>
+                    <span class="assigned-idea-score" style="color: #16a34a;">40/50</span>
+                </div>
+                <div class="assigned-idea-row">
+                    <span class="idea-status-dot evaluated"></span>
+                    <div class="assigned-idea-info">
+                        <p class="assigned-idea-name">AquaPure — Water Purification System</p>
+                        <span class="assigned-idea-meta">Blue Planet · La Martiniere · Mar 16</span>
+                    </div>
+                    <span class="assigned-idea-score" style="color: #16a34a;">42/50</span>
+                </div>
+                <div class="assigned-idea-row">
+                    <span class="idea-status-dot pending"></span>
+                    <div class="assigned-idea-info">
+                        <p class="assigned-idea-name">KisaanMitra — Smart Farming IoT</p>
+                        <span class="assigned-idea-meta">Green Innovators · KV Lucknow · Mar 20</span>
+                    </div>
+                    <span class="assigned-idea-score" style="color: #d97706;">Pending</span>
+                </div>
+                <div class="assigned-idea-row">
+                    <span class="idea-status-dot pending"></span>
+                    <div class="assigned-idea-info">
+                        <p class="assigned-idea-name">LangPal — Language Exchange App</p>
+                        <span class="assigned-idea-meta">Polyglots · Bishop Cotton · Mar 21</span>
+                    </div>
+                    <span class="assigned-idea-score" style="color: #d97706;">Pending</span>
+                </div>
+                <div style="text-align: center; margin-top: 12px;">
+                    <button class="btn-secondary-custom" style="display: inline-flex; padding: 8px 16px; font-size: 0.75rem;">
+                        <span class="material-symbols-outlined" style="font-size: 16px;">expand_more</span>
+                        View all 32 ideas
+                    </button>
+                </div>
+            </div>
+
+            <!-- Evaluation Timeline -->
+            <div class="detail-section">
+                <div class="detail-section-title">
+                    <span class="material-symbols-outlined">schedule</span>
+                    Availability
+                </div>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <div class="detail-item-label">Available From</div>
+                        <div class="detail-item-value">Feb 10, 2026</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-item-label">Available To</div>
+                        <div class="detail-item-value">May 30, 2026</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-item-label">Max Ideas/Week</div>
+                        <div class="detail-item-value">10</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-item-label">Preferred Time</div>
+                        <div class="detail-item-value">Evenings</div>
+                    </div>
+                    <div class="detail-item full">
+                        <div class="detail-item-label">Willing to Mentor</div>
+                        <div class="detail-item-value" style="color: #16a34a;">Yes — Available for Bootcamp</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Actions -->
+        <div class="details-sidebar-footer">
+            <button class="btn-secondary-custom" id="sidebarPause">
+                <span class="material-symbols-outlined" style="font-size: 16px;">pause_circle</span>
+                Pause Jury
+            </button>
+            <button class="btn-secondary-custom" id="sidebarReminder">
+                <span class="material-symbols-outlined" style="font-size: 16px;">notifications</span>
+                Send Reminder
+            </button>
+            <button class="btn-primary-custom" id="sidebarAssign">
+                <span class="material-symbols-outlined" style="font-size: 16px;">assignment</span>
+                Assign Ideas
+            </button>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Load External Components -->
+    <script>
+        // Load sidebar
+        fetch('sidebar.html')
+            .then(response => response.text())
+            .then(data => {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = data;
+
+                const elements = tempDiv.childNodes;
+                elements.forEach(node => {
+                    if (node.nodeType === 1 && node.tagName !== 'SCRIPT') {
+                        document.getElementById('sidebar-container').appendChild(node.cloneNode(true));
+                    } else if (node.nodeType === 3) {
+                        document.getElementById('sidebar-container').appendChild(node.cloneNode(true));
+                    }
+                });
+
+                const script = tempDiv.querySelector('script');
+                if (script) {
+                    const newScript = document.createElement('script');
+                    newScript.textContent = script.textContent;
+                    document.body.appendChild(newScript);
+                }
+
+                // Set active menu
+                setTimeout(() => {
+                    const navItems = document.querySelectorAll('.nav-item');
+                    navItems.forEach(item => {
+                        const href = item.getAttribute('href');
+                        item.classList.remove('nav-item-active');
+                        const icon = item.querySelector('.material-symbols-outlined');
+                        if (icon) icon.style.fontVariationSettings = "'FILL' 0";
+                        if (href === 'jury-management.html') {
+                            item.classList.add('nav-item-active');
+                            if (icon) icon.style.fontVariationSettings = "'FILL' 1";
+                        }
+                    });
+                }, 200);
+            })
+            .catch(error => console.error('Error loading sidebar:', error));
+
+        // Load header
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = data;
+
+                const elements = tempDiv.childNodes;
+                elements.forEach(node => {
+                    if (node.nodeType === 1 || node.nodeType === 3) {
+                        document.getElementById('header-container').appendChild(node.cloneNode(true));
+                    }
+                });
+
+                const script = tempDiv.querySelector('script');
+                if (script) {
+                    const newScript = document.createElement('script');
+                    newScript.textContent = script.textContent;
+                    document.body.appendChild(newScript);
+                }
+            })
+            .catch(error => console.error('Error loading header:', error));
+    </script>
+
+    <!-- Page Functionality -->
+    <script>
+        (function () {
+            const rows = document.querySelectorAll('#juryBody tr');
+            const searchInput = document.getElementById('searchInput');
+            const statusFilter = document.getElementById('statusFilter');
+            const workloadFilter = document.getElementById('workloadFilter');
+            const expertiseFilter = document.getElementById('expertiseFilter');
+            const detailsSidebar = document.getElementById('detailsSidebar');
+            const detailsOverlay = document.getElementById('detailsOverlay');
+            const bulkActions = document.getElementById('bulkActions');
+            const selectedCountEl = document.getElementById('selectedCount');
+            const selectAllCheckbox = document.getElementById('selectAll');
+
+            // --- Search & Filter ---
+            function applyFilters() {
+                const query = searchInput.value.toLowerCase();
+                const status = statusFilter.value;
+                const workload = workloadFilter.value;
+                const expertise = expertiseFilter.value;
+
+                rows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    const rowStatus = row.getAttribute('data-status');
+                    const rowWorkload = row.getAttribute('data-workload');
+                    const rowExpertise = row.getAttribute('data-expertise');
+
+                    let show = true;
+                    if (query && !text.includes(query)) show = false;
+                    if (status && rowStatus !== status) show = false;
+                    if (workload && rowWorkload !== workload) show = false;
+                    if (expertise && rowExpertise !== expertise) show = false;
+
+                    row.style.display = show ? '' : 'none';
+                });
+            }
+
+            searchInput.addEventListener('input', applyFilters);
+            statusFilter.addEventListener('change', applyFilters);
+            workloadFilter.addEventListener('change', applyFilters);
+            expertiseFilter.addEventListener('change', applyFilters);
+
+            // --- Workload legend click to filter ---
+            document.querySelectorAll('.workload-legend-item').forEach(item => {
+                item.addEventListener('click', function () {
+                    const workload = this.getAttribute('data-workload');
+                    workloadFilter.value = workload;
+                    applyFilters();
+                });
+            });
+
+            // --- Checkbox selection ---
+            function updateBulkActions() {
+                const checked = document.querySelectorAll('.row-checkbox.checked');
+                const count = checked.length;
+                selectedCountEl.textContent = count;
+                bulkActions.classList.toggle('visible', count > 0);
+                selectAllCheckbox.classList.toggle('checked', count === rows.length && rows.length > 0);
+            }
+
+            selectAllCheckbox.addEventListener('click', function () {
+                const isChecked = this.classList.contains('checked');
+                document.querySelectorAll('.row-checkbox').forEach(cb => {
+                    cb.classList.toggle('checked', !isChecked);
+                    cb.closest('tr').classList.toggle('selected', !isChecked);
+                });
+                updateBulkActions();
+            });
+
+            document.querySelectorAll('.row-checkbox').forEach(cb => {
+                cb.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    this.classList.toggle('checked');
+                    this.closest('tr').classList.toggle('selected');
+                    updateBulkActions();
+                });
+            });
+
+            // --- Details Sidebar ---
+            function openSidebar() {
+                detailsSidebar.classList.add('open');
+                detailsOverlay.classList.add('show');
+            }
+
+            function closeSidebar() {
+                detailsSidebar.classList.remove('open');
+                detailsOverlay.classList.remove('show');
+            }
+
+            document.getElementById('closeSidebar').addEventListener('click', closeSidebar);
+            detailsOverlay.addEventListener('click', closeSidebar);
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') closeSidebar();
+            });
+
+            rows.forEach(row => {
+                row.addEventListener('click', function (e) {
+                    if (e.target.closest('.custom-checkbox') || e.target.closest('.btn-icon-action')) return;
+                    openSidebar();
+                });
+            });
+
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    openSidebar();
+                });
+            });
+
+            // --- Action buttons ---
+            document.getElementById('exportBtn').addEventListener('click', () => showToast('Exporting jury data to CSV...', 'info'));
+            document.getElementById('sidebarPause').addEventListener('click', () => showToast('Jury member paused', 'warning'));
+            document.getElementById('sidebarReminder').addEventListener('click', () => showToast('Reminder sent successfully', 'success'));
+            document.getElementById('sidebarAssign').addEventListener('click', () => showToast('Opening idea assignment panel...', 'info'));
+
+            document.querySelectorAll('.bulk-btn').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    showToast(`Bulk action: ${this.textContent.trim()}`, 'info');
+                });
+            });
+
+            document.querySelectorAll('.btn-icon-action:not(.view-btn)').forEach(btn => {
+                btn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    showToast(`Action: ${this.title}`, 'info');
+                });
+            });
+
+            // --- Toast ---
+            function showToast(message, type = 'info') {
+                const existing = document.querySelector('.toast-notification');
+                if (existing) existing.remove();
+
+                const toast = document.createElement('div');
+                toast.className = 'toast-notification';
+
+                const colors = { success: '#22c55e', error: '#ef4444', info: '#5E2A97', warning: '#f97316' };
+                const icons = { success: 'check_circle', error: 'error', info: 'info', warning: 'warning' };
+
+                toast.style.cssText = `
+                    position: fixed; bottom: 2rem; right: 2rem;
+                    background: ${colors[type]}; color: white;
+                    padding: 1rem 1.5rem; border-radius: 0.75rem;
+                    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+                    z-index: 9999; display: flex; align-items: center;
+                    gap: 0.75rem; font-size: 0.875rem; font-weight: 500;
+                    font-family: 'Poppins', sans-serif;
+                    animation: slideIn 0.3s ease; max-width: 400px;
+                `;
+
+                toast.innerHTML = `
+                    <span class="material-symbols-outlined" style="font-size: 20px;">${icons[type]}</span>
+                    <span>${message}</span>
+                `;
+
+                document.body.appendChild(toast);
+                setTimeout(() => {
+                    toast.style.animation = 'slideOut 0.3s ease';
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            }
+
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn { from { transform: translateX(400px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+                @keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(400px); opacity: 0; } }
+            `;
+            document.head.appendChild(style);
+        })();
+    </script>
+</body>
+
+</html>

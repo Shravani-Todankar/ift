@@ -1,0 +1,1640 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Notifications - IFT Super Admin</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap"
+        rel="stylesheet" />
+
+    <!-- Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --primary: #5E2A97;
+            --secondary: #DEDE50;
+            --primary-light: #E8D4F0;
+            --background-light: #F7F7F7;
+            --surface-light: #FFFFFF;
+            --border-light: #EEEEEE;
+            --text-dark: #222222;
+            --text-muted: #666666;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-light);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Layout */
+        .main-container {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow-y: auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            padding: 18px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Sidebar Container */
+        #sidebar-container {
+            flex-shrink: 0;
+        }
+
+        /* Header Container */
+        #header-container {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        /* Page Header */
+        .page-header {
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .page-header-left h1 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+
+        .page-header-left p {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .page-header-right {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        /* Notification Stats */
+        .notification-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: var(--surface-light);
+            border-radius: 12px;
+            padding: 1.25rem;
+            border: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .stat-icon {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .stat-icon.purple {
+            background: rgba(94, 42, 151, 0.1);
+            color: var(--primary);
+        }
+
+        .stat-icon.orange {
+            background: rgba(249, 115, 22, 0.1);
+            color: #f97316;
+        }
+
+        .stat-icon.green {
+            background: rgba(34, 197, 94, 0.1);
+            color: #16a34a;
+        }
+
+        .stat-icon.blue {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+
+        .stat-info h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-info span {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* Filter Tabs */
+        .filter-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            padding: 0.625rem 1.25rem;
+            border-radius: 0.5rem;
+            background: var(--surface-light);
+            border: 1px solid var(--border-light);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .filter-tab:hover {
+            background: var(--background-light);
+            border-color: rgba(94, 42, 151, 0.3);
+            color: var(--text-dark);
+        }
+
+        .filter-tab.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #fff;
+        }
+
+        .filter-count {
+            background: rgba(0, 0, 0, 0.1);
+            color: inherit;
+            padding: 0.125rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .filter-tab.active .filter-count {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Actions Bar */
+        .actions-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .actions-left {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .action-btn {
+            padding: 0.625rem 1rem;
+            border-radius: 0.5rem;
+            background: var(--surface-light);
+            border: 1px solid var(--border-light);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .action-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #fff;
+        }
+
+        .action-btn .material-symbols-outlined {
+            font-size: 18px;
+        }
+
+        .action-btn.danger:hover {
+            background: #ef4444;
+            border-color: #ef4444;
+            color: #fff;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            max-width: 320px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.625rem 1rem 0.625rem 2.75rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--border-light);
+            font-size: 0.875rem;
+            font-family: 'Poppins', sans-serif;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(94, 42, 151, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+
+        /* Notifications List */
+        .notifications-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .notification-card {
+            background: var(--surface-light);
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-light);
+            padding: 1.25rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            display: flex;
+            gap: 1rem;
+            position: relative;
+        }
+
+        .notification-card:hover {
+            border-color: rgba(94, 42, 151, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .notification-card.unread {
+            background: rgba(94, 42, 151, 0.03);
+            border-left: 4px solid var(--primary);
+        }
+
+        .notification-icon-wrapper {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .notification-icon-wrapper.success {
+            background: rgba(34, 197, 94, 0.1);
+            color: #16a34a;
+        }
+
+        .notification-icon-wrapper.primary {
+            background: rgba(94, 42, 151, 0.1);
+            color: var(--primary);
+        }
+
+        .notification-icon-wrapper.warning {
+            background: rgba(249, 115, 22, 0.1);
+            color: #f97316;
+        }
+
+        .notification-icon-wrapper.info {
+            background: rgba(147, 51, 234, 0.1);
+            color: #9333ea;
+        }
+
+        .notification-icon-wrapper.error {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+
+        .notification-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 0.375rem;
+        }
+
+        .notification-title {
+            font-size: 0.9375rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .notification-time {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .notification-message {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin: 0 0 0.75rem 0;
+        }
+
+        .notification-meta {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 0.75rem;
+        }
+
+        .notification-meta-item {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .notification-meta-item .material-symbols-outlined {
+            font-size: 14px;
+        }
+
+        .notification-actions {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .notification-action-btn {
+            padding: 0.375rem 0.875rem;
+            border-radius: 0.375rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .notification-action-btn.primary {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .notification-action-btn.primary:hover {
+            background: #7B3FB5;
+        }
+
+        .notification-action-btn.secondary {
+            background: var(--background-light);
+            color: var(--text-dark);
+        }
+
+        .notification-action-btn.secondary:hover {
+            background: #e5e7eb;
+        }
+
+        .notification-action-btn .material-symbols-outlined {
+            font-size: 14px;
+        }
+
+        .notification-badge-unread {
+            position: absolute;
+            top: -0.375rem;
+            right: -0.375rem;
+            width: 0.75rem;
+            height: 0.75rem;
+            background: #ef4444;
+            border-radius: 50%;
+            border: 2px solid var(--surface-light);
+        }
+
+        /* Type Badge */
+        .notification-type-badge {
+            font-size: 0.625rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.125rem 0.5rem;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .notification-type-badge.student {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+
+        .notification-type-badge.jury {
+            background: rgba(147, 51, 234, 0.1);
+            color: #9333ea;
+        }
+
+        .notification-type-badge.system {
+            background: rgba(107, 114, 128, 0.1);
+            color: #6b7280;
+        }
+
+        .notification-type-badge.evaluation {
+            background: rgba(34, 197, 94, 0.1);
+            color: #16a34a;
+        }
+
+        .notification-type-badge.alert {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .empty-icon {
+            width: 5rem;
+            height: 5rem;
+            border-radius: 50%;
+            background: var(--background-light);
+            color: var(--text-muted);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .empty-icon .material-symbols-outlined {
+            font-size: 48px;
+        }
+
+        .empty-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-message {
+            font-size: 0.9375rem;
+            color: var(--text-muted);
+        }
+
+        /* Compose Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-container {
+            background: var(--surface-light);
+            border-radius: 16px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .modal-close {
+            width: 2rem;
+            height: 2rem;
+            border: none;
+            background: var(--background-light);
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: #e5e7eb;
+            color: var(--text-dark);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-light);
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-family: 'Poppins', sans-serif;
+            outline: none;
+            transition: all 0.2s ease;
+            color: var(--text-dark);
+            background: var(--surface-light);
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(94, 42, 151, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .modal-footer {
+            padding: 1.25rem 1.5rem;
+            border-top: 1px solid var(--border-light);
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+        }
+
+        .btn-cancel {
+            padding: 0.625rem 1.25rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--border-light);
+            background: var(--surface-light);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.2s ease;
+        }
+
+        .btn-cancel:hover {
+            background: var(--background-light);
+        }
+
+        .btn-send {
+            padding: 0.625rem 1.5rem;
+            border-radius: 0.5rem;
+            border: none;
+            background: var(--primary);
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-send:hover {
+            background: #7B3FB5;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .notification-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .page-header {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding: 12px;
+            }
+
+            .page-header-left h1 {
+                font-size: 1.5rem;
+            }
+
+            .notification-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .actions-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .actions-left {
+                flex-wrap: wrap;
+            }
+
+            .search-box {
+                max-width: 100%;
+            }
+
+            .notification-card {
+                padding: 1rem;
+            }
+
+            .notification-icon-wrapper {
+                width: 2.5rem;
+                height: 2.5rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .notification-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+        <!-- Sidebar Container -->
+        <div id="sidebar-container"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header Container -->
+            <div id="header-container"></div>
+
+            <!-- Page Content -->
+            <div class="content-wrapper">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <div class="page-header-left">
+                        <h1>Notifications</h1>
+                        <p>Manage platform alerts, announcements, and communication</p>
+                    </div>
+                    <div class="page-header-right">
+                        <button class="action-btn" id="composeBtn">
+                            <span class="material-symbols-outlined">edit_square</span>
+                            Compose
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Notification Stats -->
+                <div class="notification-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon purple">
+                            <span class="material-symbols-outlined">notifications</span>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="statTotal">12</h3>
+                            <span>Total Notifications</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange">
+                            <span class="material-symbols-outlined">mark_email_unread</span>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="statUnread">5</h3>
+                            <span>Unread</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <span class="material-symbols-outlined">campaign</span>
+                        </div>
+                        <div class="stat-info">
+                            <h3>3</h3>
+                            <span>Sent Today</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <span class="material-symbols-outlined">schedule_send</span>
+                        </div>
+                        <div class="stat-info">
+                            <h3>2</h3>
+                            <span>Scheduled</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filter Tabs -->
+                <div class="filter-tabs">
+                    <button class="filter-tab active" data-filter="all">
+                        <span>All</span>
+                        <span class="filter-count">12</span>
+                    </button>
+                    <button class="filter-tab" data-filter="unread">
+                        <span>Unread</span>
+                        <span class="filter-count">5</span>
+                    </button>
+                    <button class="filter-tab" data-filter="student">
+                        <span>Students</span>
+                        <span class="filter-count">4</span>
+                    </button>
+                    <button class="filter-tab" data-filter="jury">
+                        <span>Jury</span>
+                        <span class="filter-count">3</span>
+                    </button>
+                    <button class="filter-tab" data-filter="evaluation">
+                        <span>Evaluations</span>
+                        <span class="filter-count">2</span>
+                    </button>
+                    <button class="filter-tab" data-filter="system">
+                        <span>System</span>
+                        <span class="filter-count">3</span>
+                    </button>
+                </div>
+
+                <!-- Actions Bar -->
+                <div class="actions-bar">
+                    <div class="actions-left">
+                        <button class="action-btn" id="markAllReadBtn">
+                            <span class="material-symbols-outlined">done_all</span>
+                            Mark all read
+                        </button>
+                        <button class="action-btn danger" id="clearAllBtn">
+                            <span class="material-symbols-outlined">delete_sweep</span>
+                            Clear all
+                        </button>
+                    </div>
+                    <div class="search-box">
+                        <span class="material-symbols-outlined search-icon">search</span>
+                        <input type="text" class="search-input" placeholder="Search notifications..." id="searchInput">
+                    </div>
+                </div>
+
+                <!-- Notifications List -->
+                <div class="notifications-list" id="notificationsList">
+
+                    <!-- Notification 1 - New Student Registration (Unread) -->
+                    <div class="notification-card unread" data-type="student">
+                        <div class="notification-badge-unread"></div>
+                        <div class="notification-icon-wrapper success">
+                            <span class="material-symbols-outlined">person_add</span>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-header">
+                                <h3 class="notification-title">12 New Student Registrations</h3>
+                                <span class="notification-time">
+                                    <span class="material-symbols-outlined" style="font-size: 14px;">schedule</span>
+                                    30m ago
+                                </span>
+                            </div>
+                            <p class="notification-message">
+                                12 new students registered in the last hour from Delhi, Mumbai, and Bangalore regions. Total registrations for Season 5 have crossed 2,400.
+                            </p>
+                            <div class="notification-meta">
+                                <span class="notification-type-badge student">Student</span>
+                                <span class="notification-meta-item">
+                                    <span class="material-symbols-outlined">location_on</span>
+                                    Delhi, Mumbai, Bangalore
+                                </span>
+                            </div>
+                            <div class="notification-actions">
+                                <button class="notification-action-btn primary">
+                                    <span class="material-symbols-outlined">group</span>
+                                    View Students
+                                </button>
+                                <button class="notification-action-btn secondary">
+                                    <span class="material-symbols-outlined">bar_chart</span>
+                                    Registration Report
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notification 2 - Jury Assignment Alert (Unread) -->
+                    <div class="notification-card unread" data-type="jury">
+                        <div class="notification-badge-unread"></div>
+                        <div class="notification-icon-wrapper warning">
+                            <span class="material-symbols-outlined">assignment_late</span>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-header">
+                                <h3 class="notification-title">Jury Assignment Pending — 85 Ideas Unassigned</h3>
+                                <span class="notification-time">
+                                    <span class="material-symbols-outlined" style="font-size: 14px;">schedule</span>
+                                    1h ago
+                                </span>
+                            </div>
+                            <p class="notification-message">
+                                85 student submissions from the Regional Round are yet to be assigned to jury members. Current jury capacity allows assignment of 50 more ideas today.
+                            </p>
+                            <div class="notification-meta">
+                                <span class="notification-type-badge jury">Jury</span>
+                                <span class="notification-meta-item">
+                                    <span class="material-symbols-outlined">priority_high</span>
+                                    High Priority
+                                </span>
+                            </div>
+                            <div class="notification-actions">
+                                <button class="notification-action-btn primary">
+                                    <span class="material-symbols-outlined">assignment</span>
+                                    Assign Ideas
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notification 3 - AI Evaluation Complete (Unread) -->
+                    <div class="notification-card unread" data-type="evaluation">
+                        <div class="notification-badge-unread"></div>
+                        <div class="notification-icon-wrapper info">
+                            <span class="material-symbols-outlined">smart_toy</span>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-header">
+                                <h3 class="notification-title">AI Evaluation Batch Complete</h3>
+                                <span class="notification-time">
+                                    <span class="material-symbols-outlined" style="font-size: 14px;">schedule</span>
+                                    2h ago
+                                </span>
+                            </div>
+                            <p class="notification-message">
+                                Batch #47 AI evaluation completed — 120 submissions scored. Average score: 31.5/50. 28 submissions scored above 34 (Top 400 threshold). 3 flagged for manual review.
+                            </p>
+                            <div class="notification-meta">
+                                <span class="notification-type-badge evaluation">Evaluation</span>
+                                <span class="notification-meta-item">
+                                    <span class="material-symbols-outlined">check_circle</span>
+                                    120 Scored
+                                </span>
+                                <span class="notification-meta-item">
+                                    <span class="material-symbols-outlined">flag</span>
+                                    3 Flagged
+                                </span>
+                            </div>
+                            <div class="notification-actions">
+                                <button class="notification-action-btn primary">
+                                    <span class="material-symbols-outlined">analytics</span>
+                                    View Results
+                                </button>
+                                <button class="notification-action-btn secondary">
+                                    <span class="material-symbols-outlined">rate_review</span>
+                                    Review Flagged
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notification 4 - Jury Onboarded (Unread) -->
+                    <div class="notification-card unread" data-type="jury">
+                        <div class="notification-badge-unread"></div>
+                        <div class="notification-icon-wrapper success">
+                            <span class="material-symbols-outlined">how_to_reg</span>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-header">
+                                <h3 class="notification-title">New Jury Member Onboarded</h3>
+                                <span class="notification-time">
+                                    <span class="material-symbols-outlined" style="font-size: 14px;">schedule</span>
+                                    3h ago
+                                </span>
+                            </div>
+                            <p class="notification-message">
+                                Dr. Meera Kapoor (AI & Machine Learning, IIT Delhi) has been successfully onboarded as a jury member for Season 5. Assigned to Technology and EdTech categories.
+                            </p>
+                            <div class="notification-meta">
+                                <span class="notification-type-badge jury">Jury</span>
+                                <span class="notification-meta-item">
+                                    <span class="material-symbols-outlined">school</span>
+                                    IIT Delhi
+                                </span>
+                            </div>
+                            <div class="notification-actions">
+                                <button class="notification-action-btn secondary">
+                                    <span class="material-symbols-outlined">person</span>
+                                    View Profile
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notification 5 - Submission Deadline Approaching (Unread) -->
+                    <div class="notification-card unread" data-type="system">
+                        <div class="notification-badge-unread"></div>
+                        <div class="notification-icon-wrapper error">
+                            <span class="material-symbols-outlined">alarm</span>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-header">
+                                <h3 class="notification-title">Submission Deadline in 3 Days</h3>
+                                <span class="notification-time">
+                                    <span class="material-symbols-outlined" style="font-size: 14px;">schedule</span>
+                                    5h ago
+                                </span>
+                            </div>
+                            <p class="notification-message">
+                                Regional Round submission deadline is March 30, 2026. 340 students have incomplete submissions. Consider sending a reminder notification to students with drafts.
+                            </p>
+                            <div class="notification-meta">
+                                <span class="notification-type-badge alert">Alert</span>
+                                <span class="notification-meta-item">
+                                    <span class="material-symbols-outlined">warning</span>
+                                    340 Incomplete
+                                </span>
+                            </div>
+                            <div class="notification-actions">
+                                <button class="notification-action-btn primary">
+                                    <span class="material-symbols-outlined">send</span>
+                                    Send Reminder
+                                </button>
+                                <button class="notification-action-btn secondary">
+                                    <span class="material-symbols-outlined">list</span>
+                                    View Incomplete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notification 6 - Evaluation Anomaly -->
+                    <div class="notification-card" data-type="evaluation">
+                        <div class="notification-icon-wrapper warning">
+                            <span class="material-symbols-outlined">report</span>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-header">
+                                <h3 class="notification-title">Scoring Anomaly Detected</h3>
+                                <span class="notification-time">
+                                    <span class="material-symbols-outlined" style="font-size: 14px;">schedule</span>
+                                    1d ago
+                                </span>
+                            </div>
+                            <p class="notification-message">
+                                Jury member Arvind Mehta's scores deviate significantly from AI scores on 8 submissions (avg difference: 12 points). This may indicate scoring inconsistency.
+                            </p>
+                            <div class="notification-meta">
+                                <span class="notification-type-badge evaluation">Evaluation</span>
+                                <span class="notification-meta-item">
+                                    <span class="material-symbols-outlined">person</span>
+                                    Arvind Mehta
+                                </span>
+                            </div>
+                            <div class="notification-actions">
+                                <button class="notification-action-btn primary">
+                                    <span class="material-symbols-outlined">compare</span>
+                                    Compare Scores
+                                </button>
+                                <button class="notification-action-btn secondary">
+                                    <span class="material-symbols-outlined">mail</span>
+                                    Contact Jury
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notification 7 - Student Complaint -->
+                    <div class="notification-card" data-type="student">
+                        <div class="notification-icon-wrapper error">
+                            <span class="material-symbols-outlined">feedback</span>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-header">
+                                <h3 class="notification-title">Student Support Request</h3>
+                                <span class="notification-time">
+                                    <span class="material-symbols-outlined" style="font-size: 14px;">schedule</span>
+                                    1d ago
+                                </span>
+                            </div>
+                            <p class="notification-message">
+                                Team "EcoWarriors" (STU2026-4521) reports unable to upload video attachment for their submission. Error: file size exceeds limit. They've attempted 3 times.
+                            </p>
+                            <div class="notification-meta">
+                                <span class="notification-type-badge student">Student</span>
+                                <span class="notification-meta-item">
+                                    <span class="material-symbols-outlined">group</span>
+                                    Team EcoWarriors
+                                </span>
+                            </div>
+                            <div class="notification-actions">
+                                <button class="notification-action-btn secondary">
+                                    <span class="material-symbols-outlined">visibility</span>
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notification 8 - Jury Bulk Onboarding -->
+                    <div class="notification-card" data-type="jury">
+                        <div class="notification-icon-wrapper primary">
+                            <span class="material-symbols-outlined">upload_file</span>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-header">
+                                <h3 class="notification-title">Bulk Jury Upload Processed</h3>
+                                <span class="notification-time">
+                                    <span class="material-symbols-outlined" style="font-size: 14px;">schedule</span>
+                                    2d ago
+                                </span>
+                            </div>
+                            <p class="notification-message">
+                                CSV upload completed: 15 jury members added, 2 duplicates skipped, 1 failed (invalid email format). Invitation emails sent to all 15 new members.
+                            </p>
+                            <div class="notification-meta">
+                                <span class="notification-type-badge jury">Jury</span>
+                                <span class="notification-meta-item">
+                                    <span class="material-symbols-outlined">check</span>
+                                    15 Added
+                                </span>
+                                <span class="notification-meta-item">
+                                    <span class="material-symbols-outlined">error_outline</span>
+                                    1 Failed
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notification 9 - System Update -->
+                    <div class="notification-card" data-type="system">
+                        <div class="notification-icon-wrapper primary">
+                            <span class="material-symbols-outlined">system_update</span>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-header">
+                                <h3 class="notification-title">Platform Update Deployed</h3>
+                                <span class="notification-time">
+                                    <span class="material-symbols-outlined" style="font-size: 14px;">schedule</span>
+                                    3d ago
+                                </span>
+                            </div>
+                            <p class="notification-message">
+                                Version 5.2.1 deployed successfully. Updates include: improved AI evaluation speed (30% faster), new bulk student export feature, and bug fixes for team formation.
+                            </p>
+                            <div class="notification-meta">
+                                <span class="notification-type-badge system">System</span>
+                                <span class="notification-meta-item">
+                                    <span class="material-symbols-outlined">verified</span>
+                                    v5.2.1
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notification 10 - Student Milestone -->
+                    <div class="notification-card" data-type="student">
+                        <div class="notification-icon-wrapper success">
+                            <span class="material-symbols-outlined">emoji_events</span>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-header">
+                                <h3 class="notification-title">Registration Milestone: 2,500 Students!</h3>
+                                <span class="notification-time">
+                                    <span class="material-symbols-outlined" style="font-size: 14px;">schedule</span>
+                                    3d ago
+                                </span>
+                            </div>
+                            <p class="notification-message">
+                                Season 5 has crossed 2,500 student registrations from 180+ schools across 22 states. This is a 15% increase compared to Season 4 at the same stage.
+                            </p>
+                            <div class="notification-meta">
+                                <span class="notification-type-badge student">Student</span>
+                                <span class="notification-meta-item">
+                                    <span class="material-symbols-outlined">school</span>
+                                    180+ Schools
+                                </span>
+                                <span class="notification-meta-item">
+                                    <span class="material-symbols-outlined">trending_up</span>
+                                    +15% vs S4
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notification 11 - Questionnaire Published -->
+                    <div class="notification-card" data-type="system">
+                        <div class="notification-icon-wrapper info">
+                            <span class="material-symbols-outlined">quiz</span>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-header">
+                                <h3 class="notification-title">Season 5 Questionnaire Published</h3>
+                                <span class="notification-time">
+                                    <span class="material-symbols-outlined" style="font-size: 14px;">schedule</span>
+                                    5d ago
+                                </span>
+                            </div>
+                            <p class="notification-message">
+                                The Season 5 idea submission questionnaire has been published and is now live for students. 12 questions across 4 sections with file upload support enabled.
+                            </p>
+                            <div class="notification-meta">
+                                <span class="notification-type-badge system">System</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notification 12 - Student Bulk Import -->
+                    <div class="notification-card" data-type="student">
+                        <div class="notification-icon-wrapper primary">
+                            <span class="material-symbols-outlined">group_add</span>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-header">
+                                <h3 class="notification-title">Bulk Student Import — DPS Noida</h3>
+                                <span class="notification-time">
+                                    <span class="material-symbols-outlined" style="font-size: 14px;">schedule</span>
+                                    1w ago
+                                </span>
+                            </div>
+                            <p class="notification-message">
+                                45 students imported from DPS Noida. All accounts activated and welcome emails sent. 3 students had existing accounts and were skipped.
+                            </p>
+                            <div class="notification-meta">
+                                <span class="notification-type-badge student">Student</span>
+                                <span class="notification-meta-item">
+                                    <span class="material-symbols-outlined">school</span>
+                                    DPS Noida
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Compose Notification Modal -->
+    <div class="modal-overlay" id="composeModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>Compose Notification</h2>
+                <button class="modal-close" id="closeModalBtn">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Send To</label>
+                        <select class="form-select" id="sendTo">
+                            <option value="">Select Audience</option>
+                            <option value="all-students">All Students</option>
+                            <option value="all-jury">All Jury Members</option>
+                            <option value="all">Everyone</option>
+                            <option value="top400">Top 400 Students</option>
+                            <option value="incomplete">Incomplete Submissions</option>
+                            <option value="specific">Specific User</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Priority</label>
+                        <select class="form-select" id="priority">
+                            <option value="normal">Normal</option>
+                            <option value="high">High</option>
+                            <option value="urgent">Urgent</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Notification Title</label>
+                    <input type="text" class="form-input" id="notifTitle" placeholder="Enter notification title...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Message</label>
+                    <textarea class="form-textarea" id="notifMessage" placeholder="Type your notification message here..."></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Category</label>
+                        <select class="form-select" id="category">
+                            <option value="announcement">Announcement</option>
+                            <option value="reminder">Reminder</option>
+                            <option value="deadline">Deadline</option>
+                            <option value="update">Platform Update</option>
+                            <option value="event">Event</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Schedule</label>
+                        <input type="datetime-local" class="form-input" id="scheduleTime">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" id="cancelBtn">Cancel</button>
+                <button class="btn-send" id="sendBtn">
+                    <span class="material-symbols-outlined" style="font-size: 18px;">send</span>
+                    Send Notification
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Load External Components -->
+    <script>
+        // Load sidebar
+        fetch('sidebar.html')
+            .then(response => response.text())
+            .then(data => {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = data;
+
+                const elements = tempDiv.childNodes;
+                elements.forEach(node => {
+                    if (node.nodeType === 1 && node.tagName !== 'SCRIPT') {
+                        document.getElementById('sidebar-container').appendChild(node.cloneNode(true));
+                    } else if (node.nodeType === 3) {
+                        document.getElementById('sidebar-container').appendChild(node.cloneNode(true));
+                    }
+                });
+
+                const script = tempDiv.querySelector('script');
+                if (script) {
+                    const newScript = document.createElement('script');
+                    newScript.textContent = script.textContent;
+                    document.body.appendChild(newScript);
+                }
+            })
+            .catch(error => console.error('Error loading sidebar:', error));
+
+        // Load header
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = data;
+
+                const elements = tempDiv.childNodes;
+                elements.forEach(node => {
+                    if (node.nodeType === 1 || node.nodeType === 3) {
+                        document.getElementById('header-container').appendChild(node.cloneNode(true));
+                    }
+                });
+
+                const script = tempDiv.querySelector('script');
+                if (script) {
+                    const newScript = document.createElement('script');
+                    newScript.textContent = script.textContent;
+                    document.body.appendChild(newScript);
+                }
+            })
+            .catch(error => console.error('Error loading header:', error));
+    </script>
+
+    <!-- Page Functionality -->
+    <script>
+        (function () {
+            // Filter functionality
+            const filterTabs = document.querySelectorAll('.filter-tab');
+            const notificationCards = document.querySelectorAll('.notification-card');
+
+            filterTabs.forEach(tab => {
+                tab.addEventListener('click', function () {
+                    filterTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const filter = this.getAttribute('data-filter');
+
+                    notificationCards.forEach(card => {
+                        if (filter === 'all') {
+                            card.style.display = 'flex';
+                        } else if (filter === 'unread') {
+                            card.style.display = card.classList.contains('unread') ? 'flex' : 'none';
+                        } else {
+                            const cardType = card.getAttribute('data-type');
+                            card.style.display = cardType === filter ? 'flex' : 'none';
+                        }
+                    });
+                });
+            });
+
+            // Mark all as read
+            document.getElementById('markAllReadBtn').addEventListener('click', function () {
+                notificationCards.forEach(card => {
+                    card.classList.remove('unread');
+                    const badge = card.querySelector('.notification-badge-unread');
+                    if (badge) badge.remove();
+                });
+                document.getElementById('statUnread').textContent = '0';
+                document.querySelector('[data-filter="unread"] .filter-count').textContent = '0';
+                showToast('All notifications marked as read', 'success');
+            });
+
+            // Clear all
+            document.getElementById('clearAllBtn').addEventListener('click', function () {
+                const list = document.getElementById('notificationsList');
+                list.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <span class="material-symbols-outlined">notifications_off</span>
+                        </div>
+                        <h3 class="empty-title">No Notifications</h3>
+                        <p class="empty-message">All notifications have been cleared. New notifications will appear here.</p>
+                    </div>
+                `;
+                document.getElementById('statTotal').textContent = '0';
+                document.getElementById('statUnread').textContent = '0';
+                filterTabs.forEach(tab => {
+                    const count = tab.querySelector('.filter-count');
+                    if (count) count.textContent = '0';
+                });
+                showToast('All notifications cleared', 'info');
+            });
+
+            // Search functionality
+            document.getElementById('searchInput').addEventListener('input', function () {
+                const query = this.value.toLowerCase();
+
+                notificationCards.forEach(card => {
+                    const title = card.querySelector('.notification-title')?.textContent.toLowerCase() || '';
+                    const message = card.querySelector('.notification-message')?.textContent.toLowerCase() || '';
+
+                    card.style.display = (title.includes(query) || message.includes(query)) ? 'flex' : 'none';
+                });
+            });
+
+            // Click on notification card to mark as read
+            notificationCards.forEach(card => {
+                card.addEventListener('click', function (e) {
+                    if (e.target.closest('.notification-action-btn')) return;
+
+                    if (this.classList.contains('unread')) {
+                        this.classList.remove('unread');
+                        const badge = this.querySelector('.notification-badge-unread');
+                        if (badge) badge.remove();
+                        updateCounts();
+                    }
+                });
+            });
+
+            // Action button handlers
+            document.querySelectorAll('.notification-action-btn').forEach(btn => {
+                btn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    const text = this.textContent.trim();
+                    showToast(`Action: ${text}`, 'info');
+                });
+            });
+
+            // Compose Modal
+            const composeModal = document.getElementById('composeModal');
+
+            document.getElementById('composeBtn').addEventListener('click', function () {
+                composeModal.classList.add('active');
+            });
+
+            document.getElementById('closeModalBtn').addEventListener('click', function () {
+                composeModal.classList.remove('active');
+            });
+
+            document.getElementById('cancelBtn').addEventListener('click', function () {
+                composeModal.classList.remove('active');
+            });
+
+            composeModal.addEventListener('click', function (e) {
+                if (e.target === composeModal) {
+                    composeModal.classList.remove('active');
+                }
+            });
+
+            document.getElementById('sendBtn').addEventListener('click', function () {
+                const title = document.getElementById('notifTitle').value.trim();
+                const message = document.getElementById('notifMessage').value.trim();
+                const sendTo = document.getElementById('sendTo').value;
+
+                if (!title || !message || !sendTo) {
+                    showToast('Please fill all required fields', 'warning');
+                    return;
+                }
+
+                showToast('Notification sent successfully!', 'success');
+                composeModal.classList.remove('active');
+
+                // Reset form
+                document.getElementById('notifTitle').value = '';
+                document.getElementById('notifMessage').value = '';
+                document.getElementById('sendTo').value = '';
+                document.getElementById('priority').value = 'normal';
+                document.getElementById('category').value = 'announcement';
+                document.getElementById('scheduleTime').value = '';
+            });
+
+            // Close modal on Escape
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && composeModal.classList.contains('active')) {
+                    composeModal.classList.remove('active');
+                }
+            });
+
+            // Update filter counts
+            function updateCounts() {
+                const all = document.querySelectorAll('.notification-card');
+                const unread = document.querySelectorAll('.notification-card.unread');
+                const students = document.querySelectorAll('.notification-card[data-type="student"]');
+                const jury = document.querySelectorAll('.notification-card[data-type="jury"]');
+                const evaluation = document.querySelectorAll('.notification-card[data-type="evaluation"]');
+                const system = document.querySelectorAll('.notification-card[data-type="system"]');
+
+                document.querySelector('[data-filter="all"] .filter-count').textContent = all.length;
+                document.querySelector('[data-filter="unread"] .filter-count').textContent = unread.length;
+                document.querySelector('[data-filter="student"] .filter-count').textContent = students.length;
+                document.querySelector('[data-filter="jury"] .filter-count').textContent = jury.length;
+                document.querySelector('[data-filter="evaluation"] .filter-count').textContent = evaluation.length;
+                document.querySelector('[data-filter="system"] .filter-count').textContent = system.length;
+
+                document.getElementById('statTotal').textContent = all.length;
+                document.getElementById('statUnread').textContent = unread.length;
+            }
+
+            // Toast notification
+            function showToast(message, type = 'info') {
+                const existingToast = document.querySelector('.toast-notification');
+                if (existingToast) existingToast.remove();
+
+                const toast = document.createElement('div');
+                toast.className = 'toast-notification';
+
+                const colors = {
+                    success: '#22c55e',
+                    error: '#ef4444',
+                    info: '#5E2A97',
+                    warning: '#f97316'
+                };
+
+                const icons = {
+                    success: 'check_circle',
+                    error: 'error',
+                    info: 'info',
+                    warning: 'warning'
+                };
+
+                toast.style.cssText = `
+                    position: fixed;
+                    bottom: 2rem;
+                    right: 2rem;
+                    background: ${colors[type]};
+                    color: white;
+                    padding: 1rem 1.5rem;
+                    border-radius: 0.75rem;
+                    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+                    z-index: 9999;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.75rem;
+                    font-size: 0.875rem;
+                    font-weight: 500;
+                    font-family: 'Poppins', sans-serif;
+                    animation: slideIn 0.3s ease;
+                    max-width: 400px;
+                `;
+
+                toast.innerHTML = `
+                    <span class="material-symbols-outlined" style="font-size: 20px;">${icons[type]}</span>
+                    <span>${message}</span>
+                `;
+
+                document.body.appendChild(toast);
+
+                setTimeout(() => {
+                    toast.style.animation = 'slideOut 0.3s ease';
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            }
+
+            // Add animation styles
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(400px); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes slideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(400px); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+        })();
+    </script>
+</body>
+
+</html>
