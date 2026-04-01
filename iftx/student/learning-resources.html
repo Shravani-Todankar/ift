@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Learning Resources | IFTx Student</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --primary: #5E2A97;
+            --primary-light: #E8D4F0;
+            --secondary: #DEDE50;
+            --background-light: #F7F7F7;
+            --surface-light: #FFFFFF;
+            --border-light: #EEEEEE;
+            --text-dark: #222222;
+            --text-muted: #666666;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: var(--background-light); color: var(--text-dark); overflow: hidden; }
+
+        .main-container { display: flex; height: 100vh; width: 100%; }
+        .main-content { flex: 1; display: flex; flex-direction: column; height: 100%; overflow: hidden; }
+        .content-wrapper { flex: 1; overflow-y: auto; }
+
+        /* ── Hero Banner ── */
+        .hero-banner {
+            position: relative; height: 400px; overflow: hidden;
+            background: url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1400&q=85') center/cover no-repeat;
+        }
+        .hero-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to right, rgba(10,2,20,0.92) 0%, rgba(10,2,20,0.75) 45%, rgba(10,2,20,0.2) 75%, transparent 100%);
+        }
+        .hero-content {
+            position: relative; z-index: 2; height: 100%;
+            display: flex; align-items: center; padding: 0 48px;
+        }
+        .hero-text { max-width: 560px; color: #fff; }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(222,222,80,0.18); border: 1px solid rgba(222,222,80,0.5);
+            color: #DEDE50; font-size: 0.7rem; font-weight: 700; padding: 4px 12px;
+            border-radius: 20px; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.08em;
+        }
+        .hero-title { font-size: 2rem; font-weight: 800; line-height: 1.25; margin-bottom: 12px; letter-spacing: -0.01em; }
+        .hero-desc { font-size: 0.875rem; color: rgba(255,255,255,0.7); line-height: 1.65; margin-bottom: 22px; max-width: 460px; }
+        .hero-meta { display: flex; align-items: center; gap: 20px; margin-bottom: 28px; flex-wrap: wrap; }
+        .hero-meta-chip {
+            display: flex; align-items: center; gap: 5px;
+            font-size: 0.8rem; color: rgba(255,255,255,0.55);
+        }
+        .hero-meta-chip .material-symbols-outlined { font-size: 15px; }
+        .hero-meta-divider { width: 3px; height: 3px; border-radius: 50%; background: rgba(255,255,255,0.3); }
+        .hero-actions { display: flex; gap: 12px; align-items: center; margin-bottom: 28px; }
+        .btn-hero-primary {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 12px 28px; background: #fff; color: var(--primary);
+            border: none; border-radius: 10px; font-size: 0.9rem; font-weight: 700;
+            font-family: inherit; cursor: pointer; transition: all 0.2s;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        .btn-hero-primary:hover { background: #f3e8ff; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.35); }
+        .btn-hero-secondary {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 12px 22px; background: rgba(255,255,255,0.12);
+            color: #fff; border: 1.5px solid rgba(255,255,255,0.35);
+            border-radius: 10px; font-size: 0.875rem; font-weight: 600;
+            font-family: inherit; cursor: pointer; transition: all 0.2s;
+            backdrop-filter: blur(8px);
+        }
+        .btn-hero-secondary:hover { background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.6); }
+        .hero-progress-wrap { }
+        .hero-progress-label { font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-bottom: 7px; display: flex; align-items: center; justify-content: space-between; max-width: 320px; }
+        .hero-progress-bar { height: 4px; background: rgba(255,255,255,0.15); border-radius: 4px; width: 320px; }
+        .hero-progress-fill { height: 100%; background: #DEDE50; border-radius: 4px; width: 35%; }
+
+        /* ── Search + Filter bar ── */
+        .filter-bar {
+            padding: 16px 32px; background: #fff; border-bottom: 1px solid var(--border-light);
+            display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 50;
+        }
+        .search-box {
+            position: relative; flex: 1; max-width: 360px;
+        }
+        .search-box .material-symbols-outlined { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 18px; color: #94a3b8; }
+        .search-box input { width: 100%; padding: 9px 12px 9px 38px; border: 1.5px solid var(--border-light); border-radius: 10px; font-size: 0.875rem; font-family: inherit; outline: none; background: var(--background-light); }
+        .search-box input:focus { border-color: var(--primary); background: #fff; }
+        .category-tabs { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; flex: 1; }
+        .category-tabs::-webkit-scrollbar { display: none; }
+        .cat-tab {
+            padding: 7px 16px; border-radius: 20px; font-size: 0.8125rem; font-weight: 600;
+            white-space: nowrap; cursor: pointer; transition: all 0.2s;
+            border: 1.5px solid var(--border-light); background: #fff; color: var(--text-muted);
+            font-family: inherit;
+        }
+        .cat-tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+        .cat-tab:hover:not(.active) { border-color: var(--primary); color: var(--primary); }
+
+        /* ── Resource Rows ── */
+        .resources-area { padding: 28px 32px; }
+        .row-section { margin-bottom: 36px; }
+        .row-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+        .row-title { font-size: 1.0625rem; font-weight: 700; color: var(--text-dark); display: flex; align-items: center; gap: 8px; }
+        .row-title .material-symbols-outlined { font-size: 20px; color: var(--primary); }
+        .row-see-all { font-size: 0.8125rem; font-weight: 600; color: var(--primary); cursor: pointer; background: none; border: none; font-family: inherit; display: flex; align-items: center; gap: 4px; }
+        .cards-scroll { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: thin; scrollbar-color: #e2e8f0 transparent; }
+        .cards-scroll::-webkit-scrollbar { height: 4px; }
+        .cards-scroll::-webkit-scrollbar-track { background: transparent; }
+        .cards-scroll::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 4px; }
+
+        /* ── Resource Card ── */
+        .resource-card {
+            flex-shrink: 0; width: 220px; background: #fff; border-radius: 14px;
+            overflow: hidden; cursor: pointer; transition: all 0.25s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid var(--border-light);
+        }
+        .resource-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(94,42,151,0.15); border-color: var(--primary-light); }
+        .card-thumb {
+            height: 130px; display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden;
+            background-size: cover; background-position: center;
+        }
+        .card-thumb .material-symbols-outlined { font-size: 44px; color: rgba(255,255,255,0.85); z-index: 1; }
+        .card-thumb .type-badge {
+            position: absolute; top: 10px; left: 10px; padding: 3px 8px;
+            border-radius: 6px; font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.05em; background: rgba(0,0,0,0.35); color: #fff; z-index: 2;
+            backdrop-filter: blur(4px);
+        }
+        .card-thumb .duration-badge {
+            position: absolute; bottom: 10px; right: 10px; padding: 3px 8px;
+            border-radius: 6px; font-size: 0.7rem; font-weight: 600;
+            background: rgba(0,0,0,0.5); color: #fff; z-index: 2;
+        }
+        .card-thumb .play-btn {
+            position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+            background: rgba(0,0,0,0); transition: background 0.2s; z-index: 3;
+        }
+        .resource-card:hover .card-thumb .play-btn { background: rgba(0,0,0,0.2); }
+        .play-circle {
+            width: 44px; height: 44px; border-radius: 50%; background: rgba(255,255,255,0.9);
+            display: flex; align-items: center; justify-content: center;
+            transform: scale(0); transition: transform 0.2s;
+        }
+        .resource-card:hover .play-circle { transform: scale(1); }
+        .play-circle .material-symbols-outlined { font-size: 22px; color: var(--primary); }
+        .card-body { padding: 14px; }
+        .card-title-text { font-size: 0.875rem; font-weight: 700; color: var(--text-dark); margin-bottom: 4px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .card-meta { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+        .card-meta .material-symbols-outlined { font-size: 14px; }
+        .card-progress-bar { height: 3px; background: #e2e8f0; border-radius: 3px; }
+        .card-progress-fill { height: 100%; border-radius: 3px; background: var(--primary); }
+        .card-progress-label { font-size: 0.7rem; color: var(--text-muted); margin-top: 4px; display: flex; justify-content: space-between; }
+
+        /* Wide card for featured row */
+        .resource-card.wide { width: 280px; }
+        .resource-card.wide .card-thumb { height: 160px; }
+
+        /* ── Resource Modal ── */
+        .modal-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000;
+            display: none; align-items: center; justify-content: center;
+            padding: 20px; backdrop-filter: blur(4px);
+        }
+        .modal-overlay.open { display: flex; }
+        .modal-box {
+            background: #fff; border-radius: 20px; width: 900px; max-width: 100%;
+            max-height: 90vh; display: flex; flex-direction: column;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.4); overflow: hidden;
+        }
+        .modal-header {
+            padding: 20px 24px 16px; border-bottom: 1px solid var(--border-light);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .modal-header h3 { font-size: 1rem; font-weight: 700; margin: 0; }
+        .modal-close { width: 32px; height: 32px; border: none; background: var(--background-light); border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .modal-close .material-symbols-outlined { font-size: 20px; color: var(--text-muted); }
+        .modal-body { display: flex; flex: 1; overflow: hidden; }
+        .modal-player {
+            flex: 1.4; background: #0f0f0f; display: flex; align-items: center; justify-content: center;
+            flex-direction: column; gap: 16px; min-height: 360px; position: relative;
+        }
+        .modal-player-thumb {
+            width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+            flex-direction: column; gap: 14px;
+        }
+        .modal-player-thumb .material-symbols-outlined { font-size: 64px; color: rgba(255,255,255,0.3); }
+        .modal-player-thumb p { font-size: 0.875rem; color: rgba(255,255,255,0.4); }
+        .modal-play-btn {
+            width: 64px; height: 64px; border-radius: 50%; background: var(--primary);
+            border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 8px 24px rgba(94,42,151,0.5); transition: transform 0.2s;
+        }
+        .modal-play-btn:hover { transform: scale(1.1); }
+        .modal-play-btn .material-symbols-outlined { font-size: 32px; color: #fff; }
+        .modal-sidebar {
+            width: 300px; padding: 20px; overflow-y: auto; border-left: 1px solid var(--border-light);
+            flex-shrink: 0;
+        }
+        .modal-resource-type { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; margin-bottom: 12px; }
+        .modal-resource-title { font-size: 1.0625rem; font-weight: 700; margin-bottom: 8px; line-height: 1.4; }
+        .modal-resource-desc { font-size: 0.8125rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 16px; }
+        .modal-meta-row { display: flex; align-items: center; gap: 8px; font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 8px; }
+        .modal-meta-row .material-symbols-outlined { font-size: 16px; color: var(--primary); }
+        .modal-action-btn {
+            width: 100%; padding: 11px; background: var(--primary); color: #fff; border: none;
+            border-radius: 10px; font-size: 0.875rem; font-weight: 700; font-family: inherit;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+            margin-top: 16px; transition: background 0.2s;
+        }
+        .modal-action-btn:hover { background: #4a2178; }
+        .modal-save-btn {
+            width: 100%; padding: 9px; background: #fff; color: var(--primary);
+            border: 1.5px solid var(--primary); border-radius: 10px; font-size: 0.875rem;
+            font-weight: 600; font-family: inherit; cursor: pointer; display: flex;
+            align-items: center; justify-content: center; gap: 8px; margin-top: 8px;
+        }
+        .related-title { font-size: 0.8125rem; font-weight: 700; color: var(--text-dark); margin: 20px 0 10px; }
+        .related-item { display: flex; gap: 10px; align-items: center; padding: 8px; border-radius: 8px; cursor: pointer; }
+        .related-item:hover { background: var(--background-light); }
+        .related-thumb { width: 44px; height: 44px; border-radius: 8px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+        .related-thumb .material-symbols-outlined { font-size: 20px; color: rgba(255,255,255,0.85); }
+        .related-info p { font-size: 0.8rem; font-weight: 600; margin: 0; line-height: 1.3; }
+        .related-info span { font-size: 0.7rem; color: var(--text-muted); }
+
+        /* Progress bar in modal */
+        .modal-progress { margin: 12px 0; }
+        .modal-progress-label { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 4px; }
+        .modal-progress-bar { height: 6px; background: #e2e8f0; border-radius: 6px; }
+        .modal-progress-fill { height: 100%; border-radius: 6px; background: var(--primary); transition: width 0.5s; }
+
+        /* Toast */
+        .custom-toast { position: fixed; bottom: 2rem; right: 2rem; color: white; padding: 1rem 1.5rem; border-radius: .75rem; box-shadow: 0 10px 25px rgba(0,0,0,.2); z-index: 9999; display: flex; align-items: center; gap: .75rem; font-size: .875rem; font-weight: 500; max-width: 400px; animation: toastIn .3s ease; }
+        @keyframes toastIn { from { transform: translateX(60px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    </style>
+</head>
+<body>
+<div class="main-container">
+    <div id="sidebar-container"></div>
+    <main class="main-content">
+        <div id="header-container"></div>
+
+        <div class="content-wrapper">
+
+            <!-- ── Hero Banner ── -->
+            <div class="hero-banner">
+                <div class="hero-overlay"></div>
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <div class="hero-badge">
+                            <span class="material-symbols-outlined" style="font-size:13px;">star</span>
+                            Featured Course
+                        </div>
+                        <h1 class="hero-title">The Entrepreneur's Mindset:<br>From Idea to Impact</h1>
+                        <p class="hero-desc">Learn how to think like a founder — identify real problems, validate ideas, build MVPs and pitch with confidence. Designed for young innovators aged 13–18.</p>
+                        <div class="hero-meta">
+                            <span class="hero-meta-chip"><span class="material-symbols-outlined">play_circle</span> 12 Lessons</span>
+                            <span class="hero-meta-divider"></span>
+                            <span class="hero-meta-chip"><span class="material-symbols-outlined">schedule</span> 4h 20m</span>
+                            <span class="hero-meta-divider"></span>
+                            <span class="hero-meta-chip"><span class="material-symbols-outlined">signal_cellular_alt</span> Beginner</span>
+                            <span class="hero-meta-divider"></span>
+                            <span class="hero-meta-chip"><span class="material-symbols-outlined">workspace_premium</span> Certificate</span>
+                        </div>
+                        <div class="hero-actions">
+                            <button class="btn-hero-primary" onclick="openModal('hero')">
+                                <span class="material-symbols-outlined" style="font-size:20px;">play_arrow</span>
+                                Continue Learning
+                            </button>
+                            <button class="btn-hero-secondary" onclick="showToast('Added to your list!','success')">
+                                <span class="material-symbols-outlined" style="font-size:18px;">bookmark_add</span>
+                                Save
+                            </button>
+                        </div>
+                        <div class="hero-progress-wrap">
+                            <div class="hero-progress-label">
+                                <span>Your progress</span>
+                                <span style="color:#DEDE50; font-weight:700;">35%</span>
+                            </div>
+                            <div class="hero-progress-bar"><div class="hero-progress-fill"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Filter Bar ── -->
+            <div class="filter-bar">
+                <div class="search-box">
+                    <span class="material-symbols-outlined">search</span>
+                    <input type="text" id="searchInput" placeholder="Search resources..." oninput="filterCards()">
+                </div>
+                <div class="category-tabs" id="categoryTabs">
+                    <button class="cat-tab active" data-cat="all" onclick="switchCat(this)">All</button>
+                    <button class="cat-tab" data-cat="entrepreneurship" onclick="switchCat(this)">Entrepreneurship</button>
+                    <button class="cat-tab" data-cat="pitching" onclick="switchCat(this)">Pitching Skills</button>
+                    <button class="cat-tab" data-cat="finance" onclick="switchCat(this)">Finance & Business</button>
+                    <button class="cat-tab" data-cat="design" onclick="switchCat(this)">Design Thinking</button>
+                    <button class="cat-tab" data-cat="tech" onclick="switchCat(this)">Technology</button>
+                    <button class="cat-tab" data-cat="quiz" onclick="switchCat(this)">Quizzes</button>
+                </div>
+            </div>
+
+            <!-- ── Resource Rows ── -->
+            <div class="resources-area">
+
+                <!-- Continue Learning -->
+                <div class="row-section" data-section="continue">
+                    <div class="row-header">
+                        <span class="row-title"><span class="material-symbols-outlined">replay</span>Continue Learning</span>
+                        <button class="row-see-all">See all <span class="material-symbols-outlined" style="font-size:16px;">chevron_right</span></button>
+                    </div>
+                    <div class="cards-scroll">
+                        <!-- Card 1 -->
+                        <div class="resource-card" data-cat="entrepreneurship" data-title="The Entrepreneur's Mindset" onclick="openModal('c1')">
+                            <div class="card-thumb" style="background:linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=400&q=80') center/cover no-repeat;">
+                                <span class="material-symbols-outlined">rocket_launch</span>
+                                <span class="type-badge">Video</span>
+                                <span class="duration-badge">4h 20m</span>
+                                <div class="play-btn"><div class="play-circle"><span class="material-symbols-outlined">play_arrow</span></div></div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-title-text">The Entrepreneur's Mindset</p>
+                                <p class="card-meta"><span class="material-symbols-outlined">layers</span> 12 Lessons</p>
+                                <div class="card-progress-bar"><div class="card-progress-fill" style="width:35%;"></div></div>
+                                <div class="card-progress-label"><span>35% complete</span><span>Lesson 4/12</span></div>
+                            </div>
+                        </div>
+                        <!-- Card 2 -->
+                        <div class="resource-card" data-cat="pitching" data-title="Pitch Perfect: Win Any Room" onclick="openModal('c2')">
+                            <div class="card-thumb" style="background:linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),url('https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=400&q=80') center/cover no-repeat;">
+                                <span class="material-symbols-outlined">mic</span>
+                                <span class="type-badge">Video</span>
+                                <span class="duration-badge">2h 15m</span>
+                                <div class="play-btn"><div class="play-circle"><span class="material-symbols-outlined">play_arrow</span></div></div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-title-text">Pitch Perfect: Win Any Room</p>
+                                <p class="card-meta"><span class="material-symbols-outlined">layers</span> 8 Lessons</p>
+                                <div class="card-progress-bar"><div class="card-progress-fill" style="width:62%;"></div></div>
+                                <div class="card-progress-label"><span>62% complete</span><span>Lesson 5/8</span></div>
+                            </div>
+                        </div>
+                        <!-- Card 3 -->
+                        <div class="resource-card" data-cat="finance" data-title="Money Basics for Founders" onclick="openModal('c3')">
+                            <div class="card-thumb" style="background:linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),url('https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=400&q=80') center/cover no-repeat;">
+                                <span class="material-symbols-outlined">payments</span>
+                                <span class="type-badge">PDF</span>
+                                <span class="duration-badge">24 pages</span>
+                                <div class="play-btn"><div class="play-circle"><span class="material-symbols-outlined">open_in_new</span></div></div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-title-text">Money Basics for Founders</p>
+                                <p class="card-meta"><span class="material-symbols-outlined">description</span> Workbook PDF</p>
+                                <div class="card-progress-bar"><div class="card-progress-fill" style="width:18%;"></div></div>
+                                <div class="card-progress-label"><span>18% complete</span><span>Pg 4/24</span></div>
+                            </div>
+                        </div>
+                        <!-- Card 4 -->
+                        <div class="resource-card" data-cat="design" data-title="Design Thinking Crash Course" onclick="openModal('c4')">
+                            <div class="card-thumb" style="background:linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=400&q=80') center/cover no-repeat;">
+                                <span class="material-symbols-outlined">design_services</span>
+                                <span class="type-badge">Video</span>
+                                <span class="duration-badge">1h 45m</span>
+                                <div class="play-btn"><div class="play-circle"><span class="material-symbols-outlined">play_arrow</span></div></div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-title-text">Design Thinking Crash Course</p>
+                                <p class="card-meta"><span class="material-symbols-outlined">layers</span> 6 Lessons</p>
+                                <div class="card-progress-bar"><div class="card-progress-fill" style="width:80%;"></div></div>
+                                <div class="card-progress-label"><span>80% complete</span><span>Lesson 5/6</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Entrepreneurship -->
+                <div class="row-section" data-section="entrepreneurship">
+                    <div class="row-header">
+                        <span class="row-title"><span class="material-symbols-outlined">rocket_launch</span>Entrepreneurship</span>
+                        <button class="row-see-all">See all <span class="material-symbols-outlined" style="font-size:16px;">chevron_right</span></button>
+                    </div>
+                    <div class="cards-scroll">
+                        <div class="resource-card wide" data-cat="entrepreneurship" data-title="Problem-Solution Fit" onclick="openModal('e1')">
+                            <div class="card-thumb" style="background:linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),url('https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=400&q=80') center/cover no-repeat;">
+                                <span class="material-symbols-outlined">psychology</span>
+                                <span class="type-badge">Video</span>
+                                <span class="duration-badge">38 min</span>
+                                <div class="play-btn"><div class="play-circle"><span class="material-symbols-outlined">play_arrow</span></div></div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-title-text">Problem-Solution Fit: Finding Real Problems Worth Solving</p>
+                                <p class="card-meta"><span class="material-symbols-outlined">person</span> Nandan Nilekani · IFTx Expert</p>
+                            </div>
+                        </div>
+                        <div class="resource-card" data-cat="entrepreneurship" data-title="Startup Idea Validation" onclick="openModal('e2')">
+                            <div class="card-thumb" style="background:linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),url('https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&w=400&q=80') center/cover no-repeat;">
+                                <span class="material-symbols-outlined">verified</span>
+                                <span class="type-badge">Video</span>
+                                <span class="duration-badge">24 min</span>
+                                <div class="play-btn"><div class="play-circle"><span class="material-symbols-outlined">play_arrow</span></div></div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-title-text">Startup Idea Validation in 5 Steps</p>
+                                <p class="card-meta"><span class="material-symbols-outlined">person</span> IFTx Mentor Series</p>
+                            </div>
+                        </div>
+                        <div class="resource-card" data-cat="entrepreneurship" data-title="MVP Handbook" onclick="openModal('e3')">
+                            <div class="card-thumb" style="background:linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=400&q=80') center/cover no-repeat;">
+                                <span class="material-symbols-outlined">inventory_2</span>
+                                <span class="type-badge">PDF</span>
+                                <span class="duration-badge">18 pages</span>
+                                <div class="play-btn"><div class="play-circle"><span class="material-symbols-outlined">open_in_new</span></div></div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-title-text">The MVP Handbook: Build Fast, Learn Faster</p>
+                                <p class="card-meta"><span class="material-symbols-outlined">description</span> IFTx Workbook</p>
+                            </div>
+                        </div>
+                        <div class="resource-card" data-cat="entrepreneurship" data-title="Business Model Canvas" onclick="openModal('e4')">
+                            <div class="card-thumb" style="background:linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=400&q=80') center/cover no-repeat;">
+                                <span class="material-symbols-outlined">grid_view</span>
+                                <span class="type-badge">Template</span>
+                                <span class="duration-badge">Interactive</span>
+                                <div class="play-btn"><div class="play-circle"><span class="material-symbols-outlined">open_in_new</span></div></div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-title-text">Business Model Canvas — Fillable Template</p>
+                                <p class="card-meta"><span class="material-symbols-outlined">description</span> Download & Fill</p>
+                            </div>
+                        </div>
+                        <div class="resource-card" data-cat="entrepreneurship" data-title="Young Founder Stories" onclick="openModal('e5')">
+                            <div class="card-thumb" style="background:linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=400&q=80') center/cover no-repeat;">
+                                <span class="material-symbols-outlined">auto_stories</span>
+                                <span class="type-badge">Article</span>
+                                <span class="duration-badge">8 min read</span>
+                                <div class="play-btn"><div class="play-circle"><span class="material-symbols-outlined">open_in_new</span></div></div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-title-text">10 Young Founders Who Changed Their Cities</p>
+                                <p class="card-meta"><span class="material-symbols-outlined">article</span> Inspiring Reads</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pitching Skills -->
+                <div class="row-section" data-section="pitching">
+                    <div class="row-header">
+                        <span class="row-title"><span class="material-symbols-outlined">mic</span>Pitching Skills</span>
+                        <button class="row-see-all">See all <span class="material-symbols-outlined" style="font-size:16px;">chevron_right</span></button>
+                    </div>
+                    <div class="cards-scroll">
+                        <div class="resource-card wide" data-cat="pitching" data-title="The 3-Minute Pitch Formula" onclick="openModal('p1')">
+                            <div class="card-thumb" style="background:linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),url('https://images.unsplash.com/photo-1591115765373-5207764f0609?auto=format&fit=crop&w=400&q=80') center/cover no-repeat;">
+                                <span class="material-symbols-outlined">timer</span>
+                                <span class="type-badge">Video</span>
+                                <span class="duration-badge">42 min</span>
+                                <div class="play-btn"><div class="play-circle"><span class="material-symbols-outlined">play_arrow</span></div></div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-title-text">The 3-Minute Pitch Formula That Wins Competitions</p>
+                                <p class="card-meta"><span class="material-symbols-outlined">person</span> Pitch Coach · IFTx Series</p>
+                            </div>
+                        </div>
+                        <div class="resource-card" data-cat="pitching" data-title="Storytelling for Startups" onclick="openModal('p2')">
+                            <div class="card-thumb" style="background:linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),url('https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=400&q=80') center/cover no-repeat;">
+                                <span class="material-symbols-outlined">history_edu</span>
+                                <span class="type-badge">Video</span>
+                                <span class="duration-badge">31 min</span>
+                                <div class="play-btn"><div class="play-circle"><span class="material-symbols-outlined">play_arrow</span></div></div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-title-text">Storytelling for Startups: Make Them Feel It</p>
+                                <p class="card-meta"><span class="material-symbols-outlined">person</span> IFTx Expert Talk</p>
+                            </div>
+                        </div>
+                        <div class="resource-card" data-cat="pitching" data-title="Slide Deck Template" onclick="openModal('p3')">
+                            <div class="card-thumb" style="background:linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=400&q=80') center/cover no-repeat;">
+                                <span class="material-symbols-outlined">slideshow</span>
+                                <span class="type-badge">Template</span>
+                                <span class="duration-badge">Download</span>
+                                <div class="play-btn"><div class="play-circle"><span class="material-symbols-outlined">download</span></div></div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-title-text">IFTx Official Pitch Deck Template (2026)</p>
+                                <p class="card-meta"><span class="material-symbols-outlined">description</span> PowerPoint + PDF</p>
+                            </div>
+                        </div>
+                        <div class="resource-card" data-cat="pitching" data-title="Body Language Masterclass" onclick="openModal('p4')">
+                            <div class="card-thumb" style="background:linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80') center/cover no-repeat;">
+                                <span class="material-symbols-outlined">accessibility_new</span>
+                                <span class="type-badge">Video</span>
+                                <span class="duration-badge">18 min</span>
+                                <div class="play-btn"><div class="play-circle"><span class="material-symbols-outlined">play_arrow</span></div></div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-title-text">Body Language Masterclass for Presenters</p>
+                                <p class="card-meta"><span class="material-symbols-outlined">person</span> Communication Coach</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Finance & Business -->
+                <div class="row-section" data-section="finance">
+                    <div class="row-header">
+                        <span class="row-title"><span class="material-symbols-outlined">payments</span>Finance & Business</span>
+                        <button class="row-see-all">See all <span class="material-symbols-outlined" style="font-size:16px;">chevron_right</span></button>
+                    </div>
+                    <div class="cards-scroll">
+                        <div class="resource-card" data-cat="finance" data-title="Revenue Models Explained" onclick="openModal('f1')">
+                            <div class="card-thumb" style="background:linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=400&q=80') center/cover no-repeat;">
+                                <span class="material-symbols-outlined">account_balance</span>
+                                <span class="type-badge">Video</span>
+                                <span class="duration-badge">28 min</span>
+                                <div class="play-btn"><div class="play-circle"><span class="material-symbols-outlined">play_arrow</span></div></div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-title-text">Revenue Models Explained: How Startups Make Money</p>
+                                <p class="card-meta"><span class="material-symbols-outlined">person</span> Finance Expert</p>
+                            </div>
+                        </div>
+                        <div class="resource-card" data-cat="finance" data-title="Unit Economics Quiz" onclick="openModal('f2')">
+                            <div class="card-thumb" style="background:linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),url('https://images.unsplash.com/photo-1543286386-7133b6aa5cb2?auto=format&fit=crop&w=400&q=80') center/cover no-repeat;">
+                                <span class="material-symbols-outlined">quiz</span>
+                                <span class="type-badge">Quiz</span>
+                                <span class="duration-badge">10 questions</span>
+                                <div class="play-btn"><div class="play-circle"><span class="material-symbols-outlined">play_arrow</span></div></div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-title-text">Unit Economics: Test Your Knowledge</p>
+                                <p class="card-meta"><span class="material-symbols-outlined">emoji_events</span> 50 XP on completion</p>
+                            </div>
+                        </div>
+                        <div class="resource-card" data-cat="finance" data-title="Financial Projections Guide" onclick="openModal('f3')">
+                            <div class="card-thumb" style="background:linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=400&q=80') center/cover no-repeat;">
+                                <span class="material-symbols-outlined">trending_up</span>
+                                <span class="type-badge">PDF</span>
+                                <span class="duration-badge">12 pages</span>
+                                <div class="play-btn"><div class="play-circle"><span class="material-symbols-outlined">open_in_new</span></div></div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-title-text">3-Year Financial Projections for Student Startups</p>
+                                <p class="card-meta"><span class="material-symbols-outlined">description</span> IFTx Workbook</p>
+                            </div>
+                        </div>
+                        <div class="resource-card" data-cat="finance" data-title="Funding for Students" onclick="openModal('f4')">
+                            <div class="card-thumb" style="background:linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),url('https://images.unsplash.com/photo-1565514020179-026b92b84bb6?auto=format&fit=crop&w=400&q=80') center/cover no-repeat;">
+                                <span class="material-symbols-outlined">volunteer_activism</span>
+                                <span class="type-badge">Article</span>
+                                <span class="duration-badge">6 min read</span>
+                                <div class="play-btn"><div class="play-circle"><span class="material-symbols-outlined">open_in_new</span></div></div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-title-text">Where to Find Funding as a Student Founder</p>
+                                <p class="card-meta"><span class="material-symbols-outlined">article</span> IFTx Blog</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quizzes -->
+                <div class="row-section" data-section="quiz">
+                    <div class="row-header">
+                        <span class="row-title"><span class="material-symbols-outlined">quiz</span>Test Your Knowledge</span>
+                        <button class="row-see-all">See all <span class="material-symbols-outlined" style="font-size:16px;">chevron_right</span></button>
+                    </div>
+                    <div class="cards-scroll">
+                        <div class="resource-card" data-cat="quiz" data-title="Entrepreneurship Basics Quiz" onclick="openModal('q1')">
+                            <div class="card-thumb" style="background:linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),url('https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?auto=format&fit=crop&w=400&q=80') center/cover no-repeat;">
+                                <span class="material-symbols-outlined">lightbulb</span>
+                                <span class="type-badge">Quiz</span>
+                                <span class="duration-badge">15 min</span>
+                                <div class="play-btn"><div class="play-circle"><span class="material-symbols-outlined">play_arrow</span></div></div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-title-text">Entrepreneurship Basics — Chapter 1 Quiz</p>
+                                <p class="card-meta"><span class="material-symbols-outlined">emoji_events</span> 100 XP · Not started</p>
+                            </div>
+                        </div>
+                        <div class="resource-card" data-cat="quiz" data-title="Pitch Skills Assessment" onclick="openModal('q2')">
+                            <div class="card-thumb" style="background:linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),url('https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=400&q=80') center/cover no-repeat;">
+                                <span class="material-symbols-outlined">mic</span>
+                                <span class="type-badge">Quiz</span>
+                                <span class="duration-badge">10 min</span>
+                                <div class="play-btn"><div class="play-circle"><span class="material-symbols-outlined">play_arrow</span></div></div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-title-text">Pitch Skills Assessment: How Ready Are You?</p>
+                                <p class="card-meta"><span class="material-symbols-outlined">emoji_events</span> 75 XP · Not started</p>
+                            </div>
+                        </div>
+                        <div class="resource-card" data-cat="quiz" data-title="Market Research Quiz" onclick="openModal('q3')">
+                            <div class="card-thumb" style="background:linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=400&q=80') center/cover no-repeat;">
+                                <span class="material-symbols-outlined">bar_chart</span>
+                                <span class="type-badge">Quiz</span>
+                                <span class="duration-badge">12 min</span>
+                                <div class="play-btn"><div class="play-circle"><span class="material-symbols-outlined">play_arrow</span></div></div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-title-text">Market Research Methods: Quick Test</p>
+                                <p class="card-meta"><span class="material-symbols-outlined">emoji_events</span> 80 XP · Not started</p>
+                            </div>
+                        </div>
+                        <div class="resource-card" data-cat="quiz" data-title="Finance Fundamentals Quiz" onclick="openModal('q4')">
+                            <div class="card-thumb" style="background:linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35)),url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=400&q=80') center/cover no-repeat;">
+                                <span class="material-symbols-outlined">calculate</span>
+                                <span class="type-badge">Quiz</span>
+                                <span class="duration-badge">8 min</span>
+                                <div class="play-btn"><div class="play-circle"><span class="material-symbols-outlined">play_arrow</span></div></div>
+                            </div>
+                            <div class="card-body">
+                                <p class="card-title-text">Finance Fundamentals for Young Founders</p>
+                                <p class="card-meta"><span class="material-symbols-outlined">emoji_events</span> 60 XP · Not started</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- ── Resource Modal ── -->
+<div class="modal-overlay" id="resourceModal">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3 id="modalTitle">Resource Title</h3>
+            <button class="modal-close" onclick="closeModal()"><span class="material-symbols-outlined">close</span></button>
+        </div>
+        <div class="modal-body">
+            <div class="modal-player">
+                <div class="modal-player-thumb" id="modalPlayerThumb">
+                    <span class="material-symbols-outlined">play_circle</span>
+                    <p>Click to start</p>
+                    <button class="modal-play-btn" onclick="startResource()">
+                        <span class="material-symbols-outlined">play_arrow</span>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-sidebar">
+                <div id="modalTypeBadge" class="modal-resource-type"></div>
+                <h4 class="modal-resource-title" id="modalResourceTitle"></h4>
+                <p class="modal-resource-desc" id="modalDesc"></p>
+                <div class="modal-meta-row"><span class="material-symbols-outlined">person</span><span id="modalInstructor"></span></div>
+                <div class="modal-meta-row"><span class="material-symbols-outlined">schedule</span><span id="modalDuration"></span></div>
+                <div class="modal-meta-row"><span class="material-symbols-outlined">signal_cellular_alt</span><span id="modalLevel"></span></div>
+                <div class="modal-progress" id="modalProgressSection">
+                    <div class="modal-progress-label"><span>Your progress</span><span id="modalProgressPct"></span></div>
+                    <div class="modal-progress-bar"><div class="modal-progress-fill" id="modalProgressFill"></div></div>
+                </div>
+                <button class="modal-action-btn" onclick="startResource()">
+                    <span class="material-symbols-outlined" style="font-size:18px;" id="modalBtnIcon">play_arrow</span>
+                    <span id="modalBtnText">Start Learning</span>
+                </button>
+                <button class="modal-save-btn" onclick="saveResource()">
+                    <span class="material-symbols-outlined" style="font-size:16px;">bookmark_add</span>
+                    Save to My List
+                </button>
+                <p class="related-title">Related Resources</p>
+                <div id="relatedList"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // ── Load sidebar & header ──
+    fetch('sidebar.html').then(r=>r.text()).then(data=>{
+        const t=document.createElement('div'); t.innerHTML=data;
+        t.childNodes.forEach(n=>{ if(n.nodeType===1&&n.tagName!=='SCRIPT') document.getElementById('sidebar-container').appendChild(n.cloneNode(true)); });
+        const s=t.querySelector('script'); if(s){const ns=document.createElement('script');ns.textContent=s.textContent;document.body.appendChild(ns);}
+        setTimeout(()=>{
+            document.querySelectorAll('.nav-item').forEach(i=>{i.classList.remove('nav-item-active');const icon=i.querySelector('.material-symbols-outlined');if(icon)icon.style.fontVariationSettings="'FILL' 0";});
+            document.querySelectorAll('.nav-item').forEach(i=>{
+                if(i.getAttribute('href')==='learning-resources.html'){
+                    i.classList.add('nav-item-active');
+                    const icon=i.querySelector('.material-symbols-outlined');
+                    if(icon)icon.style.fontVariationSettings="'FILL' 1";
+                }
+            });
+        },100);
+    });
+    fetch('header.html').then(r=>r.text()).then(data=>{
+        const t=document.createElement('div'); t.innerHTML=data;
+        t.childNodes.forEach(n=>{ if(n.nodeType===1&&n.tagName!=='SCRIPT') document.getElementById('header-container').appendChild(n.cloneNode(true)); });
+        const s=t.querySelector('script'); if(s){const ns=document.createElement('script');ns.textContent=s.textContent;document.body.appendChild(ns);}
+    });
+
+    // ── Resource data ──
+    const resourceData = {
+        hero: { title:"The Entrepreneur's Mindset: From Idea to Impact", type:'Video', typeColor:'#7c3aed', typeBg:'#f3e8ff', desc:"A complete course on thinking like a founder — from spotting real problems to building MVPs and pitching with confidence. Designed for IFTx Season 1.", instructor:"Dr. Ananya Krishnan · IFTx Lead Mentor", duration:"4h 20m · 12 Lessons", level:"Beginner–Intermediate", progress:35 },
+        c1: { title:"The Entrepreneur's Mindset", type:'Video', typeColor:'#7c3aed', typeBg:'#f3e8ff', desc:"Learn to think like a founder. Understand problem spaces, build empathy with users, and develop the resilience to keep going.", instructor:"Dr. Ananya Krishnan · IFTx Mentor", duration:"4h 20m · 12 Lessons", level:"Beginner", progress:35 },
+        c2: { title:"Pitch Perfect: Win Any Room", type:'Video', typeColor:'#0ea5e9', typeBg:'#e0f2fe', desc:"Master the art of pitching your idea clearly, confidently and memorably. Covers structure, storytelling, body language and handling tough questions.", instructor:"Rohan Verma · Pitch Coach", duration:"2h 15m · 8 Lessons", level:"Intermediate", progress:62 },
+        c3: { title:"Money Basics for Founders", type:'PDF', typeColor:'#16a34a', typeBg:'#dcfce7', desc:"A practical workbook covering revenue models, pricing strategies, cost structures and break-even analysis for young founders.", instructor:"IFTx Finance Team", duration:"24 pages · Est. 45 min", level:"Beginner", progress:18 },
+        c4: { title:"Design Thinking Crash Course", type:'Video', typeColor:'#f97316', typeBg:'#fff7ed', desc:"A hands-on intro to the 5-stage design thinking process: Empathise, Define, Ideate, Prototype, Test. Full of real examples from student projects.", instructor:"Priya Mehta · Design Educator", duration:"1h 45m · 6 Lessons", level:"Beginner", progress:80 },
+        e1: { title:"Problem-Solution Fit: Finding Real Problems Worth Solving", type:'Video', typeColor:'#7c3aed', typeBg:'#f3e8ff', desc:"How do you know if a problem is worth solving? This session covers problem discovery, user interviews and validation techniques.", instructor:"Nandan Nilekani · IFTx Expert", duration:"38 min", level:"Beginner", progress:0 },
+        e2: { title:"Startup Idea Validation in 5 Steps", type:'Video', typeColor:'#a855f7', typeBg:'#fae8ff', desc:"Before you build anything, validate your idea. This lesson walks through the 5 fastest ways to know if your idea has legs.", instructor:"IFTx Mentor Series", duration:"24 min", level:"Beginner", progress:0 },
+        e3: { title:"The MVP Handbook: Build Fast, Learn Faster", type:'PDF', typeColor:'#0284c7', typeBg:'#e0f2fe', desc:"A step-by-step guide to building your Minimum Viable Product — what to build, what to skip, and how to gather real user feedback fast.", instructor:"IFTx Product Team", duration:"18 pages · Est. 30 min", level:"Intermediate", progress:0 },
+        e4: { title:"Business Model Canvas — Fillable Template", type:'Template', typeColor:'#d97706', typeBg:'#fef9c3', desc:"The classic Business Model Canvas adapted for student startups. Fill it in to map out your value proposition, customers, channels and revenue.", instructor:"IFTx Templates", duration:"Fillable PDF + Guide", level:"All Levels", progress:0 },
+        e5: { title:"10 Young Founders Who Changed Their Cities", type:'Article', typeColor:'#be185d', typeBg:'#fce7f3', desc:"Inspiring stories of founders aged 13–22 who built real solutions for real problems in their communities — and what you can learn from them.", instructor:"IFTx Editorial Team", duration:"8 min read", level:"All Levels", progress:0 },
+        p1: { title:"The 3-Minute Pitch Formula That Wins Competitions", type:'Video', typeColor:'#0ea5e9', typeBg:'#e0f2fe', desc:"Judges see 50+ pitches a day. This formula helps you stand out in the first 30 seconds. Includes live pitch breakdowns from past IFTx finalists.", instructor:"Pitch Coach · IFTx Series", duration:"42 min", level:"Intermediate", progress:0 },
+        p2: { title:"Storytelling for Startups: Make Them Feel It", type:'Video', typeColor:'#6366f1', typeBg:'#eef2ff', desc:"Data convinces the mind. Stories move the heart. Learn how to weave a compelling narrative around your idea that makes your audience truly care.", instructor:"IFTx Expert Talk", duration:"31 min", level:"Beginner", progress:0 },
+        p3: { title:"IFTx Official Pitch Deck Template (2026)", type:'Template', typeColor:'#0d9488', typeBg:'#ccfbf1', desc:"The exact slide structure recommended for IFTx Season 1 evaluations. Includes tips on what each slide should contain and common mistakes to avoid.", instructor:"IFTx Official", duration:"12 slides · PowerPoint + PDF", level:"All Levels", progress:0 },
+        p4: { title:"Body Language Masterclass for Presenters", type:'Video', typeColor:'#f97316', typeBg:'#fff7ed', desc:"Your body says more than your words. Learn how to use posture, eye contact, gestures and space to project confidence during your IFTx pitch.", instructor:"Communication Coach", duration:"18 min", level:"Beginner", progress:0 },
+        f1: { title:"Revenue Models Explained: How Startups Make Money", type:'Video', typeColor:'#16a34a', typeBg:'#dcfce7', desc:"Subscription, freemium, marketplace, SaaS, D2C — what model fits your idea? This session breaks down 8 common revenue models with real examples.", instructor:"Finance Expert · IFTx", duration:"28 min", level:"Beginner", progress:0 },
+        f2: { title:"Unit Economics: Test Your Knowledge", type:'Quiz', typeColor:'#d97706', typeBg:'#fef9c3', desc:"10 quick questions to test how well you understand CAC, LTV, gross margin and break-even. Get instant feedback on each answer.", instructor:"IFTx Learning Team", duration:"10 questions · ~15 min", level:"Intermediate", progress:0 },
+        f3: { title:"3-Year Financial Projections for Student Startups", type:'PDF', typeColor:'#059669', typeBg:'#d1fae5', desc:"A guided workbook to help you build realistic financial projections for your startup — even if you've never done accounting before.", instructor:"IFTx Finance Team", duration:"12 pages · Est. 25 min", level:"Intermediate", progress:0 },
+        f4: { title:"Where to Find Funding as a Student Founder", type:'Article', typeColor:'#2563eb', typeBg:'#dbeafe', desc:"Grants, angel investors, competitions, crowdfunding — a practical guide to funding options available specifically to student entrepreneurs in India.", instructor:"IFTx Editorial Team", duration:"6 min read", level:"All Levels", progress:0 },
+        q1: { title:"Entrepreneurship Basics — Chapter 1 Quiz", type:'Quiz', typeColor:'#7c3aed', typeBg:'#f3e8ff', desc:"15 multiple-choice questions covering the fundamentals of entrepreneurship: problem identification, opportunity recognition and lean startup principles.", instructor:"IFTx Learning Team", duration:"15 questions · ~15 min", level:"Beginner", progress:0 },
+        q2: { title:"Pitch Skills Assessment: How Ready Are You?", type:'Quiz', typeColor:'#0ea5e9', typeBg:'#e0f2fe', desc:"Assess your current pitch readiness with 10 scenario-based questions. Get a personalised score and improvement tips.", instructor:"IFTx Learning Team", duration:"10 questions · ~10 min", level:"All Levels", progress:0 },
+        q3: { title:"Market Research Methods: Quick Test", type:'Quiz', typeColor:'#0d9488', typeBg:'#ccfbf1', desc:"Test your knowledge of primary vs secondary research, TAM/SAM/SOM, surveys and competitor analysis.", instructor:"IFTx Learning Team", duration:"10 questions · ~12 min", level:"Intermediate", progress:0 },
+        q4: { title:"Finance Fundamentals for Young Founders", type:'Quiz', typeColor:'#d97706', typeBg:'#fef9c3', desc:"Revenue, expenses, profit, cash flow — can you tell them apart? 8 quick questions to sharpen your financial vocabulary.", instructor:"IFTx Learning Team", duration:"8 questions · ~8 min", level:"Beginner", progress:0 },
+    };
+
+    // ── Modal ──
+    function openModal(id) {
+        const d = resourceData[id] || resourceData['hero'];
+        document.getElementById('modalTitle').textContent = d.title;
+        document.getElementById('modalResourceTitle').textContent = d.title;
+        document.getElementById('modalDesc').textContent = d.desc;
+        document.getElementById('modalInstructor').textContent = d.instructor;
+        document.getElementById('modalDuration').textContent = d.duration;
+        document.getElementById('modalLevel').textContent = d.level;
+
+        const badge = document.getElementById('modalTypeBadge');
+        badge.textContent = d.type;
+        badge.style.background = d.typeBg;
+        badge.style.color = d.typeColor;
+
+        const progSection = document.getElementById('modalProgressSection');
+        if (d.progress > 0) {
+            progSection.style.display = 'block';
+            document.getElementById('modalProgressPct').textContent = d.progress + '%';
+            document.getElementById('modalProgressFill').style.width = d.progress + '%';
+            document.getElementById('modalBtnText').textContent = 'Continue Learning';
+            document.getElementById('modalBtnIcon').textContent = 'play_arrow';
+        } else {
+            progSection.style.display = 'none';
+            document.getElementById('modalBtnText').textContent = d.type === 'Quiz' ? 'Start Quiz' : d.type === 'PDF' || d.type === 'Template' ? 'Open Resource' : 'Start Learning';
+            document.getElementById('modalBtnIcon').textContent = d.type === 'Quiz' ? 'quiz' : d.type === 'PDF' || d.type === 'Template' ? 'open_in_new' : 'play_arrow';
+        }
+
+        // Related resources (random 3 others)
+        const others = Object.entries(resourceData).filter(([k]) => k !== id).slice(0,3);
+        const typeIcons = { Video:'play_circle', PDF:'description', Article:'article', Quiz:'quiz', Template:'grid_view' };
+        const typeColors = { Video:'#7c3aed', PDF:'#16a34a', Article:'#0ea5e9', Quiz:'#d97706', Template:'#d97706' };
+        document.getElementById('relatedList').innerHTML = others.map(([, r]) => `
+            <div class="related-item">
+                <div class="related-thumb" style="background:${typeColors[r.type] || '#94a3b8'}20;">
+                    <span class="material-symbols-outlined" style="color:${typeColors[r.type]||'#94a3b8'};font-size:20px;">${typeIcons[r.type]||'article'}</span>
+                </div>
+                <div class="related-info">
+                    <p>${r.title}</p>
+                    <span>${r.type} · ${r.duration}</span>
+                </div>
+            </div>`).join('');
+
+        document.getElementById('resourceModal').classList.add('open');
+    }
+
+    function closeModal() { document.getElementById('resourceModal').classList.remove('open'); }
+
+    document.getElementById('resourceModal').addEventListener('click', function(e) {
+        if (e.target === this) closeModal();
+    });
+
+    function startResource() {
+        closeModal();
+        showToast('Loading resource... Happy learning!', 'success');
+    }
+
+    function saveResource() {
+        showToast('Saved to your list!', 'success');
+    }
+
+    // ── Category filter ──
+    function switchCat(btn) {
+        document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+        btn.classList.add('active');
+        const cat = btn.dataset.cat;
+        document.querySelectorAll('.resource-card').forEach(card => {
+            card.style.display = (cat === 'all' || card.dataset.cat === cat) ? '' : 'none';
+        });
+        document.querySelectorAll('.row-section').forEach(section => {
+            const sec = section.dataset.section;
+            section.style.display = (cat === 'all' || sec === 'continue' || sec === cat) ? '' : 'none';
+        });
+    }
+
+    // ── Search filter ──
+    function filterCards() {
+        const q = document.getElementById('searchInput').value.toLowerCase();
+        document.querySelectorAll('.resource-card').forEach(card => {
+            card.style.display = (!q || card.dataset.title.toLowerCase().includes(q)) ? '' : 'none';
+        });
+    }
+
+    // ── See all buttons ──
+    document.querySelectorAll('.row-see-all').forEach(btn => {
+        btn.addEventListener('click', () => showToast('Showing all resources in this category', 'info'));
+    });
+
+    // ── Toast ──
+    function showToast(msg, type='info') {
+        const existing = document.querySelector('.custom-toast'); if(existing) existing.remove();
+        const colors = {success:'#22c55e', error:'#ef4444', info:'#5E2A97', warning:'#f97316'};
+        const icons  = {success:'check_circle', error:'error', info:'info', warning:'warning'};
+        const t = document.createElement('div'); t.className='custom-toast';
+        t.style.cssText=`position:fixed;bottom:2rem;right:2rem;background:${colors[type]};color:white;padding:1rem 1.5rem;border-radius:.75rem;box-shadow:0 10px 25px rgba(0,0,0,.2);z-index:9999;display:flex;align-items:center;gap:.75rem;font-size:.875rem;font-weight:500;font-family:'Poppins',sans-serif;max-width:400px;animation:toastIn .3s ease;`;
+        t.innerHTML=`<span class="material-symbols-outlined" style="font-size:20px;">${icons[type]}</span><span>${msg}</span>`;
+        document.body.appendChild(t); setTimeout(()=>t.remove(), 3500);
+    }
+</script>
+</body>
+</html>

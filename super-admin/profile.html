@@ -577,11 +577,70 @@
         </div>
     </div>
 
+    <!-- Change Password Modal -->
+    <div id="changePasswordModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:9999; align-items:center; justify-content:center; padding:20px;">
+        <div style="background:#fff; border-radius:16px; width:100%; max-width:480px; overflow:hidden;">
+            <div style="padding:20px 24px; border-bottom:1px solid #EEEEEE; display:flex; align-items:center; justify-content:space-between;">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <span class="material-symbols-outlined" style="color:#5E2A97; font-size:22px;">key</span>
+                    <h3 style="margin:0; font-size:1.05rem; font-weight:700; color:#222;">Change Password</h3>
+                </div>
+                <button onclick="closeChangePasswordModal()" style="background:none; border:none; cursor:pointer; color:#888;">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <form id="changePasswordForm" style="padding:24px;">
+                <div id="passwordAlert" style="display:none; padding:10px 14px; border-radius:8px; font-size:0.85rem; margin-bottom:16px;"></div>
+                <div style="margin-bottom:16px;">
+                    <label style="display:block; font-size:0.8rem; font-weight:600; color:#444; margin-bottom:6px;">Current Password</label>
+                    <div style="position:relative;">
+                        <input type="password" id="currentPassword" placeholder="Enter current password" style="width:100%; padding:10px 40px 10px 12px; border:1px solid #EEEEEE; border-radius:8px; font-family:'Poppins',sans-serif; font-size:0.875rem; outline:none;" required>
+                        <button type="button" class="password-toggle-btn" onclick="togglePassword('currentPassword')" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; color:#888;">
+                            <span class="material-symbols-outlined" style="font-size:18px;">visibility</span>
+                        </button>
+                    </div>
+                </div>
+                <div style="margin-bottom:16px;">
+                    <label style="display:block; font-size:0.8rem; font-weight:600; color:#444; margin-bottom:6px;">New Password</label>
+                    <div style="position:relative;">
+                        <input type="password" id="newPassword" placeholder="Enter new password (min. 8 chars)" style="width:100%; padding:10px 40px 10px 12px; border:1px solid #EEEEEE; border-radius:8px; font-family:'Poppins',sans-serif; font-size:0.875rem; outline:none;" required>
+                        <button type="button" class="password-toggle-btn" onclick="togglePassword('newPassword')" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; color:#888;">
+                            <span class="material-symbols-outlined" style="font-size:18px;">visibility</span>
+                        </button>
+                    </div>
+                </div>
+                <div style="margin-bottom:20px;">
+                    <label style="display:block; font-size:0.8rem; font-weight:600; color:#444; margin-bottom:6px;">Confirm New Password</label>
+                    <div style="position:relative;">
+                        <input type="password" id="confirmPassword" placeholder="Re-enter new password" style="width:100%; padding:10px 40px 10px 12px; border:1px solid #EEEEEE; border-radius:8px; font-family:'Poppins',sans-serif; font-size:0.875rem; outline:none;" required>
+                        <button type="button" class="password-toggle-btn" onclick="togglePassword('confirmPassword')" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; color:#888;">
+                            <span class="material-symbols-outlined" style="font-size:18px;">visibility</span>
+                        </button>
+                    </div>
+                </div>
+                <div style="display:flex; gap:12px; justify-content:flex-end;">
+                    <button type="button" onclick="closeChangePasswordModal()" style="padding:10px 20px; border:1px solid #EEEEEE; border-radius:8px; background:#fff; font-family:'Poppins',sans-serif; font-size:0.875rem; font-weight:500; cursor:pointer;">Cancel</button>
+                    <button type="submit" style="padding:10px 24px; background:#5E2A97; color:#fff; border:none; border-radius:8px; font-family:'Poppins',sans-serif; font-size:0.875rem; font-weight:600; cursor:pointer;">Update Password</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Password Toggle Function -->
     <script>
+        function openChangePasswordModal() {
+            document.getElementById('changePasswordModal').style.display = 'flex';
+            document.getElementById('passwordAlert').style.display = 'none';
+            document.getElementById('changePasswordForm').reset();
+        }
+
+        function closeChangePasswordModal() {
+            document.getElementById('changePasswordModal').style.display = 'none';
+        }
+
         function togglePassword(inputId) {
             const input = document.getElementById(inputId);
             const btn = input.parentElement.querySelector('.password-toggle-btn');
@@ -621,19 +680,14 @@
                 return;
             }
 
-            // Here you would typically make an API call to update the password
-            // For now, we'll just show a success message
             alertBox.textContent = 'Password updated successfully!';
             alertBox.className = 'alert-custom alert-success';
             alertBox.style.display = 'block';
-
-            // Reset form
             this.reset();
 
-            // Hide alert after 3 seconds
             setTimeout(() => {
-                alertBox.style.display = 'none';
-            }, 3000);
+                closeChangePasswordModal();
+            }, 1500);
         });
     </script>
 

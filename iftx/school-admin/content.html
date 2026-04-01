@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Content Management | School Admin | ENpower IFTx</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+
+    <!-- Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --primary: #5E2A97;
+            --secondary: #DEDE50;
+            --primary-light: #E8D4F0;
+            --background-light: #F7F7F7;
+            --surface-light: #FFFFFF;
+            --border-light: #EEEEEE;
+            --text-dark: #222222;
+            --text-muted: #666666;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-light);
+            color: var(--text-dark);
+            overflow: hidden;
+        }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* Layout */
+        .main-container {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+        }
+
+        #sidebar-container { flex-shrink: 0; }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow-y: auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            padding: 32px;
+            max-width: 100%;
+            width: 100%;
+        }
+
+        /* Page Header */
+        .page-header {
+            margin-bottom: 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .page-header h1 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+        }
+
+        .breadcrumb {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            background: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .breadcrumb-item a {
+            color: var(--text-muted);
+            text-decoration: none;
+        }
+
+        .breadcrumb-item a:hover { color: var(--primary); }
+        .breadcrumb-item.active { color: var(--text-dark); }
+
+        /* Buttons */
+        .btn-primary-custom {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-primary-custom:hover { background: #4a1f7a; }
+
+        .btn-outline-custom {
+            background: #fff;
+            color: var(--text-dark);
+            border: 1px solid var(--border-light);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn-outline-custom:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* Stats Cards */
+        .stat-card {
+            background: var(--surface-light);
+            border-radius: 12px;
+            padding: 20px 24px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            border: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .stat-icon.purple { background: rgba(94, 42, 151, 0.1); color: var(--primary); }
+        .stat-icon.green  { background: rgba(34, 197, 94, 0.1); color: #22c55e; }
+        .stat-icon.amber  { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+        .stat-icon.slate  { background: rgba(100, 116, 139, 0.1); color: #64748b; }
+
+        .stat-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin: 0;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0;
+        }
+
+        /* Tabs */
+        .tabs-bar {
+            display: flex;
+            gap: 4px;
+            border-bottom: 2px solid var(--border-light);
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            border: none;
+            background: none;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border-radius: 6px 6px 0 0;
+        }
+
+        .tab-btn:hover { color: var(--primary); background: rgba(94, 42, 151, 0.04); }
+
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+            font-weight: 600;
+        }
+
+        .tab-count {
+            background: #f1f5f9;
+            color: var(--text-muted);
+            font-size: 0.6875rem;
+            font-weight: 700;
+            padding: 1px 7px;
+            border-radius: 9999px;
+        }
+
+        .tab-btn.active .tab-count {
+            background: rgba(94, 42, 151, 0.12);
+            color: var(--primary);
+        }
+
+        /* Main Card */
+        .main-card {
+            background: var(--surface-light);
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            border: 1px solid var(--border-light);
+            overflow: hidden;
+        }
+
+        .main-card-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        /* Search & Filter */
+        .search-input { position: relative; }
+
+        .search-input .material-symbols-outlined {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 20px;
+        }
+
+        .search-input input {
+            width: 280px;
+            padding: 9px 12px 9px 42px;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            font-size: 0.875rem;
+            background: #f8fafc;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .search-input input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(94, 42, 151, 0.1);
+        }
+
+        .filter-select {
+            font-size: 0.875rem;
+            padding: 9px 12px;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            background: #f8fafc;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(94, 42, 151, 0.1);
+        }
+
+        /* Table */
+        .custom-table { width: 100%; font-size: 0.875rem; }
+        .custom-table thead { background: #f8fafc; }
+
+        .custom-table th {
+            padding: 14px 18px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-align: left;
+            border-bottom: 1px solid var(--border-light);
+            white-space: nowrap;
+        }
+
+        .custom-table th.sortable { cursor: pointer; user-select: none; }
+        .custom-table th.sortable:hover { color: var(--primary); }
+
+        .custom-table td {
+            padding: 14px 18px;
+            vertical-align: middle;
+            border-bottom: 1px solid #f8f9fa;
+        }
+
+        .custom-table tbody tr {
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        .custom-table tbody tr:hover { background: rgba(94, 42, 151, 0.03); }
+        .custom-table tbody tr.selected { background: rgba(94, 42, 151, 0.06); }
+
+        /* Badges */
+        .badge-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 10px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-status .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .badge-published { background: #dcfce7; color: #16a34a; }
+        .badge-published .dot { background: #16a34a; }
+
+        .badge-draft { background: #f1f5f9; color: #64748b; }
+        .badge-draft .dot { background: #64748b; }
+
+        .badge-scheduled { background: #fef3c7; color: #d97706; }
+        .badge-scheduled .dot { background: #d97706; }
+
+        .badge-archived { background: #fee2e2; color: #dc2626; }
+        .badge-archived .dot { background: #dc2626; }
+
+        /* Content title cell */
+        .content-title-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .content-type-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .content-type-icon.announcement { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+        .content-type-icon.resource     { background: rgba(94, 42, 151, 0.1); color: var(--primary); }
+        .content-type-icon.faq          { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+        .content-type-icon.banner       { background: rgba(20, 184, 166, 0.1); color: #14b8a6; }
+
+        .content-title-text {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin: 0;
+            font-size: 0.875rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 260px;
+        }
+
+        .content-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        /* Action buttons */
+        .action-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            border: 1px solid var(--border-light);
+            background: #fff;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover { border-color: var(--primary); color: var(--primary); background: rgba(94,42,151,0.05); }
+        .action-btn.danger:hover { border-color: #ef4444; color: #ef4444; background: rgba(239,68,68,0.05); }
+
+        .action-btn .material-symbols-outlined { font-size: 16px; }
+
+        /* Pagination */
+        .pagination-bar {
+            padding: 16px 24px;
+            border-top: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .pagination-info { font-size: 0.8125rem; color: var(--text-muted); }
+
+        .page-btns { display: flex; gap: 4px; }
+
+        .page-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            border: 1px solid var(--border-light);
+            background: #fff;
+            font-size: 0.8125rem;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+
+        .page-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .page-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+        .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        /* Details Sidebar */
+        .details-sidebar {
+            position: fixed;
+            top: 0;
+            right: -540px;
+            width: 540px;
+            height: 100vh;
+            background: var(--surface-light);
+            box-shadow: -4px 0 24px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            transition: right 0.3s ease;
+        }
+
+        .details-sidebar.open { right: 0; }
+
+        .details-sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: 999;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .details-sidebar-overlay.show { display: block; opacity: 1; }
+
+        .details-sidebar-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .details-sidebar-header h2 {
+            font-size: 1.0625rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .details-sidebar-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid var(--border-light);
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+
+        .details-sidebar-close:hover { background: #f8fafc; color: var(--text-dark); }
+
+        .details-sidebar-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+        }
+
+        .details-sidebar-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--border-light);
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        /* Quick Action Buttons in panel */
+        .qa-btn {
+            flex: 1;
+            min-width: 100px;
+            padding: 9px 14px;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .qa-btn .material-symbols-outlined { font-size: 17px; }
+
+        .qa-btn.publish  { background: #dcfce7; color: #16a34a; border-color: #bbf7d0; }
+        .qa-btn.publish:hover  { background: #16a34a; color: #fff; }
+
+        .qa-btn.unpublish { background: #f1f5f9; color: #64748b; border-color: #e2e8f0; }
+        .qa-btn.unpublish:hover { background: #64748b; color: #fff; }
+
+        .qa-btn.schedule { background: #fef3c7; color: #d97706; border-color: #fde68a; }
+        .qa-btn.schedule:hover { background: #d97706; color: #fff; }
+
+        .qa-btn.duplicate { background: rgba(94,42,151,0.08); color: var(--primary); border-color: rgba(94,42,151,0.2); }
+        .qa-btn.duplicate:hover { background: var(--primary); color: #fff; }
+
+        .qa-btn.delete { background: #fee2e2; color: #dc2626; border-color: #fecaca; }
+        .qa-btn.delete:hover { background: #dc2626; color: #fff; }
+
+        /* Preview block */
+        .preview-block {
+            background: #f8fafc;
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            padding: 18px;
+            margin-bottom: 20px;
+            font-size: 0.875rem;
+            color: var(--text-dark);
+            line-height: 1.7;
+        }
+
+        .preview-block img {
+            width: 100%;
+            border-radius: 8px;
+            margin-top: 12px;
+            object-fit: cover;
+        }
+
+        .detail-section { margin-bottom: 22px; }
+
+        .detail-section-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .detail-section-title .material-symbols-outlined {
+            font-size: 16px;
+            color: var(--primary);
+        }
+
+        .detail-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 0.8125rem;
+        }
+
+        .detail-row:last-child { border-bottom: none; }
+        .detail-row-label { color: var(--text-muted); font-weight: 500; }
+        .detail-row-value { color: var(--text-dark); font-weight: 600; text-align: right; }
+
+        /* Schedule modal overlay */
+        .schedule-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1100;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .schedule-modal.show { display: flex; }
+
+        .schedule-modal-box {
+            background: #fff;
+            border-radius: 14px;
+            padding: 28px;
+            width: 380px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
+        .schedule-modal-box h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .schedule-modal-box input[type="datetime-local"] {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.875rem;
+            margin-bottom: 16px;
+        }
+
+        .schedule-modal-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(94,42,151,0.1);
+        }
+
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .toast {
+            background: #1e293b;
+            color: #fff;
+            padding: 12px 18px;
+            border-radius: 10px;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: toastIn 0.3s ease;
+            max-width: 320px;
+        }
+
+        .toast.success { background: #166534; }
+        .toast.warning { background: #92400e; }
+        .toast.danger  { background: #991b1b; }
+
+        @keyframes toastIn {
+            from { transform: translateX(80px); opacity: 0; }
+            to   { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+
+        .empty-state .material-symbols-outlined {
+            font-size: 48px;
+            color: #d1d5db;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .content-wrapper { padding: 16px; }
+            .details-sidebar { width: 100%; right: -100%; }
+            .search-input input { width: 200px; }
+        }
+    </style>
+</head>
+
+<body>
+<div class="main-container">
+
+    <!-- Sidebar -->
+    <div id="sidebar-container"></div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+        <!-- Header -->
+        <div id="header-container"></div>
+
+        <div class="content-wrapper">
+
+            <!-- Page Header -->
+            <div class="page-header">
+                <div>
+                    <h1>Content Management</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="dashboard.html">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Content</li>
+                        </ol>
+                    </nav>
+                </div>
+                <a href="create-content.html" class="btn-primary-custom">
+                    <span class="material-symbols-outlined" style="font-size:18px;">add</span>
+                    Add Content
+                </a>
+            </div>
+
+            <!-- Stats Row -->
+            <div class="row g-3 mb-4">
+                <div class="col-6 col-xl-3">
+                    <div class="stat-card">
+                        <div class="stat-icon purple">
+                            <span class="material-symbols-outlined">check_circle</span>
+                        </div>
+                        <div>
+                            <p class="stat-label">Total Published</p>
+                            <p class="stat-value" id="statPublished">34</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-xl-3">
+                    <div class="stat-card">
+                        <div class="stat-icon slate">
+                            <span class="material-symbols-outlined">draft</span>
+                        </div>
+                        <div>
+                            <p class="stat-label">Drafts</p>
+                            <p class="stat-value" id="statDrafts">12</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-xl-3">
+                    <div class="stat-card">
+                        <div class="stat-icon amber">
+                            <span class="material-symbols-outlined">schedule</span>
+                        </div>
+                        <div>
+                            <p class="stat-label">Scheduled</p>
+                            <p class="stat-value" id="statScheduled">7</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-xl-3">
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <span class="material-symbols-outlined">inventory_2</span>
+                        </div>
+                        <div>
+                            <p class="stat-label">Archived</p>
+                            <p class="stat-value" id="statArchived">9</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs + Table Card -->
+            <div class="main-card">
+
+                <!-- Tabs -->
+                <div style="padding: 0 24px; padding-top: 20px;">
+                    <div class="tabs-bar">
+                        <button class="tab-btn active" data-tab="announcements" onclick="switchTab('announcements', this)">
+                            <span class="material-symbols-outlined" style="font-size:17px;">campaign</span>
+                            Announcements
+                            <span class="tab-count" id="count-announcements">18</span>
+                        </button>
+                        <button class="tab-btn" data-tab="resources" onclick="switchTab('resources', this)">
+                            <span class="material-symbols-outlined" style="font-size:17px;">menu_book</span>
+                            Resources
+                            <span class="tab-count" id="count-resources">14</span>
+                        </button>
+                        <button class="tab-btn" data-tab="faqs" onclick="switchTab('faqs', this)">
+                            <span class="material-symbols-outlined" style="font-size:17px;">help</span>
+                            FAQs
+                            <span class="tab-count" id="count-faqs">21</span>
+                        </button>
+                        <button class="tab-btn" data-tab="banners" onclick="switchTab('banners', this)">
+                            <span class="material-symbols-outlined" style="font-size:17px;">image</span>
+                            Banners / Media
+                            <span class="tab-count" id="count-banners">9</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Search & Filter Bar -->
+                <div class="main-card-header">
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <div class="search-input">
+                            <span class="material-symbols-outlined">search</span>
+                            <input type="text" id="searchInput" placeholder="Search content..." oninput="filterTable()" />
+                        </div>
+                        <select class="filter-select" id="statusFilter" onchange="filterTable()">
+                            <option value="">All Status</option>
+                            <option value="Published">Published</option>
+                            <option value="Draft">Draft</option>
+                            <option value="Scheduled">Scheduled</option>
+                            <option value="Archived">Archived</option>
+                        </select>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <span id="resultCount" style="font-size:0.8125rem; color:var(--text-muted);"></span>
+                        <button class="btn-outline-custom">
+                            <span class="material-symbols-outlined" style="font-size:16px;">download</span>
+                            Export
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Table -->
+                <div style="overflow-x: auto;">
+                    <table class="custom-table" id="contentTable">
+                        <thead>
+                            <tr>
+                                <th class="sortable" onclick="sortTable('title')">Title <span class="material-symbols-outlined" style="font-size:13px;vertical-align:middle;">unfold_more</span></th>
+                                <th class="sortable" onclick="sortTable('status')">Status</th>
+                                <th>Author</th>
+                                <th class="sortable" onclick="sortTable('date')">Date <span class="material-symbols-outlined" style="font-size:13px;vertical-align:middle;">unfold_more</span></th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <!-- Rows injected by JS -->
+                        </tbody>
+                    </table>
+
+                    <!-- Empty state -->
+                    <div class="empty-state d-none" id="emptyState">
+                        <span class="material-symbols-outlined">search_off</span>
+                        <p style="font-weight:600; color:var(--text-dark);">No content found</p>
+                        <p style="font-size:0.8125rem;">Try adjusting your search or filters.</p>
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination-bar">
+                    <span class="pagination-info" id="paginationInfo">Showing 1–10 of 18</span>
+                    <div class="page-btns">
+                        <button class="page-btn" id="prevBtn" onclick="changePage(-1)" disabled>
+                            <span class="material-symbols-outlined" style="font-size:16px;">chevron_left</span>
+                        </button>
+                        <button class="page-btn active" id="page1Btn" onclick="goToPage(1)">1</button>
+                        <button class="page-btn" id="page2Btn" onclick="goToPage(2)">2</button>
+                        <button class="page-btn" id="nextBtn" onclick="changePage(1)">
+                            <span class="material-symbols-outlined" style="font-size:16px;">chevron_right</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div><!-- /main-card -->
+
+        </div><!-- /content-wrapper -->
+    </div><!-- /main-content -->
+</div><!-- /main-container -->
+
+<!-- ── Details Side Panel ── -->
+<div class="details-sidebar-overlay" id="detailsOverlay" onclick="closeSidePanel()"></div>
+<div class="details-sidebar" id="detailsSidebar">
+    <div class="details-sidebar-header">
+        <h2 id="panelTitle">Content Preview</h2>
+        <button class="details-sidebar-close" onclick="closeSidePanel()">
+            <span class="material-symbols-outlined" style="font-size:18px;">close</span>
+        </button>
+    </div>
+
+    <div class="details-sidebar-content">
+
+        <!-- Meta -->
+        <div class="detail-section">
+            <div class="detail-section-title">
+                <span class="material-symbols-outlined">info</span> Details
+            </div>
+            <div id="panelMeta">
+                <div class="detail-row">
+                    <span class="detail-row-label">Status</span>
+                    <span class="detail-row-value" id="panelStatus">—</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-row-label">Type</span>
+                    <span class="detail-row-value" id="panelType">—</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-row-label">Author</span>
+                    <span class="detail-row-value" id="panelAuthor">—</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-row-label">Created</span>
+                    <span class="detail-row-value" id="panelDate">—</span>
+                </div>
+                <div class="detail-row" id="panelScheduledRow" style="display:none;">
+                    <span class="detail-row-label">Scheduled For</span>
+                    <span class="detail-row-value" id="panelScheduledDate">—</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preview -->
+        <div class="detail-section">
+            <div class="detail-section-title">
+                <span class="material-symbols-outlined">preview</span> Content Preview
+            </div>
+            <div class="preview-block" id="panelPreview">
+                Select a content item to preview.
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Quick Actions Footer -->
+    <div class="details-sidebar-footer">
+        <button class="qa-btn publish"   id="qaPublish"    onclick="quickAction('publish')">
+            <span class="material-symbols-outlined">publish</span> Publish
+        </button>
+        <button class="qa-btn unpublish" id="qaUnpublish"  onclick="quickAction('unpublish')" style="display:none;">
+            <span class="material-symbols-outlined">unpublished</span> Unpublish
+        </button>
+        <button class="qa-btn schedule"  onclick="openScheduleModal()">
+            <span class="material-symbols-outlined">schedule</span> Schedule
+        </button>
+        <button class="qa-btn duplicate" onclick="quickAction('duplicate')">
+            <span class="material-symbols-outlined">content_copy</span> Duplicate
+        </button>
+        <button class="qa-btn delete"    onclick="quickAction('delete')">
+            <span class="material-symbols-outlined">delete</span> Delete
+        </button>
+    </div>
+</div>
+
+<!-- ── Schedule Modal ── -->
+<div class="schedule-modal" id="scheduleModal">
+    <div class="schedule-modal-box">
+        <h3>Schedule Content</h3>
+        <p style="font-size:0.8125rem; color:var(--text-muted); margin-bottom:14px;">Choose the date and time to publish this content.</p>
+        <input type="datetime-local" id="scheduleInput" />
+        <div class="d-flex gap-2 justify-content-end">
+            <button class="btn-outline-custom" onclick="closeScheduleModal()">Cancel</button>
+            <button class="btn-primary-custom" onclick="confirmSchedule()">
+                <span class="material-symbols-outlined" style="font-size:16px;">schedule</span>
+                Confirm
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+// ── Data ──────────────────────────────────────────────────────────────────────
+const contentData = {
+    announcements: [
+        { id: 'ANN001', title: 'IFTx Registration Now Open', author: 'Admin', date: '2026-03-20', status: 'Published', body: 'We are excited to announce that registrations are now open for all eligible students. Apply before the deadline to secure your spot.' },
+        { id: 'ANN002', title: 'Jury Panel Announcement — Phase 2', author: 'Admin', date: '2026-03-18', status: 'Published', body: 'Meet our esteemed jury members for Phase 2 evaluation. The panel includes industry leaders from Fintech, Healthcare, and EdTech sectors.' },
+        { id: 'ANN003', title: 'Submission Deadline Extended by 7 Days', author: 'Admin', date: '2026-03-15', status: 'Published', body: 'Due to overwhelming response, we have extended the submission deadline by 7 days. Final deadline is now 30th March 2026.' },
+        { id: 'ANN004', title: 'IFTx Orientation Session — April 5th', author: 'Admin', date: '2026-03-25', status: 'Scheduled', scheduledFor: '2026-04-05 10:00', body: 'Join us for an orientation session covering the competition format, evaluation criteria, and tips to build a winning pitch.' },
+        { id: 'ANN005', title: 'Meet the Mentors — Draft in Progress', author: 'Content Team', date: '2026-03-22', status: 'Draft', body: 'This announcement will introduce the mentor network available to all registered participants during the IFTx journey.' },
+        { id: 'ANN006', title: 'Phase 1 Results Released', author: 'Admin', date: '2026-02-10', status: 'Archived', body: 'Congratulations to all participants who cleared Phase 1. The shortlisted ideas have been notified via email.' },
+        { id: 'ANN007', title: 'New Questionnaire Format for Season 4', author: 'Admin', date: '2026-03-10', status: 'Published', body: 'The questionnaire has been updated to include sections on sustainability, social impact, and scalability.' },
+        { id: 'ANN008', title: 'Award Ceremony — School Finals', author: 'Admin', date: '2026-04-01', status: 'Scheduled', scheduledFor: '2026-05-15 18:00', body: 'The School Finals and Award Ceremony will be held on May 15th. Winners across all categories will be recognised.' },
+    ],
+    resources: [
+        { id: 'RES001', title: 'Business Plan Template — Season 4', author: 'Content Team', date: '2026-03-12', status: 'Published', body: 'Download the official business plan template for Season 4. The template includes sections for problem statement, solution, market size, financials, and team.' },
+        { id: 'RES002', title: 'Pitch Deck Guide — How to Wow the Jury', author: 'Content Team', date: '2026-03-08', status: 'Published', body: 'A comprehensive 20-page guide on creating compelling pitch decks. Includes do\'s and don\'ts from past jury feedback.' },
+        { id: 'RES003', title: 'Market Research Handbook', author: 'Content Team', date: '2026-02-28', status: 'Published', body: 'Step-by-step guide to conducting primary and secondary market research for your business idea.' },
+        { id: 'RES004', title: 'Financial Modelling Basics', author: 'Content Team', date: '2026-03-20', status: 'Draft', body: 'Introduction to financial projections, unit economics, and break-even analysis — tailored for student entrepreneurs.' },
+        { id: 'RES005', title: 'Video Pitch Tutorial', author: 'Admin', date: '2026-03-01', status: 'Published', body: 'Learn how to record a compelling 3-minute video pitch. Tips on lighting, script, and delivery.' },
+    ],
+    faqs: [
+        { id: 'FAQ001', title: 'Who is eligible to participate in IFTx?', author: 'Admin', date: '2026-01-10', status: 'Published', body: 'IFTx is open to students of the school in grades 9-12. Both individuals and teams of up to 4 members can apply.' },
+        { id: 'FAQ002', title: 'How many ideas can one team submit?', author: 'Admin', date: '2026-01-10', status: 'Published', body: 'Each team can submit only one idea per season. Multiple entries from the same team will be disqualified.' },
+        { id: 'FAQ003', title: 'What is the evaluation process?', author: 'Admin', date: '2026-01-12', status: 'Published', body: 'Ideas are evaluated in 3 phases: AI-based preliminary scoring → Jury review → School finals presentation. Each phase has a defined scoring rubric.' },
+        { id: 'FAQ004', title: 'Can I update my submission after submitting?', author: 'Admin', date: '2026-01-15', status: 'Published', body: 'Yes, you can update your submission any number of times until the official deadline. Post-deadline edits are not permitted.' },
+        { id: 'FAQ005', title: 'What prizes are awarded?', author: 'Admin', date: '2026-02-01', status: 'Published', body: 'Top 3 ideas in each category receive cash prizes, mentorship opportunities, and incubation support. Category-specific details are shared in the announcement section.' },
+        { id: 'FAQ006', title: 'How do I contact support?', author: 'Admin', date: '2026-01-10', status: 'Published', body: 'Reach us at support@iftx.in or via the in-app chat. Response time is within 24 hours on working days.' },
+        { id: 'FAQ007', title: 'Is there a registration fee?', author: 'Admin', date: '2026-01-10', status: 'Published', body: 'No, IFTx participation is completely free of charge for all students.' },
+        { id: 'FAQ008', title: 'Do I need a mentor to participate?', author: 'Admin', date: '2026-01-20', status: 'Draft', body: 'Having a mentor is optional but strongly recommended. Mentor-guided teams have historically performed better in evaluations.' },
+    ],
+    banners: [
+        { id: 'BAN001', title: 'Season 4 Launch Banner — Homepage', author: 'Design Team', date: '2026-03-01', status: 'Published', body: 'Full-width hero banner for the homepage announcing Season 4. Image dimensions: 1440×560px. CTA: "Register Now".' },
+        { id: 'BAN002', title: 'Dashboard Welcome Banner', author: 'Design Team', date: '2026-03-05', status: 'Published', body: 'Student dashboard welcome banner with Season 4 branding. Dimensions: 1200×240px. Links to registration page.' },
+        { id: 'BAN003', title: 'Phase 2 Alert Banner', author: 'Design Team', date: '2026-03-18', status: 'Scheduled', scheduledFor: '2026-04-01 00:00', body: 'Notification banner to appear on student dashboard when Phase 2 evaluation begins.' },
+        { id: 'BAN004', title: 'Deadline Reminder Banner — Archived', author: 'Design Team', date: '2026-02-20', status: 'Archived', body: 'Previously used countdown banner for Phase 1 submission deadline. Archived post-deadline.' },
+    ]
+};
+
+const tabIconMap = {
+    announcements: 'announcement',
+    resources: 'menu_book',
+    faqs: 'help',
+    banners: 'image'
+};
+
+const tabLabelMap = {
+    announcements: 'Announcement',
+    resources: 'Resource',
+    faqs: 'FAQ',
+    banners: 'Banner'
+};
+
+let currentTab = 'announcements';
+let currentPage = 1;
+const rowsPerPage = 8;
+let filteredRows = [];
+let selectedRowId = null;
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+    loadComponent('sidebar-container', 'sidebar.html');
+    loadComponent('header-container', 'header.html');
+    renderTable();
+});
+
+function loadComponent(containerId, path) {
+    fetch(path)
+        .then(r => r.text())
+        .then(html => {
+            document.getElementById(containerId).innerHTML = html;
+        })
+        .catch(() => {});
+}
+
+// ── Tab Switch ─────────────────────────────────────────────────────────────────
+function switchTab(tab, btn) {
+    currentTab = tab;
+    currentPage = 1;
+    selectedRowId = null;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('searchInput').value = '';
+    document.getElementById('statusFilter').value = '';
+    renderTable();
+}
+
+// ── Render Table ───────────────────────────────────────────────────────────────
+function renderTable() {
+    const search = document.getElementById('searchInput').value.toLowerCase();
+    const status = document.getElementById('statusFilter').value;
+    const data = contentData[currentTab];
+
+    filteredRows = data.filter(item => {
+        const matchSearch = item.title.toLowerCase().includes(search) ||
+                            item.author.toLowerCase().includes(search) ||
+                            item.id.toLowerCase().includes(search);
+        const matchStatus = !status || item.status === status;
+        return matchSearch && matchStatus;
+    });
+
+    const total = filteredRows.length;
+    const totalPages = Math.ceil(total / rowsPerPage);
+    if (currentPage > totalPages && totalPages > 0) currentPage = totalPages;
+
+    const start = (currentPage - 1) * rowsPerPage;
+    const pageRows = filteredRows.slice(start, start + rowsPerPage);
+
+    const tbody = document.getElementById('tableBody');
+    const empty = document.getElementById('emptyState');
+
+    if (pageRows.length === 0) {
+        tbody.innerHTML = '';
+        empty.classList.remove('d-none');
+    } else {
+        empty.classList.add('d-none');
+        tbody.innerHTML = pageRows.map(item => buildRow(item)).join('');
+    }
+
+    document.getElementById('resultCount').textContent = total > 0 ? `${total} item${total !== 1 ? 's' : ''}` : '';
+    document.getElementById('paginationInfo').textContent =
+        total > 0 ? `Showing ${start + 1}–${Math.min(start + rowsPerPage, total)} of ${total}` : 'No results';
+
+    updatePagination(totalPages);
+}
+
+function buildRow(item) {
+    const typeIcon = tabIconMap[currentTab];
+    const typeClass = currentTab === 'announcements' ? 'announcement' :
+                      currentTab === 'resources'     ? 'resource' :
+                      currentTab === 'faqs'          ? 'faq' : 'banner';
+    const badgeClass = 'badge-' + item.status.toLowerCase();
+    const selected = item.id === selectedRowId ? 'selected' : '';
+
+    return `
+    <tr class="${selected}" onclick="openSidePanel('${item.id}')">
+        <td>
+            <div class="content-title-cell">
+                <div class="content-type-icon ${typeClass}">
+                    <span class="material-symbols-outlined" style="font-size:18px;">${typeIcon}</span>
+                </div>
+                <div>
+                    <p class="content-title-text">${item.title}</p>
+                    <p class="content-subtitle">${item.id}</p>
+                </div>
+            </div>
+        </td>
+        <td>
+            <span class="badge-status ${badgeClass}">
+                <span class="dot"></span>${item.status}
+            </span>
+        </td>
+        <td style="color:var(--text-muted); font-size:0.8125rem;">${item.author}</td>
+        <td style="color:var(--text-muted); font-size:0.8125rem;">${formatDate(item.date)}</td>
+        <td>
+            <div class="d-flex gap-1">
+                <button class="action-btn" title="Preview" onclick="event.stopPropagation(); openSidePanel('${item.id}')">
+                    <span class="material-symbols-outlined">visibility</span>
+                </button>
+                <button class="action-btn" title="Edit" onclick="event.stopPropagation(); window.location.href='edit-content.html?id=${item.id}&tab=${currentTab}'">
+                    <span class="material-symbols-outlined">edit</span>
+                </button>
+                <button class="action-btn danger" title="Delete" onclick="event.stopPropagation(); confirmDelete('${item.id}')">
+                    <span class="material-symbols-outlined">delete</span>
+                </button>
+            </div>
+        </td>
+    </tr>`;
+}
+
+function formatDate(d) {
+    const date = new Date(d);
+    return date.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+// ── Filter ────────────────────────────────────────────────────────────────────
+function filterTable() {
+    currentPage = 1;
+    renderTable();
+}
+
+// ── Sort (basic toggle) ────────────────────────────────────────────────────────
+let sortKey = null, sortAsc = true;
+function sortTable(key) {
+    if (sortKey === key) sortAsc = !sortAsc;
+    else { sortKey = key; sortAsc = true; }
+    contentData[currentTab].sort((a, b) => {
+        const va = a[key] || ''; const vb = b[key] || '';
+        return sortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
+    });
+    renderTable();
+}
+
+// ── Pagination ────────────────────────────────────────────────────────────────
+function updatePagination(totalPages) {
+    document.getElementById('prevBtn').disabled = currentPage <= 1;
+    document.getElementById('nextBtn').disabled = currentPage >= totalPages;
+
+    const p1 = document.getElementById('page1Btn');
+    const p2 = document.getElementById('page2Btn');
+
+    p1.classList.toggle('active', currentPage === 1);
+    p2.classList.toggle('active', currentPage === 2);
+    p2.style.display = totalPages >= 2 ? '' : 'none';
+}
+
+function changePage(dir) {
+    currentPage += dir;
+    renderTable();
+}
+
+function goToPage(p) {
+    currentPage = p;
+    renderTable();
+}
+
+// ── Side Panel ────────────────────────────────────────────────────────────────
+function openSidePanel(id) {
+    const data = contentData[currentTab];
+    const item = data.find(d => d.id === id);
+    if (!item) return;
+
+    selectedRowId = id;
+
+    document.getElementById('panelTitle').textContent = item.title;
+    document.getElementById('panelStatus').innerHTML = `<span class="badge-status badge-${item.status.toLowerCase()}"><span class="dot"></span>${item.status}</span>`;
+    document.getElementById('panelType').textContent = tabLabelMap[currentTab];
+    document.getElementById('panelAuthor').textContent = item.author;
+    document.getElementById('panelDate').textContent = formatDate(item.date);
+    document.getElementById('panelPreview').textContent = item.body;
+
+    const schedRow = document.getElementById('panelScheduledRow');
+    if (item.scheduledFor) {
+        schedRow.style.display = 'flex';
+        document.getElementById('panelScheduledDate').textContent = item.scheduledFor;
+    } else {
+        schedRow.style.display = 'none';
+    }
+
+    // Toggle publish/unpublish button
+    const qaPublish   = document.getElementById('qaPublish');
+    const qaUnpublish = document.getElementById('qaUnpublish');
+    if (item.status === 'Published') {
+        qaPublish.style.display   = 'none';
+        qaUnpublish.style.display = '';
+    } else {
+        qaPublish.style.display   = '';
+        qaUnpublish.style.display = 'none';
+    }
+
+    document.getElementById('detailsSidebar').classList.add('open');
+    document.getElementById('detailsOverlay').classList.add('show');
+
+    // Highlight selected row
+    renderTable();
+}
+
+function closeSidePanel() {
+    document.getElementById('detailsSidebar').classList.remove('open');
+    document.getElementById('detailsOverlay').classList.remove('show');
+    selectedRowId = null;
+    renderTable();
+}
+
+// ── Quick Actions ─────────────────────────────────────────────────────────────
+function quickAction(action) {
+    if (!selectedRowId) return;
+    const data = contentData[currentTab];
+    const idx  = data.findIndex(d => d.id === selectedRowId);
+    if (idx === -1) return;
+
+    if (action === 'publish') {
+        data[idx].status = 'Published';
+        showToast('Content published successfully.', 'success');
+    } else if (action === 'unpublish') {
+        data[idx].status = 'Draft';
+        showToast('Content moved to drafts.', 'info');
+    } else if (action === 'duplicate') {
+        const clone = { ...data[idx], id: data[idx].id + '_copy', title: data[idx].title + ' (Copy)', status: 'Draft' };
+        data.push(clone);
+        showToast('Content duplicated as draft.', 'success');
+    } else if (action === 'delete') {
+        confirmDelete(selectedRowId);
+        return;
+    }
+
+    openSidePanel(selectedRowId);
+    renderTable();
+}
+
+function confirmDelete(id) {
+    if (confirm('Are you sure you want to delete this content? This action cannot be undone.')) {
+        const data = contentData[currentTab];
+        const idx  = data.findIndex(d => d.id === id);
+        if (idx !== -1) data.splice(idx, 1);
+        closeSidePanel();
+        renderTable();
+        showToast('Content deleted.', 'danger');
+    }
+}
+
+// ── Schedule Modal ────────────────────────────────────────────────────────────
+function openScheduleModal() {
+    document.getElementById('scheduleModal').classList.add('show');
+}
+
+function closeScheduleModal() {
+    document.getElementById('scheduleModal').classList.remove('show');
+}
+
+function confirmSchedule() {
+    const val = document.getElementById('scheduleInput').value;
+    if (!val) { showToast('Please select a date and time.', 'warning'); return; }
+    if (!selectedRowId) return;
+
+    const data = contentData[currentTab];
+    const idx  = data.findIndex(d => d.id === selectedRowId);
+    if (idx !== -1) {
+        data[idx].status = 'Scheduled';
+        data[idx].scheduledFor = val.replace('T', ' ');
+    }
+
+    closeScheduleModal();
+    openSidePanel(selectedRowId);
+    renderTable();
+    showToast('Content scheduled successfully.', 'success');
+}
+
+// ── Add Content — navigates to create page ────────────────────────────────────
+function openAddContentModal() {
+    window.location.href = 'create-content.html';
+}
+
+// ── Toast ─────────────────────────────────────────────────────────────────────
+function showToast(msg, type = 'info') {
+    const container = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = `toast ${type === 'success' ? 'success' : type === 'danger' ? 'danger' : type === 'warning' ? 'warning' : ''}`;
+    const iconMap = { success: 'check_circle', danger: 'error', warning: 'warning', info: 'info' };
+    toast.innerHTML = `<span class="material-symbols-outlined" style="font-size:18px;">${iconMap[type] || 'info'}</span> ${msg}`;
+    container.appendChild(toast);
+    setTimeout(() => toast.remove(), 3500);
+}
+</script>
+
+</body>
+</html>

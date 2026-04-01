@@ -531,7 +531,7 @@
                             <div class="d-flex justify-content-between align-items-start">
                                 <div>
                                     <p class="stat-label">Total Assigned</p>
-                                    <p class="stat-value">50</p>
+                                    <p class="stat-value">18</p>
                                 </div>
                                 <div class="stat-icon primary">
                                     <span class="material-symbols-outlined">lightbulb</span>
@@ -544,7 +544,7 @@
                             <div class="d-flex justify-content-between align-items-start">
                                 <div>
                                     <p class="stat-label">Pending</p>
-                                    <p class="stat-value">12</p>
+                                    <p class="stat-value">4</p>
                                     <p class="stat-subtitle">Due within 3 days</p>
                                 </div>
                                 <div class="stat-icon secondary">
@@ -558,7 +558,7 @@
                             <div class="d-flex justify-content-between align-items-start">
                                 <div>
                                     <p class="stat-label">Completed</p>
-                                    <p class="stat-value">38</p>
+                                    <p class="stat-value">14</p>
                                 </div>
                                 <div class="stat-icon success">
                                     <span class="material-symbols-outlined">check_circle</span>
@@ -886,7 +886,7 @@
                                 localStorage.removeItem('userToken');
 
                                 // Redirect to login page
-                                window.location.href = '../auth/sign-in.html';
+                                window.location.href = '../../auth/sign-in.html';
                             }
                         });
                     }
@@ -904,6 +904,22 @@
                                 // Toggle mobile-open state on mobile
                                 sidebar.classList.toggle('mobile-open');
                             }
+                        });
+                    }
+
+                    // Setup Fullscreen
+                    const fullscreenBtn = document.getElementById('fullscreenBtn');
+                    if (fullscreenBtn) {
+                        fullscreenBtn.addEventListener('click', function() {
+                            if (!document.fullscreenElement) {
+                                document.documentElement.requestFullscreen();
+                            } else {
+                                document.exitFullscreen();
+                            }
+                        });
+                        document.addEventListener('fullscreenchange', function() {
+                            const icon = fullscreenBtn.querySelector('.material-symbols-outlined');
+                            icon.textContent = document.fullscreenElement ? 'fullscreen_exit' : 'fullscreen';
                         });
                     }
 

@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>School Management | Super Admin | IFT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --primary: #5E2A97;
+            --primary-light: #E8D4F0;
+            --background-light: #F7F7F7;
+            --border-light: #EEEEEE;
+            --text-dark: #222222;
+            --text-muted: #666666;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: var(--background-light); color: var(--text-dark); overflow: hidden; }
+        .main-container { display: flex; height: 100vh; width: 100%; }
+        .main-content { flex: 1; display: flex; flex-direction: column; height: 100%; overflow-y: auto; }
+        .content-wrapper { flex: 1; padding: 32px; width: 100%; }
+
+        /* Page Header */
+        .page-header { margin-bottom: 28px; }
+        .page-header h1 { font-size: 1.75rem; font-weight: 700; color: var(--text-dark); margin-bottom: 4px; }
+        .breadcrumb { font-size: 0.8125rem; margin: 0; }
+        .breadcrumb-item a { color: var(--primary); text-decoration: none; }
+
+        /* Stat Cards */
+        .stat-card { background: #fff; border-radius: 12px; padding: 20px; display: flex; align-items: center; gap: 16px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+        .stat-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .stat-icon.purple { background: rgba(94,42,151,0.12); color: var(--primary); }
+        .stat-icon.green  { background: rgba(22,163,74,0.12); color: #16a34a; }
+        .stat-icon.amber  { background: rgba(217,119,6,0.12); color: #d97706; }
+        .stat-icon.red    { background: rgba(239,68,68,0.12); color: #ef4444; }
+        .stat-icon .material-symbols-outlined { font-size: 24px; }
+        .stat-label { font-size: 0.8125rem; color: var(--text-muted); margin: 0; }
+        .stat-value { font-size: 1.625rem; font-weight: 700; color: var(--text-dark); margin: 0; line-height: 1.2; }
+
+        /* Main Card */
+        .main-card { background: #fff; border-radius: 12px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); overflow: hidden; }
+        .main-card-header { padding: 16px 20px; border-bottom: 1px solid var(--border-light); }
+
+        /* Search */
+        .search-input { position: relative; }
+        .search-input span { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-size: 18px; color: #94a3b8; }
+        .search-input input { width: 100%; padding: 9px 12px 9px 38px; border: 1px solid var(--border-light); border-radius: 8px; font-size: 0.875rem; font-family: inherit; outline: none; }
+        .search-input input:focus { border-color: var(--primary); }
+        .filter-select { padding: 8px 12px; border: 1px solid var(--border-light); border-radius: 8px; font-size: 0.875rem; font-family: inherit; outline: none; background: #fff; color: var(--text-dark); cursor: pointer; }
+
+        /* Buttons */
+        .btn-primary-custom { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; background: var(--primary); color: #fff; border: none; border-radius: 8px; font-size: 0.875rem; font-weight: 600; font-family: inherit; cursor: pointer; text-decoration: none; }
+        .btn-secondary-custom { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; background: #fff; color: var(--text-dark); border: 1px solid var(--border-light); border-radius: 8px; font-size: 0.875rem; font-weight: 500; font-family: inherit; cursor: pointer; }
+        .btn-icon-action { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border-light); background: #fff; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text-muted); }
+        .btn-icon-action:hover { background: var(--primary-light); color: var(--primary); border-color: var(--primary-light); }
+        .btn-icon-action .material-symbols-outlined { font-size: 18px; }
+
+        /* Table */
+        .custom-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+        .custom-table thead th { padding: 12px 16px; background: var(--background-light); font-weight: 600; font-size: 0.8125rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid var(--border-light); white-space: nowrap; }
+        .custom-table tbody tr { border-bottom: 1px solid var(--border-light); transition: background 0.15s; cursor: pointer; }
+        .custom-table tbody tr:hover { background: #faf8ff; }
+        .custom-table tbody td { padding: 14px 16px; vertical-align: middle; }
+
+        /* School avatar */
+        .school-avatar { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; color: #fff; flex-shrink: 0; }
+        .school-name-text { font-weight: 600; font-size: 0.875rem; color: var(--text-dark); margin: 0; }
+        .school-sub-text { font-size: 0.75rem; color: var(--text-muted); margin: 0; }
+
+        /* Badges */
+        .badge-status { padding: 3px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+        .badge-status.active    { background: #dcfce7; color: #16a34a; }
+        .badge-status.pending   { background: #fef9c3; color: #ca8a04; }
+        .badge-status.inactive  { background: #f1f5f9; color: #64748b; }
+        .badge-status.suspended { background: #fee2e2; color: #dc2626; }
+
+        /* Board tag */
+        .board-tag { padding: 3px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; background: rgba(94,42,151,0.1); color: var(--primary); }
+
+        /* Pagination */
+        .pagination-custom { display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; border-top: 1px solid var(--border-light); font-size: 0.8125rem; color: var(--text-muted); }
+        .pagination-controls { display: flex; gap: 6px; align-items: center; }
+        .page-btn { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border-light); background: #fff; font-size: 0.8125rem; cursor: pointer; font-family: inherit; display: flex; align-items: center; justify-content: center; }
+        .page-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); font-weight: 600; }
+        .page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        /* Side Panel */
+        .details-sidebar { position: fixed; top: 0; right: -560px; width: 540px; height: 100vh; background: #fff; box-shadow: -4px 0 24px rgba(0,0,0,0.12); z-index: 500; display: flex; flex-direction: column; transition: right 0.3s ease; }
+        .details-sidebar.open { right: 0; }
+        .details-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 499; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+        .details-overlay.show { opacity: 1; pointer-events: all; }
+        .sidebar-header-bar { padding: 20px 24px 16px; border-bottom: 1px solid var(--border-light); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+        .sidebar-header-bar h4 { font-size: 1rem; font-weight: 700; margin: 0; }
+        .sidebar-close { width: 32px; height: 32px; border: none; background: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #64748b; border-radius: 6px; }
+        .sidebar-close:hover { background: var(--background-light); }
+        .sidebar-content { flex: 1; overflow-y: auto; padding: 20px 24px; }
+        .sidebar-footer { padding: 16px 24px; border-top: 1px solid var(--border-light); display: flex; gap: 10px; flex-shrink: 0; }
+
+        .detail-section { margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--border-light); }
+        .detail-section:last-child { border-bottom: none; margin-bottom: 0; }
+        .detail-section-title { display: flex; align-items: center; gap: 8px; font-size: 0.8125rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 14px; }
+        .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .detail-item-label { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 2px; }
+        .detail-item-value { font-size: 0.875rem; font-weight: 600; color: var(--text-dark); }
+        .detail-item.full { grid-column: 1 / -1; }
+
+        /* School profile in panel */
+        .school-profile-card { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+        .school-profile-avatar { width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1rem; font-weight: 700; color: #fff; flex-shrink: 0; }
+        .school-profile-info h3 { font-size: 1.0625rem; font-weight: 700; margin: 0 0 2px; }
+        .school-profile-info p { font-size: 0.8125rem; color: var(--text-muted); margin: 0; }
+
+        /* Stats row in panel */
+        .panel-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+        .panel-stat { background: var(--background-light); border-radius: 10px; padding: 12px; text-align: center; }
+        .panel-stat-value { font-size: 1.25rem; font-weight: 700; color: var(--primary); }
+        .panel-stat-label { font-size: 0.7rem; color: var(--text-muted); margin-top: 2px; }
+
+        /* Toast */
+        .toast-notification { position: fixed; bottom: 2rem; right: 2rem; color: white; padding: 1rem 1.5rem; border-radius: 0.75rem; box-shadow: 0 10px 25px rgba(0,0,0,0.2); z-index: 9999; display: flex; align-items: center; gap: 0.75rem; font-size: 0.875rem; font-weight: 500; max-width: 400px; }
+    </style>
+</head>
+<body>
+<div class="main-container">
+    <div id="sidebar-container"></div>
+    <main class="main-content">
+        <div id="header-container"></div>
+        <div class="content-wrapper">
+
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="row align-items-center">
+                    <div class="col-12 col-md-6">
+                        <h1>School Management</h1>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="dashboard.html">Admin</a></li>
+                                <li class="breadcrumb-item active">Schools</li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center gap-3 mt-3 mt-md-0">
+                        <button class="btn-secondary-custom" id="exportBtn">
+                            <span class="material-symbols-outlined" style="font-size:18px;">file_download</span>
+                            Export CSV
+                        </button>
+                        <a href="onboard-school.html" class="btn-primary-custom">
+                            <span class="material-symbols-outlined" style="font-size:18px;">add</span>
+                            Add School
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="row g-3 mb-4">
+                <div class="col-6 col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-icon purple"><span class="material-symbols-outlined">domain</span></div>
+                        <div><p class="stat-label">Total Schools</p><h3 class="stat-value">124</h3></div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-icon green"><span class="material-symbols-outlined">check_circle</span></div>
+                        <div><p class="stat-label">Active</p><h3 class="stat-value">98</h3></div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-icon amber"><span class="material-symbols-outlined">pending</span></div>
+                        <div><p class="stat-label">Pending Approval</p><h3 class="stat-value">18</h3></div>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-icon red"><span class="material-symbols-outlined">block</span></div>
+                        <div><p class="stat-label">Inactive</p><h3 class="stat-value">8</h3></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Table Card -->
+            <div class="main-card">
+                <div class="main-card-header">
+                    <div class="row align-items-center g-3">
+                        <div class="col-12 col-md-5">
+                            <div class="search-input">
+                                <span class="material-symbols-outlined">search</span>
+                                <input type="text" id="searchInput" placeholder="Search by school name, city, or admin...">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-7 d-flex align-items-center gap-2 justify-content-md-end flex-wrap">
+                            <select class="filter-select" id="boardFilter">
+                                <option value="">All Boards</option>
+                                <option value="CBSE">CBSE</option>
+                                <option value="ICSE">ICSE</option>
+                                <option value="IB">IB</option>
+                                <option value="State">State Board</option>
+                            </select>
+                            <select class="filter-select" id="stateFilter">
+                                <option value="">All States</option>
+                                <option value="Delhi">Delhi</option>
+                                <option value="Maharashtra">Maharashtra</option>
+                                <option value="Karnataka">Karnataka</option>
+                                <option value="Tamil Nadu">Tamil Nadu</option>
+                                <option value="Gujarat">Gujarat</option>
+                                <option value="Rajasthan">Rajasthan</option>
+                            </select>
+                            <select class="filter-select" id="statusFilter">
+                                <option value="">All Status</option>
+                                <option value="active">Active</option>
+                                <option value="pending">Pending</option>
+                                <option value="inactive">Inactive</option>
+                                <option value="suspended">Suspended</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>School</th>
+                                <th>Board</th>
+                                <th>State</th>
+                                <th>School Admin</th>
+                                <th style="text-align:center;">Students</th>
+                                <th>Status</th>
+                                <th>Joined</th>
+                                <th style="text-align:center;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="schoolsBody">
+                            <tr data-name="Delhi Public School" data-board="CBSE" data-state="Delhi" data-status="active">
+                                <td>
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="school-avatar" style="background:#5E2A97;">DP</div>
+                                        <div>
+                                            <p class="school-name-text">Delhi Public School</p>
+                                            <p class="school-sub-text">R.K. Puram, New Delhi</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="board-tag">CBSE</span></td>
+                                <td style="font-size:0.875rem;color:var(--text-muted);">Delhi</td>
+                                <td>
+                                    <div style="font-size:0.875rem;font-weight:600;">Ramesh Sharma</div>
+                                    <div style="font-size:0.75rem;color:var(--text-muted);">r.sharma@dps.in</div>
+                                </td>
+                                <td style="text-align:center;font-weight:700;color:var(--primary);">148</td>
+                                <td><span class="badge-status active">Active</span></td>
+                                <td style="font-size:0.8125rem;color:var(--text-muted);">Jan 10, 2026</td>
+                                <td style="text-align:center;">
+                                    <div class="d-flex gap-1 justify-content-center">
+                                        <button class="btn-icon-action view-btn" title="View Details"><span class="material-symbols-outlined">visibility</span></button>
+                                        <button class="btn-icon-action" title="Edit School"><span class="material-symbols-outlined">edit</span></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr data-name="St. Xavier's Academy" data-board="ICSE" data-state="Maharashtra" data-status="active">
+                                <td>
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="school-avatar" style="background:#3b82f6;">SX</div>
+                                        <div>
+                                            <p class="school-name-text">St. Xavier's Academy</p>
+                                            <p class="school-sub-text">Fort, Mumbai</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="board-tag">ICSE</span></td>
+                                <td style="font-size:0.875rem;color:var(--text-muted);">Maharashtra</td>
+                                <td>
+                                    <div style="font-size:0.875rem;font-weight:600;">Priya Nair</div>
+                                    <div style="font-size:0.75rem;color:var(--text-muted);">p.nair@xavier.edu</div>
+                                </td>
+                                <td style="text-align:center;font-weight:700;color:var(--primary);">112</td>
+                                <td><span class="badge-status active">Active</span></td>
+                                <td style="font-size:0.8125rem;color:var(--text-muted);">Jan 15, 2026</td>
+                                <td style="text-align:center;">
+                                    <div class="d-flex gap-1 justify-content-center">
+                                        <button class="btn-icon-action view-btn" title="View Details"><span class="material-symbols-outlined">visibility</span></button>
+                                        <button class="btn-icon-action" title="Edit School"><span class="material-symbols-outlined">edit</span></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr data-name="Ryan International School" data-board="CBSE" data-state="Karnataka" data-status="active">
+                                <td>
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="school-avatar" style="background:#14b8a6;">RI</div>
+                                        <div>
+                                            <p class="school-name-text">Ryan International School</p>
+                                            <p class="school-sub-text">Whitefield, Bengaluru</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="board-tag">CBSE</span></td>
+                                <td style="font-size:0.875rem;color:var(--text-muted);">Karnataka</td>
+                                <td>
+                                    <div style="font-size:0.875rem;font-weight:600;">Anand Krishnan</div>
+                                    <div style="font-size:0.75rem;color:var(--text-muted);">a.krishnan@ryan.edu</div>
+                                </td>
+                                <td style="text-align:center;font-weight:700;color:var(--primary);">97</td>
+                                <td><span class="badge-status active">Active</span></td>
+                                <td style="font-size:0.8125rem;color:var(--text-muted);">Feb 3, 2026</td>
+                                <td style="text-align:center;">
+                                    <div class="d-flex gap-1 justify-content-center">
+                                        <button class="btn-icon-action view-btn" title="View Details"><span class="material-symbols-outlined">visibility</span></button>
+                                        <button class="btn-icon-action" title="Edit School"><span class="material-symbols-outlined">edit</span></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr data-name="Amity International School" data-board="CBSE" data-state="Rajasthan" data-status="pending">
+                                <td>
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="school-avatar" style="background:#f59e0b;">AI</div>
+                                        <div>
+                                            <p class="school-name-text">Amity International School</p>
+                                            <p class="school-sub-text">Vaishali Nagar, Jaipur</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="board-tag">CBSE</span></td>
+                                <td style="font-size:0.875rem;color:var(--text-muted);">Rajasthan</td>
+                                <td>
+                                    <div style="font-size:0.875rem;font-weight:600;">Sneha Agarwal</div>
+                                    <div style="font-size:0.75rem;color:var(--text-muted);">s.agarwal@amity.edu</div>
+                                </td>
+                                <td style="text-align:center;font-weight:700;color:var(--primary);">—</td>
+                                <td><span class="badge-status pending">Pending</span></td>
+                                <td style="font-size:0.8125rem;color:var(--text-muted);">Mar 12, 2026</td>
+                                <td style="text-align:center;">
+                                    <div class="d-flex gap-1 justify-content-center">
+                                        <button class="btn-icon-action view-btn" title="View Details"><span class="material-symbols-outlined">visibility</span></button>
+                                        <button class="btn-icon-action" title="Approve School" style="color:#16a34a;border-color:#dcfce7;"><span class="material-symbols-outlined">check_circle</span></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr data-name="Kendriya Vidyalaya" data-board="CBSE" data-state="Tamil Nadu" data-status="active">
+                                <td>
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="school-avatar" style="background:#8b5cf6;">KV</div>
+                                        <div>
+                                            <p class="school-name-text">Kendriya Vidyalaya</p>
+                                            <p class="school-sub-text">Anna Nagar, Chennai</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="board-tag">CBSE</span></td>
+                                <td style="font-size:0.875rem;color:var(--text-muted);">Tamil Nadu</td>
+                                <td>
+                                    <div style="font-size:0.875rem;font-weight:600;">Meenakshi Iyer</div>
+                                    <div style="font-size:0.75rem;color:var(--text-muted);">m.iyer@kv.gov.in</div>
+                                </td>
+                                <td style="text-align:center;font-weight:700;color:var(--primary);">73</td>
+                                <td><span class="badge-status active">Active</span></td>
+                                <td style="font-size:0.8125rem;color:var(--text-muted);">Jan 28, 2026</td>
+                                <td style="text-align:center;">
+                                    <div class="d-flex gap-1 justify-content-center">
+                                        <button class="btn-icon-action view-btn" title="View Details"><span class="material-symbols-outlined">visibility</span></button>
+                                        <button class="btn-icon-action" title="Edit School"><span class="material-symbols-outlined">edit</span></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr data-name="Bishop Cotton School" data-board="ICSE" data-state="Karnataka" data-status="active">
+                                <td>
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="school-avatar" style="background:#ec4899;">BC</div>
+                                        <div>
+                                            <p class="school-name-text">Bishop Cotton School</p>
+                                            <p class="school-sub-text">Residency Road, Bengaluru</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="board-tag">ICSE</span></td>
+                                <td style="font-size:0.875rem;color:var(--text-muted);">Karnataka</td>
+                                <td>
+                                    <div style="font-size:0.875rem;font-weight:600;">Thomas Mathew</div>
+                                    <div style="font-size:0.75rem;color:var(--text-muted);">t.mathew@bcs.edu.in</div>
+                                </td>
+                                <td style="text-align:center;font-weight:700;color:var(--primary);">61</td>
+                                <td><span class="badge-status active">Active</span></td>
+                                <td style="font-size:0.8125rem;color:var(--text-muted);">Feb 19, 2026</td>
+                                <td style="text-align:center;">
+                                    <div class="d-flex gap-1 justify-content-center">
+                                        <button class="btn-icon-action view-btn" title="View Details"><span class="material-symbols-outlined">visibility</span></button>
+                                        <button class="btn-icon-action" title="Edit School"><span class="material-symbols-outlined">edit</span></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr data-name="Navodaya Vidyalaya" data-board="CBSE" data-state="Gujarat" data-status="pending">
+                                <td>
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="school-avatar" style="background:#059669;">NV</div>
+                                        <div>
+                                            <p class="school-name-text">Navodaya Vidyalaya</p>
+                                            <p class="school-sub-text">Gandhinagar, Gujarat</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="board-tag">CBSE</span></td>
+                                <td style="font-size:0.875rem;color:var(--text-muted);">Gujarat</td>
+                                <td>
+                                    <div style="font-size:0.875rem;font-weight:600;">Vijay Patel</div>
+                                    <div style="font-size:0.75rem;color:var(--text-muted);">v.patel@nvs.gov.in</div>
+                                </td>
+                                <td style="text-align:center;font-weight:700;color:var(--primary);">—</td>
+                                <td><span class="badge-status pending">Pending</span></td>
+                                <td style="font-size:0.8125rem;color:var(--text-muted);">Mar 20, 2026</td>
+                                <td style="text-align:center;">
+                                    <div class="d-flex gap-1 justify-content-center">
+                                        <button class="btn-icon-action view-btn" title="View Details"><span class="material-symbols-outlined">visibility</span></button>
+                                        <button class="btn-icon-action" title="Approve School" style="color:#16a34a;border-color:#dcfce7;"><span class="material-symbols-outlined">check_circle</span></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr data-name="The Doon School" data-board="ICSE" data-state="Delhi" data-status="inactive">
+                                <td>
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="school-avatar" style="background:#94a3b8;">DS</div>
+                                        <div>
+                                            <p class="school-name-text">The Doon School</p>
+                                            <p class="school-sub-text">Dehradun, Uttarakhand</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="board-tag">ICSE</span></td>
+                                <td style="font-size:0.875rem;color:var(--text-muted);">Delhi</td>
+                                <td>
+                                    <div style="font-size:0.875rem;font-weight:600;">Rahul Sinha</div>
+                                    <div style="font-size:0.75rem;color:var(--text-muted);">r.sinha@doon.edu</div>
+                                </td>
+                                <td style="text-align:center;font-weight:700;color:#94a3b8;">42</td>
+                                <td><span class="badge-status inactive">Inactive</span></td>
+                                <td style="font-size:0.8125rem;color:var(--text-muted);">Dec 5, 2025</td>
+                                <td style="text-align:center;">
+                                    <div class="d-flex gap-1 justify-content-center">
+                                        <button class="btn-icon-action view-btn" title="View Details"><span class="material-symbols-outlined">visibility</span></button>
+                                        <button class="btn-icon-action" title="Reactivate" style="color:#16a34a;border-color:#dcfce7;"><span class="material-symbols-outlined">restart_alt</span></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="pagination-custom">
+                    <span>Showing <strong>1–8</strong> of <strong>124</strong> schools</span>
+                    <div class="pagination-controls">
+                        <button class="page-btn" disabled><span class="material-symbols-outlined" style="font-size:18px;">chevron_left</span></button>
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn">2</button>
+                        <button class="page-btn">3</button>
+                        <button class="page-btn"><span class="material-symbols-outlined" style="font-size:18px;">chevron_right</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Side Panel Overlay -->
+<div class="details-overlay" id="detailsOverlay"></div>
+
+<!-- Side Panel -->
+<div class="details-sidebar" id="detailsSidebar">
+    <div class="sidebar-header-bar">
+        <h4>School Details</h4>
+        <button class="sidebar-close" id="closeSidebar"><span class="material-symbols-outlined">close</span></button>
+    </div>
+    <div class="sidebar-content" id="sidebarContent">
+        <!-- Populated dynamically -->
+    </div>
+    <div class="sidebar-footer">
+        <button class="btn-secondary-custom" id="sidebarPortalBtn" style="flex:1;">
+            <span class="material-symbols-outlined" style="font-size:16px;">open_in_new</span>
+            View Portal
+        </button>
+        <button class="btn-secondary-custom" id="sidebarReminderBtn" style="flex:1;">
+            <span class="material-symbols-outlined" style="font-size:16px;">notifications</span>
+            Send Reminder
+        </button>
+        <button class="btn-primary-custom" id="sidebarApproveBtn" style="flex:1;">
+            <span class="material-symbols-outlined" style="font-size:16px;">check_circle</span>
+            Approve
+        </button>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Load sidebar & header
+    fetch('sidebar.html').then(r=>r.text()).then(data=>{
+        const t=document.createElement('div'); t.innerHTML=data;
+        t.childNodes.forEach(n=>{ if(n.nodeType===1&&n.tagName!=='SCRIPT') document.getElementById('sidebar-container').appendChild(n.cloneNode(true)); });
+        const s=t.querySelector('script'); if(s){const ns=document.createElement('script');ns.textContent=s.textContent;document.body.appendChild(ns);}
+        setTimeout(()=>{
+            document.querySelectorAll('.nav-item').forEach(i=>{i.classList.remove('nav-item-active');const icon=i.querySelector('.material-symbols-outlined');if(icon)icon.style.fontVariationSettings="'FILL' 0";});
+            const active=document.querySelector('.nav-item[href="schools.html"]');
+            if(active){active.classList.add('nav-item-active');const icon=active.querySelector('.material-symbols-outlined');if(icon)icon.style.fontVariationSettings="'FILL' 1";}
+        },100);
+    });
+    fetch('header.html').then(r=>r.text()).then(data=>{
+        const t=document.createElement('div'); t.innerHTML=data;
+        t.childNodes.forEach(n=>{ if(n.nodeType===1&&n.tagName!=='SCRIPT') document.getElementById('header-container').appendChild(n.cloneNode(true)); });
+        const s=t.querySelector('script'); if(s){const ns=document.createElement('script');ns.textContent=s.textContent;document.body.appendChild(ns);}
+    });
+</script>
+<script>
+    // School data for side panel
+    const schoolData = {
+        'Delhi Public School': {
+            initials:'DP', color:'#5E2A97', name:'Delhi Public School', address:'Mathura Road, R.K. Puram, New Delhi — 110022',
+            board:'CBSE', type:'Private', state:'Delhi', city:'New Delhi', estd:'1949', website:'www.dpsrkpuram.in',
+            principal:'Dr. Vandana Sharma', students:148, teams:42, ideas:38, status:'active',
+            admin:{ name:'Ramesh Sharma', email:'r.sharma@dps.in', phone:'+91 98100 11223', joined:'Jan 10, 2026' },
+            season:'Season 5', maxStudents:200, lastLogin:'2 hours ago'
+        },
+        "St. Xavier's Academy": {
+            initials:'SX', color:'#3b82f6', name:"St. Xavier's Academy", address:'5 Mahapalika Marg, Fort, Mumbai — 400001',
+            board:'ICSE', type:'Private', state:'Maharashtra', city:'Mumbai', estd:'1869', website:'www.xaviersmumbai.edu',
+            principal:'Fr. Anthony D\'Souza', students:112, teams:31, ideas:28, status:'active',
+            admin:{ name:'Priya Nair', email:'p.nair@xavier.edu', phone:'+91 99200 33445', joined:'Jan 15, 2026' },
+            season:'Season 5', maxStudents:150, lastLogin:'Yesterday'
+        },
+        'Ryan International School': {
+            initials:'RI', color:'#14b8a6', name:'Ryan International School', address:'Whitefield Main Rd, Bengaluru — 560066',
+            board:'CBSE', type:'Private', state:'Karnataka', city:'Bengaluru', estd:'1976', website:'www.ryangroup.org',
+            principal:'Ms. Sunita Menon', students:97, teams:28, ideas:25, status:'active',
+            admin:{ name:'Anand Krishnan', email:'a.krishnan@ryan.edu', phone:'+91 97400 55667', joined:'Feb 3, 2026' },
+            season:'Season 5', maxStudents:120, lastLogin:'3 days ago'
+        },
+        'Amity International School': {
+            initials:'AI', color:'#f59e0b', name:'Amity International School', address:'Vaishali Nagar, Jaipur — 302021',
+            board:'CBSE', type:'Private', state:'Rajasthan', city:'Jaipur', estd:'2005', website:'www.amity.edu',
+            principal:'Mr. Deepak Arora', students:0, teams:0, ideas:0, status:'pending',
+            admin:{ name:'Sneha Agarwal', email:'s.agarwal@amity.edu', phone:'+91 96100 77889', joined:'Mar 12, 2026' },
+            season:'Season 5', maxStudents:100, lastLogin:'Never'
+        },
+        'Kendriya Vidyalaya': {
+            initials:'KV', color:'#8b5cf6', name:'Kendriya Vidyalaya', address:'6th Main, Anna Nagar, Chennai — 600040',
+            board:'CBSE', type:'Government', state:'Tamil Nadu', city:'Chennai', estd:'1963', website:'www.kvsangathan.nic.in',
+            principal:'Mr. S. Rajagopalan', students:73, teams:20, ideas:18, status:'active',
+            admin:{ name:'Meenakshi Iyer', email:'m.iyer@kv.gov.in', phone:'+91 94400 99001', joined:'Jan 28, 2026' },
+            season:'Season 5', maxStudents:100, lastLogin:'1 week ago'
+        },
+        'Bishop Cotton School': {
+            initials:'BC', color:'#ec4899', name:'Bishop Cotton School', address:'Residency Road, Bengaluru — 560025',
+            board:'ICSE', type:'Private', state:'Karnataka', city:'Bengaluru', estd:'1865', website:'www.bishopscotton.edu.in',
+            principal:'Rev. John Fernandes', students:61, teams:18, ideas:16, status:'active',
+            admin:{ name:'Thomas Mathew', email:'t.mathew@bcs.edu.in', phone:'+91 80900 12233', joined:'Feb 19, 2026' },
+            season:'Season 5', maxStudents:80, lastLogin:'4 days ago'
+        },
+        'Navodaya Vidyalaya': {
+            initials:'NV', color:'#059669', name:'Navodaya Vidyalaya', address:'Sector 10, Gandhinagar — 382010',
+            board:'CBSE', type:'Government', state:'Gujarat', city:'Gandhinagar', estd:'1986', website:'www.nvs.gov.in',
+            principal:'Mr. Mahesh Prajapati', students:0, teams:0, ideas:0, status:'pending',
+            admin:{ name:'Vijay Patel', email:'v.patel@nvs.gov.in', phone:'+91 91500 34455', joined:'Mar 20, 2026' },
+            season:'Season 5', maxStudents:60, lastLogin:'Never'
+        },
+        'The Doon School': {
+            initials:'DS', color:'#94a3b8', name:'The Doon School', address:'Mall Road, Dehradun — 248001',
+            board:'ICSE', type:'Private', state:'Delhi', city:'Dehradun', estd:'1935', website:'www.doonschool.com',
+            principal:'Dr. Peter McLaughlin', students:42, teams:11, ideas:10, status:'inactive',
+            admin:{ name:'Rahul Sinha', email:'r.sinha@doon.edu', phone:'+91 88000 56677', joined:'Dec 5, 2025' },
+            season:'Season 5', maxStudents:60, lastLogin:'2 months ago'
+        }
+    };
+
+    let currentSchool = null;
+
+    function openSidebar(name) {
+        const d = schoolData[name];
+        if (!d) return;
+        currentSchool = d;
+        const statusColors = { active:'#16a34a', pending:'#ca8a04', inactive:'#64748b', suspended:'#dc2626' };
+        const sc = statusColors[d.status] || '#64748b';
+        document.getElementById('sidebarContent').innerHTML = `
+            <div class="detail-section">
+                <div class="school-profile-card">
+                    <div class="school-profile-avatar" style="background:${d.color};">${d.initials}</div>
+                    <div class="school-profile-info">
+                        <h3>${d.name}</h3>
+                        <p>${d.board} · ${d.type} · Est. ${d.estd}</p>
+                    </div>
+                </div>
+                <div class="panel-stats">
+                    <div class="panel-stat"><div class="panel-stat-value">${d.students}</div><div class="panel-stat-label">Students</div></div>
+                    <div class="panel-stat"><div class="panel-stat-value">${d.teams}</div><div class="panel-stat-label">Teams</div></div>
+                    <div class="panel-stat"><div class="panel-stat-value">${d.ideas}</div><div class="panel-stat-label">Ideas</div></div>
+                </div>
+                <div class="detail-grid">
+                    <div class="detail-item"><div class="detail-item-label">Status</div><div class="detail-item-value"><span class="badge-status ${d.status}">${d.status.charAt(0).toUpperCase()+d.status.slice(1)}</span></div></div>
+                    <div class="detail-item"><div class="detail-item-label">State</div><div class="detail-item-value">${d.state}</div></div>
+                    <div class="detail-item"><div class="detail-item-label">City</div><div class="detail-item-value">${d.city}</div></div>
+                    <div class="detail-item"><div class="detail-item-label">Board</div><div class="detail-item-value"><span class="board-tag">${d.board}</span></div></div>
+                    <div class="detail-item full"><div class="detail-item-label">Address</div><div class="detail-item-value">${d.address}</div></div>
+                    <div class="detail-item"><div class="detail-item-label">Principal</div><div class="detail-item-value">${d.principal}</div></div>
+                    <div class="detail-item"><div class="detail-item-label">Website</div><div class="detail-item-value" style="color:var(--primary);font-size:0.8125rem;">${d.website}</div></div>
+                </div>
+            </div>
+            <div class="detail-section">
+                <div class="detail-section-title"><span class="material-symbols-outlined">admin_panel_settings</span>School Admin</div>
+                <div class="detail-grid">
+                    <div class="detail-item"><div class="detail-item-label">Name</div><div class="detail-item-value">${d.admin.name}</div></div>
+                    <div class="detail-item"><div class="detail-item-label">Joined</div><div class="detail-item-value">${d.admin.joined}</div></div>
+                    <div class="detail-item"><div class="detail-item-label">Email</div><div class="detail-item-value" style="font-size:0.8125rem;">${d.admin.email}</div></div>
+                    <div class="detail-item"><div class="detail-item-label">Phone</div><div class="detail-item-value">${d.admin.phone}</div></div>
+                    <div class="detail-item"><div class="detail-item-label">Last Login</div><div class="detail-item-value">${d.lastLogin}</div></div>
+                    <div class="detail-item"><div class="detail-item-label">Max Students</div><div class="detail-item-value">${d.maxStudents}</div></div>
+                </div>
+            </div>
+            <div class="detail-section">
+                <div class="detail-section-title"><span class="material-symbols-outlined">settings</span>IFTx Settings</div>
+                <div class="detail-grid">
+                    <div class="detail-item"><div class="detail-item-label">Season</div><div class="detail-item-value">${d.season}</div></div>
+                    <div class="detail-item"><div class="detail-item-label">Student Capacity</div><div class="detail-item-value">${d.students} / ${d.maxStudents}</div></div>
+                </div>
+            </div>`;
+
+        // Update footer buttons based on status
+        const approveBtn = document.getElementById('sidebarApproveBtn');
+        if (d.status === 'pending') {
+            approveBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size:16px;">check_circle</span> Approve';
+            approveBtn.style.background = '#16a34a';
+        } else if (d.status === 'inactive') {
+            approveBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size:16px;">restart_alt</span> Reactivate';
+            approveBtn.style.background = '#16a34a';
+        } else {
+            approveBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size:16px;">block</span> Deactivate';
+            approveBtn.style.background = '#ef4444';
+        }
+
+        document.getElementById('detailsSidebar').classList.add('open');
+        document.getElementById('detailsOverlay').classList.add('show');
+    }
+
+    function closeSidebarPanel() {
+        document.getElementById('detailsSidebar').classList.remove('open');
+        document.getElementById('detailsOverlay').classList.remove('show');
+    }
+
+    // Wire row clicks & view buttons
+    document.querySelectorAll('#schoolsBody tr').forEach(row => {
+        row.addEventListener('click', function(e) {
+            if (e.target.closest('.btn-icon-action')) return;
+            openSidebar(this.dataset.name);
+        });
+    });
+    document.querySelectorAll('.view-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            openSidebar(this.closest('tr').dataset.name);
+        });
+    });
+
+    // Row action icons (non-view)
+    document.querySelectorAll('.btn-icon-action:not(.view-btn)').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const t = this.title;
+            if (t === 'Approve School') showToast('School approved — School Admin notified', 'success');
+            else if (t === 'Edit School') window.location.href = 'onboard-school.html';
+            else if (t === 'Reactivate') showToast('School reactivated successfully', 'success');
+            else showToast(t, 'info');
+        });
+    });
+
+    document.getElementById('closeSidebar').addEventListener('click', closeSidebarPanel);
+    document.getElementById('detailsOverlay').addEventListener('click', closeSidebarPanel);
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSidebarPanel(); });
+
+    document.getElementById('sidebarPortalBtn').addEventListener('click', () => showToast('Opening school portal...', 'info'));
+    document.getElementById('sidebarReminderBtn').addEventListener('click', () => showToast('Reminder sent to school admin', 'success'));
+    document.getElementById('sidebarApproveBtn').addEventListener('click', () => {
+        if (!currentSchool) return;
+        if (currentSchool.status === 'pending') showToast(`${currentSchool.name} approved`, 'success');
+        else if (currentSchool.status === 'inactive') showToast(`${currentSchool.name} reactivated`, 'success');
+        else showToast(`${currentSchool.name} deactivated`, 'warning');
+        closeSidebarPanel();
+    });
+
+    // Search & filters
+    const rows = document.querySelectorAll('#schoolsBody tr');
+    function applyFilters() {
+        const q = document.getElementById('searchInput').value.toLowerCase();
+        const board = document.getElementById('boardFilter').value;
+        const state = document.getElementById('stateFilter').value;
+        const status = document.getElementById('statusFilter').value;
+        rows.forEach(row => {
+            const match = (!q || row.dataset.name.toLowerCase().includes(q) || row.textContent.toLowerCase().includes(q))
+                && (!board || row.dataset.board === board)
+                && (!state || row.dataset.state === state)
+                && (!status || row.dataset.status === status);
+            row.style.display = match ? '' : 'none';
+        });
+    }
+    document.getElementById('searchInput').addEventListener('input', applyFilters);
+    document.getElementById('boardFilter').addEventListener('change', applyFilters);
+    document.getElementById('stateFilter').addEventListener('change', applyFilters);
+    document.getElementById('statusFilter').addEventListener('change', applyFilters);
+
+    // Export CSV
+    document.getElementById('exportBtn').addEventListener('click', () => {
+        const headers = ['School','Board','State','School Admin','Email','Students','Status','Joined'];
+        const csvRows = [headers.join(',')];
+        rows.forEach(row => {
+            if (row.style.display === 'none') return;
+            const d = schoolData[row.dataset.name];
+            if (!d) return;
+            csvRows.push([d.name, d.board, d.state, d.admin.name, d.admin.email, d.students, d.status, d.admin.joined].map(v=>`"${v}"`).join(','));
+        });
+        const blob = new Blob([csvRows.join('\n')], {type:'text/csv'});
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+        a.download = `schools-${new Date().toISOString().slice(0,10)}.csv`; a.click();
+        showToast('CSV downloaded', 'success');
+    });
+
+    function showToast(msg, type='info') {
+        const existing = document.querySelector('.toast-notification'); if(existing) existing.remove();
+        const colors = {success:'#22c55e',error:'#ef4444',info:'#5E2A97',warning:'#f97316'};
+        const icons  = {success:'check_circle',error:'error',info:'info',warning:'warning'};
+        const t = document.createElement('div'); t.className='toast-notification';
+        t.style.cssText=`position:fixed;bottom:2rem;right:2rem;background:${colors[type]};color:white;padding:1rem 1.5rem;border-radius:.75rem;box-shadow:0 10px 25px rgba(0,0,0,.2);z-index:9999;display:flex;align-items:center;gap:.75rem;font-size:.875rem;font-weight:500;font-family:'Poppins',sans-serif;max-width:400px;`;
+        t.innerHTML=`<span class="material-symbols-outlined" style="font-size:20px;">${icons[type]}</span><span>${msg}</span>`;
+        document.body.appendChild(t); setTimeout(()=>t.remove(), 3500);
+    }
+</script>
+</body>
+</html>

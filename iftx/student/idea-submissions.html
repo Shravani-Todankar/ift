@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>IFT Idea Submission Form</title>
+    <title>IFTx Idea Submission Form</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -801,10 +801,40 @@
                 <!-- Footer Meta -->
                 <div class="footer-meta">
                     <p class="footer-text">
-                        By submitting your idea, you agree to the <a href="#">Terms & Conditions</a> of the IFT Competition.
-                        Need help? <a href="#">Contact Support</a>.
+                        By submitting your idea, you agree to the <a href="javascript:void(0)" onclick="document.getElementById('termsModal').style.display='flex'">Terms & Conditions</a> of the <span class="school-name">Your School</span> Competition.
+                        Need help? <a href="mailto:support@iftx.in">Contact Support</a>.
                     </p>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms & Conditions Modal -->
+    <div id="termsModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:9999; align-items:center; justify-content:center; padding:20px;">
+        <div style="background:#fff; border-radius:16px; width:100%; max-width:560px; max-height:85vh; display:flex; flex-direction:column; overflow:hidden;">
+            <div style="padding:20px 24px; border-bottom:1px solid #EEEEEE; display:flex; align-items:center; justify-content:space-between;">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <span class="material-symbols-outlined" style="color:#5E2A97; font-size:22px;">description</span>
+                    <h3 style="margin:0; font-size:1.1rem; font-weight:700; color:#222;">Terms & Conditions</h3>
+                </div>
+                <button onclick="document.getElementById('termsModal').style.display='none'" style="background:none; border:none; cursor:pointer; color:#888;">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div style="padding:24px; overflow-y:auto; line-height:1.7; font-size:0.875rem; color:#444;">
+                <h4 style="color:#5E2A97; font-size:0.95rem; margin-bottom:12px;">Submission Ownership</h4>
+                <p style="margin-bottom:16px;">By submitting your idea, you confirm that the idea is original and belongs to your team. <span class="school-name">Your School</span> reserves the right to showcase submitted ideas for promotional and educational purposes while crediting the team.</p>
+                <h4 style="color:#5E2A97; font-size:0.95rem; margin-bottom:12px;">Eligibility</h4>
+                <p style="margin-bottom:16px;">Only registered students of <span class="school-name">Your School</span> may submit ideas. Each team is allowed one submission per competition cycle. Submissions by ineligible participants will be disqualified.</p>
+                <h4 style="color:#5E2A97; font-size:0.95rem; margin-bottom:12px;">Content Guidelines</h4>
+                <p style="margin-bottom:16px;">Submissions must not contain offensive, harmful, or illegal content. Plagiarised content will result in immediate disqualification and may be referred to the school administration.</p>
+                <h4 style="color:#5E2A97; font-size:0.95rem; margin-bottom:12px;">Evaluation Process</h4>
+                <p style="margin-bottom:16px;">All ideas are evaluated by a panel of jury members on criteria including innovation, feasibility, social impact, and presentation quality. Jury scores are final and cannot be contested.</p>
+                <h4 style="color:#5E2A97; font-size:0.95rem; margin-bottom:12px;">Data Privacy</h4>
+                <p style="margin-bottom:0;">Submitted data including idea details and team information is stored securely and used solely for competition purposes. <span class="school-name">Your School</span> does not share personal data with third parties.</p>
+            </div>
+            <div style="padding:16px 24px; border-top:1px solid #EEEEEE; display:flex; justify-content:flex-end;">
+                <button onclick="document.getElementById('termsModal').style.display='none'" style="padding:10px 24px; background:#5E2A97; color:#fff; border:none; border-radius:8px; font-family:'Poppins',sans-serif; font-size:0.875rem; font-weight:600; cursor:pointer;">I Understand</button>
             </div>
         </div>
     </div>

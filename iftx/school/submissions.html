@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Submissions | School | ENpower IFTx</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap"
+        rel="stylesheet" />
+
+    <!-- Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --primary: #5E2A97;
+            --primary-light: #E8D4F0;
+            --background-light: #F7F7F7;
+            --surface-light: #FFFFFF;
+            --border-light: #EEEEEE;
+            --text-dark: #222222;
+            --text-muted: #666666;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-light);
+            color: var(--text-dark);
+            overflow: hidden;
+        }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+
+        .main-container { display: flex; height: 100vh; width: 100%; }
+        #sidebar-container { flex-shrink: 0; }
+
+        .main-content {
+            flex: 1; display: flex; flex-direction: column;
+            height: 100%; overflow-y: auto; position: relative; z-index: 10;
+        }
+
+        .content-wrapper { flex: 1; padding: 32px; max-width: 100%; margin: 0 auto; width: 100%; }
+
+        /* Page Header */
+        .page-header { margin-bottom: 32px; }
+        .page-header h1 { font-size: 1.75rem; font-weight: 700; color: var(--text-dark); margin-bottom: 8px; }
+        .breadcrumb { font-size: 0.875rem; color: var(--text-muted); background: none; padding: 0; margin: 0; }
+        .breadcrumb-item a { color: var(--text-muted); text-decoration: none; }
+        .breadcrumb-item a:hover { color: var(--primary); }
+        .breadcrumb-item.active { color: var(--text-dark); }
+
+        /* Stats Cards */
+        .stat-card {
+            background: var(--surface-light); border-radius: 12px; padding: 20px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04); border: 1px solid var(--border-light);
+            display: flex; align-items: center; gap: 14px; height: 100%;
+        }
+
+        .stat-icon {
+            width: 44px; height: 44px; min-width: 44px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+
+        .stat-icon.purple { background: rgba(94,42,151,0.1); color: var(--primary); }
+        .stat-icon.green { background: rgba(34,197,94,0.1); color: #22c55e; }
+        .stat-icon.amber { background: rgba(245,158,11,0.1); color: #f59e0b; }
+        .stat-icon.blue { background: rgba(59,130,246,0.1); color: #3b82f6; }
+        .stat-icon.red { background: rgba(239,68,68,0.1); color: #ef4444; }
+
+        .stat-label {
+            font-size: 0.7rem; font-weight: 600; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 0.05em; margin: 0; white-space: nowrap;
+        }
+
+        .stat-value { font-size: 1.35rem; font-weight: 700; color: var(--text-dark); margin: 0; line-height: 1.2; }
+
+        /* Pipeline Bar */
+        .pipeline-bar {
+            background: var(--surface-light); border-radius: 12px; padding: 20px 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04); border: 1px solid var(--border-light);
+            margin-bottom: 24px;
+        }
+
+        .pipeline-label {
+            font-size: 0.75rem; font-weight: 700; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;
+        }
+
+        .pipeline-track {
+            display: flex; height: 32px; border-radius: 8px;
+            overflow: hidden; margin-bottom: 12px;
+        }
+
+        .pipeline-segment {
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.6875rem; font-weight: 700; color: #fff;
+            transition: all 0.3s ease; cursor: default; position: relative;
+        }
+
+        .pipeline-segment.draft { background: #94a3b8; }
+        .pipeline-segment.submitted { background: #3b82f6; }
+        .pipeline-segment.ai-review { background: #8b5cf6; }
+        .pipeline-segment.jury-review { background: #f59e0b; }
+        .pipeline-segment.evaluated { background: #22c55e; }
+
+        .pipeline-legend { display: flex; flex-wrap: wrap; gap: 16px; }
+
+        .pipeline-legend-item {
+            display: flex; align-items: center; gap: 6px;
+            font-size: 0.75rem; color: var(--text-muted);
+        }
+
+        .pipeline-legend-dot { width: 10px; height: 10px; border-radius: 3px; }
+        .pipeline-legend-dot.draft { background: #94a3b8; }
+        .pipeline-legend-dot.submitted { background: #3b82f6; }
+        .pipeline-legend-dot.ai-review { background: #8b5cf6; }
+        .pipeline-legend-dot.jury-review { background: #f59e0b; }
+        .pipeline-legend-dot.evaluated { background: #22c55e; }
+
+        .pipeline-legend-count { font-weight: 700; color: var(--text-dark); }
+
+        /* Main Card */
+        .main-card {
+            background: var(--surface-light); border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04); border: 1px solid var(--border-light); overflow: hidden;
+        }
+
+        .main-card-header { padding: 24px; border-bottom: 1px solid var(--border-light); }
+
+        /* Search & Filter */
+        .search-input { position: relative; }
+        .search-input .material-symbols-outlined {
+            position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+            color: var(--text-muted); font-size: 20px;
+        }
+        .search-input input {
+            width: 100%; padding: 10px 12px 10px 44px; border: 1px solid var(--border-light);
+            border-radius: 8px; font-size: 0.875rem; background: #f8fafc;
+            font-family: 'Poppins', sans-serif;
+        }
+        .search-input input:focus {
+            outline: none; border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(94,42,151,0.1);
+        }
+
+        /* Table */
+        .custom-table { width: 100%; font-size: 0.875rem; }
+        .custom-table thead { background: #f8fafc; }
+        .custom-table th {
+            padding: 14px 20px; font-size: 0.75rem; font-weight: 700;
+            color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;
+            text-align: left; border-bottom: 1px solid var(--border-light); white-space: nowrap;
+        }
+        .custom-table td { padding: 14px 20px; vertical-align: middle; border-bottom: 1px solid #f8f9fa; }
+        .custom-table tbody tr { transition: background 0.2s; cursor: pointer; }
+        .custom-table tbody tr:hover { background: rgba(94,42,151,0.03); }
+
+        .submission-id {
+            font-size: 0.75rem; font-weight: 700; color: var(--primary); font-family: monospace;
+        }
+
+        .idea-title { font-weight: 600; color: var(--text-dark); margin: 0; font-size: 0.875rem; }
+        .idea-category { font-size: 0.6875rem; color: var(--text-muted); margin: 0; }
+
+        .team-name-cell { font-weight: 600; color: var(--text-dark); margin: 0; font-size: 0.8125rem; }
+        .team-grade { font-size: 0.6875rem; color: var(--text-muted); margin: 0; }
+
+        .badge-status {
+            font-size: 0.6875rem; font-weight: 700; padding: 4px 10px;
+            border-radius: 999px; white-space: nowrap; text-transform: uppercase;
+        }
+        .badge-status.draft { background: #e2e8f0; color: #475569; }
+        .badge-status.submitted { background: #dbeafe; color: #1d4ed8; }
+        .badge-status.ai-review { background: #ede9fe; color: #7c3aed; }
+        .badge-status.jury-review { background: #fef3c7; color: #92400e; }
+        .badge-status.evaluated { background: #d1fae5; color: #065f46; }
+
+        .score-display { display: flex; align-items: center; gap: 8px; }
+        .score-bar-inline { flex: 1; height: 6px; background: #f1f5f9; border-radius: 999px; overflow: hidden; min-width: 50px; }
+        .score-fill { height: 100%; border-radius: 999px; }
+        .score-fill.high { background: #22c55e; }
+        .score-fill.medium { background: #f59e0b; }
+        .score-fill.low { background: #ef4444; }
+        .score-fill.none { background: #cbd5e1; }
+
+        .score-value { font-size: 0.8125rem; font-weight: 700; min-width: 36px; text-align: right; }
+        .score-value.high { color: #16a34a; }
+        .score-value.medium { color: #d97706; }
+        .score-value.low { color: #ef4444; }
+        .score-value.none { color: #94a3b8; }
+
+        /* Pagination */
+        .pagination-custom {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 20px 24px; border-top: 1px solid var(--border-light);
+        }
+        .pagination-info { font-size: 0.875rem; color: var(--text-muted); }
+        .pagination-controls { display: flex; align-items: center; gap: 8px; }
+        .page-btn {
+            width: 32px; height: 32px; border-radius: 8px;
+            border: 1px solid var(--border-light); background: white;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.2s; font-size: 0.8125rem; font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+        }
+        .page-btn:hover { background: #f8fafc; }
+        .page-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .page-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* Buttons */
+        .btn-secondary-custom {
+            background: white; color: var(--text-dark); font-weight: 600;
+            padding: 10px 20px; border-radius: 8px; border: 1px solid var(--border-light);
+            display: flex; align-items: center; gap: 8px; cursor: pointer;
+            transition: all 0.2s; font-family: 'Poppins', sans-serif; font-size: 0.82rem;
+        }
+        .btn-secondary-custom:hover { background: #f8fafc; }
+
+        /* Details Sidebar */
+        .details-sidebar {
+            position: fixed; top: 0; right: -480px; width: 480px; height: 100vh;
+            background: var(--surface-light); box-shadow: -4px 0 24px rgba(0,0,0,0.1);
+            z-index: 1000; transition: right 0.3s ease; display: flex; flex-direction: column;
+        }
+        .details-sidebar.open { right: 0; }
+
+        .details-sidebar-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 999; display: none;
+            opacity: 0; transition: opacity 0.3s ease;
+        }
+        .details-sidebar-overlay.show { display: block; opacity: 1; }
+
+        .details-sidebar-header {
+            padding: 24px; border-bottom: 1px solid var(--border-light);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .details-sidebar-header h2 { font-size: 1.125rem; font-weight: 700; margin: 0; }
+
+        .details-sidebar-close {
+            width: 32px; height: 32px; border-radius: 8px;
+            border: 1px solid var(--border-light); background: white;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; color: var(--text-muted); transition: all 0.2s;
+        }
+        .details-sidebar-close:hover { background: #f8fafc; color: var(--text-dark); }
+
+        .details-sidebar-content { flex: 1; overflow-y: auto; padding: 24px; }
+
+        .detail-section { margin-bottom: 28px; }
+        .detail-section-title {
+            font-size: 0.75rem; font-weight: 700; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 14px;
+            display: flex; align-items: center; gap: 8px;
+        }
+
+        .detail-profile { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+        .detail-avatar {
+            width: 56px; height: 56px; border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.25rem; font-weight: 700; box-shadow: 0 4px 12px rgba(94,42,151,0.2);
+        }
+        .detail-profile-info h3 { font-size: 1.125rem; font-weight: 700; margin: 0 0 4px 0; }
+        .detail-profile-info p { font-size: 0.8125rem; color: var(--text-muted); margin: 0; }
+
+        .detail-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
+        .detail-item { padding: 12px; background: #f8fafc; border-radius: 8px; }
+        .detail-item-label {
+            font-size: 0.6875rem; font-weight: 600; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;
+        }
+        .detail-item-value { font-size: 0.875rem; font-weight: 600; color: var(--text-dark); }
+
+        .idea-card {
+            padding: 16px; background: rgba(94,42,151,0.05); border-radius: 10px;
+        }
+        .idea-card h4 { font-size: 0.875rem; font-weight: 700; margin: 0 0 6px 0; }
+        .idea-card p { font-size: 0.8125rem; color: var(--text-muted); line-height: 1.6; font-style: italic; margin: 0; }
+
+        .score-bar-detail { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+        .score-bar-label { font-size: 0.75rem; font-weight: 600; color: var(--text-muted); width: 60px; }
+        .score-bar-track { flex: 1; height: 6px; background: #f1f5f9; border-radius: 3px; overflow: hidden; }
+        .score-bar-track-fill { height: 100%; border-radius: 3px; }
+        .score-bar-val { font-size: 0.75rem; font-weight: 700; color: var(--text-dark); width: 36px; text-align: right; }
+
+        .tag-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+        .tag {
+            font-size: 0.625rem; font-weight: 700; padding: 4px 10px;
+            background: #e2e8f0; color: var(--text-dark); border-radius: 4px;
+        }
+
+        .member-list-item {
+            display: flex; align-items: center; gap: 12px; padding: 12px;
+            border: 1px solid var(--border-light); border-radius: 10px; margin-bottom: 8px;
+        }
+        .member-list-item:last-child { margin-bottom: 0; }
+        .member-list-avatar {
+            width: 36px; height: 36px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.75rem; font-weight: 700;
+        }
+        .member-list-info { flex: 1; }
+        .member-list-name { font-size: 0.875rem; font-weight: 600; margin: 0; }
+        .member-list-meta { font-size: 0.75rem; color: var(--text-muted); margin: 0; }
+        .leader-badge {
+            font-size: 0.5625rem; font-weight: 700; padding: 3px 8px;
+            background: rgba(94,42,151,0.1); color: var(--primary); border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper { padding: 16px; }
+            .details-sidebar { width: 100%; right: -100%; }
+            .detail-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+        <div id="sidebar-container"></div>
+
+        <main class="main-content">
+            <div id="header-container"></div>
+
+            <div class="content-wrapper">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-md-6">
+                            <h1>Idea Submissions</h1>
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="dashboard.html">Dashboard</a></li>
+                                    <li class="breadcrumb-item active">Submissions</li>
+                                </ol>
+                            </nav>
+                        </div>
+                        <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center gap-3 mt-3 mt-md-0">
+                            <button class="btn-secondary-custom" onclick="exportCSV()">
+                                <span class="material-symbols-outlined" style="font-size: 18px;">file_download</span>
+                                Export CSV
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="row g-3 mb-4">
+                    <div class="col-6 col-md-3 col-lg">
+                        <div class="stat-card">
+                            <div class="stat-icon purple">
+                                <span class="material-symbols-outlined">assignment</span>
+                            </div>
+                            <div>
+                                <p class="stat-label">Total Ideas</p>
+                                <h3 class="stat-value">29</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3 col-lg">
+                        <div class="stat-card">
+                            <div class="stat-icon blue">
+                                <span class="material-symbols-outlined">hourglass_top</span>
+                            </div>
+                            <div>
+                                <p class="stat-label">Under Review</p>
+                                <h3 class="stat-value">9</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3 col-lg">
+                        <div class="stat-card">
+                            <div class="stat-icon green">
+                                <span class="material-symbols-outlined">verified</span>
+                            </div>
+                            <div>
+                                <p class="stat-label">Evaluated</p>
+                                <h3 class="stat-value">14</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3 col-lg">
+                        <div class="stat-card">
+                            <div class="stat-icon amber">
+                                <span class="material-symbols-outlined">edit_note</span>
+                            </div>
+                            <div>
+                                <p class="stat-label">Drafts</p>
+                                <h3 class="stat-value">6</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3 col-lg">
+                        <div class="stat-card">
+                            <div class="stat-icon red">
+                                <span class="material-symbols-outlined">trending_up</span>
+                            </div>
+                            <div>
+                                <p class="stat-label">Avg Score</p>
+                                <h3 class="stat-value">33.2</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pipeline Bar -->
+                <div class="pipeline-bar">
+                    <p class="pipeline-label">Submission Pipeline</p>
+                    <div class="pipeline-track">
+                        <div class="pipeline-segment draft" style="width: 20.7%;" title="Draft: 6">6</div>
+                        <div class="pipeline-segment submitted" style="width: 13.8%;" title="Submitted: 4">4</div>
+                        <div class="pipeline-segment ai-review" style="width: 10.3%;" title="AI Review: 3">3</div>
+                        <div class="pipeline-segment jury-review" style="width: 6.9%;" title="Jury Review: 2">2</div>
+                        <div class="pipeline-segment evaluated" style="width: 48.3%;" title="Evaluated: 14">14</div>
+                    </div>
+                    <div class="pipeline-legend">
+                        <div class="pipeline-legend-item">
+                            <span class="pipeline-legend-dot draft"></span>
+                            Draft <span class="pipeline-legend-count">6</span>
+                        </div>
+                        <div class="pipeline-legend-item">
+                            <span class="pipeline-legend-dot submitted"></span>
+                            Submitted <span class="pipeline-legend-count">4</span>
+                        </div>
+                        <div class="pipeline-legend-item">
+                            <span class="pipeline-legend-dot ai-review"></span>
+                            AI Review <span class="pipeline-legend-count">3</span>
+                        </div>
+                        <div class="pipeline-legend-item">
+                            <span class="pipeline-legend-dot jury-review"></span>
+                            Jury Review <span class="pipeline-legend-count">2</span>
+                        </div>
+                        <div class="pipeline-legend-item">
+                            <span class="pipeline-legend-dot evaluated"></span>
+                            Evaluated <span class="pipeline-legend-count">14</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Data Card -->
+                <div class="main-card">
+                    <!-- Search & Filters -->
+                    <div class="main-card-header">
+                        <div class="row align-items-center g-3">
+                            <div class="col-12 col-md-4">
+                                <div class="search-input">
+                                    <span class="material-symbols-outlined">search</span>
+                                    <input type="text" id="searchInput" placeholder="Search by idea or team name...">
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-8 d-flex align-items-center gap-3 justify-content-md-end flex-wrap">
+                                <select class="form-select" id="statusFilter" style="width: auto; font-size: 0.8125rem;">
+                                    <option value="">All Status</option>
+                                    <option value="draft">Draft</option>
+                                    <option value="submitted">Submitted</option>
+                                    <option value="ai-review">AI Review</option>
+                                    <option value="jury-review">Jury Review</option>
+                                    <option value="evaluated">Evaluated</option>
+                                </select>
+                                <select class="form-select" id="categoryFilter" style="width: auto; font-size: 0.8125rem;">
+                                    <option value="">All Categories</option>
+                                    <option value="environment">Environment</option>
+                                    <option value="healthcare">Healthcare</option>
+                                    <option value="edtech">EdTech</option>
+                                    <option value="agriculture">Agriculture</option>
+                                    <option value="safety">Safety</option>
+                                    <option value="fintech">FinTech</option>
+                                    <option value="technology">Technology</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Table -->
+                    <div class="table-responsive">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Idea</th>
+                                    <th>Team</th>
+                                    <th>Status</th>
+                                    <th>AI Score</th>
+                                    <th>Jury Score</th>
+                                    <th style="text-align: right;">Total</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Row 1 -->
+                                <tr data-id="SUB-001" data-status="evaluated" data-category="environment" data-page="1">
+                                    <td><span class="submission-id">SUB-001</span></td>
+                                    <td>
+                                        <p class="idea-title">EcoTrack — Carbon Footprint App</p>
+                                        <p class="idea-category">Environment</p>
+                                    </td>
+                                    <td>
+                                        <p class="team-name-cell">Team Aarav</p>
+                                        <p class="team-grade">Grade 10</p>
+                                    </td>
+                                    <td><span class="badge-status evaluated">Evaluated</span></td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar-inline">
+                                                <div class="score-fill high" style="width: 86%;"></div>
+                                            </div>
+                                            <span class="score-value high">21.5</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar-inline">
+                                                <div class="score-fill high" style="width: 85.2%;"></div>
+                                            </div>
+                                            <span class="score-value high">21.3</span>
+                                        </div>
+                                    </td>
+                                    <td style="text-align: right;"><span class="score-value high" style="font-size: 0.9375rem;">42.8</span></td>
+                                    <td style="font-size: 0.8125rem; color: var(--text-muted);">Mar 10</td>
+                                </tr>
+
+                                <!-- Row 2 -->
+                                <tr data-id="SUB-002" data-status="evaluated" data-category="healthcare" data-page="1">
+                                    <td><span class="submission-id">SUB-002</span></td>
+                                    <td>
+                                        <p class="idea-title">MedEase — Rural Health Platform</p>
+                                        <p class="idea-category">Healthcare</p>
+                                    </td>
+                                    <td>
+                                        <p class="team-name-cell">Team Priya</p>
+                                        <p class="team-grade">Grade 11</p>
+                                    </td>
+                                    <td><span class="badge-status evaluated">Evaluated</span></td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar-inline">
+                                                <div class="score-fill high" style="width: 83.2%;"></div>
+                                            </div>
+                                            <span class="score-value high">20.8</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar-inline">
+                                                <div class="score-fill high" style="width: 82.8%;"></div>
+                                            </div>
+                                            <span class="score-value high">20.7</span>
+                                        </div>
+                                    </td>
+                                    <td style="text-align: right;"><span class="score-value high" style="font-size: 0.9375rem;">41.5</span></td>
+                                    <td style="font-size: 0.8125rem; color: var(--text-muted);">Mar 11</td>
+                                </tr>
+
+                                <!-- Row 3 -->
+                                <tr data-id="SUB-003" data-status="evaluated" data-category="edtech" data-page="1">
+                                    <td><span class="submission-id">SUB-003</span></td>
+                                    <td>
+                                        <p class="idea-title">LearnBuddy — AI Tutor Bot</p>
+                                        <p class="idea-category">EdTech</p>
+                                    </td>
+                                    <td>
+                                        <p class="team-name-cell">Team Rohan</p>
+                                        <p class="team-grade">Grade 10</p>
+                                    </td>
+                                    <td><span class="badge-status evaluated">Evaluated</span></td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar-inline">
+                                                <div class="score-fill medium" style="width: 78.4%;"></div>
+                                            </div>
+                                            <span class="score-value medium">19.6</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar-inline">
+                                                <div class="score-fill medium" style="width: 78.4%;"></div>
+                                            </div>
+                                            <span class="score-value medium">19.6</span>
+                                        </div>
+                                    </td>
+                                    <td style="text-align: right;"><span class="score-value medium" style="font-size: 0.9375rem;">39.2</span></td>
+                                    <td style="font-size: 0.8125rem; color: var(--text-muted);">Mar 12</td>
+                                </tr>
+
+                                <!-- Row 4 -->
+                                <tr data-id="SUB-004" data-status="evaluated" data-category="agriculture" data-page="1">
+                                    <td><span class="submission-id">SUB-004</span></td>
+                                    <td>
+                                        <p class="idea-title">AgriSense — Smart Farming</p>
+                                        <p class="idea-category">Agriculture</p>
+                                    </td>
+                                    <td>
+                                        <p class="team-name-cell">Team Neha</p>
+                                        <p class="team-grade">Grade 12</p>
+                                    </td>
+                                    <td><span class="badge-status evaluated">Evaluated</span></td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar-inline">
+                                                <div class="score-fill medium" style="width: 77.6%;"></div>
+                                            </div>
+                                            <span class="score-value medium">19.4</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar-inline">
+                                                <div class="score-fill medium" style="width: 77.2%;"></div>
+                                            </div>
+                                            <span class="score-value medium">19.3</span>
+                                        </div>
+                                    </td>
+                                    <td style="text-align: right;"><span class="score-value medium" style="font-size: 0.9375rem;">38.7</span></td>
+                                    <td style="font-size: 0.8125rem; color: var(--text-muted);">Mar 13</td>
+                                </tr>
+
+                                <!-- Row 5 -->
+                                <tr data-id="SUB-005" data-status="evaluated" data-category="safety" data-page="1">
+                                    <td><span class="submission-id">SUB-005</span></td>
+                                    <td>
+                                        <p class="idea-title">SafeWalk — Women Safety App</p>
+                                        <p class="idea-category">Safety</p>
+                                    </td>
+                                    <td>
+                                        <p class="team-name-cell">Team Ananya</p>
+                                        <p class="team-grade">Grade 9</p>
+                                    </td>
+                                    <td><span class="badge-status evaluated">Evaluated</span></td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar-inline">
+                                                <div class="score-fill medium" style="width: 74.4%;"></div>
+                                            </div>
+                                            <span class="score-value medium">18.6</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar-inline">
+                                                <div class="score-fill medium" style="width: 74%;"></div>
+                                            </div>
+                                            <span class="score-value medium">18.5</span>
+                                        </div>
+                                    </td>
+                                    <td style="text-align: right;"><span class="score-value medium" style="font-size: 0.9375rem;">37.1</span></td>
+                                    <td style="font-size: 0.8125rem; color: var(--text-muted);">Mar 14</td>
+                                </tr>
+
+                                <!-- Page 2 rows -->
+                                <!-- Row 6 -->
+                                <tr data-id="SUB-006" data-status="evaluated" data-category="technology" data-page="2" style="display:none;">
+                                    <td><span class="submission-id">SUB-006</span></td>
+                                    <td>
+                                        <p class="idea-title">UrbanFlow — Smart Traffic System</p>
+                                        <p class="idea-category">Technology</p>
+                                    </td>
+                                    <td>
+                                        <p class="team-name-cell">Smart City Solutions</p>
+                                        <p class="team-grade">Grade 11</p>
+                                    </td>
+                                    <td><span class="badge-status evaluated">Evaluated</span></td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar-inline">
+                                                <div class="score-fill medium" style="width: 72%;"></div>
+                                            </div>
+                                            <span class="score-value medium">18.0</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar-inline">
+                                                <div class="score-fill medium" style="width: 69.6%;"></div>
+                                            </div>
+                                            <span class="score-value medium">17.4</span>
+                                        </div>
+                                    </td>
+                                    <td style="text-align: right;"><span class="score-value medium" style="font-size: 0.9375rem;">35.4</span></td>
+                                    <td style="font-size: 0.8125rem; color: var(--text-muted);">Mar 15</td>
+                                </tr>
+
+                                <!-- Row 7 -->
+                                <tr data-id="SUB-007" data-status="jury-review" data-category="fintech" data-page="2" style="display:none;">
+                                    <td><span class="submission-id">SUB-007</span></td>
+                                    <td>
+                                        <p class="idea-title">PaySmart — Student Finance App</p>
+                                        <p class="idea-category">FinTech</p>
+                                    </td>
+                                    <td>
+                                        <p class="team-name-cell">Money Minds</p>
+                                        <p class="team-grade">Grade 12</p>
+                                    </td>
+                                    <td><span class="badge-status jury-review">Jury Review</span></td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar-inline">
+                                                <div class="score-fill medium" style="width: 68%;"></div>
+                                            </div>
+                                            <span class="score-value medium">17.0</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar-inline">
+                                                <div class="score-fill none" style="width: 0%;"></div>
+                                            </div>
+                                            <span class="score-value none">—</span>
+                                        </div>
+                                    </td>
+                                    <td style="text-align: right;"><span class="score-value none" style="font-size: 0.9375rem;">—</span></td>
+                                    <td style="font-size: 0.8125rem; color: var(--text-muted);">Mar 16</td>
+                                </tr>
+
+                                <!-- Row 8 -->
+                                <tr data-id="SUB-008" data-status="jury-review" data-category="environment" data-page="2" style="display:none;">
+                                    <td><span class="submission-id">SUB-008</span></td>
+                                    <td>
+                                        <p class="idea-title">GreenLens — Plant Disease Detector</p>
+                                        <p class="idea-category">Environment</p>
+                                    </td>
+                                    <td>
+                                        <p class="team-name-cell">BioTech Buddies</p>
+                                        <p class="team-grade">Grade 10</p>
+                                    </td>
+                                    <td><span class="badge-status jury-review">Jury Review</span></td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar-inline">
+                                                <div class="score-fill medium" style="width: 65.2%;"></div>
+                                            </div>
+                                            <span class="score-value medium">16.3</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar-inline">
+                                                <div class="score-fill none" style="width: 0%;"></div>
+                                            </div>
+                                            <span class="score-value none">—</span>
+                                        </div>
+                                    </td>
+                                    <td style="text-align: right;"><span class="score-value none" style="font-size: 0.9375rem;">—</span></td>
+                                    <td style="font-size: 0.8125rem; color: var(--text-muted);">Mar 17</td>
+                                </tr>
+
+                                <!-- Row 9 -->
+                                <tr data-id="SUB-009" data-status="ai-review" data-category="healthcare" data-page="2" style="display:none;">
+                                    <td><span class="submission-id">SUB-009</span></td>
+                                    <td>
+                                        <p class="idea-title">MindCare — Mental Health Chatbot</p>
+                                        <p class="idea-category">Healthcare</p>
+                                    </td>
+                                    <td>
+                                        <p class="team-name-cell">Wellness Warriors</p>
+                                        <p class="team-grade">Grade 11</p>
+                                    </td>
+                                    <td><span class="badge-status ai-review">AI Review</span></td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar-inline">
+                                                <div class="score-fill none" style="width: 0%;"></div>
+                                            </div>
+                                            <span class="score-value none">—</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar-inline">
+                                                <div class="score-fill none" style="width: 0%;"></div>
+                                            </div>
+                                            <span class="score-value none">—</span>
+                                        </div>
+                                    </td>
+                                    <td style="text-align: right;"><span class="score-value none" style="font-size: 0.9375rem;">—</span></td>
+                                    <td style="font-size: 0.8125rem; color: var(--text-muted);">Mar 18</td>
+                                </tr>
+
+                                <!-- Row 10 -->
+                                <tr data-id="SUB-010" data-status="draft" data-category="edtech" data-page="2" style="display:none;">
+                                    <td><span class="submission-id">SUB-010</span></td>
+                                    <td>
+                                        <p class="idea-title">QuizMaster — Gamified Learning</p>
+                                        <p class="idea-category">EdTech</p>
+                                    </td>
+                                    <td>
+                                        <p class="team-name-cell">Code Crushers</p>
+                                        <p class="team-grade">Grade 10</p>
+                                    </td>
+                                    <td><span class="badge-status draft">Draft</span></td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar-inline">
+                                                <div class="score-fill none" style="width: 0%;"></div>
+                                            </div>
+                                            <span class="score-value none">—</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar-inline">
+                                                <div class="score-fill none" style="width: 0%;"></div>
+                                            </div>
+                                            <span class="score-value none">—</span>
+                                        </div>
+                                    </td>
+                                    <td style="text-align: right;"><span class="score-value none" style="font-size: 0.9375rem;">—</span></td>
+                                    <td style="font-size: 0.8125rem; color: var(--text-muted);">Mar 19</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="pagination-custom">
+                        <p class="pagination-info">
+                            Showing <span style="font-weight: 600;">1–5</span> of <span style="font-weight: 600;">29</span> submissions
+                        </p>
+                        <div class="pagination-controls">
+                            <button class="page-btn" id="prevPageBtn" disabled>
+                                <span class="material-symbols-outlined" style="font-size: 18px;">chevron_left</span>
+                            </button>
+                            <button class="page-btn active page-number" data-page="1">1</button>
+                            <button class="page-btn page-number" data-page="2">2</button>
+                            <button class="page-btn" id="nextPageBtn">
+                                <span class="material-symbols-outlined" style="font-size: 18px;">chevron_right</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Details Sidebar Overlay -->
+    <div class="details-sidebar-overlay" id="detailsOverlay"></div>
+
+    <!-- Details Sidebar -->
+    <div class="details-sidebar" id="detailsSidebar">
+        <div class="details-sidebar-header">
+            <h2>Submission Details</h2>
+            <button class="details-sidebar-close" id="closeSidebar">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="details-sidebar-content" id="sidebarContent"></div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Load sidebar
+        fetch('sidebar.html')
+            .then(response => response.text())
+            .then(data => {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = data;
+                tempDiv.childNodes.forEach(node => {
+                    if (node.nodeType === 1 && node.tagName !== 'SCRIPT') {
+                        document.getElementById('sidebar-container').appendChild(node.cloneNode(true));
+                    } else if (node.nodeType === 3) {
+                        document.getElementById('sidebar-container').appendChild(node.cloneNode(true));
+                    }
+                });
+                const script = tempDiv.querySelector('script');
+                if (script) {
+                    const newScript = document.createElement('script');
+                    newScript.textContent = script.textContent;
+                    document.body.appendChild(newScript);
+                }
+            })
+            .catch(error => console.error('Error loading sidebar:', error));
+
+        // Load header
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = data;
+                tempDiv.childNodes.forEach(node => {
+                    if (node.nodeType === 1 || node.nodeType === 3) {
+                        document.getElementById('header-container').appendChild(node.cloneNode(true));
+                    }
+                });
+                const script = tempDiv.querySelector('script');
+                if (script) {
+                    const newScript = document.createElement('script');
+                    newScript.textContent = script.textContent;
+                    document.body.appendChild(newScript);
+                }
+            })
+            .catch(error => console.error('Error loading header:', error));
+
+        // Submission data for details sidebar
+        const submissionData = {
+            'SUB-001': {
+                id: 'SUB-001', ideaTitle: 'EcoTrack — Carbon Footprint App', category: 'Environment',
+                status: 'Evaluated', date: 'Mar 10, 2026',
+                team: 'Team Aarav', grade: 'Grade 10',
+                leader: { initials: 'AS', name: 'Aarav Sharma', grade: '10th A', isLeader: true },
+                members: [
+                    { initials: 'DP', name: 'Dev Patel', grade: '10th A' },
+                    { initials: 'MG', name: 'Meera Gupta', grade: '10th B' }
+                ],
+                description: 'A mobile app that tracks individual carbon footprints through daily activities and suggests actionable ways to reduce environmental impact.',
+                tags: ['ENVIRONMENT', 'MOBILE APP', 'SUSTAINABILITY'],
+                scores: { ai: 21.5, jury: 21.3, total: 42.8 }
+            },
+            'SUB-002': {
+                id: 'SUB-002', ideaTitle: 'MedEase — Rural Health Platform', category: 'Healthcare',
+                status: 'Evaluated', date: 'Mar 11, 2026',
+                team: 'Team Priya', grade: 'Grade 11',
+                leader: { initials: 'PK', name: 'Priya Kumar', grade: '11th B', isLeader: true },
+                members: [
+                    { initials: 'RB', name: 'Ravi Bhat', grade: '11th B' },
+                    { initials: 'SK', name: 'Sneha Kapoor', grade: '11th A' }
+                ],
+                description: 'A telemedicine platform connecting rural patients with city doctors through AI-powered symptom analysis and video consultations.',
+                tags: ['HEALTHCARE', 'AI', 'SOCIAL IMPACT'],
+                scores: { ai: 20.8, jury: 20.7, total: 41.5 }
+            },
+            'SUB-003': {
+                id: 'SUB-003', ideaTitle: 'LearnBuddy — AI Tutor Bot', category: 'EdTech',
+                status: 'Evaluated', date: 'Mar 12, 2026',
+                team: 'Team Rohan', grade: 'Grade 10',
+                leader: { initials: 'RD', name: 'Rohan Das', grade: '10th C', isLeader: true },
+                members: [
+                    { initials: 'AK', name: 'Aisha Khan', grade: '10th A' },
+                    { initials: 'VR', name: 'Varun Rao', grade: '10th C' }
+                ],
+                description: 'An AI-powered tutoring chatbot that adapts to each student\'s learning pace and provides personalized study plans and practice questions.',
+                tags: ['EDTECH', 'AI', 'PERSONALIZATION'],
+                scores: { ai: 19.6, jury: 19.6, total: 39.2 }
+            },
+            'SUB-004': {
+                id: 'SUB-004', ideaTitle: 'AgriSense — Smart Farming', category: 'Agriculture',
+                status: 'Evaluated', date: 'Mar 13, 2026',
+                team: 'Team Neha', grade: 'Grade 12',
+                leader: { initials: 'NS', name: 'Neha Saxena', grade: '12th A', isLeader: true },
+                members: [
+                    { initials: 'AP', name: 'Aditya Patel', grade: '12th A' },
+                    { initials: 'RK', name: 'Riya Khanna', grade: '12th B' },
+                    { initials: 'SV', name: 'Siddharth Verma', grade: '12th A' }
+                ],
+                description: 'An IoT-based smart farming solution that monitors soil moisture, temperature, and crop health to optimize agricultural output for small farmers.',
+                tags: ['AGRICULTURE', 'IoT', 'SUSTAINABILITY'],
+                scores: { ai: 19.4, jury: 19.3, total: 38.7 }
+            },
+            'SUB-005': {
+                id: 'SUB-005', ideaTitle: 'SafeWalk — Women Safety App', category: 'Safety',
+                status: 'Evaluated', date: 'Mar 14, 2026',
+                team: 'Team Ananya', grade: 'Grade 9',
+                leader: { initials: 'AJ', name: 'Ananya Joshi', grade: '9th B', isLeader: true },
+                members: [
+                    { initials: 'NK', name: 'Nisha Kulkarni', grade: '9th B' },
+                    { initials: 'PT', name: 'Pranav Thakur', grade: '9th A' }
+                ],
+                description: 'A personal safety app with real-time location sharing, SOS alerts, and AI-powered route safety scoring for women commuters.',
+                tags: ['SAFETY', 'MOBILE APP', 'SOCIAL IMPACT'],
+                scores: { ai: 18.6, jury: 18.5, total: 37.1 }
+            }
+        };
+
+        // Details Sidebar
+        const detailsSidebar = document.getElementById('detailsSidebar');
+        const detailsOverlay = document.getElementById('detailsOverlay');
+        const closeSidebar = document.getElementById('closeSidebar');
+        const sidebarContent = document.getElementById('sidebarContent');
+
+        function openDetailsSidebar(subId) {
+            const sub = submissionData[subId];
+            if (!sub) {
+                sidebarContent.innerHTML = `
+                    <div class="detail-section">
+                        <div class="detail-profile">
+                            <div class="detail-avatar" style="background: #e2e8f0; color: #64748b;">
+                                <span class="material-symbols-outlined" style="font-size: 28px;">assignment</span>
+                            </div>
+                            <div class="detail-profile-info">
+                                <h3>${subId}</h3>
+                                <p>Submission at <span class="school-name">Your School</span></p>
+                            </div>
+                        </div>
+                        <p style="font-size: 0.8125rem; color: var(--text-muted); text-align: center; padding: 32px 0;">
+                            Detailed information not yet available for this submission.
+                        </p>
+                    </div>`;
+                detailsSidebar.classList.add('open');
+                detailsOverlay.classList.add('show');
+                return;
+            }
+
+            const hasScores = sub.scores && sub.scores.total > 0;
+            const allMembers = [sub.leader, ...sub.members];
+
+            sidebarContent.innerHTML = `
+                <!-- Submission Info -->
+                <div class="detail-section">
+                    <div class="detail-profile">
+                        <div class="detail-avatar" style="background: var(--primary); color: white;">
+                            <span class="material-symbols-outlined" style="font-size: 28px;">emoji_objects</span>
+                        </div>
+                        <div class="detail-profile-info">
+                            <h3>${sub.ideaTitle}</h3>
+                            <p>${sub.id} &middot; ${sub.category}</p>
+                        </div>
+                    </div>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <p class="detail-item-label">Status</p>
+                            <p class="detail-item-value">${sub.status}</p>
+                        </div>
+                        <div class="detail-item">
+                            <p class="detail-item-label">Submitted</p>
+                            <p class="detail-item-value">${sub.date}</p>
+                        </div>
+                        <div class="detail-item">
+                            <p class="detail-item-label">Team</p>
+                            <p class="detail-item-value">${sub.team}</p>
+                        </div>
+                        <div class="detail-item">
+                            <p class="detail-item-label">Grade</p>
+                            <p class="detail-item-value">${sub.grade}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Idea Description -->
+                <div class="detail-section">
+                    <div class="detail-section-title">
+                        <span class="material-symbols-outlined">description</span>
+                        Idea Description
+                    </div>
+                    <div class="idea-card">
+                        <h4>${sub.ideaTitle}</h4>
+                        <p>"${sub.description}"</p>
+                    </div>
+                    <div class="tag-list">
+                        ${sub.tags.map(t => `<span class="tag">${t}</span>`).join('')}
+                    </div>
+                </div>
+
+                <!-- Team Members -->
+                <div class="detail-section">
+                    <div class="detail-section-title">
+                        <span class="material-symbols-outlined">groups</span>
+                        Team Members (${allMembers.length})
+                    </div>
+                    ${allMembers.map(m => `
+                        <div class="member-list-item">
+                            <div class="member-list-avatar" style="background: ${m.isLeader ? 'var(--primary)' : '#e2e8f0'}; color: ${m.isLeader ? 'white' : '#64748b'};">
+                                ${m.initials}
+                            </div>
+                            <div class="member-list-info">
+                                <p class="member-list-name">${m.name}</p>
+                                <p class="member-list-meta">${m.grade}</p>
+                            </div>
+                            ${m.isLeader ? '<span class="leader-badge">LEADER</span>' : ''}
+                        </div>
+                    `).join('')}
+                </div>
+
+                ${hasScores ? `
+                <!-- Scores -->
+                <div class="detail-section">
+                    <div class="detail-section-title">
+                        <span class="material-symbols-outlined">scoreboard</span>
+                        Score Breakdown
+                    </div>
+                    <div class="score-bar-detail">
+                        <span class="score-bar-label">AI</span>
+                        <div class="score-bar-track">
+                            <div class="score-bar-track-fill" style="width: ${(sub.scores.ai / 25) * 100}%; background: #7c3aed;"></div>
+                        </div>
+                        <span class="score-bar-val">${sub.scores.ai}/25</span>
+                    </div>
+                    <div class="score-bar-detail">
+                        <span class="score-bar-label">Jury</span>
+                        <div class="score-bar-track">
+                            <div class="score-bar-track-fill" style="width: ${(sub.scores.jury / 25) * 100}%; background: #2563eb;"></div>
+                        </div>
+                        <span class="score-bar-val">${sub.scores.jury}/25</span>
+                    </div>
+                    <div style="text-align: right; margin-top: 8px;">
+                        <span style="font-size: 0.75rem; color: var(--text-muted);">Total Score</span>
+                        <span style="font-size: 1.25rem; font-weight: 700; color: var(--primary); margin-left: 8px;">${sub.scores.total}/50</span>
+                    </div>
+                </div>
+                ` : ''}
+            `;
+
+            detailsSidebar.classList.add('open');
+            detailsOverlay.classList.add('show');
+        }
+
+        function closeDetailsSidebarFn() {
+            detailsSidebar.classList.remove('open');
+            detailsOverlay.classList.remove('show');
+        }
+
+        // Click row to open sidebar
+        document.querySelectorAll('.custom-table tbody tr').forEach(row => {
+            row.addEventListener('click', function() {
+                const id = this.getAttribute('data-id');
+                if (id) openDetailsSidebar(id);
+            });
+        });
+
+        closeSidebar.addEventListener('click', closeDetailsSidebarFn);
+        detailsOverlay.addEventListener('click', closeDetailsSidebarFn);
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && detailsSidebar.classList.contains('open')) closeDetailsSidebarFn();
+        });
+
+        // Search & Filter
+        const searchInput = document.getElementById('searchInput');
+        const statusFilter = document.getElementById('statusFilter');
+        const categoryFilter = document.getElementById('categoryFilter');
+
+        function filterTable() {
+            const term = searchInput.value.toLowerCase();
+            const status = statusFilter.value;
+            const category = categoryFilter.value;
+
+            document.querySelectorAll('.custom-table tbody tr').forEach(row => {
+                const ideaTitle = row.querySelector('.idea-title')?.textContent.toLowerCase() || '';
+                const teamName = row.querySelector('.team-name-cell')?.textContent.toLowerCase() || '';
+                const rowStatus = row.getAttribute('data-status');
+                const rowCategory = row.getAttribute('data-category');
+
+                const matchesSearch = !term || ideaTitle.includes(term) || teamName.includes(term);
+                const matchesStatus = !status || rowStatus === status;
+                const matchesCategory = !category || rowCategory === category;
+
+                row.style.display = (matchesSearch && matchesStatus && matchesCategory) ? '' : 'none';
+            });
+        }
+
+        searchInput.addEventListener('input', filterTable);
+        statusFilter.addEventListener('change', filterTable);
+        categoryFilter.addEventListener('change', filterTable);
+
+        // Pagination
+        let currentPage = 1;
+        const pageNumbers = document.querySelectorAll('.page-number');
+        const prevPageBtn = document.getElementById('prevPageBtn');
+        const nextPageBtn = document.getElementById('nextPageBtn');
+
+        function showPage(page) {
+            currentPage = page;
+            document.querySelectorAll('.custom-table tbody tr').forEach(row => {
+                const rowPage = parseInt(row.getAttribute('data-page'));
+                row.style.display = rowPage === currentPage ? '' : 'none';
+            });
+            pageNumbers.forEach(btn => {
+                btn.classList.toggle('active', parseInt(btn.getAttribute('data-page')) === currentPage);
+            });
+            prevPageBtn.disabled = currentPage === 1;
+            nextPageBtn.disabled = currentPage === 2;
+        }
+
+        pageNumbers.forEach(btn => {
+            btn.addEventListener('click', () => showPage(parseInt(btn.getAttribute('data-page'))));
+        });
+        prevPageBtn.addEventListener('click', () => { if (currentPage > 1) showPage(currentPage - 1); });
+        nextPageBtn.addEventListener('click', () => { if (currentPage < 2) showPage(currentPage + 1); });
+
+        showPage(1);
+
+        // Export CSV
+        function exportCSV() {
+            const rows = [['ID', 'Idea', 'Category', 'Team', 'Grade', 'Status', 'AI Score', 'Jury Score', 'Total']];
+            document.querySelectorAll('.custom-table tbody tr').forEach(row => {
+                const cells = row.querySelectorAll('td');
+                if (cells.length >= 8) {
+                    rows.push([
+                        row.getAttribute('data-id'),
+                        cells[1].querySelector('.idea-title')?.textContent.trim() || '',
+                        cells[1].querySelector('.idea-category')?.textContent.trim() || '',
+                        cells[2].querySelector('.team-name-cell')?.textContent.trim() || '',
+                        cells[2].querySelector('.team-grade')?.textContent.trim() || '',
+                        row.getAttribute('data-status'),
+                        cells[4].querySelector('.score-value')?.textContent.trim() || '',
+                        cells[5].querySelector('.score-value')?.textContent.trim() || '',
+                        cells[6].querySelector('.score-value')?.textContent.trim() || ''
+                    ]);
+                }
+            });
+            const csv = rows.map(r => r.map(c => '"' + c.replace(/"/g, '""') + '"').join(',')).join('\n');
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = 'iftx-submissions.csv'; a.click();
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+
+</html>

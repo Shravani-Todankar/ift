@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Students | School | ENpower IFTx</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap"
+        rel="stylesheet" />
+
+    <!-- Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --primary: #5E2A97;
+            --primary-light: #E8D4F0;
+            --background-light: #F7F7F7;
+            --surface-light: #FFFFFF;
+            --border-light: #EEEEEE;
+            --text-dark: #222222;
+            --text-muted: #666666;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-light);
+            color: var(--text-dark);
+            overflow: hidden;
+        }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+
+        .main-container { display: flex; height: 100vh; width: 100%; }
+        #sidebar-container { flex-shrink: 0; }
+
+        .main-content {
+            flex: 1; display: flex; flex-direction: column;
+            height: 100%; overflow-y: auto; position: relative; z-index: 10;
+        }
+
+        .content-wrapper { flex: 1; padding: 32px; max-width: 100%; margin: 0 auto; width: 100%; }
+
+        /* Page Header */
+        .page-header { margin-bottom: 32px; }
+        .page-header h1 { font-size: 1.75rem; font-weight: 700; color: var(--text-dark); margin-bottom: 8px; }
+        .breadcrumb { font-size: 0.875rem; color: var(--text-muted); background: none; padding: 0; margin: 0; }
+        .breadcrumb-item a { color: var(--text-muted); text-decoration: none; }
+        .breadcrumb-item a:hover { color: var(--primary); }
+        .breadcrumb-item.active { color: var(--text-dark); }
+
+        /* Stats Cards */
+        .stat-card {
+            background: var(--surface-light); border-radius: 12px; padding: 20px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04); border: 1px solid var(--border-light);
+            display: flex; align-items: center; gap: 14px; height: 100%;
+        }
+
+        .stat-icon {
+            width: 44px; height: 44px; min-width: 44px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+
+        .stat-icon.purple { background: rgba(94,42,151,0.1); color: var(--primary); }
+        .stat-icon.green { background: rgba(34,197,94,0.1); color: #22c55e; }
+        .stat-icon.amber { background: rgba(245,158,11,0.1); color: #f59e0b; }
+        .stat-icon.blue { background: rgba(59,130,246,0.1); color: #3b82f6; }
+
+        .stat-label {
+            font-size: 0.7rem; font-weight: 600; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 0.05em; margin: 0; white-space: nowrap;
+        }
+
+        .stat-value { font-size: 1.35rem; font-weight: 700; color: var(--text-dark); margin: 0; line-height: 1.2; }
+
+        /* Main Card */
+        .main-card {
+            background: var(--surface-light); border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04); border: 1px solid var(--border-light); overflow: hidden;
+        }
+
+        .main-card-header { padding: 24px; border-bottom: 1px solid var(--border-light); }
+
+        /* Search & Filter */
+        .search-input { position: relative; }
+        .search-input .material-symbols-outlined {
+            position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+            color: var(--text-muted); font-size: 20px;
+        }
+        .search-input input {
+            width: 100%; padding: 10px 12px 10px 44px; border: 1px solid var(--border-light);
+            border-radius: 8px; font-size: 0.875rem; background: #f8fafc;
+            font-family: 'Poppins', sans-serif;
+        }
+        .search-input input:focus {
+            outline: none; border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(94,42,151,0.1);
+        }
+
+        /* Table */
+        .custom-table { width: 100%; font-size: 0.875rem; }
+        .custom-table thead { background: #f8fafc; }
+        .custom-table th {
+            padding: 14px 20px; font-size: 0.75rem; font-weight: 700;
+            color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;
+            text-align: left; border-bottom: 1px solid var(--border-light);
+        }
+        .custom-table td { padding: 14px 20px; vertical-align: middle; border-bottom: 1px solid #f8f9fa; }
+        .custom-table tbody tr { transition: background 0.2s; cursor: pointer; }
+        .custom-table tbody tr:hover { background: rgba(94,42,151,0.03); }
+
+        .avatar-circle {
+            width: 32px; height: 32px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.75rem; font-weight: 700;
+        }
+        .avatar-circle.default { background: #e2e8f0; color: #64748b; }
+        .avatar-circle.primary { background: var(--primary); color: white; }
+
+        .student-name { font-weight: 600; color: var(--text-dark); margin: 0; }
+        .student-grade { font-size: 0.75rem; color: var(--text-muted); }
+
+        .badge-status {
+            font-size: 0.6875rem; font-weight: 700; padding: 4px 10px;
+            border-radius: 999px; text-transform: uppercase;
+        }
+        .badge-status.in-team { background: #d1fae5; color: #065f46; }
+        .badge-status.no-team { background: #e2e8f0; color: #475569; }
+        .badge-status.submitted { background: rgba(94,42,151,0.1); color: var(--primary); }
+
+        /* Pagination */
+        .pagination-custom {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 20px 24px; border-top: 1px solid var(--border-light);
+        }
+        .pagination-info { font-size: 0.875rem; color: var(--text-muted); }
+        .pagination-controls { display: flex; align-items: center; gap: 8px; }
+        .page-btn {
+            width: 32px; height: 32px; border-radius: 8px;
+            border: 1px solid var(--border-light); background: white;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.2s; font-size: 0.8125rem; font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+        }
+        .page-btn:hover { background: #f8fafc; }
+        .page-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .page-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* Buttons */
+        .btn-secondary-custom {
+            background: white; color: var(--text-dark); font-weight: 600;
+            padding: 10px 20px; border-radius: 8px; border: 1px solid var(--border-light);
+            display: flex; align-items: center; gap: 8px; cursor: pointer;
+            transition: all 0.2s; font-family: 'Poppins', sans-serif; font-size: 0.82rem;
+        }
+        .btn-secondary-custom:hover { background: #f8fafc; }
+
+        /* Details Sidebar */
+        .details-sidebar {
+            position: fixed; top: 0; right: -480px; width: 480px; height: 100vh;
+            background: var(--surface-light); box-shadow: -4px 0 24px rgba(0,0,0,0.1);
+            z-index: 1000; transition: right 0.3s ease; display: flex; flex-direction: column;
+        }
+        .details-sidebar.open { right: 0; }
+
+        .details-sidebar-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 999; display: none;
+            opacity: 0; transition: opacity 0.3s ease;
+        }
+        .details-sidebar-overlay.show { display: block; opacity: 1; }
+
+        .details-sidebar-header {
+            padding: 24px; border-bottom: 1px solid var(--border-light);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .details-sidebar-header h2 { font-size: 1.125rem; font-weight: 700; margin: 0; }
+
+        .details-sidebar-close {
+            width: 32px; height: 32px; border-radius: 8px;
+            border: 1px solid var(--border-light); background: white;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; color: var(--text-muted); transition: all 0.2s;
+        }
+        .details-sidebar-close:hover { background: #f8fafc; color: var(--text-dark); }
+
+        .details-sidebar-content { flex: 1; overflow-y: auto; padding: 24px; }
+
+        .detail-section { margin-bottom: 28px; }
+        .detail-section-title {
+            font-size: 0.75rem; font-weight: 700; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 14px;
+            display: flex; align-items: center; gap: 8px;
+        }
+
+        .detail-profile { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+        .detail-avatar {
+            width: 56px; height: 56px; border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.25rem; font-weight: 700; box-shadow: 0 4px 12px rgba(94,42,151,0.2);
+        }
+        .detail-profile-info h3 { font-size: 1.125rem; font-weight: 700; margin: 0 0 4px 0; }
+        .detail-profile-info p { font-size: 0.8125rem; color: var(--text-muted); margin: 0; }
+
+        .detail-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
+        .detail-item { padding: 12px; background: #f8fafc; border-radius: 8px; }
+        .detail-item-label {
+            font-size: 0.6875rem; font-weight: 600; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px;
+        }
+        .detail-item-value { font-size: 0.875rem; font-weight: 600; color: var(--text-dark); }
+
+        .detail-info-row { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+        .detail-info-row .material-symbols-outlined { color: var(--primary); font-size: 20px; margin-top: 2px; }
+        .detail-info-row-content h4 { font-size: 0.8125rem; font-weight: 600; margin: 0 0 2px 0; }
+        .detail-info-row-content p { font-size: 0.8125rem; color: var(--text-muted); margin: 0; }
+
+        .team-card {
+            padding: 16px; border: 1px solid var(--border-light); border-radius: 12px;
+        }
+        .team-card-header {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;
+        }
+        .team-card-title { font-size: 0.875rem; font-weight: 700; margin: 0; }
+        .team-leader-badge {
+            font-size: 0.625rem; font-weight: 700; padding: 4px 8px;
+            background: rgba(94,42,151,0.1); color: var(--primary); border-radius: 4px;
+        }
+        .team-member { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .team-member:last-child { margin-bottom: 0; }
+        .team-member-avatar {
+            width: 24px; height: 24px; border-radius: 50%; background: #e2e8f0;
+            color: #64748b; display: flex; align-items: center; justify-content: center;
+            font-size: 0.625rem; font-weight: 700;
+        }
+        .team-member-name { font-size: 0.8125rem; color: var(--text-muted); }
+
+        .idea-card {
+            padding: 16px; background: rgba(94,42,151,0.05); border-radius: 10px;
+        }
+        .idea-card h4 { font-size: 0.875rem; font-weight: 700; margin: 0 0 6px 0; }
+        .idea-card p { font-size: 0.8125rem; color: var(--text-muted); line-height: 1.6; font-style: italic; margin: 0; }
+
+        .score-bar {
+            display: flex; align-items: center; gap: 10px; margin-bottom: 8px;
+        }
+        .score-bar-label { font-size: 0.75rem; font-weight: 600; color: var(--text-muted); width: 60px; }
+        .score-bar-track { flex: 1; height: 6px; background: #f1f5f9; border-radius: 3px; overflow: hidden; }
+        .score-bar-fill { height: 100%; border-radius: 3px; }
+        .score-bar-value { font-size: 0.75rem; font-weight: 700; color: var(--text-dark); width: 36px; text-align: right; }
+
+        .tag-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+        .tag {
+            font-size: 0.625rem; font-weight: 700; padding: 4px 10px;
+            background: #e2e8f0; color: var(--text-dark); border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper { padding: 16px; }
+            .details-sidebar { width: 100%; right: -100%; }
+            .detail-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+        <div id="sidebar-container"></div>
+
+        <main class="main-content">
+            <div id="header-container"></div>
+
+            <div class="content-wrapper">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-md-6">
+                            <h1>Enrolled Students</h1>
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="dashboard.html">Dashboard</a></li>
+                                    <li class="breadcrumb-item active">Students</li>
+                                </ol>
+                            </nav>
+                        </div>
+                        <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center gap-3 mt-3 mt-md-0">
+                            <button class="btn-secondary-custom" onclick="exportCSV()">
+                                <span class="material-symbols-outlined" style="font-size: 18px;">file_download</span>
+                                Export CSV
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="row g-3 mb-4">
+                    <div class="col-6 col-md-3">
+                        <div class="stat-card">
+                            <div class="stat-icon purple">
+                                <span class="material-symbols-outlined">school</span>
+                            </div>
+                            <div>
+                                <p class="stat-label">Total Enrolled</p>
+                                <h3 class="stat-value">142</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="stat-card">
+                            <div class="stat-icon green">
+                                <span class="material-symbols-outlined">check_circle</span>
+                            </div>
+                            <div>
+                                <p class="stat-label">Active</p>
+                                <h3 class="stat-value">138</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="stat-card">
+                            <div class="stat-icon blue">
+                                <span class="material-symbols-outlined">groups</span>
+                            </div>
+                            <div>
+                                <p class="stat-label">In Teams</p>
+                                <h3 class="stat-value">124</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="stat-card">
+                            <div class="stat-icon amber">
+                                <span class="material-symbols-outlined">person_off</span>
+                            </div>
+                            <div>
+                                <p class="stat-label">Without Teams</p>
+                                <h3 class="stat-value">18</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Data Card -->
+                <div class="main-card">
+                    <!-- Search & Filters -->
+                    <div class="main-card-header">
+                        <div class="row align-items-center g-3">
+                            <div class="col-12 col-md-5">
+                                <div class="search-input">
+                                    <span class="material-symbols-outlined">search</span>
+                                    <input type="text" id="searchInput" placeholder="Search by name or team...">
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-7 d-flex align-items-center gap-3 justify-content-md-end flex-wrap">
+                                <select class="form-select" id="gradeFilter" style="width: auto; font-size: 0.8125rem;">
+                                    <option value="">All Grades</option>
+                                    <option value="8">Grade 8</option>
+                                    <option value="9">Grade 9</option>
+                                    <option value="10">Grade 10</option>
+                                    <option value="11">Grade 11</option>
+                                    <option value="12">Grade 12</option>
+                                </select>
+                                <select class="form-select" id="teamFilter" style="width: auto; font-size: 0.8125rem;">
+                                    <option value="">All Status</option>
+                                    <option value="in-team">In Team</option>
+                                    <option value="no-team">No Team</option>
+                                    <option value="submitted">Submitted</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Table -->
+                    <div class="table-responsive">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Student Name</th>
+                                    <th>Class & Section</th>
+                                    <th>Team Name</th>
+                                    <th>Idea Title</th>
+                                    <th>Status</th>
+                                    <th style="text-align: right;">Score</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr data-name="Aarav Sharma" data-grade="10" data-status="submitted" data-page="1">
+                                    <td>
+                                        <div class="d-flex align-items-center gap-3">
+                                            <div class="avatar-circle primary">AS</div>
+                                            <div>
+                                                <p class="student-name">Aarav Sharma</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td style="color: var(--text-muted);">10th A</td>
+                                    <td style="font-weight: 500;">Team Aarav</td>
+                                    <td style="font-weight: 500;">EcoTrack — Carbon Footprint App</td>
+                                    <td><span class="badge-status submitted">Submitted</span></td>
+                                    <td style="text-align: right; font-weight: 700; color: var(--primary);">42.8</td>
+                                </tr>
+                                <tr data-name="Priya Kumar" data-grade="11" data-status="submitted" data-page="1">
+                                    <td>
+                                        <div class="d-flex align-items-center gap-3">
+                                            <div class="avatar-circle default">PK</div>
+                                            <div>
+                                                <p class="student-name">Priya Kumar</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td style="color: var(--text-muted);">11th B</td>
+                                    <td style="font-weight: 500;">Team Priya</td>
+                                    <td style="font-weight: 500;">MedEase — Rural Health Platform</td>
+                                    <td><span class="badge-status submitted">Submitted</span></td>
+                                    <td style="text-align: right; font-weight: 700; color: var(--primary);">41.5</td>
+                                </tr>
+                                <tr data-name="Rohan Das" data-grade="10" data-status="submitted" data-page="1">
+                                    <td>
+                                        <div class="d-flex align-items-center gap-3">
+                                            <div class="avatar-circle default">RD</div>
+                                            <div>
+                                                <p class="student-name">Rohan Das</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td style="color: var(--text-muted);">10th C</td>
+                                    <td style="font-weight: 500;">Team Rohan</td>
+                                    <td style="font-weight: 500;">LearnBuddy — AI Tutor Bot</td>
+                                    <td><span class="badge-status submitted">Submitted</span></td>
+                                    <td style="text-align: right; font-weight: 700; color: var(--primary);">39.2</td>
+                                </tr>
+                                <tr data-name="Neha Saxena" data-grade="12" data-status="submitted" data-page="1">
+                                    <td>
+                                        <div class="d-flex align-items-center gap-3">
+                                            <div class="avatar-circle default">NS</div>
+                                            <div>
+                                                <p class="student-name">Neha Saxena</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td style="color: var(--text-muted);">12th A</td>
+                                    <td style="font-weight: 500;">Team Neha</td>
+                                    <td style="font-weight: 500;">AgriSense — Smart Farming</td>
+                                    <td><span class="badge-status submitted">Submitted</span></td>
+                                    <td style="text-align: right; font-weight: 700; color: var(--primary);">38.7</td>
+                                </tr>
+                                <tr data-name="Ananya Joshi" data-grade="9" data-status="submitted" data-page="1">
+                                    <td>
+                                        <div class="d-flex align-items-center gap-3">
+                                            <div class="avatar-circle default">AJ</div>
+                                            <div>
+                                                <p class="student-name">Ananya Joshi</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td style="color: var(--text-muted);">9th B</td>
+                                    <td style="font-weight: 500;">Team Ananya</td>
+                                    <td style="font-weight: 500;">SafeWalk — Women Safety App</td>
+                                    <td><span class="badge-status submitted">Submitted</span></td>
+                                    <td style="text-align: right; font-weight: 700; color: var(--primary);">37.1</td>
+                                </tr>
+
+                                <!-- Page 2 -->
+                                <tr data-name="Arjun Jain" data-grade="11" data-status="in-team" data-page="2" style="display:none;">
+                                    <td>
+                                        <div class="d-flex align-items-center gap-3">
+                                            <div class="avatar-circle default">AJ</div>
+                                            <div><p class="student-name">Arjun Jain</p></div>
+                                        </div>
+                                    </td>
+                                    <td style="color: var(--text-muted);">11th A</td>
+                                    <td style="font-weight: 500;">Eco-Warriors</td>
+                                    <td style="color: var(--text-muted);">—</td>
+                                    <td><span class="badge-status in-team">In Team</span></td>
+                                    <td style="text-align: right; color: var(--text-muted);">—</td>
+                                </tr>
+                                <tr data-name="Sara Mehta" data-grade="9" data-status="in-team" data-page="2" style="display:none;">
+                                    <td>
+                                        <div class="d-flex align-items-center gap-3">
+                                            <div class="avatar-circle default">SM</div>
+                                            <div><p class="student-name">Sara Mehta</p></div>
+                                        </div>
+                                    </td>
+                                    <td style="color: var(--text-muted);">9th A</td>
+                                    <td style="font-weight: 500;">FinTech Future</td>
+                                    <td style="color: var(--text-muted);">—</td>
+                                    <td><span class="badge-status in-team">In Team</span></td>
+                                    <td style="text-align: right; color: var(--text-muted);">—</td>
+                                </tr>
+                                <tr data-name="Vikram Singh" data-grade="11" data-status="in-team" data-page="2" style="display:none;">
+                                    <td>
+                                        <div class="d-flex align-items-center gap-3">
+                                            <div class="avatar-circle default">VS</div>
+                                            <div><p class="student-name">Vikram Singh</p></div>
+                                        </div>
+                                    </td>
+                                    <td style="color: var(--text-muted);">11th C</td>
+                                    <td style="font-weight: 500;">Smart City Solutions</td>
+                                    <td style="color: var(--text-muted);">—</td>
+                                    <td><span class="badge-status in-team">In Team</span></td>
+                                    <td style="text-align: right; color: var(--text-muted);">—</td>
+                                </tr>
+                                <tr data-name="Kavya Reddy" data-grade="10" data-status="no-team" data-page="2" style="display:none;">
+                                    <td>
+                                        <div class="d-flex align-items-center gap-3">
+                                            <div class="avatar-circle default">KR</div>
+                                            <div><p class="student-name">Kavya Reddy</p></div>
+                                        </div>
+                                    </td>
+                                    <td style="color: var(--text-muted);">10th B</td>
+                                    <td style="color: var(--text-muted);">—</td>
+                                    <td style="color: var(--text-muted);">—</td>
+                                    <td><span class="badge-status no-team">No Team</span></td>
+                                    <td style="text-align: right; color: var(--text-muted);">—</td>
+                                </tr>
+                                <tr data-name="Tanvi Malhotra" data-grade="8" data-status="no-team" data-page="2" style="display:none;">
+                                    <td>
+                                        <div class="d-flex align-items-center gap-3">
+                                            <div class="avatar-circle default">TM</div>
+                                            <div><p class="student-name">Tanvi Malhotra</p></div>
+                                        </div>
+                                    </td>
+                                    <td style="color: var(--text-muted);">8th A</td>
+                                    <td style="color: var(--text-muted);">—</td>
+                                    <td style="color: var(--text-muted);">—</td>
+                                    <td><span class="badge-status no-team">No Team</span></td>
+                                    <td style="text-align: right; color: var(--text-muted);">—</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="pagination-custom">
+                        <p class="pagination-info" id="paginationInfo">
+                            Showing <span style="font-weight: 600;">1–5</span> of <span style="font-weight: 600;">142</span> students
+                        </p>
+                        <div class="pagination-controls">
+                            <button class="page-btn" id="prevPageBtn" disabled>
+                                <span class="material-symbols-outlined" style="font-size: 18px;">chevron_left</span>
+                            </button>
+                            <button class="page-btn active page-number" data-page="1">1</button>
+                            <button class="page-btn page-number" data-page="2">2</button>
+                            <button class="page-btn" id="nextPageBtn">
+                                <span class="material-symbols-outlined" style="font-size: 18px;">chevron_right</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Details Sidebar Overlay -->
+    <div class="details-sidebar-overlay" id="detailsOverlay"></div>
+
+    <!-- Details Sidebar -->
+    <div class="details-sidebar" id="detailsSidebar">
+        <div class="details-sidebar-header">
+            <h2>Student Details</h2>
+            <button class="details-sidebar-close" id="closeSidebar">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="details-sidebar-content" id="sidebarContent"></div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Load sidebar
+        fetch('sidebar.html')
+            .then(response => response.text())
+            .then(data => {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = data;
+                tempDiv.childNodes.forEach(node => {
+                    if (node.nodeType === 1 && node.tagName !== 'SCRIPT') {
+                        document.getElementById('sidebar-container').appendChild(node.cloneNode(true));
+                    } else if (node.nodeType === 3) {
+                        document.getElementById('sidebar-container').appendChild(node.cloneNode(true));
+                    }
+                });
+                const script = tempDiv.querySelector('script');
+                if (script) {
+                    const newScript = document.createElement('script');
+                    newScript.textContent = script.textContent;
+                    document.body.appendChild(newScript);
+                }
+            })
+            .catch(error => console.error('Error loading sidebar:', error));
+
+        // Load header
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = data;
+                tempDiv.childNodes.forEach(node => {
+                    if (node.nodeType === 1 || node.nodeType === 3) {
+                        document.getElementById('header-container').appendChild(node.cloneNode(true));
+                    }
+                });
+                const script = tempDiv.querySelector('script');
+                if (script) {
+                    const newScript = document.createElement('script');
+                    newScript.textContent = script.textContent;
+                    document.body.appendChild(newScript);
+                }
+            })
+            .catch(error => console.error('Error loading header:', error));
+
+        // Student data for details sidebar
+        const studentData = {
+            'Aarav Sharma': {
+                initials: 'AS', name: 'Aarav Sharma', email: 'aarav.sharma@school.edu',
+                grade: '10th A', registration: 'Feb 12, 2026', gender: 'Male',
+                team: 'Team Aarav', teamRole: 'TEAM LEADER',
+                teamMembers: [{ initials: 'DP', name: 'Dev Patel' }, { initials: 'MG', name: 'Meera Gupta' }],
+                ideaTitle: 'EcoTrack — Carbon Footprint App',
+                ideaDescription: 'A mobile app that tracks individual carbon footprints through daily activities and suggests actionable ways to reduce environmental impact.',
+                tags: ['ENVIRONMENT', 'MOBILE APP', 'SUSTAINABILITY'],
+                scores: { ai: 21.5, jury: 21.3, total: 42.8 }
+            },
+            'Priya Kumar': {
+                initials: 'PK', name: 'Priya Kumar', email: 'priya.kumar@school.edu',
+                grade: '11th B', registration: 'Feb 15, 2026', gender: 'Female',
+                team: 'Team Priya', teamRole: 'TEAM LEADER',
+                teamMembers: [{ initials: 'RB', name: 'Ravi Bhat' }, { initials: 'SK', name: 'Sneha Kapoor' }],
+                ideaTitle: 'MedEase — Rural Health Platform',
+                ideaDescription: 'A telemedicine platform connecting rural patients with city doctors through AI-powered symptom analysis and video consultations.',
+                tags: ['HEALTHCARE', 'AI', 'SOCIAL IMPACT'],
+                scores: { ai: 20.8, jury: 20.7, total: 41.5 }
+            },
+            'Rohan Das': {
+                initials: 'RD', name: 'Rohan Das', email: 'rohan.das@school.edu',
+                grade: '10th C', registration: 'Feb 18, 2026', gender: 'Male',
+                team: 'Team Rohan', teamRole: 'TEAM LEADER',
+                teamMembers: [{ initials: 'AK', name: 'Aisha Khan' }, { initials: 'VR', name: 'Varun Rao' }],
+                ideaTitle: 'LearnBuddy — AI Tutor Bot',
+                ideaDescription: 'An AI-powered tutoring chatbot that adapts to each student\'s learning pace and provides personalized study plans and practice questions.',
+                tags: ['EDTECH', 'AI', 'PERSONALIZATION'],
+                scores: { ai: 19.6, jury: 19.6, total: 39.2 }
+            }
+        };
+
+        // Details Sidebar
+        const detailsSidebar = document.getElementById('detailsSidebar');
+        const detailsOverlay = document.getElementById('detailsOverlay');
+        const closeSidebar = document.getElementById('closeSidebar');
+        const sidebarContent = document.getElementById('sidebarContent');
+
+        function openDetailsSidebar(studentName) {
+            const student = studentData[studentName];
+            if (!student) {
+                // Fallback for students without detailed data
+                sidebarContent.innerHTML = `
+                    <div class="detail-section">
+                        <div class="detail-profile">
+                            <div class="detail-avatar" style="background: #e2e8f0; color: #64748b;">
+                                ${studentName.split(' ').map(n => n[0]).join('')}
+                            </div>
+                            <div class="detail-profile-info">
+                                <h3>${studentName}</h3>
+                                <p>Student at <span class="school-name">Your School</span></p>
+                            </div>
+                        </div>
+                        <p style="font-size: 0.8125rem; color: var(--text-muted); text-align: center; padding: 32px 0;">
+                            Detailed information not yet available for this student.
+                        </p>
+                    </div>`;
+                detailsSidebar.classList.add('open');
+                detailsOverlay.classList.add('show');
+                return;
+            }
+
+            const hasScores = student.scores && student.scores.total > 0;
+
+            sidebarContent.innerHTML = `
+                <!-- Profile -->
+                <div class="detail-section">
+                    <div class="detail-profile">
+                        <div class="detail-avatar" style="background: var(--primary); color: white;">
+                            ${student.initials}
+                        </div>
+                        <div class="detail-profile-info">
+                            <h3>${student.name}</h3>
+                            <p>${student.email}</p>
+                        </div>
+                    </div>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <p class="detail-item-label">Class</p>
+                            <p class="detail-item-value">${student.grade}</p>
+                        </div>
+                        <div class="detail-item">
+                            <p class="detail-item-label">Gender</p>
+                            <p class="detail-item-value">${student.gender}</p>
+                        </div>
+                        <div class="detail-item">
+                            <p class="detail-item-label">Registered</p>
+                            <p class="detail-item-value">${student.registration}</p>
+                        </div>
+                        <div class="detail-item">
+                            <p class="detail-item-label">Role</p>
+                            <p class="detail-item-value">${student.teamRole}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team -->
+                <div class="detail-section">
+                    <div class="detail-section-title">
+                        <span class="material-symbols-outlined">groups</span>
+                        Team Information
+                    </div>
+                    <div class="team-card">
+                        <div class="team-card-header">
+                            <h4 class="team-card-title">${student.team}</h4>
+                            <span class="team-leader-badge">${student.teamRole}</span>
+                        </div>
+                        ${student.teamMembers.map(m => `
+                            <div class="team-member">
+                                <div class="team-member-avatar">${m.initials}</div>
+                                <span class="team-member-name">${m.name}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <!-- Idea -->
+                <div class="detail-section">
+                    <div class="detail-section-title">
+                        <span class="material-symbols-outlined">emoji_objects</span>
+                        Idea Submission
+                    </div>
+                    <div class="idea-card">
+                        <h4>${student.ideaTitle}</h4>
+                        <p>"${student.ideaDescription}"</p>
+                    </div>
+                    <div class="tag-list">
+                        ${student.tags.map(t => `<span class="tag">${t}</span>`).join('')}
+                    </div>
+                </div>
+
+                ${hasScores ? `
+                <!-- Scores -->
+                <div class="detail-section">
+                    <div class="detail-section-title">
+                        <span class="material-symbols-outlined">scoreboard</span>
+                        Score Breakdown
+                    </div>
+                    <div class="score-bar">
+                        <span class="score-bar-label">AI</span>
+                        <div class="score-bar-track">
+                            <div class="score-bar-fill" style="width: ${(student.scores.ai / 25) * 100}%; background: #7c3aed;"></div>
+                        </div>
+                        <span class="score-bar-value">${student.scores.ai}/25</span>
+                    </div>
+                    <div class="score-bar">
+                        <span class="score-bar-label">Jury</span>
+                        <div class="score-bar-track">
+                            <div class="score-bar-fill" style="width: ${(student.scores.jury / 25) * 100}%; background: #2563eb;"></div>
+                        </div>
+                        <span class="score-bar-value">${student.scores.jury}/25</span>
+                    </div>
+                    <div style="text-align: right; margin-top: 8px;">
+                        <span style="font-size: 0.75rem; color: var(--text-muted);">Total Score</span>
+                        <span style="font-size: 1.25rem; font-weight: 700; color: var(--primary); margin-left: 8px;">${student.scores.total}/50</span>
+                    </div>
+                </div>
+                ` : ''}
+            `;
+
+            detailsSidebar.classList.add('open');
+            detailsOverlay.classList.add('show');
+        }
+
+        function closeDetailsSidebarFn() {
+            detailsSidebar.classList.remove('open');
+            detailsOverlay.classList.remove('show');
+        }
+
+        // Click row to open sidebar
+        document.querySelectorAll('.custom-table tbody tr').forEach(row => {
+            row.addEventListener('click', function() {
+                const name = this.getAttribute('data-name');
+                if (name) openDetailsSidebar(name);
+            });
+        });
+
+        closeSidebar.addEventListener('click', closeDetailsSidebarFn);
+        detailsOverlay.addEventListener('click', closeDetailsSidebarFn);
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && detailsSidebar.classList.contains('open')) closeDetailsSidebarFn();
+        });
+
+        // Search & Filter
+        const searchInput = document.getElementById('searchInput');
+        const gradeFilter = document.getElementById('gradeFilter');
+        const teamFilter = document.getElementById('teamFilter');
+
+        function filterTable() {
+            const term = searchInput.value.toLowerCase();
+            const grade = gradeFilter.value;
+            const status = teamFilter.value;
+
+            document.querySelectorAll('.custom-table tbody tr').forEach(row => {
+                const name = row.getAttribute('data-name').toLowerCase();
+                const rowGrade = row.getAttribute('data-grade');
+                const rowStatus = row.getAttribute('data-status');
+
+                const matchesSearch = !term || name.includes(term);
+                const matchesGrade = !grade || rowGrade === grade;
+                const matchesStatus = !status || rowStatus === status;
+
+                row.style.display = (matchesSearch && matchesGrade && matchesStatus) ? '' : 'none';
+            });
+        }
+
+        searchInput.addEventListener('input', filterTable);
+        gradeFilter.addEventListener('change', filterTable);
+        teamFilter.addEventListener('change', filterTable);
+
+        // Pagination
+        let currentPage = 1;
+        const pageNumbers = document.querySelectorAll('.page-number');
+        const prevPageBtn = document.getElementById('prevPageBtn');
+        const nextPageBtn = document.getElementById('nextPageBtn');
+
+        function showPage(page) {
+            currentPage = page;
+            document.querySelectorAll('.custom-table tbody tr').forEach(row => {
+                const rowPage = parseInt(row.getAttribute('data-page'));
+                row.style.display = rowPage === currentPage ? '' : 'none';
+            });
+            pageNumbers.forEach(btn => {
+                btn.classList.toggle('active', parseInt(btn.getAttribute('data-page')) === currentPage);
+            });
+            prevPageBtn.disabled = currentPage === 1;
+            nextPageBtn.disabled = currentPage === 2;
+        }
+
+        pageNumbers.forEach(btn => {
+            btn.addEventListener('click', () => showPage(parseInt(btn.getAttribute('data-page'))));
+        });
+        prevPageBtn.addEventListener('click', () => { if (currentPage > 1) showPage(currentPage - 1); });
+        nextPageBtn.addEventListener('click', () => { if (currentPage < 2) showPage(currentPage + 1); });
+
+        showPage(1);
+
+        // Export CSV
+        function exportCSV() {
+            const rows = [['Name', 'Class', 'Team', 'Idea', 'Status', 'Score']];
+            document.querySelectorAll('.custom-table tbody tr').forEach(row => {
+                const cells = row.querySelectorAll('td');
+                if (cells.length >= 6) {
+                    rows.push([
+                        row.getAttribute('data-name'),
+                        cells[1].textContent.trim(),
+                        cells[2].textContent.trim(),
+                        cells[3].textContent.trim(),
+                        row.getAttribute('data-status'),
+                        cells[5].textContent.trim()
+                    ]);
+                }
+            });
+            const csv = rows.map(r => r.map(c => '"' + c.replace(/"/g, '""') + '"').join(',')).join('\n');
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = 'iftx-students.csv'; a.click();
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+
+</html>

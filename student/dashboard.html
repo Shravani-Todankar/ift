@@ -8,7 +8,8 @@
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap"
+        rel="stylesheet" />
     <!-- Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
@@ -898,7 +899,7 @@
                         <div class="timeline-card">
                             <div class="timeline-header">
                                 <h3 class="timeline-title mb-0">Important Dates</h3>
-                                <a class="timeline-link" href="#">View Calendar</a>
+                                <a class="timeline-link" href="notifications.html">View Calendar</a>
                             </div>
                             <div class="timeline-container">
                                 <!-- Connecting Line -->
@@ -975,7 +976,7 @@
                             </div>
                             <div class="notifications-body">
                                 <!-- Notification Item 1 -->
-                                <a class="notification-item" href="#">
+                                <a class="notification-item" href="notifications.html">
                                     <div class="notification-icon notification-icon-green">
                                         <span class="material-symbols-outlined"
                                             style="font-size: 14px;">group_add</span>
@@ -989,7 +990,7 @@
                                 </a>
 
                                 <!-- Notification Item 2 -->
-                                <a class="notification-item notification-item-priority" href="#">
+                                <a class="notification-item notification-item-priority" href="idea-submissions.html">
                                     <div class="notification-icon notification-icon-primary">
                                         <span class="material-symbols-outlined"
                                             style="font-size: 14px;">priority_high</span>
@@ -1003,7 +1004,7 @@
                                 </a>
 
                                 <!-- Notification Item 3 -->
-                                <a class="notification-item" href="#">
+                                <a class="notification-item" href="notifications.html">
                                     <div class="notification-icon notification-icon-purple">
                                         <span class="material-symbols-outlined" style="font-size: 14px;">campaign</span>
                                     </div>
@@ -1185,10 +1186,7 @@
                 const viewAllBtn = document.querySelector('.btn-view-all');
                 if (viewAllBtn) {
                     viewAllBtn.addEventListener('click', function () {
-                        showToast('Opening all notifications...', 'info');
-                        setTimeout(() => {
-                            window.location.href = '#notifications';
-                        }, 500);
+                        window.location.href = 'notifications.html';
                     });
                 }
             }
@@ -1234,10 +1232,7 @@
                 if (timelineLink) {
                     timelineLink.addEventListener('click', function (e) {
                         e.preventDefault();
-                        showToast('Loading calendar view...', 'info');
-                        setTimeout(() => {
-                            window.location.href = '#calendar';
-                        }, 500);
+                        window.location.href = 'notifications.html';
                     });
                 }
             }

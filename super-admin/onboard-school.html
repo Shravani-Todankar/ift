@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Onboard School | Super Admin | IFT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --primary: #5E2A97;
+            --primary-light: #E8D4F0;
+            --background-light: #F3F4F6;
+            --border-light: #E5E7EB;
+            --text-dark: #1F2937;
+            --text-muted: #6B7280;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: var(--background-light); color: var(--text-dark); min-height: 100vh; }
+        .dashboard-container { display: flex; min-height: 100vh; }
+        .main-content { flex: 1; display: flex; flex-direction: column; overflow-x: hidden; }
+
+        /* Page area */
+        .page-area { padding: 2rem; flex: 1; max-width: 1200px; margin: 0 auto; width: 100%; }
+
+        /* Page Header */
+        .page-header { margin-bottom: 2rem; }
+        .page-header h1 { font-size: 1.625rem; font-weight: 700; color: var(--text-dark); margin-bottom: 4px; }
+        .breadcrumb { font-size: 0.8125rem; margin: 0; }
+        .breadcrumb-item a { color: var(--primary); text-decoration: none; }
+
+        /* Section Card */
+        .section-card { background: #fff; border-radius: 12px; padding: 28px; margin-bottom: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+        .section-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border-light); }
+        .section-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(94,42,151,0.1); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .section-icon .material-symbols-outlined { font-size: 22px; color: var(--primary); }
+        .section-card-header h2 { font-size: 1rem; font-weight: 700; margin: 0; color: var(--text-dark); }
+        .section-card-header p { font-size: 0.8125rem; color: var(--text-muted); margin: 0; }
+
+        /* Form elements */
+        .form-group { margin-bottom: 0; }
+        .form-label { font-size: 0.875rem; font-weight: 600; color: var(--text-dark); margin-bottom: 6px; display: block; }
+        .form-label .required { color: #ef4444; margin-left: 2px; }
+        .form-input, .form-select-input, .form-textarea {
+            width: 100%; padding: 10px 14px; border: 1.5px solid var(--border-light); border-radius: 8px;
+            font-size: 0.875rem; font-family: inherit; color: var(--text-dark); background: #fff;
+            outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .form-input:focus, .form-select-input:focus, .form-textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(94,42,151,0.08); }
+        .form-input.error, .form-select-input.error { border-color: #ef4444; }
+        .form-textarea { resize: vertical; min-height: 80px; }
+        .field-hint { font-size: 0.775rem; color: var(--text-muted); margin-top: 4px; }
+        .error-msg { font-size: 0.775rem; color: #ef4444; margin-top: 4px; display: none; }
+        .error-msg.show { display: block; }
+
+        /* School type selector */
+        .type-selector { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .type-option { padding: 12px 10px; border: 1.5px solid var(--border-light); border-radius: 8px; text-align: center; cursor: pointer; transition: all 0.2s; }
+        .type-option:hover { border-color: var(--primary); background: rgba(94,42,151,0.04); }
+        .type-option.selected { border-color: var(--primary); background: rgba(94,42,151,0.08); }
+        .type-option .material-symbols-outlined { font-size: 22px; color: var(--text-muted); display: block; margin-bottom: 4px; }
+        .type-option.selected .material-symbols-outlined { color: var(--primary); }
+        .type-option span.label { font-size: 0.8125rem; font-weight: 600; color: var(--text-dark); }
+
+        /* Credential box */
+        .credential-box { background: var(--background-light); border-radius: 8px; padding: 14px 16px; border: 1px solid var(--border-light); }
+        .credential-box p { font-size: 0.8125rem; color: var(--text-muted); margin: 0 0 10px; }
+        .credential-box .cred-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+        .credential-box .cred-label { font-size: 0.75rem; color: var(--text-muted); }
+        .credential-box .cred-value { font-size: 0.875rem; font-weight: 600; font-family: monospace; color: var(--primary); }
+
+        /* Toggle switch */
+        .toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid var(--border-light); }
+        .toggle-row:last-child { border-bottom: none; }
+        .toggle-info { flex: 1; }
+        .toggle-info label { font-size: 0.875rem; font-weight: 600; color: var(--text-dark); display: block; cursor: pointer; }
+        .toggle-info small { font-size: 0.775rem; color: var(--text-muted); }
+        .toggle-switch { position: relative; width: 44px; height: 24px; flex-shrink: 0; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; inset: 0; background: #d1d5db; border-radius: 24px; cursor: pointer; transition: 0.3s; }
+        .slider:before { content:''; position: absolute; width: 18px; height: 18px; border-radius: 50%; background: #fff; left: 3px; top: 3px; transition: 0.3s; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+        input:checked + .slider { background: var(--primary); }
+        input:checked + .slider:before { transform: translateX(20px); }
+
+        /* Sticky footer */
+        .sticky-footer { position: sticky; bottom: 0; background: #fff; border-top: 1px solid var(--border-light); padding: 16px 2rem; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 -4px 12px rgba(0,0,0,0.06); z-index: 100; }
+        .footer-left { font-size: 0.8125rem; color: var(--text-muted); }
+        .footer-actions { display: flex; gap: 10px; }
+        .btn-secondary { display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; background: #fff; border: 1.5px solid var(--border-light); border-radius: 8px; font-size: 0.875rem; font-weight: 600; font-family: inherit; color: var(--text-dark); cursor: pointer; text-decoration: none; }
+        .btn-primary { display: inline-flex; align-items: center; gap: 6px; padding: 10px 24px; background: var(--primary); border: none; border-radius: 8px; font-size: 0.875rem; font-weight: 600; font-family: inherit; color: #fff; cursor: pointer; }
+        .btn-primary:hover { background: #4a2178; }
+
+        .toast-notification { position: fixed; bottom: 2rem; right: 2rem; color: white; padding: 1rem 1.5rem; border-radius: .75rem; box-shadow: 0 10px 25px rgba(0,0,0,.2); z-index: 9999; display: flex; align-items: center; gap: .75rem; font-size: .875rem; font-weight: 500; max-width: 420px; }
+    </style>
+</head>
+<body>
+<div class="dashboard-container">
+    <div id="sidebar-container"></div>
+    <main class="main-content">
+        <div id="header-container"></div>
+        <div class="page-area">
+
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1>Onboard New School</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="dashboard.html">Admin</a></li>
+                        <li class="breadcrumb-item"><a href="schools.html">Schools</a></li>
+                        <li class="breadcrumb-item active">Onboard School</li>
+                    </ol>
+                </nav>
+            </div>
+
+            <div class="row g-4">
+                <!-- Left Column — Main Form -->
+                <div class="col-lg-8">
+
+                    <!-- Section 1: School Type -->
+                    <div class="section-card">
+                        <div class="section-card-header">
+                            <div class="section-icon"><span class="material-symbols-outlined">category</span></div>
+                            <div><h2>School Type</h2><p>Select the type of school being onboarded</p></div>
+                        </div>
+                        <div class="type-selector" id="typeSelector">
+                            <div class="type-option selected" data-type="private" onclick="selectType(this)">
+                                <span class="material-symbols-outlined">school</span>
+                                <span class="label">Private</span>
+                            </div>
+                            <div class="type-option" data-type="government" onclick="selectType(this)">
+                                <span class="material-symbols-outlined">account_balance</span>
+                                <span class="label">Government</span>
+                            </div>
+                            <div class="type-option" data-type="aided" onclick="selectType(this)">
+                                <span class="material-symbols-outlined">handshake</span>
+                                <span class="label">Govt. Aided</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 2: School Information -->
+                    <div class="section-card">
+                        <div class="section-card-header">
+                            <div class="section-icon"><span class="material-symbols-outlined">domain</span></div>
+                            <div><h2>School Information</h2><p>Basic details about the school</p></div>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-label">School Name <span class="required">*</span></label>
+                                    <input type="text" class="form-input" id="schoolName" placeholder="e.g. Delhi Public School, R.K. Puram">
+                                    <div class="error-msg" id="schoolNameErr">School name is required</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Board <span class="required">*</span></label>
+                                    <select class="form-select-input" id="schoolBoard">
+                                        <option value="">Select Board</option>
+                                        <option value="CBSE">CBSE</option>
+                                        <option value="ICSE">ICSE</option>
+                                        <option value="IB">IB (International Baccalaureate)</option>
+                                        <option value="State">State Board</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                    <div class="error-msg" id="schoolBoardErr">Please select a board</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Year Established</label>
+                                    <input type="number" class="form-input" id="schoolEstd" placeholder="e.g. 1985" min="1800" max="2026">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">City <span class="required">*</span></label>
+                                    <input type="text" class="form-input" id="schoolCity" placeholder="e.g. New Delhi">
+                                    <div class="error-msg" id="schoolCityErr">City is required</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">State <span class="required">*</span></label>
+                                    <select class="form-select-input" id="schoolState">
+                                        <option value="">Select State</option>
+                                        <option>Andhra Pradesh</option><option>Delhi</option><option>Gujarat</option>
+                                        <option>Karnataka</option><option>Kerala</option><option>Maharashtra</option>
+                                        <option>Punjab</option><option>Rajasthan</option><option>Tamil Nadu</option>
+                                        <option>Telangana</option><option>Uttar Pradesh</option><option>West Bengal</option>
+                                        <option>Other</option>
+                                    </select>
+                                    <div class="error-msg" id="schoolStateErr">State is required</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">PIN Code</label>
+                                    <input type="text" class="form-input" id="schoolPin" placeholder="e.g. 110022" maxlength="6">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">School Website</label>
+                                    <input type="url" class="form-input" id="schoolWebsite" placeholder="e.g. www.dpsrkpuram.in">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-label">Full Address</label>
+                                    <textarea class="form-textarea" id="schoolAddress" placeholder="Street, Area, City, State — PIN"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 3: Principal Information -->
+                    <div class="section-card">
+                        <div class="section-card-header">
+                            <div class="section-icon"><span class="material-symbols-outlined">person</span></div>
+                            <div><h2>Principal Information</h2><p>The school's head / principal details</p></div>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Principal Name <span class="required">*</span></label>
+                                    <input type="text" class="form-input" id="principalName" placeholder="e.g. Dr. Vandana Sharma">
+                                    <div class="error-msg" id="principalNameErr">Principal name is required</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Principal Email</label>
+                                    <input type="email" class="form-input" id="principalEmail" placeholder="principal@school.in">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Principal Phone</label>
+                                    <input type="tel" class="form-input" id="principalPhone" placeholder="+91 XXXXX XXXXX">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 4: School Admin Account -->
+                    <div class="section-card">
+                        <div class="section-card-header">
+                            <div class="section-icon"><span class="material-symbols-outlined">admin_panel_settings</span></div>
+                            <div><h2>School Admin Account</h2><p>Login credentials will be sent to this person</p></div>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Admin Full Name <span class="required">*</span></label>
+                                    <input type="text" class="form-input" id="adminName" placeholder="e.g. Ramesh Sharma">
+                                    <div class="error-msg" id="adminNameErr">Admin name is required</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Designation</label>
+                                    <input type="text" class="form-input" id="adminDesig" placeholder="e.g. IT Coordinator, Vice Principal">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Admin Email <span class="required">*</span></label>
+                                    <input type="email" class="form-input" id="adminEmail" placeholder="admin@school.in">
+                                    <div class="error-msg" id="adminEmailErr">Valid email is required</div>
+                                    <p class="field-hint">Login credentials will be sent to this email</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Admin Phone <span class="required">*</span></label>
+                                    <input type="tel" class="form-input" id="adminPhone" placeholder="+91 XXXXX XXXXX">
+                                    <div class="error-msg" id="adminPhoneErr">Phone number is required</div>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="credential-box">
+                                    <p>Auto-generated login credentials (will be emailed to admin)</p>
+                                    <div class="cred-row">
+                                        <span class="cred-label">Username</span>
+                                        <span class="cred-value" id="previewUsername">admin@school.in</span>
+                                    </div>
+                                    <div class="cred-row">
+                                        <span class="cred-label">Temporary Password</span>
+                                        <span class="cred-value" id="previewPassword">IFT@2026#Temp</span>
+                                    </div>
+                                    <p class="field-hint" style="margin:0;">Admin will be prompted to change password on first login</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Right Column — IFTx Settings -->
+                <div class="col-lg-4">
+
+                    <!-- IFTx Season Settings -->
+                    <div class="section-card">
+                        <div class="section-card-header">
+                            <div class="section-icon"><span class="material-symbols-outlined">settings</span></div>
+                            <div><h2>IFTx Settings</h2><p>Configure school's IFTx participation</p></div>
+                        </div>
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label class="form-label">Season <span class="required">*</span></label>
+                                <select class="form-select-input" id="season">
+                                    <option value="Season 5" selected>Season 5 (Current)</option>
+                                    <option value="Season 6">Season 6 (Upcoming)</option>
+                                </select>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Max Students Allowed</label>
+                                <input type="number" class="form-input" id="maxStudents" value="100" min="10" max="500">
+                                <p class="field-hint">How many students can this school register</p>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Notes (Internal)</label>
+                                <textarea class="form-textarea" id="adminNotes" style="min-height:60px;" placeholder="Any notes for internal reference..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feature Toggles -->
+                    <div class="section-card">
+                        <div class="section-card-header">
+                            <div class="section-icon"><span class="material-symbols-outlined">toggle_on</span></div>
+                            <div><h2>Features</h2><p>Enable / disable features for this school</p></div>
+                        </div>
+                        <div class="toggle-row">
+                            <div class="toggle-info">
+                                <label for="toggleIdeas">Idea Submissions</label>
+                                <small>Students can submit ideas</small>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggleIdeas" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="toggle-row">
+                            <div class="toggle-info">
+                                <label for="toggleTeams">Team Formation</label>
+                                <small>Students can form teams</small>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggleTeams" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="toggle-row">
+                            <div class="toggle-info">
+                                <label for="toggleNotifs">Notifications</label>
+                                <small>Send updates to school admin</small>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggleNotifs" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="toggle-row">
+                            <div class="toggle-info">
+                                <label for="toggleReports">School Reports</label>
+                                <small>School admin can view reports</small>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggleReports">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Summary Preview -->
+                    <div class="section-card" id="summaryCard">
+                        <div class="section-card-header" style="margin-bottom:16px;">
+                            <div class="section-icon"><span class="material-symbols-outlined">preview</span></div>
+                            <div><h2>Preview</h2><p>Summary before submitting</p></div>
+                        </div>
+                        <div id="summaryBody" style="font-size:0.8125rem;color:var(--text-muted);line-height:2;">
+                            Fill in the form to see a summary here.
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Sticky Footer -->
+        <div class="sticky-footer">
+            <span class="footer-left"><span class="material-symbols-outlined" style="font-size:16px;vertical-align:middle;color:#94a3b8;">info</span> All fields marked <span style="color:#ef4444;">*</span> are required</span>
+            <div class="footer-actions">
+                <a href="schools.html" class="btn-secondary">
+                    <span class="material-symbols-outlined" style="font-size:16px;">arrow_back</span>
+                    Cancel
+                </a>
+                <button class="btn-primary" id="submitBtn" onclick="submitForm()">
+                    <span class="material-symbols-outlined" style="font-size:16px;">check</span>
+                    Onboard School
+                </button>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Load sidebar & header
+    fetch('sidebar.html').then(r=>r.text()).then(data=>{
+        const t=document.createElement('div'); t.innerHTML=data;
+        t.childNodes.forEach(n=>{ if(n.nodeType===1&&n.tagName!=='SCRIPT') document.getElementById('sidebar-container').appendChild(n.cloneNode(true)); });
+        const s=t.querySelector('script'); if(s){const ns=document.createElement('script');ns.textContent=s.textContent;document.body.appendChild(ns);}
+    });
+    fetch('header.html').then(r=>r.text()).then(data=>{
+        const t=document.createElement('div'); t.innerHTML=data;
+        t.childNodes.forEach(n=>{ if(n.nodeType===1&&n.tagName!=='SCRIPT') document.getElementById('header-container').appendChild(n.cloneNode(true)); });
+        const s=t.querySelector('script'); if(s){const ns=document.createElement('script');ns.textContent=s.textContent;document.body.appendChild(ns);}
+    });
+
+    // School type selector
+    function selectType(el) {
+        document.querySelectorAll('.type-option').forEach(o => o.classList.remove('selected'));
+        el.classList.add('selected');
+        updateSummary();
+    }
+
+    // Auto-fill credential preview from email
+    document.getElementById('adminEmail').addEventListener('input', function() {
+        document.getElementById('previewUsername').textContent = this.value || 'admin@school.in';
+        updateSummary();
+    });
+
+    // Update summary on any input change
+    ['schoolName','schoolBoard','schoolCity','schoolState','adminName','adminEmail','maxStudents','season'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('input', updateSummary), el.addEventListener('change', updateSummary);
+    });
+
+    function updateSummary() {
+        const name  = document.getElementById('schoolName').value || '—';
+        const board = document.getElementById('schoolBoard').value || '—';
+        const city  = document.getElementById('schoolCity').value || '—';
+        const state = document.getElementById('schoolState').value || '—';
+        const admin = document.getElementById('adminName').value || '—';
+        const email = document.getElementById('adminEmail').value || '—';
+        const max   = document.getElementById('maxStudents').value || '100';
+        const season = document.getElementById('season').value || '—';
+        const type  = document.querySelector('.type-option.selected')?.dataset.type || '—';
+
+        document.getElementById('summaryBody').innerHTML = `
+            <div style="display:grid;gap:6px;">
+                <div><span style="font-weight:600;color:#374151;">School:</span> ${name}</div>
+                <div><span style="font-weight:600;color:#374151;">Type:</span> ${type.charAt(0).toUpperCase()+type.slice(1)}</div>
+                <div><span style="font-weight:600;color:#374151;">Board:</span> ${board}</div>
+                <div><span style="font-weight:600;color:#374151;">Location:</span> ${city}, ${state}</div>
+                <div><span style="font-weight:600;color:#374151;">Admin:</span> ${admin}</div>
+                <div><span style="font-weight:600;color:#374151;">Email:</span> ${email}</div>
+                <div><span style="font-weight:600;color:#374151;">Season:</span> ${season}</div>
+                <div><span style="font-weight:600;color:#374151;">Max Students:</span> ${max}</div>
+            </div>`;
+    }
+
+    // Validation
+    function validate() {
+        let valid = true;
+        const required = [
+            { id: 'schoolName', errId: 'schoolNameErr' },
+            { id: 'schoolBoard', errId: 'schoolBoardErr' },
+            { id: 'schoolCity', errId: 'schoolCityErr' },
+            { id: 'schoolState', errId: 'schoolStateErr' },
+            { id: 'principalName', errId: 'principalNameErr' },
+            { id: 'adminName', errId: 'adminNameErr' },
+            { id: 'adminPhone', errId: 'adminPhoneErr' },
+        ];
+        required.forEach(({ id, errId }) => {
+            const el = document.getElementById(id);
+            const err = document.getElementById(errId);
+            if (!el.value.trim()) {
+                el.classList.add('error'); err.classList.add('show'); valid = false;
+            } else {
+                el.classList.remove('error'); err.classList.remove('show');
+            }
+        });
+        // Email validation
+        const emailEl = document.getElementById('adminEmail');
+        const emailErr = document.getElementById('adminEmailErr');
+        const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRe.test(emailEl.value)) {
+            emailEl.classList.add('error'); emailErr.classList.add('show'); valid = false;
+        } else {
+            emailEl.classList.remove('error'); emailErr.classList.remove('show');
+        }
+        return valid;
+    }
+
+    function submitForm() {
+        if (!validate()) {
+            showToast('Please fill in all required fields', 'error');
+            document.querySelector('.form-input.error, .form-select-input.error')?.scrollIntoView({ behavior:'smooth', block:'center' });
+            return;
+        }
+        const name = document.getElementById('schoolName').value;
+        const btn = document.getElementById('submitBtn');
+        btn.disabled = true;
+        btn.innerHTML = '<span class="material-symbols-outlined" style="font-size:16px;animation:spin 1s linear infinite;">progress_activity</span> Onboarding...';
+        setTimeout(() => {
+            showToast(`${name} onboarded successfully! Credentials sent to school admin.`, 'success');
+            setTimeout(() => window.location.href = 'schools.html', 2000);
+        }, 1200);
+    }
+
+    function showToast(msg, type='info') {
+        const existing = document.querySelector('.toast-notification'); if(existing) existing.remove();
+        const colors = {success:'#22c55e',error:'#ef4444',info:'#5E2A97',warning:'#f97316'};
+        const icons  = {success:'check_circle',error:'error',info:'info',warning:'warning'};
+        const t = document.createElement('div'); t.className='toast-notification';
+        t.style.cssText=`position:fixed;bottom:2rem;right:2rem;background:${colors[type]};color:white;padding:1rem 1.5rem;border-radius:.75rem;box-shadow:0 10px 25px rgba(0,0,0,.2);z-index:9999;display:flex;align-items:center;gap:.75rem;font-size:.875rem;font-weight:500;font-family:'Poppins',sans-serif;max-width:420px;`;
+        t.innerHTML=`<span class="material-symbols-outlined" style="font-size:20px;">${icons[type]}</span><span>${msg}</span>`;
+        document.body.appendChild(t); setTimeout(()=>t.remove(), 4000);
+    }
+
+    const style = document.createElement('style');
+    style.textContent = '@keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }';
+    document.head.appendChild(style);
+</script>
+</body>
+</html>

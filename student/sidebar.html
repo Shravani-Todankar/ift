@@ -100,6 +100,7 @@
         transition: all 0.2s ease;
         cursor: pointer;
         margin-bottom: 0.25rem;
+        position: relative;
     }
 
     .nav-item:hover {
@@ -135,7 +136,10 @@
     }
 
     .notification-badge {
-        margin-left: auto;
+        position: absolute;
+        right: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
         font-size: 0.625rem;
         font-weight: 700;
         background: #EF4444;
@@ -282,7 +286,7 @@
             </div> -->
         </div>
     </div>
-    <nav class="flex-grow-1 px-3 d-flex flex-column gap-2 mt-3">
+    <nav class="flex-grow-1 px-3 d-flex flex-column gap-2 mt-3" style="overflow-y: auto;">
         <!-- Dashboard -->
         <a class="nav-item" href="dashboard.html">
             <span class="material-symbols-outlined">dashboard</span>
@@ -302,7 +306,7 @@
         </a>
 
         <!-- Learning Resources -->
-        <a class="nav-item" href="#">
+        <a class="nav-item" href="learning-resources.html">
             <span class="material-symbols-outlined">menu_book</span>
             <span class="nav-text">Learning Resources</span>
         </a>

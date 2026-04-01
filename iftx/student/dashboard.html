@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>IFT Student Dashboard</title>
+    <title>IFTx Student Dashboard</title>
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
@@ -802,12 +802,12 @@
                 <!-- Welcome Banner -->
                 <div class="row align-items-start align-items-md-center mb-4 welcome-banner">
                     <div class="col-12 col-md-8">
-                        <h2>Welcome back, Rohan!</h2>
-                        <p>Let's continue your innovation journey towards becoming a India's Future Tycoon.</p>
+                        <h2>Welcome, Rohan!</h2>
+                        <p>Let's continue your innovation journey at <span class="school-name">Your School</span>.</p>
                     </div>
                     <div class="col-12 col-md-4 d-none d-md-block phase-badge">
                         <p class="phase-label mb-1">Current Phase</p>
-                        <p class="phase-value mb-0">Regional Rounds</p>
+                        <p class="phase-value mb-0">School Rounds</p>
                     </div>
                 </div>
 
@@ -898,7 +898,7 @@
                         <div class="timeline-card">
                             <div class="timeline-header">
                                 <h3 class="timeline-title mb-0">Important Dates</h3>
-                                <a class="timeline-link" href="#">View Calendar</a>
+                                <a class="timeline-link" href="notifications.html">View Calendar</a>
                             </div>
                             <div class="timeline-container">
                                 <!-- Connecting Line -->
@@ -953,8 +953,8 @@
                                         <div
                                             class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2">
                                             <div>
-                                                <p class="timeline-event-title mb-1">Grand Finale</p>
-                                                <p class="timeline-desc mb-0">Live event in New Delhi</p>
+                                                <p class="timeline-event-title mb-1">School Finals</p>
+                                                <p class="timeline-desc mb-0">Final presentations at <span class="school-name">Your School</span></p>
                                             </div>
                                             <span class="timeline-date">Jan 20, 2024</span>
                                         </div>
@@ -975,7 +975,7 @@
                             </div>
                             <div class="notifications-body">
                                 <!-- Notification Item 1 -->
-                                <a class="notification-item" href="#">
+                                <a class="notification-item" href="notifications.html">
                                     <div class="notification-icon notification-icon-green">
                                         <span class="material-symbols-outlined"
                                             style="font-size: 14px;">group_add</span>
@@ -989,7 +989,7 @@
                                 </a>
 
                                 <!-- Notification Item 2 -->
-                                <a class="notification-item notification-item-priority" href="#">
+                                <a class="notification-item notification-item-priority" href="idea-submissions.html">
                                     <div class="notification-icon notification-icon-primary">
                                         <span class="material-symbols-outlined"
                                             style="font-size: 14px;">priority_high</span>
@@ -1003,7 +1003,7 @@
                                 </a>
 
                                 <!-- Notification Item 3 -->
-                                <a class="notification-item" href="#">
+                                <a class="notification-item" href="notifications.html">
                                     <div class="notification-icon notification-icon-purple">
                                         <span class="material-symbols-outlined" style="font-size: 14px;">campaign</span>
                                     </div>
@@ -1185,10 +1185,7 @@
                 const viewAllBtn = document.querySelector('.btn-view-all');
                 if (viewAllBtn) {
                     viewAllBtn.addEventListener('click', function () {
-                        showToast('Opening all notifications...', 'info');
-                        setTimeout(() => {
-                            window.location.href = '#notifications';
-                        }, 500);
+                        window.location.href = 'notifications.html';
                     });
                 }
             }
@@ -1234,10 +1231,7 @@
                 if (timelineLink) {
                     timelineLink.addEventListener('click', function (e) {
                         e.preventDefault();
-                        showToast('Loading calendar view...', 'info');
-                        setTimeout(() => {
-                            window.location.href = '#calendar';
-                        }, 500);
+                        window.location.href = 'notifications.html';
                     });
                 }
             }

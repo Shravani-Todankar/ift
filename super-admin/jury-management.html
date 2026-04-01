@@ -1317,22 +1317,28 @@
                         </div>
                     </div>
 
+                    <!-- Bulk hint -->
+                    <div style="padding: 10px 20px; background: #f8fafc; border-bottom: 1px solid var(--border-light); display: flex; align-items: center; gap: 8px; font-size: 0.8125rem; color: var(--text-muted);">
+                        <span class="material-symbols-outlined" style="font-size: 16px; color: #94a3b8;">info</span>
+                        Select rows to use bulk actions — Assign Ideas, Export and Change Status.
+                    </div>
+
                     <!-- Bulk Actions -->
                     <div class="bulk-actions" id="bulkActions">
                         <span class="bulk-count"><span id="selectedCount">0</span> selected</span>
-                        <button class="bulk-btn">
+                        <button class="bulk-btn" id="bulkAssignBtn">
                             <span class="material-symbols-outlined">assignment</span>
                             Assign Ideas
                         </button>
-                        <button class="bulk-btn">
+                        <button class="bulk-btn" id="bulkReminderBtn">
                             <span class="material-symbols-outlined">notifications</span>
                             Send Reminder
                         </button>
-                        <button class="bulk-btn">
+                        <button class="bulk-btn" id="bulkPauseBtn">
                             <span class="material-symbols-outlined">pause_circle</span>
                             Pause
                         </button>
-                        <button class="bulk-btn">
+                        <button class="bulk-btn" id="bulkExportBtn">
                             <span class="material-symbols-outlined">file_download</span>
                             Export
                         </button>
@@ -1812,200 +1818,7 @@
             </button>
         </div>
         <div class="details-sidebar-content" id="detailsContent">
-            <!-- Jury Profile -->
-            <div class="detail-section">
-                <div class="jury-profile-card">
-                    <div class="jury-profile-avatar" style="background: var(--primary);">MK</div>
-                    <div class="jury-profile-info">
-                        <h3>Dr. Meera Kapoor</h3>
-                        <p>Professor, AI & Machine Learning · IIT Delhi</p>
-                    </div>
-                </div>
-                <div class="detail-grid">
-                    <div class="detail-item">
-                        <div class="detail-item-label">Jury ID</div>
-                        <div class="detail-item-value" style="font-family: monospace; color: var(--primary);">JUR2026-0041</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-item-label">Status</div>
-                        <div class="detail-item-value"><span class="badge-status active">Active</span></div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-item-label">Season</div>
-                        <div class="detail-item-value">Season 5</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-item-label">Joined</div>
-                        <div class="detail-item-value">Feb 10, 2026</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-item-label">Email</div>
-                        <div class="detail-item-value" style="font-size: 0.8125rem;">meera.kapoor@iitd.ac.in</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-item-label">Phone</div>
-                        <div class="detail-item-value">+91 98765 43210</div>
-                    </div>
-                    <div class="detail-item full">
-                        <div class="detail-item-label">Expertise</div>
-                        <div class="detail-item-value">
-                            <div class="expertise-tags" style="margin-top: 4px;">
-                                <span class="expertise-tag">Technology</span>
-                                <span class="expertise-tag">EdTech</span>
-                                <span class="expertise-tag">AI/ML</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="detail-item full">
-                        <div class="detail-item-label">Bio</div>
-                        <div class="detail-item-value" style="font-weight: 400; line-height: 1.6;">Professor with 15 years of experience in AI research. Previously at Google Brain. Passionate about mentoring young innovators and bridging the gap between academia and industry.</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Performance Metrics -->
-            <div class="detail-section">
-                <div class="detail-section-title">
-                    <span class="material-symbols-outlined">analytics</span>
-                    Performance Metrics
-                </div>
-                <div class="perf-metrics">
-                    <div class="perf-metric">
-                        <div class="perf-metric-value" style="color: var(--primary);">32</div>
-                        <div class="perf-metric-label">Assigned</div>
-                    </div>
-                    <div class="perf-metric">
-                        <div class="perf-metric-value" style="color: #16a34a;">28</div>
-                        <div class="perf-metric-label">Evaluated</div>
-                    </div>
-                    <div class="perf-metric">
-                        <div class="perf-metric-value" style="color: #d97706;">4</div>
-                        <div class="perf-metric-label">Pending</div>
-                    </div>
-                </div>
-                <div class="detail-grid">
-                    <div class="detail-item">
-                        <div class="detail-item-label">Capacity</div>
-                        <div class="detail-item-value" style="color: #16a34a;">72% (Optimal)</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-item-label">Avg Turnaround</div>
-                        <div class="detail-item-value">1.8 days</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-item-label">Avg Score Given</div>
-                        <div class="detail-item-value">33.2 / 50</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-item-label">AI Deviation</div>
-                        <div class="detail-item-value"><span class="deviation-badge low">±1.2 pts</span></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Score Comparison: Jury vs AI -->
-            <div class="detail-section">
-                <div class="detail-section-title">
-                    <span class="material-symbols-outlined">compare</span>
-                    Jury vs AI Score (Avg)
-                </div>
-                <div class="score-comparison">
-                    <div class="score-comp-row">
-                        <span class="score-comp-label">Jury Avg</span>
-                        <div class="score-comp-bar"><div class="score-comp-fill jury" style="width: 66.4%;"></div></div>
-                        <span class="score-comp-value">33.2</span>
-                    </div>
-                    <div class="score-comp-row">
-                        <span class="score-comp-label">AI Avg</span>
-                        <div class="score-comp-bar"><div class="score-comp-fill ai" style="width: 68.8%;"></div></div>
-                        <span class="score-comp-value">34.4</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Assigned Ideas -->
-            <div class="detail-section">
-                <div class="detail-section-title">
-                    <span class="material-symbols-outlined">assignment</span>
-                    Assigned Ideas (32)
-                </div>
-                <div class="assigned-idea-row">
-                    <span class="idea-status-dot evaluated"></span>
-                    <div class="assigned-idea-info">
-                        <p class="assigned-idea-name">MediTrack — AI Health Companion</p>
-                        <span class="assigned-idea-meta">Team Pulse · DPS Noida · Mar 18</span>
-                    </div>
-                    <span class="assigned-idea-score" style="color: #16a34a;">43/50</span>
-                </div>
-                <div class="assigned-idea-row">
-                    <span class="idea-status-dot evaluated"></span>
-                    <div class="assigned-idea-info">
-                        <p class="assigned-idea-name">LearnBridge — Rural EdTech Platform</p>
-                        <span class="assigned-idea-meta">Digital Dreamers · St. Xavier's · Mar 17</span>
-                    </div>
-                    <span class="assigned-idea-score" style="color: #16a34a;">40/50</span>
-                </div>
-                <div class="assigned-idea-row">
-                    <span class="idea-status-dot evaluated"></span>
-                    <div class="assigned-idea-info">
-                        <p class="assigned-idea-name">AquaPure — Water Purification System</p>
-                        <span class="assigned-idea-meta">Blue Planet · La Martiniere · Mar 16</span>
-                    </div>
-                    <span class="assigned-idea-score" style="color: #16a34a;">42/50</span>
-                </div>
-                <div class="assigned-idea-row">
-                    <span class="idea-status-dot pending"></span>
-                    <div class="assigned-idea-info">
-                        <p class="assigned-idea-name">KisaanMitra — Smart Farming IoT</p>
-                        <span class="assigned-idea-meta">Green Innovators · KV Lucknow · Mar 20</span>
-                    </div>
-                    <span class="assigned-idea-score" style="color: #d97706;">Pending</span>
-                </div>
-                <div class="assigned-idea-row">
-                    <span class="idea-status-dot pending"></span>
-                    <div class="assigned-idea-info">
-                        <p class="assigned-idea-name">LangPal — Language Exchange App</p>
-                        <span class="assigned-idea-meta">Polyglots · Bishop Cotton · Mar 21</span>
-                    </div>
-                    <span class="assigned-idea-score" style="color: #d97706;">Pending</span>
-                </div>
-                <div style="text-align: center; margin-top: 12px;">
-                    <button class="btn-secondary-custom" style="display: inline-flex; padding: 8px 16px; font-size: 0.75rem;">
-                        <span class="material-symbols-outlined" style="font-size: 16px;">expand_more</span>
-                        View all 32 ideas
-                    </button>
-                </div>
-            </div>
-
-            <!-- Evaluation Timeline -->
-            <div class="detail-section">
-                <div class="detail-section-title">
-                    <span class="material-symbols-outlined">schedule</span>
-                    Availability
-                </div>
-                <div class="detail-grid">
-                    <div class="detail-item">
-                        <div class="detail-item-label">Available From</div>
-                        <div class="detail-item-value">Feb 10, 2026</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-item-label">Available To</div>
-                        <div class="detail-item-value">May 30, 2026</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-item-label">Max Ideas/Week</div>
-                        <div class="detail-item-value">10</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-item-label">Preferred Time</div>
-                        <div class="detail-item-value">Evenings</div>
-                    </div>
-                    <div class="detail-item full">
-                        <div class="detail-item-label">Willing to Mentor</div>
-                        <div class="detail-item-value" style="color: #16a34a;">Yes — Available for Bootcamp</div>
-                    </div>
-                </div>
-            </div>
+            <!-- Populated dynamically on row click -->
         </div>
 
         <!-- Footer Actions -->
@@ -2022,6 +1835,114 @@
                 <span class="material-symbols-outlined" style="font-size: 16px;">assignment</span>
                 Assign Ideas
             </button>
+        </div>
+    </div>
+
+    <!-- Bulk Assign Ideas Modal — select jury member for selected rows -->
+    <div id="bulkAssignOverlay" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1100;display:none;align-items:center;justify-content:center;">
+        <div style="background:#fff;border-radius:16px;width:500px;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,0.25);">
+            <div style="padding:20px 24px 16px;border-bottom:1px solid var(--border-light);display:flex;align-items:center;justify-content:space-between;">
+                <div>
+                    <h5 style="margin:0;font-weight:700;font-size:1rem;color:#1e293b;">Bulk Assign Ideas</h5>
+                    <p style="margin:4px 0 0;font-size:0.8125rem;color:var(--text-muted);" id="bulkAssignSubtitle">Assign ideas from selected jury members to another</p>
+                </div>
+                <button onclick="closeBulkAssignModal()" style="background:none;border:none;cursor:pointer;padding:4px;color:#64748b;"><span class="material-symbols-outlined">close</span></button>
+            </div>
+            <div style="padding:12px 24px;border-bottom:1px solid var(--border-light);">
+                <div style="position:relative;">
+                    <span class="material-symbols-outlined" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:18px;color:#94a3b8;">search</span>
+                    <input type="text" id="bulkAssignSearch" placeholder="Search jury member..." oninput="filterBulkAssignJury()" style="width:100%;padding:8px 12px 8px 36px;border:1px solid var(--border-light);border-radius:8px;font-size:0.875rem;font-family:inherit;outline:none;">
+                </div>
+            </div>
+            <div id="bulkAssignJuryList" style="overflow-y:auto;flex:1;padding:8px 16px;"></div>
+            <div style="padding:16px 24px;border-top:1px solid var(--border-light);display:flex;gap:10px;justify-content:flex-end;">
+                <button onclick="closeBulkAssignModal()" style="padding:9px 20px;border:1px solid var(--border-light);border-radius:8px;background:#fff;font-size:0.875rem;font-family:inherit;cursor:pointer;color:#374151;">Cancel</button>
+                <button id="bulkAssignConfirmBtn" onclick="confirmBulkAssign()" disabled style="padding:9px 20px;border:none;border-radius:8px;background:var(--primary);color:#fff;font-size:0.875rem;font-family:inherit;cursor:pointer;font-weight:600;opacity:0.5;">Assign</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bulk Reminder Modal -->
+    <div id="bulkReminderOverlay" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1100;display:none;align-items:center;justify-content:center;">
+        <div style="background:#fff;border-radius:16px;width:460px;box-shadow:0 20px 60px rgba(0,0,0,0.25);">
+            <div style="padding:20px 24px 16px;border-bottom:1px solid var(--border-light);display:flex;align-items:center;justify-content:space-between;">
+                <h5 style="margin:0;font-weight:700;font-size:1rem;color:#1e293b;">Send Reminder</h5>
+                <button onclick="closeBulkReminderModal()" style="background:none;border:none;cursor:pointer;padding:4px;color:#64748b;"><span class="material-symbols-outlined">close</span></button>
+            </div>
+            <div style="padding:20px 24px;">
+                <p style="margin:0 0 16px;font-size:0.875rem;color:#475569;">A reminder notification will be sent to <strong id="reminderCountText">0 jury members</strong> to complete their pending evaluations.</p>
+                <label style="display:block;font-size:0.8125rem;font-weight:600;color:#374151;margin-bottom:6px;">Custom Message (optional)</label>
+                <textarea id="reminderMessage" rows="3" placeholder="e.g. Please complete your pending evaluations by March 31..." style="width:100%;padding:10px 12px;border:1px solid var(--border-light);border-radius:8px;font-size:0.875rem;font-family:inherit;outline:none;resize:none;box-sizing:border-box;"></textarea>
+                <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+                    <button onclick="setReminderMsg('Please complete your pending evaluations at the earliest.')" style="padding:4px 10px;border:1px solid var(--border-light);border-radius:6px;background:#f8fafc;font-size:0.75rem;cursor:pointer;font-family:inherit;">Deadline reminder</button>
+                    <button onclick="setReminderMsg('Kindly review the newly assigned ideas added to your queue.')" style="padding:4px 10px;border:1px solid var(--border-light);border-radius:6px;background:#f8fafc;font-size:0.75rem;cursor:pointer;font-family:inherit;">New ideas reminder</button>
+                </div>
+            </div>
+            <div style="padding:16px 24px;border-top:1px solid var(--border-light);display:flex;gap:10px;justify-content:flex-end;">
+                <button onclick="closeBulkReminderModal()" style="padding:9px 20px;border:1px solid var(--border-light);border-radius:8px;background:#fff;font-size:0.875rem;font-family:inherit;cursor:pointer;color:#374151;">Cancel</button>
+                <button onclick="confirmBulkReminder()" style="padding:9px 20px;border:none;border-radius:8px;background:var(--primary);color:#fff;font-size:0.875rem;font-family:inherit;cursor:pointer;font-weight:600;">Send Reminder</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bulk Pause Confirmation Modal -->
+    <div id="bulkPauseOverlay" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1100;display:none;align-items:center;justify-content:center;">
+        <div style="background:#fff;border-radius:16px;width:420px;box-shadow:0 20px 60px rgba(0,0,0,0.25);">
+            <div style="padding:20px 24px 16px;border-bottom:1px solid var(--border-light);display:flex;align-items:center;justify-content:space-between;">
+                <h5 style="margin:0;font-weight:700;font-size:1rem;color:#1e293b;">Pause Jury Members</h5>
+                <button onclick="closeBulkPauseModal()" style="background:none;border:none;cursor:pointer;padding:4px;color:#64748b;"><span class="material-symbols-outlined">close</span></button>
+            </div>
+            <div style="padding:20px 24px;">
+                <div style="display:flex;gap:12px;align-items:flex-start;">
+                    <div style="width:40px;height:40px;border-radius:10px;background:#fff7ed;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <span class="material-symbols-outlined" style="color:#f97316;">pause_circle</span>
+                    </div>
+                    <div>
+                        <p style="margin:0 0 6px;font-size:0.875rem;font-weight:600;color:#1e293b;">Pause <span id="pauseCountText">0</span> jury member(s)?</p>
+                        <p style="margin:0;font-size:0.8125rem;color:#64748b;">Paused members will not receive new idea assignments until resumed. Existing ideas in their queue will remain.</p>
+                    </div>
+                </div>
+            </div>
+            <div style="padding:16px 24px;border-top:1px solid var(--border-light);display:flex;gap:10px;justify-content:flex-end;">
+                <button onclick="closeBulkPauseModal()" style="padding:9px 20px;border:1px solid var(--border-light);border-radius:8px;background:#fff;font-size:0.875rem;font-family:inherit;cursor:pointer;color:#374151;">Cancel</button>
+                <button onclick="confirmBulkPause()" style="padding:9px 20px;border:none;border-radius:8px;background:#f97316;color:#fff;font-size:0.875rem;font-family:inherit;cursor:pointer;font-weight:600;">Yes, Pause</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Assign Ideas Modal -->
+    <div id="assignIdeasOverlay" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1100;display:none;align-items:center;justify-content:center;">
+        <div style="background:#fff;border-radius:16px;width:540px;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,0.25);">
+            <!-- Header -->
+            <div style="padding:20px 24px 16px;border-bottom:1px solid var(--border-light);display:flex;align-items:center;justify-content:space-between;">
+                <div>
+                    <h5 style="margin:0;font-weight:700;font-size:1rem;color:#1e293b;">Assign Ideas</h5>
+                    <p style="margin:4px 0 0;font-size:0.8125rem;color:var(--text-muted);" id="assignModalSubtitle">Select ideas to assign to this jury member</p>
+                </div>
+                <button onclick="closeAssignModal()" style="background:none;border:none;cursor:pointer;padding:4px;color:#64748b;">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <!-- Search -->
+            <div style="padding:12px 24px;border-bottom:1px solid var(--border-light);">
+                <div style="position:relative;">
+                    <span class="material-symbols-outlined" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:18px;color:#94a3b8;">search</span>
+                    <input type="text" id="assignIdeaSearch" placeholder="Search ideas by title or team..." oninput="filterAssignIdeas()" style="width:100%;padding:8px 12px 8px 36px;border:1px solid var(--border-light);border-radius:8px;font-size:0.875rem;font-family:inherit;outline:none;">
+                </div>
+            </div>
+            <!-- Idea List -->
+            <div id="assignIdeaList" style="overflow-y:auto;flex:1;padding:12px 24px;">
+                <!-- Populated by JS -->
+            </div>
+            <!-- Selected count -->
+            <div style="padding:10px 24px;border-top:1px solid var(--border-light);background:#f8fafc;font-size:0.8125rem;color:var(--text-muted);">
+                <span id="assignSelectedCount">0</span> idea(s) selected
+            </div>
+            <!-- Footer -->
+            <div style="padding:16px 24px;border-top:1px solid var(--border-light);display:flex;gap:10px;justify-content:flex-end;">
+                <button onclick="closeAssignModal()" style="padding:9px 20px;border:1px solid var(--border-light);border-radius:8px;background:#fff;font-size:0.875rem;font-family:inherit;cursor:pointer;color:#374151;">Cancel</button>
+                <button id="confirmAssignBtn" onclick="confirmAssignIdeas()" disabled style="padding:9px 20px;border:none;border-radius:8px;background:var(--primary);color:#fff;font-size:0.875rem;font-family:inherit;cursor:pointer;font-weight:600;opacity:0.5;">Assign Ideas</button>
+            </div>
         </div>
     </div>
 
@@ -2173,7 +2094,11 @@
             });
 
             // --- Details Sidebar ---
-            function openSidebar() {
+            function openSidebar(row) {
+                if (row) {
+                    const name = row.querySelector('.jury-name')?.textContent.trim();
+                    if (name && juryPanelData[name]) renderSidePanel(juryPanelData[name]);
+                }
                 detailsSidebar.classList.add('open');
                 detailsOverlay.classList.add('show');
             }
@@ -2193,68 +2118,79 @@
             rows.forEach(row => {
                 row.addEventListener('click', function (e) {
                     if (e.target.closest('.custom-checkbox') || e.target.closest('.btn-icon-action')) return;
-                    openSidebar();
+                    openSidebar(this);
                 });
             });
 
             document.querySelectorAll('.view-btn').forEach(btn => {
                 btn.addEventListener('click', function (e) {
                     e.stopPropagation();
-                    openSidebar();
+                    openSidebar(this.closest('tr'));
                 });
             });
 
-            // --- Action buttons ---
-            document.getElementById('exportBtn').addEventListener('click', () => showToast('Exporting jury data to CSV...', 'info'));
-            document.getElementById('sidebarPause').addEventListener('click', () => showToast('Jury member paused', 'warning'));
-            document.getElementById('sidebarReminder').addEventListener('click', () => showToast('Reminder sent successfully', 'success'));
-            document.getElementById('sidebarAssign').addEventListener('click', () => showToast('Opening idea assignment panel...', 'info'));
+            // --- Header Export CSV ---
+            document.getElementById('exportBtn').addEventListener('click', () => exportJuryCSV(rows));
 
-            document.querySelectorAll('.bulk-btn').forEach(btn => {
-                btn.addEventListener('click', function () {
-                    showToast(`Bulk action: ${this.textContent.trim()}`, 'info');
-                });
+            // --- Sidebar action buttons ---
+            document.getElementById('sidebarPause').addEventListener('click', function() {
+                const name = document.getElementById('detailsSidebar').querySelector('.detail-section-title + p, .jury-name')?.textContent || 'Jury member';
+                this.innerHTML = '<span class="material-symbols-outlined" style="font-size:16px;">play_arrow</span> Resume';
+                this.title = 'resume';
+                showToast('Jury member paused — no new ideas will be assigned', 'warning');
+            });
+            document.getElementById('sidebarReminder').addEventListener('click', () => {
+                document.getElementById('reminderCountText').textContent = '1 jury member';
+                document.getElementById('reminderMessage').value = '';
+                document.getElementById('bulkReminderOverlay').style.display = 'flex';
+            });
+            document.getElementById('sidebarAssign').addEventListener('click', () => openAssignModal());
+
+            // --- Bulk action buttons ---
+            document.getElementById('bulkAssignBtn').addEventListener('click', () => {
+                const count = document.querySelectorAll('.row-checkbox.checked').length;
+                if (count === 0) { showToast('Please select at least one jury member first.', 'warning'); return; }
+                openBulkAssignModal(count);
+            });
+            document.getElementById('bulkReminderBtn').addEventListener('click', () => {
+                const count = document.querySelectorAll('.row-checkbox.checked').length;
+                if (count === 0) { showToast('Please select at least one jury member first.', 'warning'); return; }
+                document.getElementById('reminderCountText').textContent = `${count} jury member${count > 1 ? 's' : ''}`;
+                document.getElementById('reminderMessage').value = '';
+                document.getElementById('bulkReminderOverlay').style.display = 'flex';
+            });
+            document.getElementById('bulkPauseBtn').addEventListener('click', () => {
+                const count = document.querySelectorAll('.row-checkbox.checked').length;
+                if (count === 0) { showToast('Please select at least one jury member first.', 'warning'); return; }
+                document.getElementById('pauseCountText').textContent = count;
+                document.getElementById('bulkPauseOverlay').style.display = 'flex';
+            });
+            document.getElementById('bulkExportBtn').addEventListener('click', () => {
+                const selected = document.querySelectorAll('.row-checkbox.checked');
+                if (selected.length === 0) { showToast('Please select at least one jury member first.', 'warning'); return; }
+                exportJuryCSV(Array.from(selected).map(cb => cb.closest('tr')));
             });
 
+            // --- Row action icon buttons (assign / reassign / resume) ---
             document.querySelectorAll('.btn-icon-action:not(.view-btn)').forEach(btn => {
                 btn.addEventListener('click', function (e) {
                     e.stopPropagation();
-                    showToast(`Action: ${this.title}`, 'info');
+                    const t = this.title;
+                    if (t === 'Assign Ideas') { openAssignModal(); }
+                    else if (t === 'Reassign Ideas') { openAssignModal(); }
+                    else if (t === 'Resume') {
+                        this.innerHTML = '<span class="material-symbols-outlined">pause_circle</span>';
+                        this.title = 'Assign Ideas';
+                        showToast('Jury member resumed — ready for new assignments', 'success');
+                    } else {
+                        showToast(`${t} action triggered`, 'info');
+                    }
                 });
             });
 
             // --- Toast ---
             function showToast(message, type = 'info') {
-                const existing = document.querySelector('.toast-notification');
-                if (existing) existing.remove();
-
-                const toast = document.createElement('div');
-                toast.className = 'toast-notification';
-
-                const colors = { success: '#22c55e', error: '#ef4444', info: '#5E2A97', warning: '#f97316' };
-                const icons = { success: 'check_circle', error: 'error', info: 'info', warning: 'warning' };
-
-                toast.style.cssText = `
-                    position: fixed; bottom: 2rem; right: 2rem;
-                    background: ${colors[type]}; color: white;
-                    padding: 1rem 1.5rem; border-radius: 0.75rem;
-                    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-                    z-index: 9999; display: flex; align-items: center;
-                    gap: 0.75rem; font-size: 0.875rem; font-weight: 500;
-                    font-family: 'Poppins', sans-serif;
-                    animation: slideIn 0.3s ease; max-width: 400px;
-                `;
-
-                toast.innerHTML = `
-                    <span class="material-symbols-outlined" style="font-size: 20px;">${icons[type]}</span>
-                    <span>${message}</span>
-                `;
-
-                document.body.appendChild(toast);
-                setTimeout(() => {
-                    toast.style.animation = 'slideOut 0.3s ease';
-                    setTimeout(() => toast.remove(), 300);
-                }, 3000);
+                showGlobalToast(message, type);
             }
 
             const style = document.createElement('style');
@@ -2264,6 +2200,520 @@
             `;
             document.head.appendChild(style);
         })();
+    </script>
+
+    <!-- Assign Ideas Modal Logic -->
+    <script>
+        const availableIdeas = [
+            { id: 'SUB-2610', title: 'EcoSense — Smart Waste Sorter', team: 'GreenMinds', school: 'DPS Delhi', status: 'Submitted' },
+            { id: 'SUB-2611', title: 'MedBot — Medication Reminder AI', team: 'HealthFirst', school: 'KV Bangalore', status: 'Submitted' },
+            { id: 'SUB-2612', title: 'SafeRoute — Women Safety App', team: 'ShieldHers', school: 'Loreto Kolkata', status: 'Submitted' },
+            { id: 'SUB-2613', title: 'CropSense — AI Farm Monitoring', team: 'AgriTech', school: 'Navodaya Pune', status: 'AI Review' },
+            { id: 'SUB-2614', title: 'EduBot — Personalised Tutor', team: 'LearnSmart', school: 'Ryan Noida', status: 'Submitted' },
+            { id: 'SUB-2615', title: 'TrafficAI — Signal Optimizer', team: 'SmartCity', school: 'Amity Jaipur', status: 'Submitted' },
+            { id: 'SUB-2616', title: 'WaterWatch — Leak Detector', team: 'AquaGuard', school: 'St. Columba Delhi', status: 'AI Review' },
+            { id: 'SUB-2617', title: 'SolarMap — Rooftop Analyser', team: 'GreenGrid', school: 'Bishop Cotton Bangalore', status: 'Submitted' },
+        ];
+
+        let assignSelectedIds = new Set();
+
+        function openAssignModal() {
+            assignSelectedIds = new Set();
+            document.getElementById('assignIdeaSearch').value = '';
+            renderAssignIdeas(availableIdeas);
+            updateAssignCount();
+            document.getElementById('assignIdeasOverlay').style.display = 'flex';
+        }
+
+        function closeAssignModal() {
+            document.getElementById('assignIdeasOverlay').style.display = 'none';
+        }
+
+        function renderAssignIdeas(ideas) {
+            const list = document.getElementById('assignIdeaList');
+            if (ideas.length === 0) {
+                list.innerHTML = '<p style="text-align:center;color:#94a3b8;padding:24px 0;font-size:0.875rem;">No ideas found</p>';
+                return;
+            }
+            list.innerHTML = ideas.map(idea => {
+                const selected = assignSelectedIds.has(idea.id);
+                const statusColor = idea.status === 'AI Review' ? '#7c3aed' : '#3b82f6';
+                return `
+                <div class="assign-idea-row" data-id="${idea.id}" onclick="toggleAssignIdea('${idea.id}')"
+                     style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border-light);cursor:pointer;">
+                    <div style="width:18px;height:18px;border-radius:4px;border:2px solid ${selected ? 'var(--primary)' : '#cbd5e1'};
+                                background:${selected ? 'var(--primary)' : '#fff'};flex-shrink:0;display:flex;align-items:center;justify-content:center;">
+                        ${selected ? '<span class="material-symbols-outlined" style="font-size:13px;color:#fff;">check</span>' : ''}
+                    </div>
+                    <div style="flex:1;min-width:0;">
+                        <div style="font-size:0.875rem;font-weight:600;color:#1e293b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${idea.title}</div>
+                        <div style="font-size:0.75rem;color:var(--text-muted);">${idea.team} · ${idea.school}</div>
+                    </div>
+                    <span style="font-size:0.7rem;font-weight:600;color:${statusColor};background:${statusColor}18;padding:2px 8px;border-radius:20px;white-space:nowrap;">${idea.status}</span>
+                </div>`;
+            }).join('');
+        }
+
+        function toggleAssignIdea(id) {
+            if (assignSelectedIds.has(id)) assignSelectedIds.delete(id);
+            else assignSelectedIds.add(id);
+            const query = document.getElementById('assignIdeaSearch').value.toLowerCase();
+            const filtered = availableIdeas.filter(i => i.title.toLowerCase().includes(query) || i.team.toLowerCase().includes(query));
+            renderAssignIdeas(filtered);
+            updateAssignCount();
+        }
+
+        function filterAssignIdeas() {
+            const query = document.getElementById('assignIdeaSearch').value.toLowerCase();
+            const filtered = availableIdeas.filter(i => i.title.toLowerCase().includes(query) || i.team.toLowerCase().includes(query));
+            renderAssignIdeas(filtered);
+        }
+
+        function updateAssignCount() {
+            const count = assignSelectedIds.size;
+            document.getElementById('assignSelectedCount').textContent = count;
+            const btn = document.getElementById('confirmAssignBtn');
+            btn.disabled = count === 0;
+            btn.style.opacity = count === 0 ? '0.5' : '1';
+            btn.style.cursor = count === 0 ? 'not-allowed' : 'pointer';
+        }
+
+        function confirmAssignIdeas() {
+            const count = assignSelectedIds.size;
+            closeAssignModal();
+            showGlobalToast(`${count} idea(s) assigned successfully`, 'success');
+        }
+
+        document.getElementById('assignIdeasOverlay').addEventListener('click', function(e) {
+            if (e.target === this) closeAssignModal();
+        });
+        document.getElementById('bulkAssignOverlay').addEventListener('click', function(e) {
+            if (e.target === this) closeBulkAssignModal();
+        });
+        document.getElementById('bulkReminderOverlay').addEventListener('click', function(e) {
+            if (e.target === this) closeBulkReminderModal();
+        });
+        document.getElementById('bulkPauseOverlay').addEventListener('click', function(e) {
+            if (e.target === this) closeBulkPauseModal();
+        });
+    </script>
+
+    <!-- Dynamic Side Panel Data + Renderer -->
+    <script>
+        const juryPanelData = {
+            'Dr. Meera Kapoor': {
+                initials:'MK', color:'#5E2A97',
+                name:'Dr. Meera Kapoor', role:'Professor, AI & Machine Learning', org:'IIT Delhi',
+                juryId:'JUR2026-0041', status:'active', season:'Season 5', joined:'Feb 10, 2026',
+                email:'meera.kapoor@iitd.ac.in', phone:'+91 98765 43210',
+                expertise:['Technology','EdTech','AI/ML'],
+                bio:'Professor with 15 years of experience in AI research. Previously at Google Brain. Passionate about mentoring young innovators and bridging the gap between academia and industry.',
+                assigned:32, evaluated:28, pending:4,
+                capacity:72, capacityLabel:'Optimal',
+                turnaround:'1.8 days', avgScore:33.2, aiAvg:34.4, deviation:'±1.2', deviationLevel:'low',
+                ideas:[
+                    {title:'MediTrack — AI Health Companion', meta:'Team Pulse · DPS Noida · Mar 18', score:'43/50', status:'evaluated'},
+                    {title:'LearnBridge — Rural EdTech Platform', meta:'Digital Dreamers · St. Xavier\'s · Mar 17', score:'40/50', status:'evaluated'},
+                    {title:'AquaPure — Water Purification System', meta:'Blue Planet · La Martiniere · Mar 16', score:'42/50', status:'evaluated'},
+                    {title:'KisaanMitra — Smart Farming IoT', meta:'Green Innovators · KV Lucknow · Mar 20', score:'Pending', status:'pending'},
+                    {title:'LangPal — Language Exchange App', meta:'Polyglots · Bishop Cotton · Mar 21', score:'Pending', status:'pending'},
+                ],
+                availFrom:'Feb 10, 2026', availTo:'May 30, 2026', maxPerWeek:10, preferredTime:'Evenings', mentor:'Yes — Available for Bootcamp'
+            },
+            'Arvind Mehta': {
+                initials:'AM', color:'#ef4444',
+                name:'Arvind Mehta', role:'Senior Consultant, Healthcare', org:'AIIMS Delhi',
+                juryId:'JUR2026-0042', status:'active', season:'Season 5', joined:'Feb 14, 2026',
+                email:'arvind.mehta@aiims.edu', phone:'+91 87654 32109',
+                expertise:['Healthcare','Social Impact','BioTech'],
+                bio:'Senior healthcare professional with expertise in public health policy and medical innovation. Has evaluated 100+ student projects in health-tech competitions.',
+                assigned:45, evaluated:30, pending:15,
+                capacity:112, capacityLabel:'Overloaded',
+                turnaround:'4.2 days', avgScore:28.5, aiAvg:31.2, deviation:'±4.8', deviationLevel:'high',
+                ideas:[
+                    {title:'MedBot — AI Diagnosis Tool', meta:'HealthFirst · KV Bangalore · Mar 10', score:'31/50', status:'evaluated'},
+                    {title:'NutriSense — Smart Diet Planner', meta:'WellBeing · Ryan Noida · Mar 12', score:'29/50', status:'evaluated'},
+                    {title:'SafeBlood — Donation Network', meta:'RedCross · DPS Delhi · Mar 14', score:'30/50', status:'evaluated'},
+                    {title:'CancerWatch — Early Screening', meta:'OncoCare · Loreto Kolkata · Mar 22', score:'Pending', status:'pending'},
+                    {title:'VaxTrack — Immunization App', meta:'ImmunePlus · BVHS Mumbai · Mar 23', score:'Pending', status:'pending'},
+                ],
+                availFrom:'Feb 14, 2026', availTo:'Apr 30, 2026', maxPerWeek:8, preferredTime:'Mornings', mentor:'No'
+            },
+            'Prof. Priya Sharma': {
+                initials:'PS', color:'#3b82f6',
+                name:'Prof. Priya Sharma', role:'Associate Professor, Design & Innovation', org:'NIFT Mumbai',
+                juryId:'JUR2026-0043', status:'active', season:'Season 5', joined:'Feb 12, 2026',
+                email:'priya.sharma@nift.ac.in', phone:'+91 99887 76655',
+                expertise:['Education','Sustainability','Design Thinking'],
+                bio:'Design educator and sustainability advocate with 12 years at NIFT. Specialises in circular economy models and creative education frameworks for students.',
+                assigned:28, evaluated:24, pending:4,
+                capacity:65, capacityLabel:'Optimal',
+                turnaround:'1.5 days', avgScore:35.1, aiAvg:34.6, deviation:'±0.8', deviationLevel:'low',
+                ideas:[
+                    {title:'EcoStitch — Sustainable Fashion', meta:'GreenThread · NIFT Delhi · Mar 11', score:'38/50', status:'evaluated'},
+                    {title:'UrbanFarm — Rooftop Agri Kit', meta:'GreenLeaves · Ryan Pune · Mar 13', score:'36/50', status:'evaluated'},
+                    {title:'WasteWise — Recycling Gamifier', meta:'CleanEarth · KV Chennai · Mar 15', score:'34/50', status:'evaluated'},
+                    {title:'EduMap — Learning Journey Planner', meta:'Scholars · St. Joseph\'s · Mar 24', score:'Pending', status:'pending'},
+                    {title:'DesignBridge — Student Portfolio', meta:'Creatives · Amity Delhi · Mar 25', score:'Pending', status:'pending'},
+                ],
+                availFrom:'Feb 12, 2026', availTo:'May 15, 2026', maxPerWeek:9, preferredTime:'Afternoons', mentor:'Yes — Design & Sustainability Bootcamp'
+            },
+            'Rajesh Gupta': {
+                initials:'RG', color:'#f59e0b',
+                name:'Rajesh Gupta', role:'Partner, FinTech Advisory', org:'Deloitte',
+                juryId:'JUR2026-0044', status:'active', season:'Season 5', joined:'Feb 20, 2026',
+                email:'rajesh.gupta@deloitte.com', phone:'+91 98001 23456',
+                expertise:['Finance','Technology','Entrepreneurship'],
+                bio:'FinTech expert and startup mentor with 18 years at Deloitte. Has helped scale 30+ fintech startups. Strongly believes financial literacy should start early.',
+                assigned:8, evaluated:6, pending:2,
+                capacity:20, capacityLabel:'Idle',
+                turnaround:'2.0 days', avgScore:31.8, aiAvg:32.5, deviation:'±1.5', deviationLevel:'low',
+                ideas:[
+                    {title:'PocketPay — Teen Digital Wallet', meta:'FinKids · DPS Jaipur · Mar 15', score:'34/50', status:'evaluated'},
+                    {title:'StockSim — Investment Simulator', meta:'WealthWise · Amity Noida · Mar 17', score:'30/50', status:'evaluated'},
+                    {title:'TaxEasy — GST Filing for SMEs', meta:'TaxPro · KV Mumbai · Mar 19', score:'32/50', status:'evaluated'},
+                    {title:'CropInsure — Farmer Risk Cover', meta:'AgriShield · Navodaya · Mar 26', score:'Pending', status:'pending'},
+                    {title:'MicroLend — P2P Lending Platform', meta:'FinLink · Hansraj · Mar 27', score:'Pending', status:'pending'},
+                ],
+                availFrom:'Feb 20, 2026', availTo:'May 31, 2026', maxPerWeek:12, preferredTime:'Weekends', mentor:'Yes — Finance & Entrepreneurship Track'
+            },
+            'Dr. Sunita Nair': {
+                initials:'SN', color:'#14b8a6',
+                name:'Dr. Sunita Nair', role:'Senior Fellow, Sustainability Research', org:'TERI',
+                juryId:'JUR2026-0045', status:'active', season:'Season 5', joined:'Feb 11, 2026',
+                email:'sunita.nair@teri.res.in', phone:'+91 91234 56789',
+                expertise:['Sustainability','Social Impact','Policy'],
+                bio:'Environment policy expert with 20 years at TERI. Led several national climate research projects. Committed to nurturing student innovation in clean energy and environment.',
+                assigned:38, evaluated:30, pending:8,
+                capacity:88, capacityLabel:'Moderate',
+                turnaround:'2.8 days', avgScore:34.7, aiAvg:33.9, deviation:'±2.9', deviationLevel:'medium',
+                ideas:[
+                    {title:'SolarGen — Community Energy Grid', meta:'SunPower · KV Bangalore · Mar 9', score:'37/50', status:'evaluated'},
+                    {title:'WaterHarvest — Rainwater System', meta:'AquaSave · Navodaya Pune · Mar 10', score:'35/50', status:'evaluated'},
+                    {title:'AirAlert — Pollution Monitor', meta:'BreathEasy · DPS Noida · Mar 12', score:'33/50', status:'evaluated'},
+                    {title:'EcoScore — Carbon Tracker App', meta:'GreenMeter · Bishop Cotton · Mar 22', score:'Pending', status:'pending'},
+                    {title:'RiverGuard — Water Quality Sensor', meta:'AquaWatch · Loreto Kolkata · Mar 23', score:'Pending', status:'pending'},
+                ],
+                availFrom:'Feb 11, 2026', availTo:'Jun 15, 2026', maxPerWeek:10, preferredTime:'Evenings', mentor:'Yes — Environment & Climate Track'
+            },
+            'Vikram Patel': {
+                initials:'VP', color:'#94a3b8',
+                name:'Vikram Patel', role:'Principal Architect, Cloud & DevOps', org:'TCS',
+                juryId:'JUR2026-0046', status:'paused', season:'Season 5', joined:'Feb 16, 2026',
+                email:'vikram.patel@tcs.com', phone:'+91 95555 44333',
+                expertise:['Technology','Cloud Computing','IoT'],
+                bio:'Cloud and infrastructure expert with 14 years at TCS. Currently on a project-based pause from evaluation duties. All previously assigned ideas have been evaluated.',
+                assigned:20, evaluated:20, pending:0,
+                capacity:0, capacityLabel:'Idle',
+                turnaround:'2.1 days', avgScore:30.5, aiAvg:31.8, deviation:'±1.0', deviationLevel:'low',
+                ideas:[
+                    {title:'SmartCity — Traffic AI', meta:'UrbanMinds · Amity Jaipur · Feb 28', score:'32/50', status:'evaluated'},
+                    {title:'CloudFarm — IoT Agriculture', meta:'AgriTech · KV Lucknow · Mar 1', score:'30/50', status:'evaluated'},
+                    {title:'SecureNet — Cyber Safety App', meta:'CyberShield · BVHS Pune · Mar 3', score:'31/50', status:'evaluated'},
+                    {title:'AutoHome — Smart Home Kit', meta:'IoTLife · St. Columba · Mar 5', score:'29/50', status:'evaluated'},
+                    {title:'DroneAid — Disaster Relief', meta:'AeroCraft · DPS Bangalore · Mar 7', score:'31/50', status:'evaluated'},
+                ],
+                availFrom:'Apr 15, 2026', availTo:'Jun 30, 2026', maxPerWeek:8, preferredTime:'Evenings', mentor:'No'
+            },
+            'Anita Deshmukh': {
+                initials:'AD', color:'#ec4899',
+                name:'Anita Deshmukh', role:'Associate Dean, Business & Innovation', org:'ISB Hyderabad',
+                juryId:'JUR2026-0047', status:'active', season:'Season 5', joined:'Feb 13, 2026',
+                email:'anita.deshmukh@isb.edu', phone:'+91 90909 08080',
+                expertise:['Education','Finance','Business Strategy'],
+                bio:'Business educator and mentor at ISB Hyderabad with expertise in EdTech and startup ecosystems. Evaluated 200+ student projects across national competitions.',
+                assigned:42, evaluated:25, pending:17,
+                capacity:105, capacityLabel:'Overloaded',
+                turnaround:'3.9 days', avgScore:29.8, aiAvg:32.1, deviation:'±3.2', deviationLevel:'medium',
+                ideas:[
+                    {title:'EduFund — Scholarship Finder', meta:'LearnMore · NIFT Mumbai · Mar 8', score:'31/50', status:'evaluated'},
+                    {title:'BizSim — Business Simulator', meta:'EntreMinds · Ryan Bangalore · Mar 10', score:'30/50', status:'evaluated'},
+                    {title:'FinLit — Financial Literacy App', meta:'MoneyWise · Amity Noida · Mar 12', score:'29/50', status:'evaluated'},
+                    {title:'SkillBridge — Vocational Platform', meta:'JobReady · KV Chennai · Mar 24', score:'Pending', status:'pending'},
+                    {title:'MentorNet — Alumni Connect', meta:'AlumniFirst · DPS Delhi · Mar 25', score:'Pending', status:'pending'},
+                ],
+                availFrom:'Feb 13, 2026', availTo:'May 20, 2026', maxPerWeek:10, preferredTime:'Mornings', mentor:'Yes — Business Track'
+            },
+            'Kavita Rao': {
+                initials:'KR', color:'#8b5cf6',
+                name:'Kavita Rao', role:'Director, Social Innovation Programs', org:'Ashoka Foundation',
+                juryId:'JUR2026-0048', status:'active', season:'Season 5', joined:'Feb 15, 2026',
+                email:'kavita.rao@ashoka.org', phone:'+91 88776 65544',
+                expertise:['Social Impact','Sustainability','Community Development'],
+                bio:'Social entrepreneur and NGO leader with 16 years driving grassroots innovation. Specialises in identifying high-impact ideas that create change at scale for underserved communities.',
+                assigned:30, evaluated:26, pending:4,
+                capacity:75, capacityLabel:'Optimal',
+                turnaround:'1.2 days', avgScore:36.4, aiAvg:35.9, deviation:'±0.5', deviationLevel:'low',
+                ideas:[
+                    {title:'VillageLink — Rural Connectivity', meta:'ConnectIndia · Navodaya Patna · Mar 9', score:'38/50', status:'evaluated'},
+                    {title:'SheLeads — Women Empowerment', meta:'EmpowerHer · Loreto Delhi · Mar 11', score:'39/50', status:'evaluated'},
+                    {title:'FoodBank — Surplus Redistribution', meta:'NourishAll · KV Hyderabad · Mar 13', score:'37/50', status:'evaluated'},
+                    {title:'SafeHer — Women Safety Network', meta:'ShieldSisters · St. Mary\'s · Mar 24', score:'Pending', status:'pending'},
+                    {title:'CommunityAid — Disaster Relief', meta:'HelpFirst · BVHS Nagpur · Mar 25', score:'Pending', status:'pending'},
+                ],
+                availFrom:'Feb 15, 2026', availTo:'Jun 30, 2026', maxPerWeek:10, preferredTime:'Afternoons', mentor:'Yes — Social Impact Bootcamp'
+            },
+            'Dr. Nikhil Bansal': {
+                initials:'NB', color:'#059669',
+                name:'Dr. Nikhil Bansal', role:'Senior Physician, Biotech Research', org:'Max Healthcare',
+                juryId:'JUR2026-0049', status:'active', season:'Season 5', joined:'Feb 22, 2026',
+                email:'nikhil.bansal@maxhealthcare.in', phone:'+91 97700 11223',
+                expertise:['Healthcare','BioTech','Medical Devices'],
+                bio:'Biotech physician and researcher with expertise in diagnostic technologies and medical devices. Passionate about encouraging innovation that makes healthcare accessible to all.',
+                assigned:10, evaluated:8, pending:2,
+                capacity:25, capacityLabel:'Idle',
+                turnaround:'2.3 days', avgScore:32.9, aiAvg:33.4, deviation:'±1.1', deviationLevel:'low',
+                ideas:[
+                    {title:'BioScan — Portable Diagnostics', meta:'MedInno · DPS Gurugram · Mar 14', score:'35/50', status:'evaluated'},
+                    {title:'GeneAlert — Genetic Risk App', meta:'DNAFirst · Amity Mumbai · Mar 16', score:'33/50', status:'evaluated'},
+                    {title:'WoundHeal — Smart Bandage', meta:'MedTech · Ryan Chennai · Mar 18', score:'31/50', status:'evaluated'},
+                    {title:'BloodSense — Non-Invasive Monitor', meta:'HealthPlus · KV Delhi · Mar 26', score:'Pending', status:'pending'},
+                    {title:'NeuroCare — Mental Health App', meta:'MindFirst · Hansraj · Mar 27', score:'Pending', status:'pending'},
+                ],
+                availFrom:'Feb 22, 2026', availTo:'May 31, 2026', maxPerWeek:6, preferredTime:'Evenings', mentor:'Yes — Healthcare & BioTech Track'
+            },
+            'Sanjay Chopra': {
+                initials:'SC', color:'#6b7280',
+                name:'Sanjay Chopra', role:'VP, IT Strategy & Digital Transformation', org:'Infosys',
+                juryId:'JUR2026-0050', status:'inactive', season:'Season 5', joined:'Feb 18, 2026',
+                email:'sanjay.chopra@infosys.com', phone:'+91 93300 44556',
+                expertise:['Technology','Finance','Digital Strategy'],
+                bio:'IT strategy leader with 22 years at Infosys. Currently inactive this season due to international assignment. Has completed all previously assigned evaluations.',
+                assigned:15, evaluated:15, pending:0,
+                capacity:0, capacityLabel:'Idle',
+                turnaround:'3.1 days', avgScore:27.3, aiAvg:29.8, deviation:'±2.5', deviationLevel:'medium',
+                ideas:[
+                    {title:'DigiIndia — Govt Services App', meta:'CivicTech · Navodaya Delhi · Feb 20', score:'28/50', status:'evaluated'},
+                    {title:'BlockVote — Secure Voting', meta:'DemoTech · KV Pune · Feb 22', score:'27/50', status:'evaluated'},
+                    {title:'AIAssist — Enterprise Chatbot', meta:'AutoBiz · DPS Mumbai · Feb 24', score:'26/50', status:'evaluated'},
+                    {title:'CyberSafe — Kids Online Security', meta:'SafeNet · Ryan Noida · Feb 26', score:'28/50', status:'evaluated'},
+                    {title:'DataFarm — IoT Analytics', meta:'DataMinds · Amity Bangalore · Feb 28', score:'27/50', status:'evaluated'},
+                ],
+                availFrom:'Jun 1, 2026', availTo:'Aug 31, 2026', maxPerWeek:5, preferredTime:'Weekends', mentor:'No'
+            },
+        };
+
+        const loadColors = { Optimal:'#16a34a', Moderate:'#d97706', Overloaded:'#ef4444', Idle:'#3b82f6' };
+
+        function renderSidePanel(d) {
+            const capColor = loadColors[d.capacityLabel] || '#64748b';
+            const mentorColor = d.mentor.startsWith('Yes') ? '#16a34a' : '#64748b';
+            const expertiseTags = d.expertise.map(e => `<span class="expertise-tag">${e}</span>`).join('');
+            const ideasHTML = d.ideas.map(i => {
+                const sc = i.status === 'evaluated' ? '#16a34a' : '#d97706';
+                return `<div class="assigned-idea-row">
+                    <span class="idea-status-dot ${i.status}"></span>
+                    <div class="assigned-idea-info">
+                        <p class="assigned-idea-name">${i.title}</p>
+                        <span class="assigned-idea-meta">${i.meta}</span>
+                    </div>
+                    <span class="assigned-idea-score" style="color:${sc};">${i.score}</span>
+                </div>`;
+            }).join('');
+
+            document.getElementById('detailsContent').innerHTML = `
+                <div class="detail-section">
+                    <div class="jury-profile-card">
+                        <div class="jury-profile-avatar" style="background:${d.color};">${d.initials}</div>
+                        <div class="jury-profile-info"><h3>${d.name}</h3><p>${d.role} · ${d.org}</p></div>
+                    </div>
+                    <div class="detail-grid">
+                        <div class="detail-item"><div class="detail-item-label">Jury ID</div><div class="detail-item-value" style="font-family:monospace;color:var(--primary);">${d.juryId}</div></div>
+                        <div class="detail-item"><div class="detail-item-label">Status</div><div class="detail-item-value"><span class="badge-status ${d.status}">${d.status.charAt(0).toUpperCase()+d.status.slice(1)}</span></div></div>
+                        <div class="detail-item"><div class="detail-item-label">Season</div><div class="detail-item-value">${d.season}</div></div>
+                        <div class="detail-item"><div class="detail-item-label">Joined</div><div class="detail-item-value">${d.joined}</div></div>
+                        <div class="detail-item"><div class="detail-item-label">Email</div><div class="detail-item-value" style="font-size:0.8125rem;">${d.email}</div></div>
+                        <div class="detail-item"><div class="detail-item-label">Phone</div><div class="detail-item-value">${d.phone}</div></div>
+                        <div class="detail-item full"><div class="detail-item-label">Expertise</div><div class="detail-item-value"><div class="expertise-tags" style="margin-top:4px;">${expertiseTags}</div></div></div>
+                        <div class="detail-item full"><div class="detail-item-label">Bio</div><div class="detail-item-value" style="font-weight:400;line-height:1.6;">${d.bio}</div></div>
+                    </div>
+                </div>
+                <div class="detail-section">
+                    <div class="detail-section-title"><span class="material-symbols-outlined">analytics</span>Performance Metrics</div>
+                    <div class="perf-metrics">
+                        <div class="perf-metric"><div class="perf-metric-value" style="color:var(--primary);">${d.assigned}</div><div class="perf-metric-label">Assigned</div></div>
+                        <div class="perf-metric"><div class="perf-metric-value" style="color:#16a34a;">${d.evaluated}</div><div class="perf-metric-label">Evaluated</div></div>
+                        <div class="perf-metric"><div class="perf-metric-value" style="color:${d.pending>10?'#ef4444':'#d97706'};">${d.pending}</div><div class="perf-metric-label">Pending</div></div>
+                    </div>
+                    <div class="detail-grid">
+                        <div class="detail-item"><div class="detail-item-label">Capacity</div><div class="detail-item-value" style="color:${capColor};">${d.capacity}% (${d.capacityLabel})</div></div>
+                        <div class="detail-item"><div class="detail-item-label">Avg Turnaround</div><div class="detail-item-value">${d.turnaround}</div></div>
+                        <div class="detail-item"><div class="detail-item-label">Avg Score Given</div><div class="detail-item-value">${d.avgScore} / 50</div></div>
+                        <div class="detail-item"><div class="detail-item-label">AI Deviation</div><div class="detail-item-value"><span class="deviation-badge ${d.deviationLevel}">${d.deviation} pts</span></div></div>
+                    </div>
+                </div>
+                <div class="detail-section">
+                    <div class="detail-section-title"><span class="material-symbols-outlined">compare</span>Jury vs AI Score (Avg)</div>
+                    <div class="score-comparison">
+                        <div class="score-comp-row"><span class="score-comp-label">Jury Avg</span><div class="score-comp-bar"><div class="score-comp-fill jury" style="width:${(d.avgScore/50*100).toFixed(1)}%;"></div></div><span class="score-comp-value">${d.avgScore}</span></div>
+                        <div class="score-comp-row"><span class="score-comp-label">AI Avg</span><div class="score-comp-bar"><div class="score-comp-fill ai" style="width:${(d.aiAvg/50*100).toFixed(1)}%;"></div></div><span class="score-comp-value">${d.aiAvg}</span></div>
+                    </div>
+                </div>
+                <div class="detail-section">
+                    <div class="detail-section-title"><span class="material-symbols-outlined">assignment</span>Assigned Ideas (${d.assigned})</div>
+                    ${ideasHTML}
+                    <div style="text-align:center;margin-top:12px;">
+                        <button class="btn-secondary-custom" style="display:inline-flex;padding:8px 16px;font-size:0.75rem;">
+                            <span class="material-symbols-outlined" style="font-size:16px;">expand_more</span>View all ${d.assigned} ideas
+                        </button>
+                    </div>
+                </div>
+                <div class="detail-section">
+                    <div class="detail-section-title"><span class="material-symbols-outlined">schedule</span>Availability</div>
+                    <div class="detail-grid">
+                        <div class="detail-item"><div class="detail-item-label">Available From</div><div class="detail-item-value">${d.availFrom}</div></div>
+                        <div class="detail-item"><div class="detail-item-label">Available To</div><div class="detail-item-value">${d.availTo}</div></div>
+                        <div class="detail-item"><div class="detail-item-label">Max Ideas/Week</div><div class="detail-item-value">${d.maxPerWeek}</div></div>
+                        <div class="detail-item"><div class="detail-item-label">Preferred Time</div><div class="detail-item-value">${d.preferredTime}</div></div>
+                        <div class="detail-item full"><div class="detail-item-label">Willing to Mentor</div><div class="detail-item-value" style="color:${mentorColor};">${d.mentor}</div></div>
+                    </div>
+                </div>`;
+
+            // Update footer pause button based on member status
+            const pauseBtn = document.getElementById('sidebarPause');
+            if (d.status === 'paused' || d.status === 'inactive') {
+                pauseBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size:16px;">play_arrow</span> Resume';
+            } else {
+                pauseBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size:16px;">pause_circle</span> Pause Jury';
+            }
+        }
+    </script>
+
+    <!-- Bulk Modals + CSV Logic -->
+    <script>
+        // ── Jury data for bulk assign modal ──
+        const juryMembers = [
+            { id: 'J001', name: 'Dr. Meera Kapoor', org: 'IIT Delhi', capacity: 72, load: 'Optimal', initials: 'MK', color: '#5E2A97' },
+            { id: 'J002', name: 'Arvind Mehta', org: 'AIIMS Delhi', capacity: 112, load: 'Overloaded', initials: 'AM', color: '#ef4444' },
+            { id: 'J003', name: 'Prof. Priya Sharma', org: 'NIFT Mumbai', capacity: 65, load: 'Optimal', initials: 'PS', color: '#3b82f6' },
+            { id: 'J004', name: 'Rajesh Gupta', org: 'Deloitte', capacity: 20, load: 'Idle', initials: 'RG', color: '#f59e0b' },
+            { id: 'J005', name: 'Dr. Sunita Nair', org: 'TERI', capacity: 88, load: 'Moderate', initials: 'SN', color: '#14b8a6' },
+            { id: 'J006', name: 'Kavita Rao', org: 'Ashoka Foundation', capacity: 58, load: 'Optimal', initials: 'KR', color: '#8b5cf6' },
+        ];
+
+        let bulkAssignSelectedJury = null;
+
+        function openBulkAssignModal(count) {
+            bulkAssignSelectedJury = null;
+            document.getElementById('bulkAssignSubtitle').textContent = `Reassign ideas from ${count} selected jury member(s) to:`;
+            document.getElementById('bulkAssignSearch').value = '';
+            renderBulkAssignJury(juryMembers);
+            document.getElementById('bulkAssignConfirmBtn').disabled = true;
+            document.getElementById('bulkAssignConfirmBtn').style.opacity = '0.5';
+            document.getElementById('bulkAssignOverlay').style.display = 'flex';
+        }
+
+        function closeBulkAssignModal() {
+            document.getElementById('bulkAssignOverlay').style.display = 'none';
+        }
+
+        function renderBulkAssignJury(list) {
+            const el = document.getElementById('bulkAssignJuryList');
+            if (!list.length) { el.innerHTML = '<p style="text-align:center;color:#94a3b8;padding:20px;font-size:0.875rem;">No jury member found</p>'; return; }
+            const loadColor = { Optimal: '#16a34a', Moderate: '#d97706', Overloaded: '#ef4444', Idle: '#3b82f6' };
+            el.innerHTML = list.map(j => {
+                const sel = bulkAssignSelectedJury === j.id;
+                return `
+                <div onclick="selectBulkJury('${j.id}')" style="display:flex;align-items:center;gap:12px;padding:10px 8px;border-radius:8px;cursor:pointer;background:${sel ? '#f3eeff' : 'transparent'};border:1px solid ${sel ? 'var(--primary)' : 'transparent'};margin-bottom:4px;">
+                    <div style="width:36px;height:36px;border-radius:50%;background:${j.color};color:#fff;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;flex-shrink:0;">${j.initials}</div>
+                    <div style="flex:1;">
+                        <div style="font-size:0.875rem;font-weight:600;color:#1e293b;">${j.name}</div>
+                        <div style="font-size:0.75rem;color:var(--text-muted);">${j.org}</div>
+                    </div>
+                    <div style="text-align:right;">
+                        <div style="font-size:0.8125rem;font-weight:700;color:${loadColor[j.load]};">${j.capacity}%</div>
+                        <div style="font-size:0.7rem;color:var(--text-muted);">${j.load}</div>
+                    </div>
+                    ${sel ? '<span class="material-symbols-outlined" style="color:var(--primary);font-size:20px;">check_circle</span>' : ''}
+                </div>`;
+            }).join('');
+        }
+
+        function selectBulkJury(id) {
+            bulkAssignSelectedJury = id;
+            filterBulkAssignJury();
+            const btn = document.getElementById('bulkAssignConfirmBtn');
+            btn.disabled = false; btn.style.opacity = '1'; btn.style.cursor = 'pointer';
+        }
+
+        function filterBulkAssignJury() {
+            const q = document.getElementById('bulkAssignSearch').value.toLowerCase();
+            renderBulkAssignJury(juryMembers.filter(j => j.name.toLowerCase().includes(q) || j.org.toLowerCase().includes(q)));
+        }
+
+        function confirmBulkAssign() {
+            const jury = juryMembers.find(j => j.id === bulkAssignSelectedJury);
+            const count = document.querySelectorAll('.row-checkbox.checked').length;
+            closeBulkAssignModal();
+            showGlobalToast(`Ideas from ${count} member(s) reassigned to ${jury.name}`, 'success');
+        }
+
+        // ── Bulk Reminder ──
+        function setReminderMsg(msg) { document.getElementById('reminderMessage').value = msg; }
+
+        function closeBulkReminderModal() { document.getElementById('bulkReminderOverlay').style.display = 'none'; }
+
+        function confirmBulkReminder() {
+            const count = document.getElementById('reminderCountText').textContent;
+            closeBulkReminderModal();
+            showGlobalToast(`Reminder sent to ${count}`, 'success');
+        }
+
+        // ── Bulk Pause ──
+        function closeBulkPauseModal() { document.getElementById('bulkPauseOverlay').style.display = 'none'; }
+
+        function confirmBulkPause() {
+            const count = document.getElementById('pauseCountText').textContent;
+            closeBulkPauseModal();
+            // update status badge in selected rows
+            document.querySelectorAll('.row-checkbox.checked').forEach(cb => {
+                const badge = cb.closest('tr').querySelector('.badge-status');
+                if (badge) { badge.textContent = 'Paused'; badge.className = 'badge-status paused'; }
+            });
+            showGlobalToast(`${count} jury member(s) paused`, 'warning');
+        }
+
+        // ── Export CSV ──
+        function exportJuryCSV(rowsToExport) {
+            const headers = ['Name', 'Organisation', 'Expertise', 'Status', 'Assigned', 'Evaluated', 'Pending', 'Capacity %', 'AI Deviation', 'Turnaround'];
+            const csvRows = [headers.join(',')];
+            rowsToExport.forEach(row => {
+                if (row.style.display === 'none') return;
+                const cells = row.querySelectorAll('td');
+                if (cells.length < 10) return;
+                const name    = cells[1].querySelector('.jury-name')?.textContent.trim() || '';
+                const org     = cells[1].querySelector('.jury-org')?.textContent.trim() || '';
+                const exp     = Array.from(cells[2].querySelectorAll('.expertise-tag')).map(t => t.textContent.trim()).join('; ');
+                const status  = cells[3].textContent.trim();
+                const assigned = cells[4].textContent.trim();
+                const evaluated = cells[5].textContent.trim();
+                const pending  = cells[6].textContent.trim();
+                const capacity = cells[7].querySelector('.capacity-text')?.textContent.trim() || '';
+                const deviation = cells[8].textContent.trim();
+                const turnaround = cells[9].textContent.trim();
+                csvRows.push([name, org, exp, status, assigned, evaluated, pending, capacity, deviation, turnaround].map(v => `"${v}"`).join(','));
+            });
+            const blob = new Blob([csvRows.join('\n')], { type: 'text/csv' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `jury-data-${new Date().toISOString().slice(0,10)}.csv`;
+            a.click();
+            showGlobalToast('CSV downloaded successfully', 'success');
+        }
+
+        // ── Global toast (accessible outside IIFE) ──
+        function showGlobalToast(message, type = 'info') {
+            const existing = document.querySelector('.toast-notification');
+            if (existing) existing.remove();
+            const colors = { success: '#22c55e', error: '#ef4444', info: '#5E2A97', warning: '#f97316' };
+            const icons  = { success: 'check_circle', error: 'error', info: 'info', warning: 'warning' };
+            const toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            toast.style.cssText = `position:fixed;bottom:2rem;right:2rem;background:${colors[type]};color:white;padding:1rem 1.5rem;border-radius:0.75rem;box-shadow:0 10px 25px rgba(0,0,0,0.2);z-index:9999;display:flex;align-items:center;gap:0.75rem;font-size:0.875rem;font-weight:500;font-family:'Poppins',sans-serif;max-width:420px;`;
+            toast.innerHTML = `<span class="material-symbols-outlined" style="font-size:20px;">${icons[type]}</span><span>${message}</span>`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3500);
+        }
     </script>
 </body>
 

@@ -788,7 +788,7 @@
                                 </span>
                             </td>
                             <td>
-                                <a href="view-evaluated-idea.html?ideaId=IFT-1902" class="btn-review" style="text-decoration: none; display: inline-block;">Review</a>
+                                <a href="view-evaluated-idea.html?ideaId=IFT-1855" class="btn-review" style="text-decoration: none; display: inline-block;">Review</a>
                             </td>
                         </tr>
                     </tbody>
@@ -941,6 +941,22 @@
                         sidebarToggleBtn: !!sidebarToggleBtn,
                         sidebar: !!sidebar
                     });
+
+                    // Setup Fullscreen
+                    const fullscreenBtn = document.getElementById('fullscreenBtn');
+                    if (fullscreenBtn) {
+                        fullscreenBtn.addEventListener('click', function() {
+                            if (!document.fullscreenElement) {
+                                document.documentElement.requestFullscreen();
+                            } else {
+                                document.exitFullscreen();
+                            }
+                        });
+                        document.addEventListener('fullscreenchange', function() {
+                            const icon = fullscreenBtn.querySelector('.material-symbols-outlined');
+                            icon.textContent = document.fullscreenElement ? 'fullscreen_exit' : 'fullscreen';
+                        });
+                    }
 
                     // Setup Notification Panel
                     if (notificationBtn && notificationPanelEl) {

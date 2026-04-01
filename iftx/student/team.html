@@ -494,7 +494,7 @@
                             <h2 class="card-title">Join a Team</h2>
                             <p class="card-description">
                                 Have a code from your friend? Enter it below to instantly join their team and start collaborating on your business idea.
-                                <span style="display: block; margin-top: 8px; font-size: 0.75rem; color: #94a3b8; font-style: italic;">Demo code: IFT829</span>
+                                <span style="display: block; margin-top: 8px; font-size: 0.75rem; color: #94a3b8; font-style: italic;">Demo code: IFTx829</span>
                             </p>
                             <div>
                                 <label class="form-label-custom" for="team-code">Team Code</label>
@@ -545,6 +545,53 @@
                 </div>
             </div>
         </main>
+    </div>
+
+    <!-- Rules Modal -->
+    <div id="rulesModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:9999; align-items:center; justify-content:center; padding:20px;">
+        <div style="background:#fff; border-radius:16px; width:100%; max-width:560px; max-height:85vh; display:flex; flex-direction:column; overflow:hidden;">
+            <div style="padding:20px 24px; border-bottom:1px solid #EEEEEE; display:flex; align-items:center; justify-content:space-between;">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <span class="material-symbols-outlined" style="color:#5E2A97; font-size:22px;">gavel</span>
+                    <h3 style="margin:0; font-size:1.1rem; font-weight:700; color:#222;">Competition Rules</h3>
+                </div>
+                <button onclick="document.getElementById('rulesModal').style.display='none'" style="background:none; border:none; cursor:pointer; color:#888;">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div style="padding:24px; overflow-y:auto; line-height:1.7; font-size:0.875rem; color:#444;">
+                <h4 style="color:#5E2A97; font-size:0.95rem; margin-bottom:12px;">Team Formation</h4>
+                <ul style="padding-left:20px; margin-bottom:20px;">
+                    <li>Each team must have a minimum of 2 and a maximum of 4 members.</li>
+                    <li>All team members must be registered students of the same school.</li>
+                    <li>One team member must be designated as the Team Leader.</li>
+                    <li>A student can only be part of one team per season.</li>
+                </ul>
+                <h4 style="color:#5E2A97; font-size:0.95rem; margin-bottom:12px;">Idea Submission</h4>
+                <ul style="padding-left:20px; margin-bottom:20px;">
+                    <li>Each team may submit only one idea per season.</li>
+                    <li>Submitted ideas must be original and not plagiarised.</li>
+                    <li>Ideas must address a real-world problem with a viable solution.</li>
+                    <li>Submissions after the deadline will not be accepted.</li>
+                </ul>
+                <h4 style="color:#5E2A97; font-size:0.95rem; margin-bottom:12px;">Evaluation & Judging</h4>
+                <ul style="padding-left:20px; margin-bottom:20px;">
+                    <li>Ideas are evaluated on Innovation, Feasibility, Impact, and Presentation.</li>
+                    <li>Jury members are assigned by the school competition committee.</li>
+                    <li>Scores are final once the evaluation window closes.</li>
+                    <li>Top teams qualify for the school finals.</li>
+                </ul>
+                <h4 style="color:#5E2A97; font-size:0.95rem; margin-bottom:12px;">Code of Conduct</h4>
+                <ul style="padding-left:20px; margin-bottom:0;">
+                    <li>All participants must maintain respectful communication.</li>
+                    <li>Any form of plagiarism or dishonesty will result in disqualification.</li>
+                    <li>Decisions made by the school committee are final and binding.</li>
+                </ul>
+            </div>
+            <div style="padding:16px 24px; border-top:1px solid #EEEEEE; display:flex; justify-content:flex-end;">
+                <button onclick="document.getElementById('rulesModal').style.display='none'" style="padding:10px 24px; background:#5E2A97; color:#fff; border:none; border-radius:8px; font-family:'Poppins',sans-serif; font-size:0.875rem; font-weight:600; cursor:pointer;">Got It</button>
+            </div>
+        </div>
     </div>
 
     <!-- Bootstrap JS -->
@@ -662,7 +709,7 @@
                 const teamCodeInput = document.getElementById('team-code');
 
                 // Dummy team code for testing
-                const VALID_TEAM_CODE = 'IFT829';
+                const VALID_TEAM_CODE = 'IFTx829';
 
                 if (joinBtn && teamCodeInput) {
                     // Auto-format team code input
@@ -715,10 +762,7 @@
 
                 if (viewRulesBtn) {
                     viewRulesBtn.addEventListener('click', function() {
-                        showToast('Opening competition rules...', 'info');
-                        setTimeout(() => {
-                            window.location.href = '#rules';
-                        }, 500);
+                        document.getElementById('rulesModal').style.display = 'flex';
                     });
                 }
 

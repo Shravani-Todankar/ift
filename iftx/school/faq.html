@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>FAQ | School | ENpower IFTx</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap"
+        rel="stylesheet" />
+
+    <!-- Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --primary: #5E2A97;
+            --primary-light: #E8D4F0;
+            --background-light: #F7F7F7;
+            --surface-light: #FFFFFF;
+            --border-light: #EEEEEE;
+            --text-dark: #222222;
+            --text-muted: #666666;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-light);
+            color: var(--text-dark);
+            overflow: hidden;
+        }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+
+        .main-container { display: flex; height: 100vh; width: 100%; }
+        #sidebar-container { flex-shrink: 0; }
+
+        .main-content {
+            flex: 1; display: flex; flex-direction: column;
+            height: 100%; overflow-y: auto; position: relative; z-index: 10;
+        }
+
+        .content-wrapper {
+            flex: 1; padding: 40px; max-width: 1200px; margin: 0 auto; width: 100%;
+        }
+
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .page-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 50px;
+            background-color: rgba(94, 42, 151, 0.1);
+            color: var(--primary);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 16px;
+            letter-spacing: -0.025em;
+        }
+
+        .page-description {
+            font-size: 1rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* FAQ Section */
+        .faq-section { margin-bottom: 32px; }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .section-icon {
+            width: 40px; height: 40px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .section-icon-blue { background-color: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+        .section-icon-orange { background-color: rgba(249, 115, 22, 0.1); color: #f97316; }
+        .section-icon-green { background-color: rgba(34, 197, 94, 0.1); color: #22c55e; }
+        .section-icon-pink { background-color: rgba(236, 72, 153, 0.1); color: #ec4899; }
+
+        .section-title {
+            font-size: 1.25rem; font-weight: 700; color: var(--text-dark); margin: 0;
+        }
+
+        /* FAQ Card */
+        .faq-card {
+            background-color: var(--surface-light);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border-light);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .faq-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .faq-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .faq-question {
+            font-size: 1rem; font-weight: 600; color: var(--text-dark);
+            margin: 0; transition: color 0.2s ease;
+        }
+
+        .faq-card:hover .faq-question { color: var(--primary); }
+
+        .faq-icon {
+            color: var(--text-muted);
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .faq-card:hover .faq-icon { color: var(--primary); }
+
+        .faq-card.active .faq-icon {
+            transform: rotate(180deg);
+            color: var(--primary);
+        }
+
+        .faq-answer {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.3s ease, margin-top 0.3s ease;
+            font-size: 0.875rem; color: var(--text-muted); line-height: 1.6;
+        }
+
+        .faq-card.active .faq-answer {
+            max-height: 500px;
+            margin-top: 16px;
+        }
+
+        /* Support Section */
+        .support-section {
+            margin-top: 64px;
+            background: linear-gradient(135deg, rgba(94, 42, 151, 0.05) 0%, rgba(222, 222, 80, 0.05) 100%);
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            border: 1px solid rgba(94, 42, 151, 0.1);
+        }
+
+        .support-icon-circle {
+            width: 64px; height: 64px; border-radius: 50%;
+            background-color: var(--primary); color: white;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 24px;
+        }
+
+        .support-title {
+            font-size: 1.5rem; font-weight: 700; color: var(--text-dark); margin-bottom: 12px;
+        }
+
+        .support-description {
+            font-size: 1rem; color: var(--text-muted); margin-bottom: 32px;
+        }
+
+        .btn-primary-custom {
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            background-color: var(--primary); color: white; font-weight: 600;
+            padding: 12px 32px; border-radius: 50px; border: none; cursor: pointer;
+            transition: all 0.2s; box-shadow: 0 4px 12px rgba(94, 42, 151, 0.3);
+            text-decoration: none;
+        }
+
+        .btn-primary-custom:hover {
+            background-color: #7B3FB5; transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(94, 42, 151, 0.4); color: white;
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper { padding: 24px; }
+            .page-title { font-size: 2rem; }
+            .support-section { padding: 32px 24px; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+        <!-- Sidebar -->
+        <div id="sidebar-container"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <div id="header-container"></div>
+
+            <div class="content-wrapper">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <span class="page-badge">School Support Center</span>
+                    <h1 class="page-title">Frequently Asked Questions</h1>
+                    <p class="page-description">
+                        Everything you need to know about monitoring your school's participation in the ENpower IFTx innovation competition.
+                    </p>
+                </div>
+
+                <!-- FAQ Grid -->
+                <div class="row g-4">
+                    <!-- Competition Overview -->
+                    <div class="col-12 col-md-6">
+                        <div class="faq-section">
+                            <div class="section-header">
+                                <div class="section-icon section-icon-blue">
+                                    <span class="material-symbols-outlined">info</span>
+                                </div>
+                                <h2 class="section-title">Competition Overview</h2>
+                            </div>
+
+                            <div class="faq-card">
+                                <div class="faq-card-header">
+                                    <h3 class="faq-question">What is ENpower IFTx?</h3>
+                                    <span class="material-symbols-outlined faq-icon">expand_more</span>
+                                </div>
+                                <div class="faq-answer">
+                                    ENpower IFTx is the school-level edition of the India Future Tycoon innovation competition. It empowers students from Grades 8–12 to form teams, brainstorm ideas, and submit innovative solutions to real-world problems. The competition is managed by your school's coordinator and evaluated by assigned jury members with AI-assisted scoring.
+                                </div>
+                            </div>
+
+                            <div class="faq-card">
+                                <div class="faq-card-header">
+                                    <h3 class="faq-question">What are the different phases of the competition?</h3>
+                                    <span class="material-symbols-outlined faq-icon">expand_more</span>
+                                </div>
+                                <div class="faq-answer">
+                                    The competition runs in four phases: <strong>Registration</strong> — students sign up and form teams; <strong>Idea Submission</strong> — teams submit their innovation ideas; <strong>Evaluation</strong> — AI and jury members score each submission on a 50-point scale; and <strong>Results</strong> — top-performing ideas are shortlisted and winners are announced. You can track progress across all phases from your dashboard.
+                                </div>
+                            </div>
+
+                            <div class="faq-card">
+                                <div class="faq-card-header">
+                                    <h3 class="faq-question">How is the 50-point scoring system structured?</h3>
+                                    <span class="material-symbols-outlined faq-icon">expand_more</span>
+                                </div>
+                                <div class="faq-answer">
+                                    Each submission is scored out of 50 points total — <strong>25 points from AI evaluation</strong> (automated analysis of innovation, feasibility, and impact) and <strong>25 points from Jury evaluation</strong> (expert human assessment of presentation, team capability, and real-world potential). The combined score determines the final ranking.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Your Role as Principal -->
+                    <div class="col-12 col-md-6">
+                        <div class="faq-section">
+                            <div class="section-header">
+                                <div class="section-icon section-icon-orange">
+                                    <span class="material-symbols-outlined">school</span>
+                                </div>
+                                <h2 class="section-title">Your Role as Principal</h2>
+                            </div>
+
+                            <div class="faq-card">
+                                <div class="faq-card-header">
+                                    <h3 class="faq-question">What can I do on this platform?</h3>
+                                    <span class="material-symbols-outlined faq-icon">expand_more</span>
+                                </div>
+                                <div class="faq-answer">
+                                    As the School Principal, your dashboard provides a <strong>read-only monitoring view</strong> of the entire competition. You can track student registrations, team formations, submission progress, evaluation scores, and final results — all in real time. You do not manage operations; that is handled by the School Administrator (coordinator).
+                                </div>
+                            </div>
+
+                            <div class="faq-card">
+                                <div class="faq-card-header">
+                                    <h3 class="faq-question">Who manages the day-to-day competition operations?</h3>
+                                    <span class="material-symbols-outlined faq-icon">expand_more</span>
+                                </div>
+                                <div class="faq-answer">
+                                    The <strong>School Administrator</strong> (competition coordinator) handles all operational tasks — onboarding students, managing jury members, setting deadlines, reviewing submissions, announcing results, and creating content. Your role is to oversee and monitor progress without needing to intervene in daily operations.
+                                </div>
+                            </div>
+
+                            <div class="faq-card">
+                                <div class="faq-card-header">
+                                    <h3 class="faq-question">Can I export reports for school records?</h3>
+                                    <span class="material-symbols-outlined faq-icon">expand_more</span>
+                                </div>
+                                <div class="faq-answer">
+                                    Yes. You can export data as CSV files from the Students, Teams, Submissions, and Results pages. The Reports page also offers a Print and Export PDF option for comprehensive analytics including grade-wise participation, score distribution, and top performers — ideal for school records, board meetings, or parent communications.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Students & Teams -->
+                    <div class="col-12 col-md-6">
+                        <div class="faq-section">
+                            <div class="section-header">
+                                <div class="section-icon section-icon-green">
+                                    <span class="material-symbols-outlined">groups</span>
+                                </div>
+                                <h2 class="section-title">Students & Teams</h2>
+                            </div>
+
+                            <div class="faq-card">
+                                <div class="faq-card-header">
+                                    <h3 class="faq-question">How do students register and form teams?</h3>
+                                    <span class="material-symbols-outlined faq-icon">expand_more</span>
+                                </div>
+                                <div class="faq-answer">
+                                    Students register through the ENpower IFTx student portal using their school credentials. Once registered, they can create a team (2–4 members) or join an existing one via team invitations. Each team selects a Team Leader who submits the final idea. You can monitor all registrations and team formations from the Students and Teams pages.
+                                </div>
+                            </div>
+
+                            <div class="faq-card">
+                                <div class="faq-card-header">
+                                    <h3 class="faq-question">What does the participation rate indicate?</h3>
+                                    <span class="material-symbols-outlined faq-icon">expand_more</span>
+                                </div>
+                                <div class="faq-answer">
+                                    The participation rate shows the percentage of registered students whose teams have submitted at least one idea. For example, a 76% participation rate means 76% of your students have actively contributed to an idea submission. This metric helps you gauge student engagement across different grades and sections.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Results & Evaluation -->
+                    <div class="col-12 col-md-6">
+                        <div class="faq-section">
+                            <div class="section-header">
+                                <div class="section-icon section-icon-pink">
+                                    <span class="material-symbols-outlined">emoji_events</span>
+                                </div>
+                                <h2 class="section-title">Results & Evaluation</h2>
+                            </div>
+
+                            <div class="faq-card">
+                                <div class="faq-card-header">
+                                    <h3 class="faq-question">How are winners selected?</h3>
+                                    <span class="material-symbols-outlined faq-icon">expand_more</span>
+                                </div>
+                                <div class="faq-answer">
+                                    Winners are selected based on their combined AI + Jury score out of 50. After all evaluations are complete, ideas are ranked by total score. The top 5 ideas (or as configured by the coordinator) are shortlisted as winners. You can view the full leaderboard, podium rankings, and shortlisted ideas on the Results page.
+                                </div>
+                            </div>
+
+                            <div class="faq-card">
+                                <div class="faq-card-header">
+                                    <h3 class="faq-question">What happens after the school-level competition?</h3>
+                                    <span class="material-symbols-outlined faq-icon">expand_more</span>
+                                </div>
+                                <div class="faq-answer">
+                                    Shortlisted ideas from the school-level IFTx competition may advance to the national-level India Future Tycoon competition, where they compete with innovations from schools across India. The Hall of Fame page showcases your school's top performers and their achievements for recognition and celebration.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Still have questions? -->
+                <div class="support-section">
+                    <div class="support-icon-circle">
+                        <span class="material-symbols-outlined" style="font-size: 32px;">chat_bubble</span>
+                    </div>
+                    <h3 class="support-title">Still have questions?</h3>
+                    <p class="support-description">We're here to help! Reach out to our support team for any additional assistance.</p>
+                    <div class="d-flex flex-wrap align-items-center justify-content-center gap-3">
+                        <a href="mailto:support@iftx.in" class="btn-primary-custom">
+                            <span class="material-symbols-outlined">mail</span>
+                            Contact Support
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Load External Components -->
+    <script>
+        // Load sidebar
+        fetch('sidebar.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('sidebar-container').innerHTML = data;
+
+                setTimeout(() => {
+                    const currentPage = window.location.pathname.split('/').pop() || 'faq.html';
+                    const navItems = document.querySelectorAll('.nav-item');
+
+                    navItems.forEach(item => {
+                        const href = item.getAttribute('href');
+                        item.classList.remove('nav-item-active');
+                        const icon = item.querySelector('.material-symbols-outlined');
+                        if (icon) {
+                            icon.classList.remove('filled');
+                            icon.style.fontVariationSettings = "'FILL' 0";
+                        }
+                        if (href === currentPage) {
+                            item.classList.add('nav-item-active');
+                            if (icon) {
+                                icon.classList.add('filled');
+                                icon.style.fontVariationSettings = "'FILL' 1";
+                            }
+                        }
+                    });
+                }, 200);
+            })
+            .catch(error => console.error('Error loading sidebar:', error));
+
+        // Load header
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = data;
+                tempDiv.childNodes.forEach(node => {
+                    if (node.nodeType === 1 || node.nodeType === 3) {
+                        document.getElementById('header-container').appendChild(node.cloneNode(true));
+                    }
+                });
+                const script = tempDiv.querySelector('script');
+                if (script) {
+                    const newScript = document.createElement('script');
+                    newScript.textContent = script.textContent;
+                    document.body.appendChild(newScript);
+                }
+            })
+            .catch(error => console.error('Error loading header:', error));
+    </script>
+
+    <!-- FAQ Functionality -->
+    <script>
+        (function () {
+            function initFAQ() {
+                const faqCards = document.querySelectorAll('.faq-card');
+
+                faqCards.forEach(card => {
+                    card.addEventListener('click', function () {
+                        if (this.classList.contains('active')) {
+                            this.classList.remove('active');
+                        } else {
+                            this.classList.add('active');
+                        }
+                    });
+                });
+
+                // Scroll animation
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach((entry, index) => {
+                        if (entry.isIntersecting) {
+                            setTimeout(() => {
+                                entry.target.style.opacity = '1';
+                                entry.target.style.transform = 'translateY(0)';
+                            }, index * 50);
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                faqCards.forEach(card => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    observer.observe(card);
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initFAQ);
+            } else {
+                setTimeout(initFAQ, 500);
+            }
+        })();
+    </script>
+</body>
+
+</html>

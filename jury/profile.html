@@ -675,6 +675,22 @@
                         sidebar: !!sidebar
                     });
 
+                    // Setup Fullscreen
+                    const fullscreenBtn = document.getElementById('fullscreenBtn');
+                    if (fullscreenBtn) {
+                        fullscreenBtn.addEventListener('click', function() {
+                            if (!document.fullscreenElement) {
+                                document.documentElement.requestFullscreen();
+                            } else {
+                                document.exitFullscreen();
+                            }
+                        });
+                        document.addEventListener('fullscreenchange', function() {
+                            const icon = fullscreenBtn.querySelector('.material-symbols-outlined');
+                            icon.textContent = document.fullscreenElement ? 'fullscreen_exit' : 'fullscreen';
+                        });
+                    }
+
                     // Setup Notification Panel
                     if (notificationBtn && notificationPanelEl) {
                         notificationBtn.addEventListener('click', function(e) {

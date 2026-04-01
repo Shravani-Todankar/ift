@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Notifications - IFT Student Portal</title>
+    <title>Notifications - IFTx Student Portal</title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -377,6 +377,7 @@
 
         .notification-badge {
             position: absolute;
+            bottom: 17%;
             right: 3em;
             width: 0.75rem;
             height: 0.75rem;
@@ -709,14 +710,14 @@
                         </div>
                         <div class="notification-content">
                             <div class="notification-header">
-                                <h3 class="notification-title">Welcome to IFT 2024!</h3>
+                                <h3 class="notification-title">Welcome to IFTx 2026!</h3>
                                 <span class="notification-time">
                                     <span class="material-symbols-outlined" style="font-size: 14px;">schedule</span>
                                     2w ago
                                 </span>
                             </div>
                             <p class="notification-message">
-                                Welcome to India's Future Tycoon 2024! We're excited to have you on this entrepreneurial
+                                Welcome to IFTx at <span class="school-name">Your School</span>! We're excited to have you on this entrepreneurial
                                 journey. Explore the platform, form your team, and start innovating!
                             </p>
                             <div class="notification-actions">
@@ -899,7 +900,15 @@
                 btn.addEventListener('click', function (e) {
                     e.stopPropagation();
                     const text = this.textContent.trim();
-                    showToast(`Action: ${text}`, 'info');
+                    if (text.includes('View Team')) {
+                        window.location.href = 'team.html';
+                    } else if (text.includes('Browse Resources')) {
+                        window.location.href = 'learning-resources.html';
+                    } else if (text.includes('Take a Tour')) {
+                        showToast('Tour coming soon!', 'info');
+                    } else {
+                        showToast(`Action: ${text}`, 'info');
+                    }
                 });
             });
 

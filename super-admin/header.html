@@ -98,6 +98,9 @@
 
     <!-- Header Right Side -->
     <div class="d-flex align-items-center gap-2 ms-auto">
+        <button class="header-icon-btn" id="fullscreenBtn" title="Toggle Fullscreen">
+            <span class="material-symbols-outlined">fullscreen</span>
+        </button>
         <button class="header-icon-btn">
             <span class="material-symbols-outlined">notifications</span>
         </button>
@@ -306,6 +309,27 @@
             }
         }
 
+        // Fullscreen toggle
+        function initFullscreen() {
+            const btn = document.getElementById('fullscreenBtn');
+            if (!btn) return;
+
+            function updateIcon() {
+                const icon = btn.querySelector('.material-symbols-outlined');
+                icon.textContent = document.fullscreenElement ? 'fullscreen_exit' : 'fullscreen';
+            }
+
+            btn.addEventListener('click', function() {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen();
+                } else {
+                    document.exitFullscreen();
+                }
+            });
+
+            document.addEventListener('fullscreenchange', updateIcon);
+        }
+
         // Sidebar toggle functionality
         function initSidebarToggle() {
             const sidebarToggleBtn = document.getElementById('sidebarToggleBtn');
@@ -349,6 +373,7 @@
             }
 
             console.log('Initializing header functionality...');
+            initFullscreen();
             initNotificationPanel();
             initProfileDropdown();
             initSidebarToggle();

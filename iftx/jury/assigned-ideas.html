@@ -1010,7 +1010,7 @@
                                 localStorage.removeItem('userToken');
 
                                 // Redirect to login page
-                                window.location.href = '../auth/sign-in.html';
+                                window.location.href = '../../auth/sign-in.html';
                             }
                         });
                     }
@@ -1028,6 +1028,22 @@
                                 // Toggle mobile-open state on mobile
                                 sidebar.classList.toggle('mobile-open');
                             }
+                        });
+                    }
+
+                    // Setup Fullscreen
+                    const fullscreenBtn = document.getElementById('fullscreenBtn');
+                    if (fullscreenBtn) {
+                        fullscreenBtn.addEventListener('click', function() {
+                            if (!document.fullscreenElement) {
+                                document.documentElement.requestFullscreen();
+                            } else {
+                                document.exitFullscreen();
+                            }
+                        });
+                        document.addEventListener('fullscreenchange', function() {
+                            const icon = fullscreenBtn.querySelector('.material-symbols-outlined');
+                            icon.textContent = document.fullscreenElement ? 'fullscreen_exit' : 'fullscreen';
                         });
                     }
 

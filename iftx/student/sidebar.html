@@ -100,6 +100,7 @@
         transition: all 0.2s ease;
         cursor: pointer;
         margin-bottom: 0.25rem;
+        position: relative;
     }
 
     .nav-item:hover {
@@ -135,7 +136,10 @@
     }
 
     .notification-badge {
-        margin-left: auto;
+        position: absolute;
+        right: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
         font-size: 0.625rem;
         font-weight: 700;
         background: #EF4444;
@@ -277,12 +281,12 @@
                 style='background-image: url("../../assets/IFT_logo.png");'>
             </div>
             <!-- <div class="d-flex flex-column" style="margin-left: 10px;">
-                <h1 class="sidebar-title">IFT</h1>
-                <p class="sidebar-subtitle">India's Future Tycoon</p>
+                <h1 class="sidebar-title">IFTx</h1>
+                <p class="sidebar-subtitle"><span class="school-name">Your School</span></p>
             </div> -->
         </div>
     </div>
-    <nav class="flex-grow-1 px-3 d-flex flex-column gap-2 mt-3">
+    <nav class="flex-grow-1 px-3 d-flex flex-column gap-2 mt-3" style="overflow-y: auto;">
         <!-- Dashboard -->
         <a class="nav-item" href="dashboard.html">
             <span class="material-symbols-outlined">dashboard</span>
@@ -299,6 +303,12 @@
         <a class="nav-item" href="idea-submissions.html">
             <span class="material-symbols-outlined">lightbulb</span>
             <span class="nav-text">Idea Submission</span>
+        </a>
+
+        <!-- Learning Resources -->
+        <a class="nav-item" href="learning-resources.html">
+            <span class="material-symbols-outlined">menu_book</span>
+            <span class="nav-text">Learning Resources</span>
         </a>
 
         <!-- My Idea -->
@@ -417,7 +427,7 @@
 
                         console.log('Redirecting to sign-in...');
                         // Redirect to sign-in page
-                        window.location.href = '../auth/sign-in.html';
+                        window.location.href = '../../auth/sign-in.html';
                     }
                 });
             }

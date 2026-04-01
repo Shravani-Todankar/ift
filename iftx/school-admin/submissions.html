@@ -1,0 +1,2782 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Submissions | School Admin | ENpower IFTx</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap"
+        rel="stylesheet" />
+
+    <!-- Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --primary: #5E2A97;
+            --secondary: #DEDE50;
+            --primary-light: #E8D4F0;
+            --background-light: #F7F7F7;
+            --surface-light: #FFFFFF;
+            --border-light: #EEEEEE;
+            --text-dark: #222222;
+            --text-muted: #666666;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-light);
+            color: var(--text-dark);
+            overflow: hidden;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Layout */
+        .main-container {
+            display: flex;
+            height: 100vh;
+            width: 100%;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow-y: auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            padding: 32px;
+            max-width: 100%;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        #sidebar-container {
+            flex-shrink: 0;
+        }
+
+        /* Page Header */
+        .page-header {
+            margin-bottom: 32px;
+        }
+
+        .page-header h1 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .breadcrumb {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            background: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .breadcrumb-item a {
+            color: var(--text-muted);
+            text-decoration: none;
+        }
+
+        .breadcrumb-item a:hover {
+            color: var(--primary);
+        }
+
+        .breadcrumb-item.active {
+            color: var(--text-dark);
+        }
+
+        /* Stats Cards */
+        .stat-card {
+            background: var(--surface-light);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            border: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-icon.purple {
+            background: rgba(94, 42, 151, 0.1);
+            color: var(--primary);
+        }
+
+        .stat-icon.amber {
+            background: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+        }
+
+        .stat-icon.blue {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+
+        .stat-icon.green {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+        }
+
+        .stat-icon.orange {
+            background: rgba(249, 115, 22, 0.1);
+            color: #f97316;
+        }
+
+        .stat-icon.red {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin: 0;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 0;
+            display: flex;
+            justify-content: space-between;
+            flex-direction: row;
+            gap: 20px;
+        }
+
+        .stat-trend {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .stat-trend.positive {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .stat-trend.neutral {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        /* Pipeline Bar */
+        .pipeline-bar {
+            background: var(--surface-light);
+            border-radius: 12px;
+            padding: 20px 24px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            border: 1px solid var(--border-light);
+            margin-bottom: 24px;
+        }
+
+        .pipeline-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
+        }
+
+        .pipeline-track {
+            display: flex;
+            height: 32px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .pipeline-segment {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6875rem;
+            font-weight: 700;
+            color: #fff;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .pipeline-segment:hover {
+            filter: brightness(1.1);
+        }
+
+        .pipeline-segment.draft {
+            background: #94a3b8;
+        }
+
+        .pipeline-segment.submitted {
+            background: #3b82f6;
+        }
+
+        .pipeline-segment.ai-review {
+            background: #8b5cf6;
+        }
+
+        .pipeline-segment.jury-review {
+            background: #f59e0b;
+        }
+
+        .pipeline-segment.evaluated {
+            background: #22c55e;
+        }
+
+        .pipeline-segment.selected {
+            background: var(--primary);
+        }
+
+        .pipeline-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .pipeline-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .pipeline-legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 3px;
+        }
+
+        .pipeline-legend-dot.draft {
+            background: #94a3b8;
+        }
+
+        .pipeline-legend-dot.submitted {
+            background: #3b82f6;
+        }
+
+        .pipeline-legend-dot.ai-review {
+            background: #8b5cf6;
+        }
+
+        .pipeline-legend-dot.jury-review {
+            background: #f59e0b;
+        }
+
+        .pipeline-legend-dot.evaluated {
+            background: #22c55e;
+        }
+
+        .pipeline-legend-dot.selected {
+            background: var(--primary);
+        }
+
+        .pipeline-legend-count {
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        /* Main Card */
+        .main-card {
+            background: var(--surface-light);
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            border: 1px solid var(--border-light);
+            overflow: hidden;
+        }
+
+        .main-card-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        /* Search & Filter */
+        .search-input {
+            position: relative;
+        }
+
+        .search-input .material-symbols-outlined {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 20px;
+        }
+
+        .search-input input {
+            width: 100%;
+            padding: 10px 12px 10px 44px;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            font-size: 0.875rem;
+            background: #f8fafc;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .search-input input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(94, 42, 151, 0.1);
+        }
+
+        .filter-select {
+            width: auto;
+            font-size: 0.875rem;
+            padding: 10px 12px;
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            background: #f8fafc;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(94, 42, 151, 0.1);
+        }
+
+        /* Table */
+        .custom-table {
+            width: 100%;
+            font-size: 0.875rem;
+        }
+
+        .custom-table thead {
+            background: #f8fafc;
+        }
+
+        .custom-table th {
+            padding: 16px 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-align: left;
+            border-bottom: 1px solid var(--border-light);
+            white-space: nowrap;
+        }
+
+        .custom-table th.sortable {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .custom-table th.sortable:hover {
+            color: var(--primary);
+        }
+
+        .custom-table td {
+            padding: 16px 20px;
+            vertical-align: middle;
+            border-bottom: 1px solid #f8f9fa;
+        }
+
+        .custom-table tbody tr {
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        .custom-table tbody tr:hover {
+            background: rgba(94, 42, 151, 0.03);
+        }
+
+        .custom-table tbody tr.selected {
+            background: rgba(94, 42, 151, 0.06);
+        }
+
+        /* Table Cell Elements */
+        .submission-id {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--primary);
+            font-family: monospace;
+        }
+
+        .idea-title {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin: 0;
+            font-size: 0.875rem;
+        }
+
+        .idea-category {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .team-name {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin: 0;
+            font-size: 0.8125rem;
+        }
+
+        .school-name {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .avatar-group {
+            display: flex;
+        }
+
+        .avatar-mini {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.5625rem;
+            font-weight: 700;
+            border: 2px solid #fff;
+            margin-left: -6px;
+        }
+
+        .avatar-mini:first-child {
+            margin-left: 0;
+        }
+
+        .badge-status {
+            font-size: 0.6875rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 999px;
+            white-space: nowrap;
+        }
+
+        .badge-status.draft {
+            background: #e2e8f0;
+            color: #475569;
+        }
+
+        .badge-status.submitted {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .badge-status.ai-review {
+            background: #ede9fe;
+            color: #7c3aed;
+        }
+
+        .badge-status.jury-review {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-status.evaluated {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-status.selected {
+            background: rgba(94, 42, 151, 0.1);
+            color: var(--primary);
+        }
+
+        .badge-status.rejected {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .score-display {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .score-bar {
+            flex: 1;
+            height: 6px;
+            background: #f1f5f9;
+            border-radius: 999px;
+            overflow: hidden;
+            min-width: 60px;
+        }
+
+        .score-fill {
+            height: 100%;
+            border-radius: 999px;
+            transition: width 0.3s ease;
+        }
+
+        .score-fill.high {
+            background: #22c55e;
+        }
+
+        .score-fill.medium {
+            background: #f59e0b;
+        }
+
+        .score-fill.low {
+            background: #ef4444;
+        }
+
+        .score-fill.none {
+            background: #cbd5e1;
+        }
+
+        .score-value {
+            font-size: 0.8125rem;
+            font-weight: 700;
+            min-width: 36px;
+            text-align: right;
+        }
+
+        .score-value.high {
+            color: #16a34a;
+        }
+
+        .score-value.medium {
+            color: #d97706;
+        }
+
+        .score-value.low {
+            color: #ef4444;
+        }
+
+        .score-value.none {
+            color: #94a3b8;
+        }
+
+        /* Checkbox */
+        .custom-checkbox {
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--border-light);
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .custom-checkbox.checked {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .custom-checkbox.checked::after {
+            content: '✓';
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* Bulk Actions */
+        .bulk-actions {
+            display: none;
+            padding: 12px 24px;
+            background: rgba(94, 42, 151, 0.05);
+            border-bottom: 1px solid var(--border-light);
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .bulk-actions.visible {
+            display: flex;
+        }
+
+        .bulk-count {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .bulk-btn {
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid var(--border-light);
+            background: var(--surface-light);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .bulk-btn:hover {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        .bulk-btn .material-symbols-outlined {
+            font-size: 16px;
+        }
+
+        /* Buttons */
+        .btn-primary-custom {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.875rem;
+            box-shadow: 0 4px 6px rgba(94, 42, 151, 0.3);
+        }
+
+        .btn-primary-custom:hover {
+            background: #7B3FB5;
+        }
+
+        .btn-secondary-custom {
+            background: white;
+            color: var(--text-dark);
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.875rem;
+        }
+
+        .btn-secondary-custom:hover {
+            background: #f8fafc;
+        }
+
+        .btn-icon-action {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid var(--border-light);
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-muted);
+        }
+
+        .btn-icon-action:hover {
+            background: rgba(94, 42, 151, 0.1);
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .btn-icon-action .material-symbols-outlined {
+            font-size: 18px;
+        }
+
+        /* Pagination */
+        .pagination-custom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 24px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .pagination-info {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .pagination-controls {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .page-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid var(--border-light);
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.8125rem;
+            font-weight: 600;
+        }
+
+        .page-btn:hover {
+            background: #f8fafc;
+        }
+
+        .page-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Details Sidebar */
+        .details-sidebar {
+            position: fixed;
+            top: 0;
+            right: -520px;
+            width: 520px;
+            height: 100vh;
+            background: var(--surface-light);
+            box-shadow: -4px 0 24px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .details-sidebar.open {
+            right: 0;
+        }
+
+        .details-sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .details-sidebar-overlay.show {
+            display: block;
+            opacity: 1;
+        }
+
+        .details-sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .details-sidebar-header h2 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .details-sidebar-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid var(--border-light);
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-muted);
+        }
+
+        .details-sidebar-close:hover {
+            background: #f8fafc;
+            color: var(--text-dark);
+        }
+
+        .details-sidebar-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+        }
+
+        .detail-section {
+            margin-bottom: 28px;
+        }
+
+        .detail-section-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .detail-section-title .material-symbols-outlined {
+            font-size: 18px;
+            color: var(--primary);
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .detail-item {
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+
+        .detail-item.full {
+            grid-column: 1 / -1;
+        }
+
+        .detail-item-label {
+            font-size: 0.6875rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 4px;
+        }
+
+        .detail-item-value {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .idea-detail-card {
+            padding: 20px;
+            background: rgba(94, 42, 151, 0.04);
+            border-radius: 12px;
+            border: 1px solid rgba(94, 42, 151, 0.1);
+        }
+
+        .idea-detail-card h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin: 0 0 6px 0;
+        }
+
+        .idea-detail-card .idea-pitch {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin: 0 0 12px 0;
+        }
+
+        .idea-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .idea-tag {
+            font-size: 0.625rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            background: #e2e8f0;
+            color: var(--text-dark);
+            border-radius: 4px;
+        }
+
+        .score-breakdown {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .score-param {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background: #f8fafc;
+            border-radius: 6px;
+        }
+
+        .score-param-name {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .score-param-value {
+            font-size: 0.8125rem;
+            font-weight: 700;
+        }
+
+        .team-member-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .team-member-row:last-child {
+            border-bottom: none;
+        }
+
+        .team-member-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.625rem;
+            font-weight: 700;
+        }
+
+        .team-member-info {
+            flex: 1;
+        }
+
+        .team-member-name {
+            font-size: 0.8125rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .team-member-role {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+        }
+
+        .attachment-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .attachment-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid var(--border-light);
+        }
+
+        .attachment-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .attachment-icon.image {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+
+        .attachment-icon.video {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+
+        .attachment-icon.document {
+            background: rgba(249, 115, 22, 0.1);
+            color: #f97316;
+        }
+
+        .attachment-info {
+            flex: 1;
+        }
+
+        .attachment-name {
+            font-size: 0.8125rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .attachment-size {
+            font-size: 0.6875rem;
+            color: var(--text-muted);
+        }
+
+        .details-sidebar-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--border-light);
+            display: flex;
+            gap: 12px;
+        }
+
+        .details-sidebar-footer .btn-primary-custom,
+        .details-sidebar-footer .btn-secondary-custom {
+            flex: 1;
+            justify-content: center;
+            padding: 10px 16px;
+            font-size: 0.8125rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .custom-table {
+                font-size: 0.8125rem;
+            }
+
+            .custom-table th,
+            .custom-table td {
+                padding: 12px 14px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding: 16px;
+            }
+
+            .details-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .score-breakdown {
+                grid-template-columns: 1fr;
+            }
+
+            .pagination-custom {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+        <!-- Include Sidebar -->
+        <div id="sidebar-container"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Include Header -->
+            <div id="header-container"></div>
+
+            <div class="content-wrapper">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-md-6">
+                            <h1>Submissions</h1>
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="dashboard.html">Admin</a></li>
+                                    <li class="breadcrumb-item active">Submissions</li>
+                                </ol>
+                            </nav>
+                        </div>
+                        <div
+                            class="col-12 col-md-6 d-flex justify-content-md-end align-items-center gap-3 mt-3 mt-md-0">
+                            <button class="btn-secondary-custom" id="exportBtn">
+                                <span class="material-symbols-outlined" style="font-size: 18px;">file_download</span>
+                                Export CSV
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="row g-4 mb-4">
+                    <div class="col-6 col-lg-2">
+                        <div class="stat-card">
+                            <div>
+                                <p class="stat-label">Total</p>
+                                <h3 class="stat-value">148</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-2">
+                        <div class="stat-card">
+                            <div>
+                                <p class="stat-label">Draft</p>
+                                <h3 class="stat-value" style="color: #94a3b8;">340</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-2">
+                        <div class="stat-card">
+                            <div>
+                                <p class="stat-label">Under Review</p>
+                                <h3 class="stat-value" style="color: #f59e0b;">285</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-2">
+                        <div class="stat-card">
+                            <div>
+                                <p class="stat-label">Evaluated</p>
+                                <h3 class="stat-value" style="color: #22c55e;">820</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-2">
+                        <div class="stat-card">
+                            <div>
+                                <p class="stat-label">Top 400</p>
+                                <h3 class="stat-value" style="color: var(--primary);">398</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-lg-2">
+                        <div class="stat-card">
+                            <div>
+                                <p class="stat-label">Avg Score</p>
+                                <h3 class="stat-value">31.5 <span class="stat-trend positive">↑ 2.3</span></h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pipeline Bar -->
+                <div class="pipeline-bar">
+                    <p class="pipeline-label">Submission Pipeline</p>
+                    <div class="pipeline-track">
+                        <div class="pipeline-segment draft" style="width: 18.4%;" title="Draft: 340">340</div>
+                        <div class="pipeline-segment submitted" style="width: 10.8%;" title="Submitted: 200">200</div>
+                        <div class="pipeline-segment ai-review" style="width: 7.6%;" title="AI Review: 140">140</div>
+                        <div class="pipeline-segment jury-review" style="width: 7.8%;" title="Jury Review: 145">145
+                        </div>
+                        <div class="pipeline-segment evaluated" style="width: 33.8%;" title="Evaluated: 624">624</div>
+                        <div class="pipeline-segment selected" style="width: 21.5%;" title="Top 400: 398">398</div>
+                    </div>
+                    <div class="pipeline-legend">
+                        <div class="pipeline-legend-item" data-status="draft">
+                            <span class="pipeline-legend-dot draft"></span>
+                            Draft <span class="pipeline-legend-count">340</span>
+                        </div>
+                        <div class="pipeline-legend-item" data-status="submitted">
+                            <span class="pipeline-legend-dot submitted"></span>
+                            Submitted <span class="pipeline-legend-count">200</span>
+                        </div>
+                        <div class="pipeline-legend-item" data-status="ai-review">
+                            <span class="pipeline-legend-dot ai-review"></span>
+                            AI Review <span class="pipeline-legend-count">140</span>
+                        </div>
+                        <div class="pipeline-legend-item" data-status="jury-review">
+                            <span class="pipeline-legend-dot jury-review"></span>
+                            Jury Review <span class="pipeline-legend-count">145</span>
+                        </div>
+                        <div class="pipeline-legend-item" data-status="evaluated">
+                            <span class="pipeline-legend-dot evaluated"></span>
+                            Evaluated <span class="pipeline-legend-count">624</span>
+                        </div>
+                        <div class="pipeline-legend-item" data-status="selected">
+                            <span class="pipeline-legend-dot selected"></span>
+                            Top 400 <span class="pipeline-legend-count">398</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Data Card -->
+                <div class="main-card">
+                    <!-- Search & Filters -->
+                    <div class="main-card-header">
+                        <div class="row align-items-center g-3">
+                            <div class="col-12 col-md-4">
+                                <div class="search-input">
+                                    <span class="material-symbols-outlined">search</span>
+                                    <input type="text" id="searchInput" placeholder="Search by idea, team, school...">
+                                </div>
+                            </div>
+                            <div
+                                class="col-12 col-md-8 d-flex align-items-center gap-3 justify-content-md-end flex-wrap">
+                                <select class="filter-select" id="statusFilter">
+                                    <option value="">All Status</option>
+                                    <option value="draft">Draft</option>
+                                    <option value="submitted">Submitted</option>
+                                    <option value="ai-review">AI Review</option>
+                                    <option value="jury-review">Jury Review</option>
+                                    <option value="evaluated">Evaluated</option>
+                                    <option value="selected">Top 400</option>
+                                    <option value="rejected">Rejected</option>
+                                </select>
+                                <select class="filter-select" id="categoryFilter">
+                                    <option value="">All Categories</option>
+                                    <option value="healthtech">HealthTech</option>
+                                    <option value="edtech">EdTech</option>
+                                    <option value="agritech">AgriTech</option>
+                                    <option value="sustainability">Sustainability</option>
+                                    <option value="fintech">FinTech</option>
+                                    <option value="social-impact">Social Impact</option>
+                                    <option value="technology">Technology</option>
+                                </select>
+                                <select class="filter-select" id="scoreFilter">
+                                    <option value="">All Scores</option>
+                                    <option value="40-50">40–50 (Excellent)</option>
+                                    <option value="34-39">34–39 (Top 400)</option>
+                                    <option value="25-33">25–33 (Average)</option>
+                                    <option value="0-24">0–24 (Below Avg)</option>
+                                    <option value="unscored">Not Scored</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bulk hint -->
+                    <div
+                        style="padding: 10px 20px; background: #f8fafc; border-bottom: 1px solid var(--border-light); display: flex; align-items: center; gap: 8px; font-size: 0.8125rem; color: var(--text-muted);">
+                        <span class="material-symbols-outlined" style="font-size: 16px; color: #94a3b8;">info</span>
+                        Select rows to use bulk actions — Assign Jury, Run AI Eval, Change Status and Export.
+                    </div>
+
+                    <!-- Bulk Actions -->
+                    <div class="bulk-actions" id="bulkActions">
+                        <span class="bulk-count"><span id="selectedCount">0</span> selected</span>
+                        <button class="bulk-btn">
+                            <span class="material-symbols-outlined">assignment_ind</span>
+                            Assign Jury
+                        </button>
+                        <button class="bulk-btn">
+                            <span class="material-symbols-outlined">smart_toy</span>
+                            Run AI Eval
+                        </button>
+                        <button class="bulk-btn">
+                            <span class="material-symbols-outlined">file_download</span>
+                            Export
+                        </button>
+                        <button class="bulk-btn">
+                            <span class="material-symbols-outlined">label</span>
+                            Change Status
+                        </button>
+                    </div>
+
+                    <!-- Table -->
+                    <div class="table-responsive">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 40px;">
+                                        <div class="custom-checkbox" id="selectAll"></div>
+                                    </th>
+                                    <th>ID</th>
+                                    <th class="sortable" data-sort="idea">Idea <span class="material-symbols-outlined"
+                                            style="font-size: 14px; vertical-align: middle;">unfold_more</span></th>
+                                    <th class="sortable" data-sort="team">Team <span class="material-symbols-outlined"
+                                            style="font-size: 14px; vertical-align: middle;">unfold_more</span></th>
+                                    <th>Members</th>
+                                    <th class="sortable" data-sort="status">Status <span
+                                            class="material-symbols-outlined"
+                                            style="font-size: 14px; vertical-align: middle;">unfold_more</span></th>
+                                    <th class="sortable" data-sort="ai-score">AI Score <span
+                                            class="material-symbols-outlined"
+                                            style="font-size: 14px; vertical-align: middle;">unfold_more</span></th>
+                                    <th class="sortable" data-sort="jury-score">Jury Score <span
+                                            class="material-symbols-outlined"
+                                            style="font-size: 14px; vertical-align: middle;">unfold_more</span></th>
+                                    <th class="sortable" data-sort="final-score">Final <span
+                                            class="material-symbols-outlined"
+                                            style="font-size: 14px; vertical-align: middle;">unfold_more</span></th>
+                                    <th class="sortable" data-sort="date">Date <span class="material-symbols-outlined"
+                                            style="font-size: 14px; vertical-align: middle;">unfold_more</span></th>
+                                    <th style="width: 50px;"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="submissionsBody">
+                                <!-- Row 1 -->
+                                <tr data-id="1" data-status="selected" data-category="healthtech">
+                                    <td>
+                                        <div class="custom-checkbox row-checkbox"></div>
+                                    </td>
+                                    <td><span class="submission-id">SUB-2601</span></td>
+                                    <td>
+                                        <p class="idea-title">MediTrack — AI Health Companion</p>
+                                        <p class="idea-category">HealthTech</p>
+                                    </td>
+                                    <td>
+                                        <p class="team-name">Team Pulse</p>
+                                        <p class="school-name">DPS Noida</p>
+                                    </td>
+                                    <td>
+                                        <div class="avatar-group">
+                                            <div class="avatar-mini" style="background: var(--primary); color: #fff;">AS
+                                            </div>
+                                            <div class="avatar-mini" style="background: #3b82f6; color: #fff;">RK</div>
+                                            <div class="avatar-mini" style="background: #22c55e; color: #fff;">PM</div>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-status selected">Top 400</span></td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar">
+                                                <div class="score-fill high" style="width: 88%;"></div>
+                                            </div>
+                                            <span class="score-value high">44</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar">
+                                                <div class="score-fill high" style="width: 86%;"></div>
+                                            </div>
+                                            <span class="score-value high">43</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="score-value high" style="font-size: 0.9375rem;">43.5</span></td>
+                                    <td style="font-size: 0.8125rem; color: var(--text-muted);">Mar 15</td>
+                                    <td>
+                                        <button class="btn-icon-action view-btn">
+                                            <span class="material-symbols-outlined">visibility</span>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <!-- Row 2 -->
+                                <tr data-id="2" data-status="selected" data-category="edtech">
+                                    <td>
+                                        <div class="custom-checkbox row-checkbox"></div>
+                                    </td>
+                                    <td><span class="submission-id">SUB-2602</span></td>
+                                    <td>
+                                        <p class="idea-title">LearnBridge — Rural EdTech</p>
+                                        <p class="idea-category">EdTech</p>
+                                    </td>
+                                    <td>
+                                        <p class="team-name">Digital Dreamers</p>
+                                        <p class="school-name">St. Xavier's Mumbai</p>
+                                    </td>
+                                    <td>
+                                        <div class="avatar-group">
+                                            <div class="avatar-mini" style="background: #f59e0b; color: #fff;">DS</div>
+                                            <div class="avatar-mini" style="background: #ef4444; color: #fff;">NK</div>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-status selected">Top 400</span></td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar">
+                                                <div class="score-fill high" style="width: 82%;"></div>
+                                            </div>
+                                            <span class="score-value high">41</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar">
+                                                <div class="score-fill high" style="width: 80%;"></div>
+                                            </div>
+                                            <span class="score-value high">40</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="score-value high" style="font-size: 0.9375rem;">40.5</span></td>
+                                    <td style="font-size: 0.8125rem; color: var(--text-muted);">Mar 14</td>
+                                    <td>
+                                        <button class="btn-icon-action view-btn">
+                                            <span class="material-symbols-outlined">visibility</span>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <!-- Row 3 -->
+                                <tr data-id="3" data-status="jury-review" data-category="agritech">
+                                    <td>
+                                        <div class="custom-checkbox row-checkbox"></div>
+                                    </td>
+                                    <td><span class="submission-id">SUB-2603</span></td>
+                                    <td>
+                                        <p class="idea-title">KisaanMitra — Smart Farming</p>
+                                        <p class="idea-category">AgriTech</p>
+                                    </td>
+                                    <td>
+                                        <p class="team-name">Green Innovators</p>
+                                        <p class="school-name">KV Lucknow</p>
+                                    </td>
+                                    <td>
+                                        <div class="avatar-group">
+                                            <div class="avatar-mini" style="background: #22c55e; color: #fff;">VT</div>
+                                            <div class="avatar-mini" style="background: #8b5cf6; color: #fff;">AP</div>
+                                            <div class="avatar-mini" style="background: #ec4899; color: #fff;">SK</div>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-status jury-review">Jury Review</span></td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar">
+                                                <div class="score-fill high" style="width: 76%;"></div>
+                                            </div>
+                                            <span class="score-value high">38</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar">
+                                                <div class="score-fill none" style="width: 0%;"></div>
+                                            </div>
+                                            <span class="score-value none">—</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="score-value none" style="font-size: 0.9375rem;">—</span></td>
+                                    <td style="font-size: 0.8125rem; color: var(--text-muted);">Mar 18</td>
+                                    <td>
+                                        <button class="btn-icon-action view-btn">
+                                            <span class="material-symbols-outlined">visibility</span>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <!-- Row 4 -->
+                                <tr data-id="4" data-status="ai-review" data-category="sustainability">
+                                    <td>
+                                        <div class="custom-checkbox row-checkbox"></div>
+                                    </td>
+                                    <td><span class="submission-id">SUB-2604</span></td>
+                                    <td>
+                                        <p class="idea-title">EcoCycle — Waste Management</p>
+                                        <p class="idea-category">Sustainability</p>
+                                    </td>
+                                    <td>
+                                        <p class="team-name">EcoWarriors</p>
+                                        <p class="school-name">Ryan International, Delhi</p>
+                                    </td>
+                                    <td>
+                                        <div class="avatar-group">
+                                            <div class="avatar-mini" style="background: #14b8a6; color: #fff;">MJ</div>
+                                            <div class="avatar-mini" style="background: #f97316; color: #fff;">RD</div>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-status ai-review">AI Review</span></td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar">
+                                                <div class="score-fill none" style="width: 0%;"></div>
+                                            </div>
+                                            <span class="score-value none">—</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar">
+                                                <div class="score-fill none" style="width: 0%;"></div>
+                                            </div>
+                                            <span class="score-value none">—</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="score-value none" style="font-size: 0.9375rem;">—</span></td>
+                                    <td style="font-size: 0.8125rem; color: var(--text-muted);">Mar 20</td>
+                                    <td>
+                                        <button class="btn-icon-action view-btn">
+                                            <span class="material-symbols-outlined">visibility</span>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <!-- Row 5 -->
+                                <tr data-id="5" data-status="evaluated" data-category="fintech">
+                                    <td>
+                                        <div class="custom-checkbox row-checkbox"></div>
+                                    </td>
+                                    <td><span class="submission-id">SUB-2605</span></td>
+                                    <td>
+                                        <p class="idea-title">PennyWise — Teen FinLit App</p>
+                                        <p class="idea-category">FinTech</p>
+                                    </td>
+                                    <td>
+                                        <p class="team-name">Money Minds</p>
+                                        <p class="school-name">Modern School, Delhi</p>
+                                    </td>
+                                    <td>
+                                        <div class="avatar-group">
+                                            <div class="avatar-mini" style="background: #6366f1; color: #fff;">AR</div>
+                                            <div class="avatar-mini" style="background: #0ea5e9; color: #fff;">SS</div>
+                                            <div class="avatar-mini" style="background: #84cc16; color: #fff;">PG</div>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-status evaluated">Evaluated</span></td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar">
+                                                <div class="score-fill medium" style="width: 66%;"></div>
+                                            </div>
+                                            <span class="score-value medium">33</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar">
+                                                <div class="score-fill medium" style="width: 60%;"></div>
+                                            </div>
+                                            <span class="score-value medium">30</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="score-value medium" style="font-size: 0.9375rem;">31.5</span></td>
+                                    <td style="font-size: 0.8125rem; color: var(--text-muted);">Mar 12</td>
+                                    <td>
+                                        <button class="btn-icon-action view-btn">
+                                            <span class="material-symbols-outlined">visibility</span>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <!-- Row 6 -->
+                                <tr data-id="6" data-status="submitted" data-category="social-impact">
+                                    <td>
+                                        <div class="custom-checkbox row-checkbox"></div>
+                                    </td>
+                                    <td><span class="submission-id">SUB-2606</span></td>
+                                    <td>
+                                        <p class="idea-title">SafeHer — Women Safety Network</p>
+                                        <p class="idea-category">Social Impact</p>
+                                    </td>
+                                    <td>
+                                        <p class="team-name">Shield Squad</p>
+                                        <p class="school-name">DAV Chandigarh</p>
+                                    </td>
+                                    <td>
+                                        <div class="avatar-group">
+                                            <div class="avatar-mini" style="background: #ec4899; color: #fff;">PP</div>
+                                            <div class="avatar-mini" style="background: #a855f7; color: #fff;">NS</div>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-status submitted">Submitted</span></td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar">
+                                                <div class="score-fill none" style="width: 0%;"></div>
+                                            </div>
+                                            <span class="score-value none">—</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar">
+                                                <div class="score-fill none" style="width: 0%;"></div>
+                                            </div>
+                                            <span class="score-value none">—</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="score-value none" style="font-size: 0.9375rem;">—</span></td>
+                                    <td style="font-size: 0.8125rem; color: var(--text-muted);">Mar 22</td>
+                                    <td>
+                                        <button class="btn-icon-action view-btn">
+                                            <span class="material-symbols-outlined">visibility</span>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <!-- Row 7 -->
+                                <tr data-id="7" data-status="draft" data-category="technology">
+                                    <td>
+                                        <div class="custom-checkbox row-checkbox"></div>
+                                    </td>
+                                    <td><span class="submission-id">SUB-2607</span></td>
+                                    <td>
+                                        <p class="idea-title">CodeBuddy — AI Coding Tutor</p>
+                                        <p class="idea-category">Technology</p>
+                                    </td>
+                                    <td>
+                                        <p class="team-name">Byte Builders</p>
+                                        <p class="school-name">Amity Noida</p>
+                                    </td>
+                                    <td>
+                                        <div class="avatar-group">
+                                            <div class="avatar-mini" style="background: #0284c7; color: #fff;">KM</div>
+                                            <div class="avatar-mini" style="background: #dc2626; color: #fff;">TS</div>
+                                            <div class="avatar-mini" style="background: #16a34a; color: #fff;">RV</div>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-status draft">Draft</span></td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar">
+                                                <div class="score-fill none" style="width: 0%;"></div>
+                                            </div>
+                                            <span class="score-value none">—</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar">
+                                                <div class="score-fill none" style="width: 0%;"></div>
+                                            </div>
+                                            <span class="score-value none">—</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="score-value none" style="font-size: 0.9375rem;">—</span></td>
+                                    <td style="font-size: 0.8125rem; color: var(--text-muted);">Mar 24</td>
+                                    <td>
+                                        <button class="btn-icon-action view-btn">
+                                            <span class="material-symbols-outlined">visibility</span>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <!-- Row 8 -->
+                                <tr data-id="8" data-status="evaluated" data-category="healthtech">
+                                    <td>
+                                        <div class="custom-checkbox row-checkbox"></div>
+                                    </td>
+                                    <td><span class="submission-id">SUB-2608</span></td>
+                                    <td>
+                                        <p class="idea-title">NutriScan — Food Allergy Detector</p>
+                                        <p class="idea-category">HealthTech</p>
+                                    </td>
+                                    <td>
+                                        <p class="team-name">Health Hawks</p>
+                                        <p class="school-name">Springdales, Delhi</p>
+                                    </td>
+                                    <td>
+                                        <div class="avatar-group">
+                                            <div class="avatar-mini" style="background: #059669; color: #fff;">AV</div>
+                                            <div class="avatar-mini" style="background: #7c3aed; color: #fff;">MP</div>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-status evaluated">Evaluated</span></td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar">
+                                                <div class="score-fill low" style="width: 44%;"></div>
+                                            </div>
+                                            <span class="score-value low">22</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar">
+                                                <div class="score-fill low" style="width: 48%;"></div>
+                                            </div>
+                                            <span class="score-value low">24</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="score-value low" style="font-size: 0.9375rem;">23.0</span></td>
+                                    <td style="font-size: 0.8125rem; color: var(--text-muted);">Mar 10</td>
+                                    <td>
+                                        <button class="btn-icon-action view-btn">
+                                            <span class="material-symbols-outlined">visibility</span>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <!-- Row 9 -->
+                                <tr data-id="9" data-status="selected" data-category="sustainability">
+                                    <td>
+                                        <div class="custom-checkbox row-checkbox"></div>
+                                    </td>
+                                    <td><span class="submission-id">SUB-2609</span></td>
+                                    <td>
+                                        <p class="idea-title">AquaPure — Water Purification</p>
+                                        <p class="idea-category">Sustainability</p>
+                                    </td>
+                                    <td>
+                                        <p class="team-name">Blue Planet</p>
+                                        <p class="school-name">La Martiniere, Kolkata</p>
+                                    </td>
+                                    <td>
+                                        <div class="avatar-group">
+                                            <div class="avatar-mini" style="background: #0891b2; color: #fff;">SG</div>
+                                            <div class="avatar-mini" style="background: #e11d48; color: #fff;">AB</div>
+                                            <div class="avatar-mini" style="background: #ca8a04; color: #fff;">RR</div>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-status selected">Top 400</span></td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar">
+                                                <div class="score-fill high" style="width: 90%;"></div>
+                                            </div>
+                                            <span class="score-value high">45</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar">
+                                                <div class="score-fill high" style="width: 84%;"></div>
+                                            </div>
+                                            <span class="score-value high">42</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="score-value high" style="font-size: 0.9375rem;">43.5</span></td>
+                                    <td style="font-size: 0.8125rem; color: var(--text-muted);">Mar 11</td>
+                                    <td>
+                                        <button class="btn-icon-action view-btn">
+                                            <span class="material-symbols-outlined">visibility</span>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <!-- Row 10 -->
+                                <tr data-id="10" data-status="jury-review" data-category="edtech">
+                                    <td>
+                                        <div class="custom-checkbox row-checkbox"></div>
+                                    </td>
+                                    <td><span class="submission-id">SUB-2610</span></td>
+                                    <td>
+                                        <p class="idea-title">LangPal — Language Exchange</p>
+                                        <p class="idea-category">EdTech</p>
+                                    </td>
+                                    <td>
+                                        <p class="team-name">Polyglots</p>
+                                        <p class="school-name">Bishop Cotton, Bangalore</p>
+                                    </td>
+                                    <td>
+                                        <div class="avatar-group">
+                                            <div class="avatar-mini" style="background: #d946ef; color: #fff;">NR</div>
+                                            <div class="avatar-mini" style="background: #2563eb; color: #fff;">KL</div>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-status jury-review">Jury Review</span></td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar">
+                                                <div class="score-fill medium" style="width: 70%;"></div>
+                                            </div>
+                                            <span class="score-value medium">35</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="score-display">
+                                            <div class="score-bar">
+                                                <div class="score-fill none" style="width: 0%;"></div>
+                                            </div>
+                                            <span class="score-value none">—</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="score-value none" style="font-size: 0.9375rem;">—</span></td>
+                                    <td style="font-size: 0.8125rem; color: var(--text-muted);">Mar 19</td>
+                                    <td>
+                                        <button class="btn-icon-action view-btn">
+                                            <span class="material-symbols-outlined">visibility</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="pagination-custom">
+                        <span class="pagination-info">Showing <strong>1–10</strong> of <strong>148</strong>
+                            submissions</span>
+                        <div class="pagination-controls">
+                            <button class="page-btn" disabled>
+                                <span class="material-symbols-outlined" style="font-size: 18px;">chevron_left</span>
+                            </button>
+                            <button class="page-btn active">1</button>
+                            <button class="page-btn">2</button>
+                            <button class="page-btn">3</button>
+                            <span style="color: var(--text-muted);">...</span>
+                            <button class="page-btn">185</button>
+                            <button class="page-btn">
+                                <span class="material-symbols-outlined" style="font-size: 18px;">chevron_right</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Details Sidebar -->
+    <div class="details-sidebar-overlay" id="detailsOverlay"></div>
+    <div class="details-sidebar" id="detailsSidebar">
+        <div class="details-sidebar-header">
+            <h2>Submission Details</h2>
+            <button class="details-sidebar-close" id="closeSidebar">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="details-sidebar-content" id="detailsContent">
+            <!-- Idea Section -->
+            <div class="detail-section">
+                <div class="detail-section-title">
+                    <span class="material-symbols-outlined">lightbulb</span>
+                    Idea
+                </div>
+                <div class="idea-detail-card">
+                    <h4 id="detailIdeaTitle">MediTrack — AI Health Companion</h4>
+                    <p class="idea-pitch" id="detailIdeaPitch">An AI-powered health monitoring app that tracks vitals,
+                        predicts health risks, and connects students with nearby medical professionals. Uses wearable
+                        integration and ML models trained on adolescent health data.</p>
+                    <div class="idea-tags">
+                        <span class="idea-tag">HealthTech</span>
+                        <span class="idea-tag">AI/ML</span>
+                        <span class="idea-tag">Wearables</span>
+                        <span class="idea-tag">Mobile App</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Status & Scores -->
+            <div class="detail-section">
+                <div class="detail-section-title">
+                    <span class="material-symbols-outlined">analytics</span>
+                    Scores & Status
+                </div>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <div class="detail-item-label">Status</div>
+                        <div class="detail-item-value"><span class="badge-status selected" id="detailStatus">Top
+                                400</span></div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-item-label">Final Score</div>
+                        <div class="detail-item-value" id="detailFinalScore"
+                            style="font-size: 1.25rem; color: #16a34a;">43.5 / 50</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-item-label">AI Score</div>
+                        <div class="detail-item-value" id="detailAIScore">44 / 50</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-item-label">Jury Score</div>
+                        <div class="detail-item-value" id="detailJuryScore">43 / 50</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-item-label">Submission ID</div>
+                        <div class="detail-item-value" id="detailSubId"
+                            style="font-family: monospace; color: var(--primary);">SUB-2601</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-item-label">Submitted On</div>
+                        <div class="detail-item-value" id="detailDate">March 15, 2026</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Score Breakdown -->
+            <div class="detail-section">
+                <div class="detail-section-title">
+                    <span class="material-symbols-outlined">scoreboard</span>
+                    AI Score Breakdown (10 Parameters)
+                </div>
+                <div class="score-breakdown">
+                    <div class="score-param">
+                        <span class="score-param-name">Uniqueness</span>
+                        <span class="score-param-value" style="color: #16a34a;">4.5</span>
+                    </div>
+                    <div class="score-param">
+                        <span class="score-param-name">Implementation</span>
+                        <span class="score-param-value" style="color: #16a34a;">4.0</span>
+                    </div>
+                    <div class="score-param">
+                        <span class="score-param-name">Scalability</span>
+                        <span class="score-param-value" style="color: #16a34a;">4.5</span>
+                    </div>
+                    <div class="score-param">
+                        <span class="score-param-name">Impact</span>
+                        <span class="score-param-value" style="color: #16a34a;">5.0</span>
+                    </div>
+                    <div class="score-param">
+                        <span class="score-param-name">Sustainability</span>
+                        <span class="score-param-value" style="color: #16a34a;">4.5</span>
+                    </div>
+                    <div class="score-param">
+                        <span class="score-param-name">Clarity</span>
+                        <span class="score-param-value" style="color: #16a34a;">4.5</span>
+                    </div>
+                    <div class="score-param">
+                        <span class="score-param-name">Empathy</span>
+                        <span class="score-param-value" style="color: #16a34a;">4.0</span>
+                    </div>
+                    <div class="score-param">
+                        <span class="score-param-name">Creativity</span>
+                        <span class="score-param-value" style="color: #16a34a;">4.5</span>
+                    </div>
+                    <div class="score-param">
+                        <span class="score-param-name">Flex Thinking</span>
+                        <span class="score-param-value" style="color: #d97706;">4.0</span>
+                    </div>
+                    <div class="score-param">
+                        <span class="score-param-name">Communication</span>
+                        <span class="score-param-value" style="color: #16a34a;">4.5</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Section -->
+            <div class="detail-section">
+                <div class="detail-section-title">
+                    <span class="material-symbols-outlined">group</span>
+                    Team — Team Pulse
+                </div>
+                <div class="team-member-row">
+                    <div class="team-member-avatar" style="background: var(--primary); color: #fff;">AS</div>
+                    <div class="team-member-info">
+                        <p class="team-member-name">Aryan Sharma</p>
+                        <span class="team-member-role">Team Leader · Class 11 · DPS Noida</span>
+                    </div>
+                </div>
+                <div class="team-member-row">
+                    <div class="team-member-avatar" style="background: #3b82f6; color: #fff;">RK</div>
+                    <div class="team-member-info">
+                        <p class="team-member-name">Riya Kapoor</p>
+                        <span class="team-member-role">Member · Class 11 · DPS Noida</span>
+                    </div>
+                </div>
+                <div class="team-member-row">
+                    <div class="team-member-avatar" style="background: #22c55e; color: #fff;">PM</div>
+                    <div class="team-member-info">
+                        <p class="team-member-name">Prateek Mehta</p>
+                        <span class="team-member-role">Member · Class 10 · DPS Noida</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Attachments -->
+            <div class="detail-section">
+                <div class="detail-section-title">
+                    <span class="material-symbols-outlined">attach_file</span>
+                    Attachments (3)
+                </div>
+                <div class="attachment-list">
+                    <div class="attachment-item">
+                        <div class="attachment-icon image">
+                            <span class="material-symbols-outlined">image</span>
+                        </div>
+                        <div class="attachment-info">
+                            <p class="attachment-name">prototype-mockup.png</p>
+                            <span class="attachment-size">2.4 MB · Image</span>
+                        </div>
+                        <button class="btn-icon-action">
+                            <span class="material-symbols-outlined">download</span>
+                        </button>
+                    </div>
+                    <div class="attachment-item">
+                        <div class="attachment-icon video">
+                            <span class="material-symbols-outlined">videocam</span>
+                        </div>
+                        <div class="attachment-info">
+                            <p class="attachment-name">pitch-video.mp4</p>
+                            <span class="attachment-size">18.2 MB · Video</span>
+                        </div>
+                        <button class="btn-icon-action">
+                            <span class="material-symbols-outlined">download</span>
+                        </button>
+                    </div>
+                    <div class="attachment-item">
+                        <div class="attachment-icon document">
+                            <span class="material-symbols-outlined">description</span>
+                        </div>
+                        <div class="attachment-info">
+                            <p class="attachment-name">business-model-canvas.pdf</p>
+                            <span class="attachment-size">1.1 MB · Document</span>
+                        </div>
+                        <button class="btn-icon-action">
+                            <span class="material-symbols-outlined">download</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Jury Assignment -->
+            <div class="detail-section">
+                <div class="detail-section-title">
+                    <span class="material-symbols-outlined">gavel</span>
+                    Jury Assignment
+                </div>
+                <div class="detail-grid">
+                    <div class="detail-item full">
+                        <div class="detail-item-label">Assigned Jury</div>
+                        <div class="detail-item-value">Dr. Meera Kapoor (IIT Delhi)</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-item-label">Assigned On</div>
+                        <div class="detail-item-value">Mar 16, 2026</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-item-label">Evaluated On</div>
+                        <div class="detail-item-value">Mar 18, 2026</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Actions -->
+        <div class="details-sidebar-footer">
+            <button class="btn-secondary-custom" id="sidebarReassign" onclick="openReassignModal()">
+                <span class="material-symbols-outlined" style="font-size: 16px;">swap_horiz</span>
+                Reassign Jury
+            </button>
+            <button class="btn-primary-custom" id="sidebarEvaluate"
+                onclick="window.location.href='view-submission.html?id=SUB-2601'">
+                <span class="material-symbols-outlined" style="font-size: 16px;">rate_review</span>
+                View Full Evaluation
+            </button>
+        </div>
+    </div>
+
+    <!-- Reassign Jury Modal -->
+    <div id="reassignModalOverlay" style="
+        display:none; position:fixed; inset:0;
+        background:rgba(0,0,0,0.5); z-index:1100;
+        align-items:center; justify-content:center;">
+        <div style="
+            background:#fff; border-radius:14px; padding:28px;
+            width:460px; max-width:95vw;
+            box-shadow:0 20px 60px rgba(0,0,0,0.15);
+            font-family:'Poppins',sans-serif;">
+            <h3 style="font-size:1rem; font-weight:700; margin-bottom:6px;">Reassign Jury Member</h3>
+            <p style="font-size:0.8125rem; color:#666; margin-bottom:16px;">
+                Select a new jury member. Current: <strong id="currentJuryLabel">Dr. Meera Kapoor</strong>
+            </p>
+            <input type="text" id="reassignSearch" placeholder="Search jury members..." oninput="filterReassignList()"
+                style="width:100%; padding:10px 14px; border:1px solid #EEEEEE;
+                          border-radius:8px; font-family:'Poppins',sans-serif;
+                          font-size:0.875rem; margin-bottom:12px; outline:none;" />
+            <div id="reassignJuryList" style="max-height:260px; overflow-y:auto;
+                        display:flex; flex-direction:column; gap:8px; margin-bottom:16px;">
+            </div>
+            <div style="display:flex; gap:8px; justify-content:flex-end;">
+                <button onclick="closeReassignModal()" style="background:#fff; color:#222; border:1px solid #EEEEEE;
+                               padding:10px 18px; border-radius:8px; font-size:0.875rem;
+                               font-weight:500; font-family:'Poppins',sans-serif; cursor:pointer;">
+                    Cancel
+                </button>
+                <button id="confirmReassignBtn" onclick="confirmReassign()" disabled style="background:#5E2A97; color:#fff; border:none;
+                               padding:10px 20px; border-radius:8px; font-size:0.875rem;
+                               font-weight:600; font-family:'Poppins',sans-serif;
+                               cursor:pointer; opacity:0.5; display:flex; align-items:center; gap:6px;">
+                    <span class="material-symbols-outlined" style="font-size:16px;">check</span> Confirm
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Load External Components -->
+    <script>
+        // Load sidebar
+        fetch('sidebar.html')
+            .then(response => response.text())
+            .then(data => {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = data;
+
+                const elements = tempDiv.childNodes;
+                elements.forEach(node => {
+                    if (node.nodeType === 1 && node.tagName !== 'SCRIPT') {
+                        document.getElementById('sidebar-container').appendChild(node.cloneNode(true));
+                    } else if (node.nodeType === 3) {
+                        document.getElementById('sidebar-container').appendChild(node.cloneNode(true));
+                    }
+                });
+
+                const script = tempDiv.querySelector('script');
+                if (script) {
+                    const newScript = document.createElement('script');
+                    newScript.textContent = script.textContent;
+                    document.body.appendChild(newScript);
+                }
+
+                // Set active menu
+                setTimeout(() => {
+                    const navItems = document.querySelectorAll('.nav-item');
+                    navItems.forEach(item => {
+                        const href = item.getAttribute('href');
+                        item.classList.remove('nav-item-active');
+                        const icon = item.querySelector('.material-symbols-outlined');
+                        if (icon) icon.style.fontVariationSettings = "'FILL' 0";
+                        if (href === 'submissions.html') {
+                            item.classList.add('nav-item-active');
+                            if (icon) icon.style.fontVariationSettings = "'FILL' 1";
+                        }
+                    });
+                }, 200);
+            })
+            .catch(error => console.error('Error loading sidebar:', error));
+
+        // Load header
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = data;
+
+                const elements = tempDiv.childNodes;
+                elements.forEach(node => {
+                    if (node.nodeType === 1 || node.nodeType === 3) {
+                        document.getElementById('header-container').appendChild(node.cloneNode(true));
+                    }
+                });
+
+                const script = tempDiv.querySelector('script');
+                if (script) {
+                    const newScript = document.createElement('script');
+                    newScript.textContent = script.textContent;
+                    document.body.appendChild(newScript);
+                }
+            })
+            .catch(error => console.error('Error loading header:', error));
+    </script>
+
+    <!-- Page Functionality -->
+    <script>
+        (function () {
+            const rows = document.querySelectorAll('#submissionsBody tr');
+            const searchInput = document.getElementById('searchInput');
+            const statusFilter = document.getElementById('statusFilter');
+            const categoryFilter = document.getElementById('categoryFilter');
+            const scoreFilter = document.getElementById('scoreFilter');
+            const detailsSidebar = document.getElementById('detailsSidebar');
+            const detailsOverlay = document.getElementById('detailsOverlay');
+            const bulkActions = document.getElementById('bulkActions');
+            const selectedCountEl = document.getElementById('selectedCount');
+            const selectAllCheckbox = document.getElementById('selectAll');
+
+            // --- Search & Filter ---
+            function applyFilters() {
+                const query = searchInput.value.toLowerCase();
+                const status = statusFilter.value;
+                const category = categoryFilter.value;
+                const score = scoreFilter.value;
+
+                rows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    const rowStatus = row.getAttribute('data-status');
+                    const rowCategory = row.getAttribute('data-category');
+                    const finalScoreEl = row.querySelector('td:nth-child(9) .score-value');
+                    const finalScore = parseFloat(finalScoreEl?.textContent) || -1;
+
+                    let show = true;
+
+                    if (query && !text.includes(query)) show = false;
+                    if (status && rowStatus !== status) show = false;
+                    if (category && rowCategory !== category) show = false;
+                    if (score) {
+                        if (score === 'unscored') {
+                            if (finalScore >= 0) show = false;
+                        } else {
+                            const [min, max] = score.split('-').map(Number);
+                            if (finalScore < min || finalScore > max) show = false;
+                        }
+                    }
+
+                    row.style.display = show ? '' : 'none';
+                });
+            }
+
+            searchInput.addEventListener('input', applyFilters);
+            statusFilter.addEventListener('change', applyFilters);
+            categoryFilter.addEventListener('change', applyFilters);
+            scoreFilter.addEventListener('change', applyFilters);
+
+            // --- Pipeline legend click to filter ---
+            document.querySelectorAll('.pipeline-legend-item').forEach(item => {
+                item.addEventListener('click', function () {
+                    const status = this.getAttribute('data-status');
+                    statusFilter.value = status;
+                    applyFilters();
+                });
+            });
+
+            // --- Row selection / Checkboxes ---
+            function updateBulkActions() {
+                const checked = document.querySelectorAll('.row-checkbox.checked');
+                const count = checked.length;
+                selectedCountEl.textContent = count;
+                bulkActions.classList.toggle('visible', count > 0);
+                selectAllCheckbox.classList.toggle('checked', count === rows.length && rows.length > 0);
+            }
+
+            selectAllCheckbox.addEventListener('click', function () {
+                const isChecked = this.classList.contains('checked');
+                document.querySelectorAll('.row-checkbox').forEach(cb => {
+                    cb.classList.toggle('checked', !isChecked);
+                    cb.closest('tr').classList.toggle('selected', !isChecked);
+                });
+                updateBulkActions();
+            });
+
+            document.querySelectorAll('.row-checkbox').forEach(cb => {
+                cb.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    this.classList.toggle('checked');
+                    this.closest('tr').classList.toggle('selected');
+                    updateBulkActions();
+                });
+            });
+
+            // --- Details Sidebar ---
+            function openSidebar() {
+                detailsSidebar.classList.add('open');
+                detailsOverlay.classList.add('show');
+            }
+
+            function closeSidebar() {
+                detailsSidebar.classList.remove('open');
+                detailsOverlay.classList.remove('show');
+            }
+
+            document.getElementById('closeSidebar').addEventListener('click', closeSidebar);
+            detailsOverlay.addEventListener('click', closeSidebar);
+
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') closeSidebar();
+            });
+
+            // Click row to open sidebar
+            rows.forEach(row => {
+                row.addEventListener('click', function (e) {
+                    if (e.target.closest('.custom-checkbox') || e.target.closest('.btn-icon-action')) return;
+                    openSidebar();
+                });
+            });
+
+            // View button
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    openSidebar();
+                });
+            });
+
+            // --- Action button toasts ---
+            document.getElementById('exportBtn').addEventListener('click', function () {
+                showToast('Exporting submissions to CSV...', 'info');
+            });
+
+            // sidebarReassign and sidebarEvaluate handled via inline onclick
+
+            document.querySelectorAll('.bulk-btn').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const text = this.textContent.trim();
+                    if (text.includes('Assign Jury')) openBulkAssignModal();
+                    else if (text.includes('Change Status')) openBulkStatusModal();
+                    else showToast(`Bulk action: ${text}`, 'info');
+                });
+            });
+
+            // --- Toast ---
+            function showToast(message, type = 'info') {
+                const existing = document.querySelector('.toast-notification');
+                if (existing) existing.remove();
+
+                const toast = document.createElement('div');
+                toast.className = 'toast-notification';
+
+                const colors = { success: '#22c55e', error: '#ef4444', info: '#5E2A97', warning: '#f97316' };
+                const icons = { success: 'check_circle', error: 'error', info: 'info', warning: 'warning' };
+
+                toast.style.cssText = `
+                    position: fixed; bottom: 2rem; right: 2rem;
+                    background: ${colors[type]}; color: white;
+                    padding: 1rem 1.5rem; border-radius: 0.75rem;
+                    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+                    z-index: 9999; display: flex; align-items: center;
+                    gap: 0.75rem; font-size: 0.875rem; font-weight: 500;
+                    font-family: 'Poppins', sans-serif;
+                    animation: slideIn 0.3s ease; max-width: 400px;
+                `;
+
+                toast.innerHTML = `
+                    <span class="material-symbols-outlined" style="font-size: 20px;">${icons[type]}</span>
+                    <span>${message}</span>
+                `;
+
+                document.body.appendChild(toast);
+                setTimeout(() => {
+                    toast.style.animation = 'slideOut 0.3s ease';
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            }
+
+            // Animations
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn { from { transform: translateX(400px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+                @keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(400px); opacity: 0; } }
+            `;
+            document.head.appendChild(style);
+        })();
+    </script>
+
+    <!-- Reassign Jury Modal JS -->
+    <script>
+        const reassignJuryData = [
+            { initials: 'MK', name: 'Dr. Meera Kapoor', org: 'IIT Delhi · AI/ML', capacity: 72, load: '32/40', color: '#5E2A97', current: true },
+            { initials: 'AM', name: 'Arvind Mehta', org: 'AIIMS Delhi · Healthcare', capacity: 112, load: '45/40', color: '#ef4444', overloaded: true },
+            { initials: 'PS', name: 'Prof. Priya Sharma', org: 'NIFT Mumbai · Education', capacity: 65, load: '28/40', color: '#3b82f6' },
+            { initials: 'RG', name: 'Rajesh Gupta', org: 'Deloitte · FinTech', capacity: 20, load: '8/40', color: '#f59e0b' },
+            { initials: 'NK', name: 'Nandini Krishnamurthy', org: 'TISS · Social Impact', capacity: 55, load: '22/40', color: '#22c55e' },
+            { initials: 'VB', name: 'Vikram Bajaj', org: 'Sequoia · Startup Funding', capacity: 40, load: '16/40', color: '#8b5cf6' },
+        ];
+
+        let selectedReassignJury = null;
+
+        function renderReassignList(list) {
+            const el = document.getElementById('reassignJuryList');
+            el.innerHTML = list.map(j => `
+                <div onclick="${j.current ? '' : `pickReassignJury('${j.name}', this)`}"
+                     style="
+                        display:flex; align-items:center; gap:12px;
+                        padding:12px 14px; border-radius:10px;
+                        border:2px solid ${j.current ? '#DEDE50' : '#EEEEEE'};
+                        background:${j.current ? '#fffde7' : '#f8fafc'};
+                        cursor:${j.current ? 'not-allowed' : 'pointer'};
+                        opacity:${j.current ? '0.65' : '1'};
+                        transition:all 0.2s; font-family:'Poppins',sans-serif;">
+                    <div style="width:38px;height:38px;border-radius:9px;background:${j.color};
+                                color:#fff;display:flex;align-items:center;justify-content:center;
+                                font-size:0.8125rem;font-weight:700;flex-shrink:0;">${j.initials}</div>
+                    <div style="flex:1;">
+                        <div style="font-size:0.875rem;font-weight:600;color:#222;">
+                            ${j.name}
+                            ${j.current ? '<span style="font-size:0.7rem;background:#fde68a;color:#92400e;padding:2px 7px;border-radius:9999px;margin-left:6px;font-weight:700;">Current</span>' : ''}
+                        </div>
+                        <div style="font-size:0.75rem;color:#666;">${j.org}</div>
+                    </div>
+                    <div style="text-align:right;flex-shrink:0;">
+                        <div style="font-size:0.75rem;font-weight:700;
+                                    color:${j.overloaded ? '#dc2626' : j.capacity <= 50 ? '#16a34a' : '#d97706'};">
+                            ${j.capacity}%
+                        </div>
+                        <div style="font-size:0.7rem;color:#999;">${j.load}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterReassignList() {
+            const q = document.getElementById('reassignSearch').value.toLowerCase();
+            renderReassignList(reassignJuryData.filter(j =>
+                j.name.toLowerCase().includes(q) || j.org.toLowerCase().includes(q)
+            ));
+        }
+
+        function pickReassignJury(name, el) {
+            document.querySelectorAll('#reassignJuryList > div').forEach(d => {
+                if (!d.style.background.includes('fffde7')) {
+                    d.style.borderColor = '#EEEEEE';
+                    d.style.background = '#f8fafc';
+                }
+            });
+            el.style.borderColor = '#5E2A97';
+            el.style.background = 'rgba(94,42,151,0.06)';
+            selectedReassignJury = name;
+            const btn = document.getElementById('confirmReassignBtn');
+            btn.disabled = false;
+            btn.style.opacity = '1';
+        }
+
+        function openReassignModal() {
+            selectedReassignJury = null;
+            document.getElementById('reassignSearch').value = '';
+            renderReassignList(reassignJuryData);
+            const btn = document.getElementById('confirmReassignBtn');
+            btn.disabled = true;
+            btn.style.opacity = '0.5';
+            const overlay = document.getElementById('reassignModalOverlay');
+            overlay.style.display = 'flex';
+        }
+
+        function closeReassignModal() {
+            document.getElementById('reassignModalOverlay').style.display = 'none';
+        }
+
+        function confirmReassign() {
+            if (!selectedReassignJury) return;
+            closeReassignModal();
+            // Update the displayed jury name in the side panel
+            const existing = document.querySelector('.detail-item.full .detail-item-value');
+            if (existing) existing.textContent = selectedReassignJury;
+            showSidebarToast(`Jury reassigned to ${selectedReassignJury}.`);
+            selectedReassignJury = null;
+        }
+
+        function showSidebarToast(msg) {
+            const existing = document.querySelector('.toast-notification');
+            if (existing) existing.remove();
+            const toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            toast.style.cssText = `
+                position:fixed; bottom:2rem; right:2rem;
+                background:#166534; color:white;
+                padding:1rem 1.5rem; border-radius:0.75rem;
+                box-shadow:0 10px 25px rgba(0,0,0,0.2);
+                z-index:9999; display:flex; align-items:center;
+                gap:0.75rem; font-size:0.875rem; font-weight:500;
+                font-family:'Poppins',sans-serif; max-width:400px;
+            `;
+            toast.innerHTML = `<span class="material-symbols-outlined" style="font-size:20px;">check_circle</span><span>${msg}</span>`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // Close modal on overlay click
+        document.getElementById('reassignModalOverlay').addEventListener('click', function (e) {
+            if (e.target === this) closeReassignModal();
+        });
+    </script>
+
+    <!-- Bulk Assign Jury Modal -->
+    <div id="bulkAssignOverlay" style="
+        display:none; position:fixed; inset:0;
+        background:rgba(0,0,0,0.5); z-index:1100;
+        align-items:center; justify-content:center;">
+        <div style="
+            background:#fff; border-radius:14px; padding:28px;
+            width:480px; max-width:95vw;
+            box-shadow:0 20px 60px rgba(0,0,0,0.15);
+            font-family:'Poppins',sans-serif;">
+
+            <h3 style="font-size:1rem; font-weight:700; margin-bottom:4px;">Assign Jury</h3>
+            <p style="font-size:0.8125rem; color:#666; margin-bottom:16px;">
+                Assigning to <strong id="bulkAssignCount">0</strong> selected submission(s). Select a jury member below.
+            </p>
+
+            <input type="text" id="bulkJurySearch" placeholder="Search jury members..." oninput="filterBulkJuryList()"
+                style="width:100%; padding:10px 14px; border:1px solid #EEEEEE;
+                          border-radius:8px; font-family:'Poppins',sans-serif;
+                          font-size:0.875rem; margin-bottom:12px; outline:none;" />
+
+            <div id="bulkJuryList" style="max-height:260px; overflow-y:auto;
+                        display:flex; flex-direction:column; gap:8px; margin-bottom:16px;">
+            </div>
+
+            <div style="display:flex; gap:8px; justify-content:flex-end;">
+                <button onclick="closeBulkAssignModal()" style="background:#fff; color:#222; border:1px solid #EEEEEE;
+                               padding:10px 18px; border-radius:8px; font-size:0.875rem;
+                               font-weight:500; font-family:'Poppins',sans-serif; cursor:pointer;">
+                    Cancel
+                </button>
+                <button id="confirmBulkAssignBtn" onclick="confirmBulkAssign()" disabled style="background:#5E2A97; color:#fff; border:none;
+                               padding:10px 20px; border-radius:8px; font-size:0.875rem;
+                               font-weight:600; font-family:'Poppins',sans-serif;
+                               cursor:pointer; opacity:0.5;
+                               display:flex; align-items:center; gap:6px;">
+                    <span class="material-symbols-outlined" style="font-size:16px;">assignment_ind</span>
+                    Assign
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bulk Change Status Modal -->
+    <div id="bulkStatusOverlay" style="
+        display:none; position:fixed; inset:0;
+        background:rgba(0,0,0,0.5); z-index:1100;
+        align-items:center; justify-content:center;">
+        <div style="
+            background:#fff; border-radius:14px; padding:28px;
+            width:420px; max-width:95vw;
+            box-shadow:0 20px 60px rgba(0,0,0,0.15);
+            font-family:'Poppins',sans-serif;">
+
+            <h3 style="font-size:1rem; font-weight:700; margin-bottom:4px;">Change Status</h3>
+            <p style="font-size:0.8125rem; color:#666; margin-bottom:16px;">
+                Updating <strong id="bulkStatusCount">0</strong> selected submission(s). Select the new status.
+            </p>
+
+            <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:16px;">
+                <button class="bulk-status-opt" onclick="pickBulkStatus('draft', this)" data-value="draft" style="display:flex; align-items:center; gap:10px; padding:12px 14px;
+                               border:2px solid #EEEEEE; border-radius:8px; background:#f8fafc;
+                               font-family:'Poppins',sans-serif; font-size:0.875rem; font-weight:600;
+                               cursor:pointer; color:#222; transition:all 0.2s;">
+                    <span class="material-symbols-outlined" style="font-size:18px; color:#64748b;">draft</span>
+                    Draft
+                </button>
+                <button class="bulk-status-opt" onclick="pickBulkStatus('submitted', this)" data-value="submitted"
+                    style="display:flex; align-items:center; gap:10px; padding:12px 14px;
+                               border:2px solid #EEEEEE; border-radius:8px; background:#f8fafc;
+                               font-family:'Poppins',sans-serif; font-size:0.875rem; font-weight:600;
+                               cursor:pointer; color:#222; transition:all 0.2s;">
+                    <span class="material-symbols-outlined" style="font-size:18px; color:#2563eb;">send</span>
+                    Submitted
+                </button>
+                <button class="bulk-status-opt" onclick="pickBulkStatus('ai-review', this)" data-value="ai-review"
+                    style="display:flex; align-items:center; gap:10px; padding:12px 14px;
+                               border:2px solid #EEEEEE; border-radius:8px; background:#f8fafc;
+                               font-family:'Poppins',sans-serif; font-size:0.875rem; font-weight:600;
+                               cursor:pointer; color:#222; transition:all 0.2s;">
+                    <span class="material-symbols-outlined" style="font-size:18px; color:#7c3aed;">smart_toy</span>
+                    AI Review
+                </button>
+                <button class="bulk-status-opt" onclick="pickBulkStatus('jury-review', this)" data-value="jury-review"
+                    style="display:flex; align-items:center; gap:10px; padding:12px 14px;
+                               border:2px solid #EEEEEE; border-radius:8px; background:#f8fafc;
+                               font-family:'Poppins',sans-serif; font-size:0.875rem; font-weight:600;
+                               cursor:pointer; color:#222; transition:all 0.2s;">
+                    <span class="material-symbols-outlined" style="font-size:18px; color:#d97706;">gavel</span>
+                    Jury Review
+                </button>
+                <button class="bulk-status-opt" onclick="pickBulkStatus('evaluated', this)" data-value="evaluated"
+                    style="display:flex; align-items:center; gap:10px; padding:12px 14px;
+                               border:2px solid #EEEEEE; border-radius:8px; background:#f8fafc;
+                               font-family:'Poppins',sans-serif; font-size:0.875rem; font-weight:600;
+                               cursor:pointer; color:#222; transition:all 0.2s;">
+                    <span class="material-symbols-outlined" style="font-size:18px; color:#16a34a;">check_circle</span>
+                    Evaluated
+                </button>
+                <button class="bulk-status-opt" onclick="pickBulkStatus('selected', this)" data-value="selected" style="display:flex; align-items:center; gap:10px; padding:12px 14px;
+                               border:2px solid #EEEEEE; border-radius:8px; background:#f8fafc;
+                               font-family:'Poppins',sans-serif; font-size:0.875rem; font-weight:600;
+                               cursor:pointer; color:#222; transition:all 0.2s;">
+                    <span class="material-symbols-outlined" style="font-size:18px; color:#5E2A97;">star</span>
+                    Top 400
+                </button>
+            </div>
+
+            <div style="display:flex; gap:8px; justify-content:flex-end;">
+                <button onclick="closeBulkStatusModal()" style="background:#fff; color:#222; border:1px solid #EEEEEE;
+                               padding:10px 18px; border-radius:8px; font-size:0.875rem;
+                               font-weight:500; font-family:'Poppins',sans-serif; cursor:pointer;">
+                    Cancel
+                </button>
+                <button id="confirmBulkStatusBtn" onclick="confirmBulkStatus()" disabled style="background:#5E2A97; color:#fff; border:none;
+                               padding:10px 20px; border-radius:8px; font-size:0.875rem;
+                               font-weight:600; font-family:'Poppins',sans-serif;
+                               cursor:pointer; opacity:0.5;
+                               display:flex; align-items:center; gap:6px;">
+                    <span class="material-symbols-outlined" style="font-size:16px;">check</span>
+                    Apply
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bulk Modals JS -->
+    <script>
+        // ── Jury data (same as reassign modal) ────────────────────────────────
+        const bulkJuryData = [
+            { initials: 'MK', name: 'Dr. Meera Kapoor', org: 'IIT Delhi · AI/ML', capacity: 72, load: '32/40', color: '#5E2A97' },
+            { initials: 'AM', name: 'Arvind Mehta', org: 'AIIMS Delhi · Healthcare', capacity: 112, load: '45/40', color: '#ef4444', overloaded: true },
+            { initials: 'PS', name: 'Prof. Priya Sharma', org: 'NIFT Mumbai · Education', capacity: 65, load: '28/40', color: '#3b82f6' },
+            { initials: 'RG', name: 'Rajesh Gupta', org: 'Deloitte · FinTech', capacity: 20, load: '8/40', color: '#f59e0b' },
+            { initials: 'NK', name: 'Nandini Krishnamurthy', org: 'TISS · Social Impact', capacity: 55, load: '22/40', color: '#22c55e' },
+            { initials: 'VB', name: 'Vikram Bajaj', org: 'Sequoia · Startup Funding', capacity: 40, load: '16/40', color: '#8b5cf6' },
+        ];
+
+        let selectedBulkJury = null;
+        let selectedBulkStatus = null;
+
+        function getSelectedCount() {
+            return document.querySelectorAll('.row-checkbox.checked').length;
+        }
+
+        // ── Bulk Assign Jury ──────────────────────────────────────────────────
+        function renderBulkJuryList(list) {
+            const el = document.getElementById('bulkJuryList');
+            el.innerHTML = list.map(j => `
+                <div onclick="pickBulkJury('${j.name}', this)"
+                     style="display:flex; align-items:center; gap:12px;
+                            padding:12px 14px; border-radius:10px;
+                            border:2px solid #EEEEEE; background:#f8fafc;
+                            cursor:pointer; transition:all 0.2s;
+                            font-family:'Poppins',sans-serif;">
+                    <div style="width:38px; height:38px; border-radius:9px;
+                                background:${j.color}; color:#fff;
+                                display:flex; align-items:center; justify-content:center;
+                                font-size:0.8125rem; font-weight:700; flex-shrink:0;">
+                        ${j.initials}
+                    </div>
+                    <div style="flex:1;">
+                        <div style="font-size:0.875rem; font-weight:600; color:#222;">${j.name}</div>
+                        <div style="font-size:0.75rem; color:#666;">${j.org}</div>
+                    </div>
+                    <div style="text-align:right; flex-shrink:0;">
+                        <div style="font-size:0.75rem; font-weight:700;
+                                    color:${j.overloaded ? '#dc2626' : j.capacity <= 50 ? '#16a34a' : '#d97706'};">
+                            ${j.capacity}%
+                        </div>
+                        <div style="font-size:0.7rem; color:#999;">${j.load}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterBulkJuryList() {
+            const q = document.getElementById('bulkJurySearch').value.toLowerCase();
+            renderBulkJuryList(bulkJuryData.filter(j =>
+                j.name.toLowerCase().includes(q) || j.org.toLowerCase().includes(q)
+            ));
+        }
+
+        function pickBulkJury(name, el) {
+            document.querySelectorAll('#bulkJuryList > div').forEach(d => {
+                d.style.borderColor = '#EEEEEE';
+                d.style.background = '#f8fafc';
+            });
+            el.style.borderColor = '#5E2A97';
+            el.style.background = 'rgba(94,42,151,0.06)';
+            selectedBulkJury = name;
+            const btn = document.getElementById('confirmBulkAssignBtn');
+            btn.disabled = false;
+            btn.style.opacity = '1';
+        }
+
+        function openBulkAssignModal() {
+            const count = getSelectedCount();
+            if (count === 0) { showSidebarToast('Please select at least one submission first.', '#d97706'); return; }
+            selectedBulkJury = null;
+            document.getElementById('bulkJurySearch').value = '';
+            document.getElementById('bulkAssignCount').textContent = count;
+            renderBulkJuryList(bulkJuryData);
+            const btn = document.getElementById('confirmBulkAssignBtn');
+            btn.disabled = true; btn.style.opacity = '0.5';
+            document.getElementById('bulkAssignOverlay').style.display = 'flex';
+        }
+
+        function closeBulkAssignModal() {
+            document.getElementById('bulkAssignOverlay').style.display = 'none';
+        }
+
+        function confirmBulkAssign() {
+            if (!selectedBulkJury) return;
+            const count = document.getElementById('bulkAssignCount').textContent;
+            closeBulkAssignModal();
+            showSidebarToast(`${count} submission(s) assigned to ${selectedBulkJury}.`, '#166534');
+            selectedBulkJury = null;
+        }
+
+        // ── Bulk Change Status ────────────────────────────────────────────────
+        function pickBulkStatus(value, el) {
+            document.querySelectorAll('.bulk-status-opt').forEach(b => {
+                b.style.borderColor = '#EEEEEE';
+                b.style.background = '#f8fafc';
+                b.style.color = '#222';
+            });
+            el.style.borderColor = '#5E2A97';
+            el.style.background = 'rgba(94,42,151,0.06)';
+            el.style.color = '#5E2A97';
+            selectedBulkStatus = value;
+            const btn = document.getElementById('confirmBulkStatusBtn');
+            btn.disabled = false; btn.style.opacity = '1';
+        }
+
+        function openBulkStatusModal() {
+            const count = getSelectedCount();
+            if (count === 0) { showSidebarToast('Please select at least one submission first.', '#d97706'); return; }
+            selectedBulkStatus = null;
+            document.getElementById('bulkStatusCount').textContent = count;
+            document.querySelectorAll('.bulk-status-opt').forEach(b => {
+                b.style.borderColor = '#EEEEEE';
+                b.style.background = '#f8fafc';
+                b.style.color = '#222';
+            });
+            const btn = document.getElementById('confirmBulkStatusBtn');
+            btn.disabled = true; btn.style.opacity = '0.5';
+            document.getElementById('bulkStatusOverlay').style.display = 'flex';
+        }
+
+        function closeBulkStatusModal() {
+            document.getElementById('bulkStatusOverlay').style.display = 'none';
+        }
+
+        function confirmBulkStatus() {
+            if (!selectedBulkStatus) return;
+            const count = document.getElementById('bulkStatusCount').textContent;
+            const labels = {
+                draft: 'Draft', submitted: 'Submitted', 'ai-review': 'AI Review',
+                'jury-review': 'Jury Review', evaluated: 'Evaluated', selected: 'Top 400'
+            };
+            closeBulkStatusModal();
+            showSidebarToast(`${count} submission(s) marked as "${labels[selectedBulkStatus]}".`, '#166534');
+            selectedBulkStatus = null;
+        }
+
+        // ── Shared toast for bulk modals ──────────────────────────────────────
+        function showSidebarToast(msg, bg) {
+            const existing = document.querySelector('.toast-notification');
+            if (existing) existing.remove();
+            const toast = document.createElement('div');
+            toast.className = 'toast-notification';
+            toast.style.cssText = `
+                position:fixed; bottom:2rem; right:2rem;
+                background:${bg || '#1e293b'}; color:white;
+                padding:1rem 1.5rem; border-radius:0.75rem;
+                box-shadow:0 10px 25px rgba(0,0,0,0.2);
+                z-index:9999; display:flex; align-items:center;
+                gap:0.75rem; font-size:0.875rem; font-weight:500;
+                font-family:'Poppins',sans-serif; max-width:400px;
+            `;
+            const icon = bg === '#d97706' ? 'warning' : 'check_circle';
+            toast.innerHTML = `<span class="material-symbols-outlined" style="font-size:20px;">${icon}</span><span>${msg}</span>`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // Close on overlay click
+        document.getElementById('bulkAssignOverlay').addEventListener('click', function (e) {
+            if (e.target === this) closeBulkAssignModal();
+        });
+        document.getElementById('bulkStatusOverlay').addEventListener('click', function (e) {
+            if (e.target === this) closeBulkStatusModal();
+        });
+    </script>
+</body>
+
+</html>

@@ -601,7 +601,7 @@
                         <div class="table-card">
                             <div class="table-card-header">
                                 <h3>Pending Evaluations</h3>
-                                <button class="view-all-btn">View All</button>
+                                <a href="assigned-ideas.html" class="view-all-btn">View All</a>
                             </div>
                             <div class="table-responsive">
                                 <table class="custom-table">
@@ -689,7 +689,7 @@
                                 <span class="help-title">Need Help?</span>
                             </div>
                             <p>Contact the jury support team if you have conflicts of interest with any assigned team.</p>
-                            <a href="#" class="help-link">Contact Support →</a>
+                            <a href="mailto:support@ift.in" class="help-link">Contact Support →</a>
                         </div>
                     </div>
                 </div>
@@ -824,6 +824,22 @@
                         sidebarToggleBtn: !!sidebarToggleBtn,
                         sidebar: !!sidebar
                     });
+
+                    // Setup Fullscreen
+                    const fullscreenBtn = document.getElementById('fullscreenBtn');
+                    if (fullscreenBtn) {
+                        fullscreenBtn.addEventListener('click', function() {
+                            if (!document.fullscreenElement) {
+                                document.documentElement.requestFullscreen();
+                            } else {
+                                document.exitFullscreen();
+                            }
+                        });
+                        document.addEventListener('fullscreenchange', function() {
+                            const icon = fullscreenBtn.querySelector('.material-symbols-outlined');
+                            icon.textContent = document.fullscreenElement ? 'fullscreen_exit' : 'fullscreen';
+                        });
+                    }
 
                     // Setup Notification Panel
                     if (notificationBtn && notificationPanelEl) {

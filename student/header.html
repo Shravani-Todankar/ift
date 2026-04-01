@@ -99,6 +99,9 @@
 
     <!-- Header Right Side -->
     <div class="d-flex align-items-center gap-2 ms-auto">
+        <button class="header-icon-btn" id="fullscreenBtn" title="Toggle Fullscreen">
+            <span class="material-symbols-outlined">fullscreen</span>
+        </button>
         <button class="header-icon-btn">
             <span class="material-symbols-outlined">notifications</span>
         </button>
@@ -173,11 +176,11 @@
             <span class="material-symbols-outlined" style="color: #5E2A97;">help_center</span>
             <span style="font-weight: 500; font-size: 0.875rem;">FAQ</span>
         </a>
-        <a href="#contact" style="display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 8px; text-decoration: none; color: #0f172a; transition: background 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+        <a href="mailto:support@ift.in" style="display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 8px; text-decoration: none; color: #0f172a; transition: background 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
             <span class="material-symbols-outlined" style="color: #5E2A97;">support_agent</span>
             <span style="font-weight: 500; font-size: 0.875rem;">Contact Support</span>
         </a>
-        <a href="#feedback" style="display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 8px; text-decoration: none; color: #0f172a; transition: background 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+        <a href="mailto:feedback@ift.in" style="display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 8px; text-decoration: none; color: #0f172a; transition: background 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
             <span class="material-symbols-outlined" style="color: #5E2A97;">feedback</span>
             <span style="font-weight: 500; font-size: 0.875rem;">Send Feedback</span>
         </a>
@@ -401,6 +404,27 @@
             }
         }
 
+        // Fullscreen toggle
+        function initFullscreen() {
+            const btn = document.getElementById('fullscreenBtn');
+            if (!btn) return;
+
+            function updateIcon() {
+                const icon = btn.querySelector('.material-symbols-outlined');
+                icon.textContent = document.fullscreenElement ? 'fullscreen_exit' : 'fullscreen';
+            }
+
+            btn.addEventListener('click', function() {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen();
+                } else {
+                    document.exitFullscreen();
+                }
+            });
+
+            document.addEventListener('fullscreenchange', updateIcon);
+        }
+
         // Sidebar toggle functionality
         function initSidebarToggle() {
             const sidebarToggleBtn = document.getElementById('sidebarToggleBtn');
@@ -442,6 +466,7 @@
             }
 
             console.log('Initializing header functionality...');
+            initFullscreen();
             initNotificationPanel();
             initHelpModal();
             initProfileDropdown();

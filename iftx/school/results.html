@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Results | School | ENpower IFTx</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;900&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet" />
+
+    <!-- Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --primary: #5E2A97;
+            --secondary: #DEDE50;
+            --primary-light: #E8D4F0;
+            --background-light: #F7F7F7;
+            --surface-light: #FFFFFF;
+            --border-light: #EEEEEE;
+            --text-dark: #222222;
+            --text-muted: #666666;
+            --deep-purple: #1A0D2D;
+            --mid-purple: #3A1E60;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-light);
+            color: var(--text-dark);
+            overflow: hidden;
+        }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+
+        .main-container { display: flex; height: 100vh; width: 100%; }
+        #sidebar-container { flex-shrink: 0; }
+
+        .main-content {
+            flex: 1; display: flex; flex-direction: column;
+            height: 100%; overflow-y: auto; position: relative; z-index: 10;
+        }
+
+        .content-wrapper { flex: 1; padding: 32px; max-width: 100%; margin: 0 auto; width: 100%; }
+
+        /* Page Header */
+        .page-header { margin-bottom: 32px; }
+        .page-header h1 { font-size: 1.75rem; font-weight: 700; color: var(--text-dark); margin-bottom: 8px; }
+        .breadcrumb { font-size: 0.875rem; color: var(--text-muted); background: none; padding: 0; margin: 0; }
+        .breadcrumb-item a { color: var(--text-muted); text-decoration: none; }
+        .breadcrumb-item a:hover { color: var(--primary); }
+        .breadcrumb-item.active { color: var(--text-dark); }
+
+        .btn-secondary-custom {
+            background: white; color: var(--text-dark); font-weight: 600;
+            padding: 10px 20px; border-radius: 8px; border: 1px solid var(--border-light);
+            display: flex; align-items: center; gap: 8px; cursor: pointer;
+            transition: all 0.2s; font-family: 'Poppins', sans-serif; font-size: 0.82rem;
+        }
+        .btn-secondary-custom:hover { background: #f8fafc; }
+
+        /* Stats Cards */
+        .stat-card {
+            background: var(--surface-light); border-radius: 12px; padding: 20px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04); border: 1px solid var(--border-light);
+            display: flex; align-items: center; gap: 14px; height: 100%;
+        }
+
+        .stat-icon {
+            width: 44px; height: 44px; min-width: 44px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+
+        .stat-icon.purple { background: rgba(94,42,151,0.1); color: var(--primary); }
+        .stat-icon.green { background: rgba(34,197,94,0.1); color: #22c55e; }
+        .stat-icon.amber { background: rgba(245,158,11,0.1); color: #f59e0b; }
+        .stat-icon.blue { background: rgba(59,130,246,0.1); color: #3b82f6; }
+
+        .stat-label {
+            font-size: 0.7rem; font-weight: 600; color: var(--text-muted);
+            text-transform: uppercase; letter-spacing: 0.05em; margin: 0; white-space: nowrap;
+        }
+
+        .stat-value { font-size: 1.35rem; font-weight: 700; color: var(--text-dark); margin: 0; line-height: 1.2; }
+
+        /* Podium Section */
+        .podium-section {
+            background: linear-gradient(135deg, var(--deep-purple) 0%, var(--mid-purple) 50%, var(--primary) 100%);
+            border-radius: 16px; padding: 3rem 2rem; margin-bottom: 2rem;
+            position: relative; overflow: hidden;
+        }
+
+        .podium-section::before {
+            content: ''; position: absolute; inset: 0;
+            background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
+            background-size: 30px 30px; pointer-events: none;
+        }
+
+        .podium-title { text-align: center; margin-bottom: 2.5rem; position: relative; z-index: 1; }
+        .podium-title h2 {
+            font-family: 'Space Grotesk', 'Poppins', sans-serif;
+            font-size: 1.5rem; font-weight: 700; color: #fff;
+            letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.25rem;
+        }
+        .podium-title p { font-size: 0.8rem; color: rgba(255,255,255,0.5); font-weight: 500; }
+
+        .podium-container {
+            display: flex; align-items: flex-end; justify-content: center;
+            gap: 2rem; min-height: 320px; position: relative; z-index: 1;
+        }
+
+        .podium-card { text-align: center; transition: all 0.3s ease; }
+        .podium-card:hover { transform: translateY(-8px); }
+
+        .podium-second { width: 240px; transform: translateY(1.5rem); }
+        .podium-first { width: 260px; position: relative; z-index: 10; }
+        .podium-first::before {
+            content: ''; position: absolute; top: -100px; left: 50%;
+            transform: translateX(-50%); width: 250px; height: 350px;
+            background: radial-gradient(ellipse at bottom, rgba(255,255,255,0.12) 0%, transparent 70%);
+            pointer-events: none; z-index: -1;
+        }
+        .podium-third { width: 240px; transform: translateY(2.5rem); }
+
+        .podium-avatar-container { position: relative; margin-bottom: 1.25rem; display: inline-block; }
+
+        .podium-avatar {
+            width: 100px; height: 100px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.75rem; font-weight: 700; color: #fff;
+            border: 3px solid; position: relative; z-index: 2;
+        }
+
+        .podium-first .podium-avatar {
+            width: 120px; height: 120px; font-size: 2rem;
+            border-color: #fff; background: rgba(255,255,255,0.15);
+            box-shadow: 0 0 30px rgba(255,255,255,0.2);
+        }
+        .podium-second .podium-avatar { border-color: var(--secondary); background: rgba(222,222,80,0.15); }
+        .podium-third .podium-avatar { border-color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.1); }
+
+        .podium-glow {
+            position: absolute; inset: -6px; border-radius: 50%;
+            border: 1px solid; z-index: 1;
+        }
+        .podium-first .podium-glow { border-color: rgba(255,255,255,0.25); box-shadow: 0 0 25px rgba(255,255,255,0.15); }
+        .podium-second .podium-glow { border-color: rgba(222,222,80,0.25); box-shadow: 0 0 15px rgba(222,222,80,0.15); }
+        .podium-third .podium-glow { border-color: rgba(255,255,255,0.15); }
+
+        .podium-rank {
+            position: absolute; bottom: -4px; right: -4px;
+            width: 36px; height: 36px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 900; font-size: 0.9rem; border: 3px solid var(--deep-purple); z-index: 3;
+        }
+        .podium-first .podium-rank { background: #fff; color: var(--deep-purple); box-shadow: 0 0 12px rgba(255,255,255,0.5); }
+        .podium-second .podium-rank { background: var(--secondary); color: var(--deep-purple); box-shadow: 0 0 10px rgba(222,222,80,0.4); }
+        .podium-third .podium-rank { background: var(--secondary); color: var(--deep-purple); }
+
+        .crown-icon { position: absolute; top: -32px; left: 50%; transform: translateX(-50%); font-size: 2rem; color: #fff; }
+
+        .podium-info {
+            background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+            padding: 1.25rem; border-radius: 10px;
+        }
+        .podium-first .podium-info {
+            background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.25);
+            box-shadow: 0 0 25px rgba(255,255,255,0.08);
+        }
+
+        .podium-name { font-size: 1.125rem; font-weight: 700; color: #fff; margin-bottom: 0.125rem; }
+        .podium-team { font-size: 0.75rem; font-weight: 500; color: rgba(255,255,255,0.5); margin-bottom: 0.75rem; }
+
+        .podium-idea-label {
+            font-size: 0.6rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.15em; margin-bottom: 0.375rem;
+        }
+        .podium-first .podium-idea-label { color: rgba(255,255,255,0.7); }
+        .podium-second .podium-idea-label, .podium-third .podium-idea-label { color: var(--secondary); }
+
+        .podium-idea { font-size: 0.8rem; line-height: 1.4; margin-bottom: 0.75rem; }
+        .podium-first .podium-idea { color: rgba(255,255,255,0.9); }
+        .podium-second .podium-idea, .podium-third .podium-idea { color: #b8a1c9; }
+
+        .podium-score {
+            display: inline-flex; align-items: center; gap: 0.375rem;
+            background: rgba(0,0,0,0.25); padding: 0.25rem 0.75rem;
+            border-radius: 6px; font-size: 0.8rem; font-weight: 700; color: #fff;
+        }
+        .podium-score .material-symbols-outlined { font-size: 16px; color: var(--secondary); }
+
+        /* Leaderboard Section */
+        .leaderboard-section {
+            background: var(--surface-light); border-radius: 12px;
+            border: 1px solid var(--border-light); overflow: hidden; margin-bottom: 2rem;
+        }
+
+        .leaderboard-header {
+            padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border-light);
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 1rem;
+        }
+
+        .leaderboard-title {
+            font-size: 1.1rem; font-weight: 700; color: var(--text-dark);
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+        .leaderboard-title .material-symbols-outlined { color: var(--primary); }
+
+        .filter-tabs { display: flex; gap: 0.5rem; }
+
+        .filter-tab {
+            padding: 0.5rem 1rem; border-radius: 8px; background: var(--background-light);
+            border: 1px solid var(--border-light); font-size: 0.8rem; font-weight: 600;
+            color: var(--text-muted); cursor: pointer; transition: all 0.2s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+        .filter-tab:hover { border-color: rgba(94,42,151,0.3); color: var(--text-dark); }
+        .filter-tab.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+        /* Leaderboard Grid */
+        .leaderboard-grid { padding: 1.5rem; }
+
+        .leader-card {
+            background: var(--background-light); border: 1px solid var(--border-light);
+            border-radius: 10px; padding: 1.25rem; transition: all 0.2s ease;
+            position: relative; height: 100%;
+        }
+        .leader-card:hover {
+            border-color: rgba(94,42,151,0.3); box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+            transform: translateY(-2px);
+        }
+
+        .leader-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+
+        .leader-rank {
+            font-size: 1.5rem; font-weight: 900; color: rgba(94,42,151,0.15);
+            min-width: 40px; font-family: 'Space Grotesk', 'Poppins', sans-serif;
+        }
+
+        .leader-avatar {
+            width: 42px; height: 42px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.85rem; font-weight: 700; color: #fff;
+            background: var(--primary); flex-shrink: 0;
+        }
+
+        .leader-info { flex: 1; min-width: 0; }
+        .leader-name {
+            font-size: 0.9375rem; font-weight: 700; color: var(--text-dark);
+            margin-bottom: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .leader-team { font-size: 0.75rem; color: var(--text-muted); }
+
+        .leader-idea {
+            background: var(--surface-light); border: 1px solid var(--border-light);
+            border-radius: 6px; padding: 0.625rem 0.75rem;
+        }
+        .leader-idea-label {
+            font-size: 0.6rem; font-weight: 700; color: var(--primary);
+            text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.25rem;
+        }
+        .leader-idea-text { font-size: 0.8rem; font-weight: 500; color: var(--text-dark); line-height: 1.4; margin: 0; }
+
+        .leader-score-badge {
+            position: absolute; top: 12px; right: 12px;
+            background: rgba(94,42,151,0.08); color: var(--primary);
+            padding: 0.25rem 0.625rem; border-radius: 6px;
+            font-size: 0.75rem; font-weight: 700; display: flex; align-items: center; gap: 0.25rem;
+        }
+        .leader-score-badge .material-symbols-outlined { font-size: 14px; }
+
+        .status-badge {
+            font-size: 0.625rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.05em; padding: 0.125rem 0.5rem; border-radius: 4px;
+            display: inline-flex; align-items: center;
+        }
+        .status-badge.shortlisted { background: rgba(34,197,94,0.1); color: #16a34a; }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .podium-container { flex-direction: column; align-items: center; gap: 1.5rem; min-height: auto; }
+            .podium-first, .podium-second, .podium-third { transform: none !important; width: 100%; max-width: 280px; }
+        }
+
+        @media (max-width: 768px) {
+            .content-wrapper { padding: 16px; }
+            .podium-section { padding: 2rem 1rem; }
+            .filter-tabs { flex-wrap: wrap; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+        <div id="sidebar-container"></div>
+
+        <main class="main-content">
+            <div id="header-container"></div>
+
+            <div class="content-wrapper">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-md-6">
+                            <h1>Competition Results</h1>
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="dashboard.html">Dashboard</a></li>
+                                    <li class="breadcrumb-item active">Results</li>
+                                </ol>
+                            </nav>
+                        </div>
+                        <div class="col-12 col-md-6 d-flex justify-content-md-end align-items-center gap-3 mt-3 mt-md-0">
+                            <button class="btn-secondary-custom" onclick="window.print()">
+                                <span class="material-symbols-outlined" style="font-size: 18px;">print</span>
+                                Print
+                            </button>
+                            <button class="btn-secondary-custom" onclick="exportCSV()">
+                                <span class="material-symbols-outlined" style="font-size: 18px;">file_download</span>
+                                Export CSV
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="row g-3 mb-4">
+                    <div class="col-6 col-md-3">
+                        <div class="stat-card">
+                            <div class="stat-icon purple">
+                                <span class="material-symbols-outlined">assignment</span>
+                            </div>
+                            <div>
+                                <p class="stat-label">Total Evaluated</p>
+                                <h3 class="stat-value">14</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="stat-card">
+                            <div class="stat-icon green">
+                                <span class="material-symbols-outlined">emoji_events</span>
+                            </div>
+                            <div>
+                                <p class="stat-label">Shortlisted</p>
+                                <h3 class="stat-value" style="color: #22c55e;">5</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="stat-card">
+                            <div class="stat-icon blue">
+                                <span class="material-symbols-outlined">workspace_premium</span>
+                            </div>
+                            <div>
+                                <p class="stat-label">Highest Score</p>
+                                <h3 class="stat-value" style="color: #3b82f6;">42.8</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="stat-card">
+                            <div class="stat-icon amber">
+                                <span class="material-symbols-outlined">trending_up</span>
+                            </div>
+                            <div>
+                                <p class="stat-label">Avg Score</p>
+                                <h3 class="stat-value" style="color: #f59e0b;">33.2</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Podium Section — Top 3 Winners -->
+                <div class="podium-section">
+                    <div class="podium-title">
+                        <h2>School Finals — Top 3</h2>
+                        <p><span class="school-name" style="color: rgba(255,255,255,0.7);">Your School</span> IFTx Competition</p>
+                    </div>
+
+                    <div class="podium-container">
+                        <!-- Second Place -->
+                        <div class="podium-card podium-second">
+                            <div class="podium-avatar-container">
+                                <div class="podium-glow"></div>
+                                <div class="podium-avatar">PK</div>
+                                <div class="podium-rank">#2</div>
+                            </div>
+                            <div class="podium-info">
+                                <p class="podium-name">Priya Kumar</p>
+                                <p class="podium-team">Team Priya &middot; Grade 11</p>
+                                <p class="podium-idea-label">Idea</p>
+                                <p class="podium-idea">MedEase — Rural Health Platform</p>
+                                <div class="podium-score">
+                                    <span class="material-symbols-outlined">star</span>
+                                    41.5/50
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- First Place -->
+                        <div class="podium-card podium-first">
+                            <div class="podium-avatar-container">
+                                <span class="material-symbols-outlined crown-icon" style="font-variation-settings: 'FILL' 1">stars</span>
+                                <div class="podium-glow"></div>
+                                <div class="podium-avatar">AS</div>
+                                <div class="podium-rank">#1</div>
+                            </div>
+                            <div class="podium-info">
+                                <p class="podium-name">Aarav Sharma</p>
+                                <p class="podium-team">Team Aarav &middot; Grade 10</p>
+                                <p class="podium-idea-label">Idea</p>
+                                <p class="podium-idea">EcoTrack — Carbon Footprint App</p>
+                                <div class="podium-score">
+                                    <span class="material-symbols-outlined">star</span>
+                                    42.8/50
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Third Place -->
+                        <div class="podium-card podium-third">
+                            <div class="podium-avatar-container">
+                                <div class="podium-glow"></div>
+                                <div class="podium-avatar">RD</div>
+                                <div class="podium-rank">#3</div>
+                            </div>
+                            <div class="podium-info">
+                                <p class="podium-name">Rohan Das</p>
+                                <p class="podium-team">Team Rohan &middot; Grade 10</p>
+                                <p class="podium-idea-label">Idea</p>
+                                <p class="podium-idea">LearnBuddy — AI Tutor Bot</p>
+                                <div class="podium-score">
+                                    <span class="material-symbols-outlined">star</span>
+                                    39.2/50
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Leaderboard Section -->
+                <div class="leaderboard-section">
+                    <div class="leaderboard-header">
+                        <div class="leaderboard-title">
+                            <span class="material-symbols-outlined">leaderboard</span>
+                            Full Rankings
+                        </div>
+                        <div class="filter-tabs">
+                            <button class="filter-tab active" data-filter="all">All</button>
+                            <button class="filter-tab" data-filter="shortlisted">Shortlisted</button>
+                        </div>
+                    </div>
+
+                    <div class="leaderboard-grid">
+                        <!-- Row 4-6 -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-lg-4 col-md-6">
+                                <div class="leader-card" data-type="shortlisted">
+                                    <div class="leader-header">
+                                        <div class="leader-rank">04</div>
+                                        <div class="leader-avatar" style="background: #3b82f6;">NS</div>
+                                        <div class="leader-info">
+                                            <p class="leader-name">Neha Saxena</p>
+                                            <span class="leader-team">Team Neha &middot; Grade 12</span>
+                                        </div>
+                                    </div>
+                                    <div class="leader-idea">
+                                        <p class="leader-idea-label">Idea</p>
+                                        <p class="leader-idea-text">AgriSense — Smart Farming</p>
+                                    </div>
+                                    <div class="leader-score-badge">
+                                        <span class="material-symbols-outlined">star</span>
+                                        38.7/50
+                                    </div>
+                                    <span class="status-badge shortlisted" style="position: absolute; bottom: 12px; right: 12px;">Shortlisted</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="leader-card" data-type="shortlisted">
+                                    <div class="leader-header">
+                                        <div class="leader-rank">05</div>
+                                        <div class="leader-avatar" style="background: #f59e0b;">AJ</div>
+                                        <div class="leader-info">
+                                            <p class="leader-name">Ananya Joshi</p>
+                                            <span class="leader-team">Team Ananya &middot; Grade 9</span>
+                                        </div>
+                                    </div>
+                                    <div class="leader-idea">
+                                        <p class="leader-idea-label">Idea</p>
+                                        <p class="leader-idea-text">SafeWalk — Women Safety App</p>
+                                    </div>
+                                    <div class="leader-score-badge">
+                                        <span class="material-symbols-outlined">star</span>
+                                        37.1/50
+                                    </div>
+                                    <span class="status-badge shortlisted" style="position: absolute; bottom: 12px; right: 12px;">Shortlisted</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="leader-card" data-type="">
+                                    <div class="leader-header">
+                                        <div class="leader-rank">06</div>
+                                        <div class="leader-avatar" style="background: #22c55e;">VS</div>
+                                        <div class="leader-info">
+                                            <p class="leader-name">Vikram Singh</p>
+                                            <span class="leader-team">Smart City Solutions &middot; Grade 11</span>
+                                        </div>
+                                    </div>
+                                    <div class="leader-idea">
+                                        <p class="leader-idea-label">Idea</p>
+                                        <p class="leader-idea-text">UrbanFlow — Smart Traffic System</p>
+                                    </div>
+                                    <div class="leader-score-badge">
+                                        <span class="material-symbols-outlined">star</span>
+                                        35.4/50
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Row 7-9 -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-lg-4 col-md-6">
+                                <div class="leader-card" data-type="">
+                                    <div class="leader-header">
+                                        <div class="leader-rank">07</div>
+                                        <div class="leader-avatar" style="background: #ef4444;">KR</div>
+                                        <div class="leader-info">
+                                            <p class="leader-name">Kavya Reddy</p>
+                                            <span class="leader-team">Team BioTech &middot; Grade 10</span>
+                                        </div>
+                                    </div>
+                                    <div class="leader-idea">
+                                        <p class="leader-idea-label">Idea</p>
+                                        <p class="leader-idea-text">GreenLens — Plant Disease Detector</p>
+                                    </div>
+                                    <div class="leader-score-badge">
+                                        <span class="material-symbols-outlined">star</span>
+                                        34.2/50
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="leader-card" data-type="">
+                                    <div class="leader-header">
+                                        <div class="leader-rank">08</div>
+                                        <div class="leader-avatar" style="background: #8b5cf6;">SM</div>
+                                        <div class="leader-info">
+                                            <p class="leader-name">Sara Mehta</p>
+                                            <span class="leader-team">Wellness Warriors &middot; Grade 9</span>
+                                        </div>
+                                    </div>
+                                    <div class="leader-idea">
+                                        <p class="leader-idea-label">Idea</p>
+                                        <p class="leader-idea-text">MindCare — Mental Health Chatbot</p>
+                                    </div>
+                                    <div class="leader-score-badge">
+                                        <span class="material-symbols-outlined">star</span>
+                                        33.5/50
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="leader-card" data-type="">
+                                    <div class="leader-header">
+                                        <div class="leader-rank">09</div>
+                                        <div class="leader-avatar" style="background: #14b8a6;">RV</div>
+                                        <div class="leader-info">
+                                            <p class="leader-name">Raj Verma</p>
+                                            <span class="leader-team">Money Minds &middot; Grade 12</span>
+                                        </div>
+                                    </div>
+                                    <div class="leader-idea">
+                                        <p class="leader-idea-label">Idea</p>
+                                        <p class="leader-idea-text">PaySmart — Student Finance App</p>
+                                    </div>
+                                    <div class="leader-score-badge">
+                                        <span class="material-symbols-outlined">star</span>
+                                        32.8/50
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Row 10-12 -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-lg-4 col-md-6">
+                                <div class="leader-card" data-type="">
+                                    <div class="leader-header">
+                                        <div class="leader-rank">10</div>
+                                        <div class="leader-avatar" style="background: #ec4899;">IR</div>
+                                        <div class="leader-info">
+                                            <p class="leader-name">Ishita Rao</p>
+                                            <span class="leader-team">Digital Dreamers &middot; Grade 8</span>
+                                        </div>
+                                    </div>
+                                    <div class="leader-idea">
+                                        <p class="leader-idea-label">Idea</p>
+                                        <p class="leader-idea-text">QuizMaster — Gamified Learning</p>
+                                    </div>
+                                    <div class="leader-score-badge">
+                                        <span class="material-symbols-outlined">star</span>
+                                        31.4/50
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="leader-card" data-type="">
+                                    <div class="leader-header">
+                                        <div class="leader-rank">11</div>
+                                        <div class="leader-avatar" style="background: #6366f1;">DK</div>
+                                        <div class="leader-info">
+                                            <p class="leader-name">Dhruv Kapoor</p>
+                                            <span class="leader-team">FinTech Future &middot; Grade 9</span>
+                                        </div>
+                                    </div>
+                                    <div class="leader-idea">
+                                        <p class="leader-idea-label">Idea</p>
+                                        <p class="leader-idea-text">BudgetBuddy — Expense Tracker</p>
+                                    </div>
+                                    <div class="leader-score-badge">
+                                        <span class="material-symbols-outlined">star</span>
+                                        30.1/50
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="leader-card" data-type="">
+                                    <div class="leader-header">
+                                        <div class="leader-rank">12</div>
+                                        <div class="leader-avatar" style="background: #78716c;">TM</div>
+                                        <div class="leader-info">
+                                            <p class="leader-name">Tanvi Malhotra</p>
+                                            <span class="leader-team">Eco-Warriors &middot; Grade 8</span>
+                                        </div>
+                                    </div>
+                                    <div class="leader-idea">
+                                        <p class="leader-idea-label">Idea</p>
+                                        <p class="leader-idea-text">Campus Compost — Waste to Garden</p>
+                                    </div>
+                                    <div class="leader-score-badge">
+                                        <span class="material-symbols-outlined">star</span>
+                                        29.3/50
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Load sidebar
+        fetch('sidebar.html')
+            .then(response => response.text())
+            .then(data => {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = data;
+                tempDiv.childNodes.forEach(node => {
+                    if (node.nodeType === 1 && node.tagName !== 'SCRIPT') {
+                        document.getElementById('sidebar-container').appendChild(node.cloneNode(true));
+                    } else if (node.nodeType === 3) {
+                        document.getElementById('sidebar-container').appendChild(node.cloneNode(true));
+                    }
+                });
+                const script = tempDiv.querySelector('script');
+                if (script) {
+                    const newScript = document.createElement('script');
+                    newScript.textContent = script.textContent;
+                    document.body.appendChild(newScript);
+                }
+            })
+            .catch(error => console.error('Error loading sidebar:', error));
+
+        // Load header
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = data;
+                tempDiv.childNodes.forEach(node => {
+                    if (node.nodeType === 1 || node.nodeType === 3) {
+                        document.getElementById('header-container').appendChild(node.cloneNode(true));
+                    }
+                });
+                const script = tempDiv.querySelector('script');
+                if (script) {
+                    const newScript = document.createElement('script');
+                    newScript.textContent = script.textContent;
+                    document.body.appendChild(newScript);
+                }
+            })
+            .catch(error => console.error('Error loading header:', error));
+    </script>
+
+    <script>
+        (function() {
+            // Filter tabs
+            const filterTabs = document.querySelectorAll('.filter-tab');
+            const leaderCards = document.querySelectorAll('.leader-card');
+
+            filterTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    filterTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const filter = this.getAttribute('data-filter');
+
+                    leaderCards.forEach(card => {
+                        const types = card.getAttribute('data-type') || '';
+                        if (filter === 'all') {
+                            card.closest('.col-lg-4').style.display = '';
+                        } else if (types.includes(filter)) {
+                            card.closest('.col-lg-4').style.display = '';
+                        } else {
+                            card.closest('.col-lg-4').style.display = 'none';
+                        }
+                    });
+                });
+            });
+        })();
+
+        // Export CSV
+        function exportCSV() {
+            const rows = [['Rank', 'Name', 'Team', 'Idea', 'Score']];
+            // Top 3
+            rows.push(['1', 'Aarav Sharma', 'Team Aarav', 'EcoTrack — Carbon Footprint App', '42.8']);
+            rows.push(['2', 'Priya Kumar', 'Team Priya', 'MedEase — Rural Health Platform', '41.5']);
+            rows.push(['3', 'Rohan Das', 'Team Rohan', 'LearnBuddy — AI Tutor Bot', '39.2']);
+            // Leaderboard
+            document.querySelectorAll('.leader-card').forEach(card => {
+                const rank = card.querySelector('.leader-rank')?.textContent.trim() || '';
+                const name = card.querySelector('.leader-name')?.textContent.trim() || '';
+                const team = card.querySelector('.leader-team')?.textContent.trim() || '';
+                const idea = card.querySelector('.leader-idea-text')?.textContent.trim() || '';
+                const score = card.querySelector('.leader-score-badge')?.textContent.trim().replace('star', '').trim() || '';
+                rows.push([rank, name, team, idea, score]);
+            });
+            const csv = rows.map(r => r.map(c => '"' + c.replace(/"/g, '""') + '"').join(',')).join('\n');
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = 'iftx-results.csv'; a.click();
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+
+</html>

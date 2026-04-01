@@ -377,6 +377,7 @@
 
         .notification-badge {
             position: absolute;
+            bottom: 17%;
             right: 3em;
             width: 0.75rem;
             height: 0.75rem;
@@ -899,7 +900,15 @@
                 btn.addEventListener('click', function (e) {
                     e.stopPropagation();
                     const text = this.textContent.trim();
-                    showToast(`Action: ${text}`, 'info');
+                    if (text.includes('View Team')) {
+                        window.location.href = 'team.html';
+                    } else if (text.includes('Browse Resources')) {
+                        window.location.href = 'learning-resources.html';
+                    } else if (text.includes('Take a Tour')) {
+                        showToast('Tour coming soon!', 'info');
+                    } else {
+                        showToast(`Action: ${text}`, 'info');
+                    }
                 });
             });
 

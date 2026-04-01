@@ -98,6 +98,9 @@
 
     <!-- Header Right Side -->
     <div class="d-flex align-items-center gap-2 ms-auto">
+        <button class="header-icon-btn" id="fullscreenBtn">
+            <span class="material-symbols-outlined">fullscreen</span>
+        </button>
         <button class="header-icon-btn">
             <span class="material-symbols-outlined">notifications</span>
         </button>
@@ -164,8 +167,8 @@
             <div style="width: 48px; height: 48px; border-radius: 50%; background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBjmsevs-ZsRszOHPAXJj0i4FzcVtWfKjpbgsjZuE5f57sKyUVBxVJZzXNcerOf8kAeRjiPR8sbDRxh6yZsPEkqBRsQuBCNKO6W2UUSvl4tGso_jAC5DOEIuAYDlnxS_POeaeIGpHCMCZzN4zKzMod48W6_yXLxVhR7jYbRpokBTt6XbkxWV5Jd1PFhFcQbGD_Gp6IBO4cHJhKTo5VHhVdRf7yXk5xU-vDDwYrnMst2nJZYu2eGTdeROYNudGxZ_OvdLotQ49jOWTg'); background-size: cover; background-position: center; border: 2px solid #5E2A97;"></div>
             <div style="flex: 1; overflow: hidden;">
                 <p style="margin: 0; font-size: 0.875rem; font-weight: 700; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Rohan Sharma</p>
-                <p style="margin: 4px 0 0 0; font-size: 0.75rem; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Super Admin</p>
-                <p style="margin: 2px 0 0 0; font-size: 0.625rem; color: #94a3b8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">rohan.sharma@ift.org</p>
+                <p style="margin: 4px 0 0 0; font-size: 0.75rem; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">School Admin</p>
+                <p style="margin: 2px 0 0 0; font-size: 0.625rem; color: #94a3b8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">rohan.sharma@iftx.in</p>
             </div>
         </div>
     </div>
@@ -296,7 +299,7 @@
                         localStorage.removeItem('userToken');
 
                         // Redirect to login page immediately
-                        window.location.href = '../auth/sign-in.html';
+                        window.location.href = '../../auth/sign-in.html';
                     } else {
                         console.log('Logout cancelled');
                     }
@@ -341,6 +344,24 @@
         // Flag to prevent duplicate initialization
         let initialized = false;
 
+        // Fullscreen Toggle
+        function initFullscreen() {
+            const fullscreenBtn = document.getElementById('fullscreenBtn');
+            if (fullscreenBtn) {
+                fullscreenBtn.addEventListener('click', function() {
+                    if (!document.fullscreenElement) {
+                        document.documentElement.requestFullscreen();
+                    } else {
+                        document.exitFullscreen();
+                    }
+                });
+                document.addEventListener('fullscreenchange', function() {
+                    const icon = fullscreenBtn.querySelector('.material-symbols-outlined');
+                    icon.textContent = document.fullscreenElement ? 'fullscreen_exit' : 'fullscreen';
+                });
+            }
+        }
+
         // Initialize all functionality
         function init() {
             if (initialized) {
@@ -352,6 +373,7 @@
             initNotificationPanel();
             initProfileDropdown();
             initSidebarToggle();
+            initFullscreen();
             initialized = true;
             console.log('Header initialization complete!');
         }

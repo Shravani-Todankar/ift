@@ -351,12 +351,12 @@
                 style='background-image: url("../../assets/IFT_logo.png");'>
             </div>
             <!-- <div class="d-flex flex-column" style="margin-left: 10px;">
-                <h1 class="sidebar-title">IFT Admin Panel</h1>
-                <p class="sidebar-subtitle">India's Future Tycoon</p>
+                <h1 class="sidebar-title">IFTx School Admin</h1>
+                <p class="sidebar-subtitle"><span class="school-name">Your School</span></p>
             </div> -->
         </div>
     </div>
-    <nav class="flex-grow-1 px-3 d-flex flex-column gap-2 mt-3">
+    <nav class="flex-grow-1 px-3 d-flex flex-column gap-2 mt-3" style="overflow-y: auto;">
         <!-- Dashboard -->
         <a class="nav-item" href="dashboard.html">
             <span class="material-symbols-outlined">dashboard</span>
@@ -377,9 +377,17 @@
                     <span class="material-symbols-outlined">school</span>
                     <span class="nav-text">Student</span>
                 </a>
+                <a class="nav-dropdown-item" href="onboard-student.html">
+                    <span class="material-symbols-outlined">person_add</span>
+                    <span class="nav-text">Onboard Student</span>
+                </a>
                 <a class="nav-dropdown-item" href="jury.html">
                     <span class="material-symbols-outlined">gavel</span>
                     <span class="nav-text">Jury</span>
+                </a>
+                <a class="nav-dropdown-item" href="onboard-jury.html">
+                    <span class="material-symbols-outlined">group_add</span>
+                    <span class="nav-text">Onboard Jury</span>
                 </a>
             </div>
         </div>
@@ -408,6 +416,24 @@
             <span class="nav-text">Content</span>
         </a>
 
+        <!-- Schedule -->
+        <a class="nav-item" href="schedule.html">
+            <span class="material-symbols-outlined">calendar_month</span>
+            <span class="nav-text">Schedule</span>
+        </a>
+
+        <!-- Hall of Fame -->
+        <a class="nav-item" href="../halloffame.html">
+            <span class="material-symbols-outlined">emoji_events</span>
+            <span class="nav-text">Hall of Fame</span>
+        </a>
+
+        <!-- Notifications -->
+        <a class="nav-item" href="notifications.html">
+            <span class="material-symbols-outlined">notifications</span>
+            <span class="nav-text">Notifications</span>
+        </a>
+
         <!-- Reports -->
         <a class="nav-item" href="reports.html">
             <span class="material-symbols-outlined">analytics</span>
@@ -422,7 +448,7 @@
             </div>
             <div class="user-info flex-grow-1" id="userInfoDiv">
                 <p class="user-name">Admin User</p>
-                <p class="user-role">Super Administrator</p>
+                <p class="user-role">School Administrator</p>
             </div>
             <button class="logout-btn" id="logoutBtn">
                 <span class="material-symbols-outlined">logout</span>
@@ -499,7 +525,7 @@
 
                         console.log('Redirecting to sign-in...');
                         // Redirect to sign-in page
-                        window.location.href = '../auth/sign-in.html';
+                        window.location.href = '../../auth/sign-in.html';
                     }
                 });
             }

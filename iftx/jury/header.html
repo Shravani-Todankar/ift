@@ -7,6 +7,9 @@
 
     <!-- Header Right Side -->
     <div class="d-flex align-items-center gap-2 ms-auto">
+        <button class="header-icon-btn" id="fullscreenBtn">
+            <span class="material-symbols-outlined">fullscreen</span>
+        </button>
         <button class="header-icon-btn" id="notificationBtn">
             <span class="material-symbols-outlined">notifications</span>
         </button>
@@ -81,7 +84,7 @@
             <span class="material-symbols-outlined" style="color: #5E2A97;">help_center</span>
             <span style="font-weight: 500; font-size: 0.875rem;">FAQ</span>
         </a>
-        <a href="mailto:shravani.techinfinity@gmail.com" style="display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 8px; text-decoration: none; color: #0f172a; transition: background 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
+        <a href="mailto:support@iftx.in" style="display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 8px; text-decoration: none; color: #0f172a; transition: background 0.2s;" onmouseover="this.style.backgroundColor='#f8fafc'" onmouseout="this.style.backgroundColor='transparent'">
             <span class="material-symbols-outlined" style="color: #5E2A97;">support_agent</span>
             <span style="font-weight: 500; font-size: 0.875rem;">Contact Support</span>
         </a>
@@ -364,7 +367,7 @@
                         localStorage.removeItem('userToken');
 
                         // Redirect to login page immediately
-                        window.location.href = '../auth/sign-in.html';
+                        window.location.href = '../../auth/sign-in.html';
                     } else {
                         console.log('Logout cancelled');
                     }
@@ -407,6 +410,24 @@
         // Flag to prevent duplicate initialization
         let initialized = false;
 
+        // Fullscreen Toggle
+        function initFullscreen() {
+            const fullscreenBtn = document.getElementById('fullscreenBtn');
+            if (fullscreenBtn) {
+                fullscreenBtn.addEventListener('click', function() {
+                    if (!document.fullscreenElement) {
+                        document.documentElement.requestFullscreen();
+                    } else {
+                        document.exitFullscreen();
+                    }
+                });
+                document.addEventListener('fullscreenchange', function() {
+                    const icon = fullscreenBtn.querySelector('.material-symbols-outlined');
+                    icon.textContent = document.fullscreenElement ? 'fullscreen_exit' : 'fullscreen';
+                });
+            }
+        }
+
         // Initialize all functionality
         function init() {
             if (initialized) {
@@ -419,6 +440,7 @@
             initHelpModal();
             initProfileDropdown();
             initSidebarToggle();
+            initFullscreen();
             initialized = true;
             console.log('Header initialization complete!');
         }
