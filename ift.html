@@ -676,6 +676,27 @@
             transition: color 0.3s ease;
         }
 
+        .mentor-tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 700;
+            color: #7B2D8E;
+            background: rgba(123, 45, 142, 0.12);
+            padding: 0.35rem 1rem;
+            border-radius: 20px;
+            display: inline-block;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(123, 45, 142, 0.2);
+        }
+
+        .mentor-card:hover .mentor-tag {
+            background: rgba(123, 45, 142, 0.25);
+            color: #C78DD8;
+            border-color: rgba(123, 45, 142, 0.5);
+            transform: translateY(-2px);
+        }
+
         .mentor-card:hover .mentor-role {
             color: rgba(245, 197, 24, 0.9);
         }
@@ -1065,11 +1086,21 @@
     <section class="relative" id="hero-pin-wrapper">
         <div class="flex flex-col items-center justify-center pt-48 pb-32" id="hero-sticky">
             <!-- Background elements -->
-            <div class="absolute inset-0 bg-bg-dark z-0">
-                <canvas id="hero-star-canvas" class="absolute inset-0 w-full h-full" style="z-index:0;"></canvas>
-                <div class="absolute inset-0 bg-gradient-to-b from-bg-dark/40 via-transparent to-bg-dark/60"
-                    style="z-index:1;"></div>
-                <div class="absolute inset-0 hero-grid" style="z-index:2;"></div>
+            <div class="absolute inset-0 bg-bg-dark z-0 overflow-hidden">
+                <canvas id="hero-star-canvas" class="hidden"></canvas>
+
+                <!-- YouTube Video Background -->
+                <div class="absolute inset-0 w-full h-full pointer-events-none z-0">
+                    <iframe
+                        class="absolute top-1/2 left-1/2 w-[150vw] h-[84.375vw] min-h-[150vh] min-w-[266.66vh] -translate-x-1/2 -translate-y-1/2 opacity-30 object-cover"
+                        src="https://www.youtube.com/embed/x96mWTkI9X0?autoplay=1&mute=1&controls=0&loop=1&playlist=x96mWTkI9X0&showinfo=0&rel=0&modestbranding=1"
+                        frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+                </div>
+
+                <div
+                    class="absolute inset-0 bg-gradient-to-b from-bg-dark/60 via-bg-dark/20 to-bg-dark/80 z-10 pointer-events-none">
+                </div>
+                <div class="absolute inset-0 hero-grid opacity-50 z-20 pointer-events-none"></div>
                 <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full filter blur-[150px] animate-pulse"
                     style="z-index:3;">
                 </div>
@@ -1091,8 +1122,8 @@
                         <span id="type-line-3"></span>
                     </h1>
                     <p class="mt-4 max-w-2xl mx-auto text-lg md:text-xl text-gray-400 font-light leading-relaxed">
-                        IFT gives young adults an opportunity to showcase their ideas on a national platform and get
-                        recognized for it. <br />For Ages 13–18.
+                        IFT gives young adults an opportunity to showcase their ideas on a national-level and get
+                        recognized for it. <br />For 13 to 18 years.
                     </p>
                     <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4">
                         <button
@@ -1210,10 +1241,10 @@
                     <div class="card-content">
                         <p class="card-label">Across India</p>
                         <div class="number-area">
-                            <span class="number-base"><span class="stats-counter" data-target="352">0</span><span
+                            <span class="number-base"><span class="stats-counter" data-target="350">0</span><span
                                     class="suffix">+ Cities</span></span>
                             <span class="number-gradient"><span class="stats-counter-ghost"
-                                    data-target="352">0</span><span class="suffix">+ Cities</span></span>
+                                    data-target="350">0</span><span class="suffix">+ Cities</span></span>
                         </div>
                         <div class="stats-divider"></div>
                         <div class="stats-row" style="justify-content:flex-start;">
@@ -1224,7 +1255,7 @@
             </div>
         </div>
     </section>
-    
+
     <!-- About Section -->
     <section class="py-24 relative overflow-hidden" id="about">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1254,16 +1285,12 @@
                 </div>
                 <div class="relative about-visual">
                     <div class="absolute -inset-4 bg-primary/10 rounded-2xl blur-2xl"></div>
-                    <div class="relative overflow-hidden border border-primary/20 bg-bg-card aspect-video group cursor-pointer"
+                    <div class="relative overflow-hidden border border-primary/20 bg-bg-card aspect-video group"
                         style="border-radius:15px;">
-                        <div
-                            class="absolute inset-0 bg-gradient-to-br from-primary/10 via-accent/5 to-bg-dark flex items-center justify-center">
-                            <div
-                                class="w-20 h-20 [background-color:#f5c646] rounded-full flex items-center justify-center glow-purple-sm group-hover:scale-110 transition-transform">
-                                <span class="material-icons text-4xl text-bg-dark pl-1">play_arrow</span>
-                            </div>
-                        </div>
-                        <div class="absolute bottom-4 left-4">
+                        <iframe src="https://drive.google.com/file/d/1AkIqBAv3xsY5nAKZq7doF-5NCsyFg5-t/preview"
+                            class="absolute inset-0 w-full h-full border-0" allow="autoplay; fullscreen"
+                            title="IFT Promo Video"></iframe>
+                        <div class="absolute bottom-4 left-4 pointer-events-none">
                             <span
                                 class="text-xs font-bold bg-bg-dark/70 px-3 py-1.5 rounded-lg [color:#f5c646] border border-primary/20">IFT
                                 PROMO VIDEO</span>
@@ -1297,7 +1324,7 @@
                             class="w-14 h-14 bg-gradient-to-br from-primary to-primary-dark rounded-xl flex items-center justify-center mb-6 shadow-lg text-bg-dark">
                             <img src="assets/gifs/idea.gif" alt="Idea Icon" style="width: 3rem; height: 3rem;" />
                         </div>
-                        <h3 class="text-xl font-bold text-white mb-3">Innovate &amp; Solve</h3>
+                        <h3 class="text-xl font-bold text-white mb-3">Innovation Ecosystem</h3>
                         <p class="text-sm text-gray-400">Identify pressing real-world problems and craft unique, viable
                             solutions using design thinking methodology.</p>
                     </div>
@@ -1373,7 +1400,7 @@
                             <img src="assets/gifs/jury leaders.gif" alt="Jury of Leaders Icon"
                                 style="width: 3rem; height: 3rem;" />
                         </div>
-                        <h3 class="text-xl font-bold text-white mb-3">Jury of Leaders</h3>
+                        <h3 class="text-xl font-bold text-white mb-3">Esteemed Jury</h3>
                         <p class="text-sm text-gray-400">Feedback and evaluation from top entrepreneurs, VCs, and
                             industry leaders who shape your journey.</p>
                     </div>
@@ -1416,10 +1443,38 @@
                 <div
                     class="relative flex items-center justify-between md:flex-row flex-col-reverse group timeline-item">
                     <div
-                        class="w-full md:w-5/12 p-6 glass-panel rounded-xl text-right md:pr-8 hover:bg-primary/5 transition-colors hover:border-primary/20">
-                        <h3 class="text-xl font-bold text-white">Registration</h3>
-                        <p class="text-gray-400 text-sm mt-2">School-led registrations</p>
-                        <span class="[color:#f5c646] text-xs font-bold mt-2 block tracking-widest">PHASE 1</span>
+                        class="w-full md:w-5/12 p-6 glass-panel rounded-xl hover:bg-primary/5 transition-colors hover:border-primary/20 flex flex-row items-center justify-between gap-5">
+                        <div class="flex-shrink-0 opacity-90 group-hover:scale-110 transition-transform duration-300">
+                            <!-- Custom Registration Icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="w-16 h-16" fill="none">
+                                <g stroke="#F5C518" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="48" cy="18" r="7" />
+                                    <line x1="48" y1="5" x2="48" y2="9" />
+                                    <line x1="48" y1="27" x2="48" y2="31" />
+                                    <line x1="35" y1="18" x2="39" y2="18" />
+                                    <line x1="57" y1="18" x2="61" y2="18" />
+                                    <line x1="38.8" y1="8.8" x2="41.6" y2="11.6" />
+                                    <line x1="57.2" y1="27.2" x2="54.4" y2="24.4" />
+                                    <line x1="38.8" y1="27.2" x2="41.6" y2="24.4" />
+                                    <line x1="57.2" y1="8.8" x2="54.4" y2="11.6" />
+                                    <circle cx="18" cy="24" r="5" />
+                                    <path d="M10,38 c0,-6 4,-9 8,-9 c2.5,0 4.5,1.5 6,4 l7,-6" />
+                                    <rect x="6" y="38" width="24" height="4" rx="1" />
+                                    <path d="M10,42 v16 h16 v-16" />
+                                    <line x1="14" y1="50" x2="22" y2="50" />
+                                    <circle cx="36" cy="46" r="5" />
+                                    <path d="M29,60 c0,-6 3.5,-10 7,-10 c3.5,0 7,4 7,10" />
+                                    <circle cx="52" cy="46" r="5" />
+                                    <path d="M45,60 c0,-6 3.5,-10 7,-10 c3.5,0 7,4 7,10" />
+                                    <line x1="4" y1="60" x2="28" y2="60" />
+                                </g>
+                            </svg>
+                        </div>
+                        <div class="text-left md:text-right md:pr-2">
+                            <h3 class="text-xl font-bold text-white">Registration</h3>
+                            <p class="text-gray-400 text-sm mt-2">School-led registrations</p>
+                            <span class="[color:#f5c646] text-xs font-bold mt-2 block tracking-widest">PHASE 1</span>
+                        </div>
                     </div>
                     <div class="timeline-dot absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full border-2 border-primary/30 z-20 flex items-center justify-center"
                         style="background:#0a0a0a;">
@@ -1435,10 +1490,49 @@
                         <span class="timeline-dot-num font-black text-xs" style="color:#f5c646;">2</span>
                     </div>
                     <div
-                        class="w-full md:w-5/12 p-6 glass-panel rounded-xl text-left md:pl-8 hover:bg-primary/5 transition-colors hover:border-primary/20">
-                        <h3 class="text-xl font-bold text-white">Idea Submission</h3>
-                        <p class="text-gray-400 text-sm mt-2">Problem-first approach</p>
-                        <span class="[color:#f5c646] text-xs font-bold mt-2 block tracking-widest">PHASE 2</span>
+                        class="w-full md:w-5/12 p-6 glass-panel rounded-xl hover:bg-primary/5 transition-colors hover:border-primary/20 flex flex-row items-center justify-between gap-5">
+                        <div class="text-left md:text-left md:pl-2">
+                            <h3 class="text-xl font-bold text-white">Idea Submission</h3>
+                            <p class="text-gray-400 text-sm mt-2">Problem-first approach</p>
+                            <span class="[color:#f5c646] text-xs font-bold mt-2 block tracking-widest">PHASE 2</span>
+                        </div>
+                        <div class="flex-shrink-0 opacity-90 group-hover:scale-110 transition-transform duration-300">
+                            <!-- Custom Idea Submission Icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="w-16 h-16" fill="none">
+                                <g stroke="#F5C518" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <!-- Paper outline with fold -->
+                                    <path d="M16,8 h14 v12 h12" />
+                                    <path d="M30,8 l12,12 v10" />
+                                    <path d="M16,8 q-4,0 -4,4 v40 q0,4 4,4 h16" />
+
+                                    <!-- Checkbox -->
+                                    <rect x="20" y="16" width="14" height="14" rx="3" />
+                                    <path d="M23,23 l3,3 l6,-8" />
+
+                                    <!-- List items -->
+                                    <line x1="20" y1="38" x2="34" y2="38" />
+                                    <line x1="20" y1="46" x2="32" y2="46" />
+                                    <line x1="20" y1="54" x2="34" y2="54" />
+
+                                    <!-- Lightbulb glass -->
+                                    <path
+                                        d="M36,36 a10,10 0 1,1 20,0 c0,5 -3.5,8 -4.5,13 h-11 c-1,-5 -4.5,-8 -4.5,-13 z" />
+
+                                    <!-- Bulb base -->
+                                    <line x1="41" y1="53" x2="51" y2="53" />
+                                    <line x1="43" y1="57" x2="49" y2="57" />
+                                    <path d="M44,61 h4" />
+
+                                    <!-- Bulb filament -->
+                                    <path d="M42,39 v3 a4,4 0 0,0 8,0 v-3" />
+
+                                    <!-- Sparks -->
+                                    <line x1="59" y1="34" x2="63" y2="34" />
+                                    <line x1="55" y1="26" x2="58" y2="23" />
+                                    <line x1="46" y1="23" x2="46" y2="19" />
+                                </g>
+                            </svg>
+                        </div>
                     </div>
                 </div>
                 <!-- Step 3 - Top 400 -->
@@ -1446,10 +1540,33 @@
                 <div
                     class="relative flex items-center justify-between md:flex-row flex-col-reverse group timeline-item">
                     <div
-                        class="w-full md:w-5/12 p-6 glass-panel rounded-xl text-right md:pr-8 hover:bg-primary/5 transition-colors hover:border-primary/20">
-                        <h3 class="text-xl font-bold text-white">Top 400 Ideas Showcase</h3>
-                        <p class="text-gray-400 text-sm mt-2">Zonal-level mentoring &amp; showcases</p>
-                        <span class="[color:#f5c646] text-xs font-bold mt-2 block tracking-widest">PHASE 3</span>
+                        class="w-full md:w-5/12 p-6 glass-panel rounded-xl hover:bg-primary/5 transition-colors hover:border-primary/20 flex flex-row items-center md:justify-end justify-start gap-5">
+                        <div class="flex-shrink-0 opacity-90 group-hover:scale-110 transition-transform duration-300">
+                            <!-- Custom Monitor Icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="w-16 h-16" fill="none">
+                                <g stroke="#F5C518" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M10,26 h26" />
+                                    <path d="M13,26 v22 h33 v-10" />
+                                    <line x1="10" y1="48" x2="49" y2="48" />
+                                    <path d="M22,48 l-2,5 h7 l2,-5" />
+                                    <path d="M40,48 l2,5 h-7 l-2,-5" />
+                                    <path d="M10,53 h44" />
+                                    <path
+                                        d="M37,24 a10,10 0 1,1 20,0 c0,5 -3.5,8 -4.5,13 h-11 c-1,-5 -4.5,-8 -4.5,-13 z" />
+                                    <line x1="42" y1="41" x2="52" y2="41" />
+                                    <line x1="44" y1="45" x2="50" y2="45" />
+                                    <path d="M45,49 h4" />
+                                    <line x1="47" y1="11" x2="47" y2="7" />
+                                    <line x1="36" y1="14" x2="33" y2="11" />
+                                    <line x1="58" y1="14" x2="61" y2="11" />
+                                </g>
+                            </svg>
+                        </div>
+                        <div class="text-left md:text-right md:pr-2">
+                            <h3 class="text-xl font-bold text-white">Top 400 Ideas Showcase</h3>
+                            <p class="text-gray-400 text-sm mt-2">Zonal-level mentoring &amp; showcases</p>
+                            <span class="[color:#f5c646] text-xs font-bold mt-2 block tracking-widest">PHASE 3</span>
+                        </div>
                     </div>
                     <div class="timeline-dot absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full border-2 border-primary/30 z-20 flex items-center justify-center"
                         style="background:#0A0A0A;">
@@ -1465,20 +1582,71 @@
                         <span class="timeline-dot-num font-black text-xs" style="color:#f5c646;">4</span>
                     </div>
                     <div
-                        class="w-full md:w-5/12 p-6 glass-panel rounded-xl text-left md:pl-8 hover:bg-primary/5 transition-colors hover:border-primary/20">
-                        <h3 class="text-xl font-bold text-white">Top 100 Ideas Showcase</h3>
-                        <p class="text-gray-400 text-sm mt-2">National-level mentoring &amp; showcases</p>
-                        <span class="[color:#f5c646] text-xs font-bold mt-2 block tracking-widest">PHASE 4</span>
+                        class="w-full md:w-5/12 p-6 glass-panel rounded-xl hover:bg-primary/5 transition-colors hover:border-primary/20 flex flex-row items-center justify-between gap-5">
+                        <div class="text-left md:text-left md:pl-2">
+                            <h3 class="text-xl font-bold text-white">Top 100 Ideas Showcase</h3>
+                            <p class="text-gray-400 text-sm mt-2">National-level mentoring &amp; showcases</p>
+                            <span class="[color:#f5c646] text-xs font-bold mt-2 block tracking-widest">PHASE 4</span>
+                        </div>
+                        <div class="flex-shrink-0 opacity-90 group-hover:scale-110 transition-transform duration-300">
+                            <!-- Custom Easel Icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="w-16 h-16" fill="none">
+                                <g stroke="#F5C518" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="32" y1="48" x2="32" y2="60" />
+                                    <line x1="26" y1="48" x2="18" y2="60" />
+                                    <line x1="38" y1="48" x2="46" y2="60" />
+                                    <rect x="10" y="16" width="44" height="32" rx="2" />
+                                    <line x1="8" y1="16" x2="56" y2="16" />
+                                    <line x1="16" y1="16" x2="16" y2="16.1" />
+                                    <line x1="48" y1="16" x2="48" y2="16.1" />
+                                    <path d="M28,16 a4,4 0 0,1 8,0" />
+                                    <path d="M25,30 a7,7 0 1,1 14,0 c0,4 -2,6 -3,9 h-8 c-1,-3 -3,-5 -3,-9 z" />
+                                    <line x1="29" y1="43" x2="35" y2="43" />
+                                    <line x1="30" y1="46" x2="34" y2="46" />
+                                    <path d="M30,32 h4 m-2,0 v-4" />
+                                    <line x1="20" y1="26" x2="16" y2="22" />
+                                    <line x1="44" y1="26" x2="48" y2="22" />
+                                    <line x1="16" y1="33" x2="20" y2="33" />
+                                    <line x1="48" y1="33" x2="44" y2="33" />
+                                </g>
+                            </svg>
+                        </div>
                     </div>
                 </div>
                 <!-- Step 5 - Hall of Fame -->
                 <div
                     class="relative flex items-center justify-between md:flex-row flex-col-reverse group timeline-item">
                     <div
-                        class="w-full md:w-5/12 p-6 glass-panel rounded-xl text-right md:pr-8 hover:bg-primary/5 transition-colors hover:border-primary/20">
-                        <h3 class="text-xl font-bold text-white">IFT Hall of Fame</h3>
-                        <p class="text-gray-400 text-sm mt-2">Top 24 ideas nationally recognized</p>
-                        <span class="[color:#f5c646] text-xs font-bold mt-2 block tracking-widest">PHASE 5</span>
+                        class="w-full md:w-5/12 p-6 glass-panel rounded-xl hover:bg-primary/5 transition-colors hover:border-primary/20 flex flex-row items-center md:justify-end justify-start gap-5">
+                        <div class="flex-shrink-0 opacity-90 group-hover:scale-110 transition-transform duration-300">
+                            <!-- Custom Trophy Icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="w-16 h-16" fill="none">
+                                <g stroke="#F5C518" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="16" y1="58" x2="48" y2="58" />
+                                    <line x1="20" y1="58" x2="20" y2="52" />
+                                    <line x1="44" y1="58" x2="44" y2="52" />
+                                    <line x1="16" y1="52" x2="48" y2="52" />
+                                    <line x1="22" y1="52" x2="22" y2="30" />
+                                    <line x1="42" y1="52" x2="42" y2="30" />
+                                    <rect x="25" y="36" width="14" height="12" />
+                                    <line x1="28" y1="39" x2="28" y2="39.1" stroke-width="4" />
+                                    <line x1="28" y1="42" x2="28" y2="46" />
+                                    <line x1="18" y1="30" x2="46" y2="30" />
+                                    <line x1="20" y1="30" x2="20" y2="26" />
+                                    <line x1="44" y1="30" x2="44" y2="26" />
+                                    <line x1="18" y1="26" x2="46" y2="26" />
+                                    <path
+                                        d="M32,4 l3.5,8 l8.5,1.5 l-6,6.5 l1.5,9 l-7.5,-4 l-7.5,4 l1.5,-9 l-6,-6.5 l8.5,-1.5 Z" />
+                                    <path
+                                        d="M32,11 l1.5,4 l4.5,0.5 l-3,3 l0.5,4 l-3.5,-2 l-3.5,2 l0.5,-4 l-3,-3 l4.5,-0.5 Z" />
+                                </g>
+                            </svg>
+                        </div>
+                        <div class="text-left md:text-right md:pr-2">
+                            <h3 class="text-xl font-bold text-white">IFT Hall of Fame</h3>
+                            <p class="text-gray-400 text-sm mt-2">Top 24 ideas nationally recognized</p>
+                            <span class="[color:#f5c646] text-xs font-bold mt-2 block tracking-widest">PHASE 5</span>
+                        </div>
                     </div>
                     <div class="timeline-dot absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full border-2 border-primary/30 z-20 flex items-center justify-center"
                         style="background:#0A0A0A;">
@@ -1494,21 +1662,75 @@
                         <span class="timeline-dot-num font-black text-xs" style="color:#f5c646;">6</span>
                     </div>
                     <div
-                        class="w-full md:w-5/12 p-6 glass-panel rounded-xl text-left md:pl-8 hover:bg-primary/5 transition-colors hover:border-primary/20">
-                        <h3 class="text-xl font-bold text-white">Residential Founder's Bootcamp</h3>
-                        <p class="text-gray-400 text-sm mt-2">3 days | Real startup tools</p>
-                        <p class="text-gray-400 text-sm mt-1">BMC | MVP | GTM | Pitching</p>
-                        <span class="[color:#f5c646] text-xs font-bold mt-2 block tracking-widest">PHASE 6</span>
+                        class="w-full md:w-5/12 p-6 glass-panel rounded-xl hover:bg-primary/5 transition-colors hover:border-primary/20 flex flex-row items-center justify-between gap-5">
+                        <div class="text-left md:text-left md:pl-2">
+                            <h3 class="text-xl font-bold text-white">Residential Founder's Bootcamp</h3>
+                            <p class="text-gray-400 text-sm mt-2">3 days | Real startup tools</p>
+                            <p class="text-gray-400 text-sm mt-1">BMC | MVP | GTM | Pitching</p>
+                            <span class="[color:#f5c646] text-xs font-bold mt-2 block tracking-widest">PHASE 6</span>
+                        </div>
+                        <div class="flex-shrink-0 opacity-90 group-hover:scale-110 transition-transform duration-300">
+                            <!-- Custom Box Icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="w-16 h-16" fill="none">
+                                <g stroke="#F5C518" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M22,50 l10,6 l10,-6 v-16 l-10,6 l-10,-6 z" />
+                                    <line x1="22" y1="34" x2="32" y2="28" />
+                                    <line x1="42" y1="34" x2="32" y2="28" />
+                                    <line x1="32" y1="56" x2="32" y2="40" />
+                                    <path d="M30,30 v-16 h-6 v-4" />
+                                    <path d="M34,31 v-8 h8 v-4" />
+                                    <path d="M26,32.5 v-3.5 h-12 v4" />
+                                    <rect x="20" y="4" width="8" height="6" rx="1" />
+                                    <line x1="20" y1="8" x2="28" y2="8" />
+                                    <line x1="24" y1="6" x2="24" y2="6.1" stroke-width="4" />
+                                    <rect x="38" y="14" width="8" height="6" rx="1" />
+                                    <line x1="38" y1="18" x2="46" y2="18" />
+                                    <line x1="42" y1="16" x2="42" y2="16.1" stroke-width="4" />
+                                    <rect x="10" y="27" width="8" height="6" rx="1" />
+                                    <line x1="10" y1="31" x2="18" y2="31" />
+                                    <line x1="14" y1="29" x2="14" y2="29.1" stroke-width="4" />
+                                </g>
+                            </svg>
+                        </div>
                     </div>
                 </div>
                 <!-- Step 7 - Grand National Showcase -->
                 <div
                     class="relative flex items-center justify-between md:flex-row flex-col-reverse group timeline-item">
                     <div
-                        class="w-full md:w-5/12 p-6 glass-panel rounded-xl text-right md:pr-8 hover:bg-primary/5 transition-colors hover:border-primary/20">
-                        <h3 class="text-xl font-bold text-white">Grand National Showcase</h3>
-                        <p class="text-gray-400 text-sm mt-2">Live pitch | Seed funding | Jury</p>
-                        <span class="[color:#f5c646] text-xs font-bold mt-2 block tracking-widest">PHASE 7</span>
+                        class="w-full md:w-5/12 p-6 glass-panel rounded-xl hover:bg-primary/5 transition-colors hover:border-primary/20 flex flex-row items-center md:justify-end justify-start gap-5">
+                        <div class="flex-shrink-0 opacity-90 group-hover:scale-110 transition-transform duration-300">
+                            <!-- Custom Gate Icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="w-16 h-16" fill="none">
+                                <g stroke="#F5C518" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="10" y1="56" x2="24" y2="56" />
+                                    <line x1="10" y1="51" x2="24" y2="51" />
+                                    <line x1="10" y1="51" x2="10" y2="56" />
+                                    <line x1="24" y1="51" x2="24" y2="56" />
+                                    <line x1="40" y1="56" x2="54" y2="56" />
+                                    <line x1="40" y1="51" x2="54" y2="51" />
+                                    <line x1="40" y1="51" x2="40" y2="56" />
+                                    <line x1="54" y1="51" x2="54" y2="56" />
+                                    <line x1="14" y1="51" x2="14" y2="28" />
+                                    <line x1="20" y1="51" x2="20" y2="28" />
+                                    <line x1="14" y1="28" x2="20" y2="28" />
+                                    <line x1="14" y1="43" x2="20" y2="43" />
+                                    <line x1="44" y1="51" x2="44" y2="28" />
+                                    <line x1="50" y1="51" x2="50" y2="28" />
+                                    <line x1="44" y1="28" x2="50" y2="28" />
+                                    <line x1="44" y1="43" x2="50" y2="43" />
+                                    <line x1="20" y1="33" x2="44" y2="33" />
+                                    <line x1="20" y1="38" x2="44" y2="38" />
+                                    <path
+                                        d="M32,4 l3.5,8 l8.5,1.5 l-6,6.5 l1.5,9 l-7.5,-4 l-7.5,4 l1.5,-9 l-6,-6.5 l8.5,-1.5 Z" />
+                                </g>
+                            </svg>
+                        </div>
+                        <div class="text-left md:text-right md:pr-2">
+                            <h3 class="text-xl font-bold text-white">Grand National Showcase</h3>
+                            <p class="text-gray-400 text-sm mt-2">Live pitch | Seed funding | Jury</p>
+                            <span class="[color:#f5c646] text-xs font-bold mt-2 block tracking-widest">PHASE 7</span>
+                        </div>
                     </div>
                     <div class="timeline-dot absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full border-2 border-primary/30 z-20 flex items-center justify-center"
                         style="background:#0A0A0A;">
@@ -1523,11 +1745,36 @@
                         style="background:#0A0A0A;border-color:rgba(245,198,70,0.6);">
                         <span class="timeline-dot-num material-icons text-xl" style="color:#f5c646;">emoji_events</span>
                     </div>
-                    <div class="w-full md:w-5/12 p-6 rounded-xl text-left md:pl-8 border"
+                    <div class="w-full md:w-5/12 p-6 border rounded-xl flex flex-row items-center justify-between gap-5"
                         style="background:linear-gradient(135deg,rgba(245,198,70,0.12) 0%,rgba(245,198,70,0.04) 100%);border-color:rgba(245,198,70,0.3);">
-                        <h3 class="text-xl font-bold text-white">National Recognition</h3>
-                        <p class="text-gray-400 text-sm mt-2">Awards | Media | Global opportunities</p>
-                        <span class="text-xs font-bold mt-2 block tracking-widest" style="color:#f5c646;">FINALE</span>
+                        <div class="text-left md:text-left md:pl-2">
+                            <h3 class="text-xl font-bold text-white">National Recognition</h3>
+                            <p class="text-gray-400 text-sm mt-2">Awards | Media | Global opportunities</p>
+                            <span class="text-xs font-bold mt-2 block tracking-widest"
+                                style="color:#f5c646;">FINALE</span>
+                        </div>
+                        <div class="flex-shrink-0 opacity-90 group-hover:scale-110 transition-transform duration-300">
+                            <!-- Custom Globe Icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" class="w-16 h-16" fill="none">
+                                <g stroke="#F5C518" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="16" y1="56" x2="48" y2="56" />
+                                    <line x1="20" y1="48" x2="44" y2="48" />
+                                    <line x1="16" y1="56" x2="20" y2="48" />
+                                    <line x1="48" y1="56" x2="44" y2="48" />
+                                    <line x1="22" y1="48" x2="22" y2="34" />
+                                    <line x1="42" y1="48" x2="42" y2="34" />
+                                    <line x1="22" y1="34" x2="42" y2="34" />
+                                    <line x1="27" y1="42" x2="37" y2="42" />
+                                    <circle cx="32" cy="20" r="14" />
+                                    <line x1="18" y1="20" x2="46" y2="20" />
+                                    <line x1="22" y1="11" x2="42" y2="11" />
+                                    <line x1="22" y1="29" x2="42" y2="29" />
+                                    <line x1="32" y1="6" x2="32" y2="34" />
+                                    <path d="M25,7 c-5,8 -5,18 0,26" />
+                                    <path d="M39,7 c5,8 5,18 0,26" />
+                                </g>
+                            </svg>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1556,18 +1803,17 @@
                     Success Stories <span class="material-icons text-sm">arrow_forward</span>
                 </button>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div
                     class="group relative rounded-xl overflow-hidden aspect-[4/5] cursor-pointer hall-card glass-panel">
                     <img src="assets/Aryan Singh_C.png" alt="Aryan Singh"
                         class="absolute inset-0 w-full h-full object-cover">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80">
                     </div>
-                    <div
-                        class="absolute bottom-0 left-0 right-0 p-5 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                    <div class="absolute bottom-0 left-0 right-0 p-5">
                         <h3 class="text-lg font-bold text-white">Aryan Singh</h3>
                         <p class="text-primary-light text-xs mb-2">Mera Sathi Agrotech</p>
-                        <p class="text-gray-300 text-xs opacity-0 group-hover:opacity-100 transition-opacity delay-100">
+                        <p class="text-gray-300 text-xs">
                             Aryan's Mera Sathi Agrotech combines tech of the future with empathy & innovation — his idea
                             earned recognition from Hon'ble PM of India for solving real agricultural challenges.</p>
                     </div>
@@ -1578,11 +1824,10 @@
                         class="absolute inset-0 w-full h-full object-cover">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80">
                     </div>
-                    <div
-                        class="absolute bottom-0 left-0 right-0 p-5 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                    <div class="absolute bottom-0 left-0 right-0 p-5">
                         <h3 class="text-lg font-bold text-white">Divya & Parth</h3>
                         <p class="text-primary-light text-xs mb-2">Tyron — Social Impact Startup</p>
-                        <p class="text-gray-300 text-xs opacity-0 group-hover:opacity-100 transition-opacity delay-100">
+                        <p class="text-gray-300 text-xs">
                             Profit-making startup creating jobs for acid attack survivors, won NFTE's global challenge &
                             recognised by Unstop and Better India.</p>
                     </div>
@@ -1593,16 +1838,16 @@
                         class="absolute inset-0 w-full h-full object-cover">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80">
                     </div>
-                    <div
-                        class="absolute bottom-0 left-0 right-0 p-5 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                    <div class="absolute bottom-0 left-0 right-0 p-5">
                         <h3 class="text-lg font-bold text-white">Akshit</h3>
                         <p class="text-primary-light text-xs mb-2">The Bionic Hand</p>
-                        <p class="text-gray-300 text-xs opacity-0 group-hover:opacity-100 transition-opacity delay-100">
+                        <p class="text-gray-300 text-xs">
                             Mentored by ENpower, Akshit turned The Bionic Hand prototype into an investor-backed
                             prosthetic powered by design thinking and entrepreneurial skills.</p>
                     </div>
                 </div>
-                <div class="group relative rounded-xl overflow-hidden aspect-[4/5] border border-primary/30 hall-card">
+                <div
+                    class="group relative rounded-xl overflow-hidden aspect-[4/5] border border-primary/30 hall-card hidden">
                     <video class="absolute inset-0 w-full h-full object-cover" src="assets/IFT FINAL PROMO SEASON 4.mp4"
                         preload="metadata" playsinline loop></video>
                     <div class="absolute inset-0 bg-black/50 flex items-center justify-center z-10 group-hover:bg-black/20 transition-colors cursor-pointer"
@@ -1662,6 +1907,14 @@
                         <div class="relative" style="height:200px;" data-purpose="narrative-stack">
                             <article class="absolute inset-0 flex flex-col justify-start pointer-events-none opacity-0"
                                 style="transform:translateY(30px);" id="narrative-1">
+                                <h3 class="text-xl md:text-2xl font-semibold mb-3 text-white">Aligned with Global
+                                    Skills, NEP & NCF Frameworks</h3>
+                                <p class="text-gray-400 leading-relaxed max-w-lg">Prepare students for future careers
+                                    through competency-based learning aligned with global skill standards and India's
+                                    NEP–NCF focus on experiential, multidisciplinary education.</p>
+                            </article>
+                            <article class="absolute inset-0 flex flex-col justify-start pointer-events-none opacity-0"
+                                style="transform:translateY(30px);" id="narrative-2">
                                 <h3 class="text-xl md:text-2xl font-semibold mb-3 text-white">Your School can be a
                                     'Future-Skills' Leader</h3>
                                 <p class="text-gray-400 leading-relaxed max-w-lg">Equip students with essential
@@ -1669,20 +1922,12 @@
                                     Prepare them to lead, innovate, and thrive in a rapidly changing world.</p>
                             </article>
                             <article class="absolute inset-0 flex flex-col justify-start pointer-events-none opacity-0"
-                                style="transform:translateY(30px);" id="narrative-2">
+                                style="transform:translateY(30px);" id="narrative-3">
                                 <h3 class="text-xl md:text-2xl font-semibold mb-3 text-white">Gives Your Students a
                                     National Recognition Platform</h3>
                                 <p class="text-gray-400 leading-relaxed max-w-lg">Enable students to showcase their
                                     ideas on a national stage through pitch opportunities, mentorship, and recognition,
                                     building confidence, visibility, and real-world relevance beyond classrooms.</p>
-                            </article>
-                            <article class="absolute inset-0 flex flex-col justify-start pointer-events-none opacity-0"
-                                style="transform:translateY(30px);" id="narrative-3">
-                                <h3 class="text-xl md:text-2xl font-semibold mb-3 text-white">Aligned with Global
-                                    Skills, NEP & NCF Frameworks</h3>
-                                <p class="text-gray-400 leading-relaxed max-w-lg">Prepare students for future careers
-                                    through competency-based learning aligned with global skill standards and India's
-                                    NEP–NCF focus on experiential, multidisciplinary education.</p>
                             </article>
                         </div>
 
@@ -1699,61 +1944,61 @@
                     <!-- RIGHT: stacked glass cards — all at same position, layer on top as you scroll -->
                     <div class="w-full lg:w-1/2 relative flex items-center justify-center" style="height:320px;">
 
-                        <!-- Card 1 — NEP Compliant -->
+                        <!-- Card 1 — New 1 (Old 3: NEP) -->
                         <div class="absolute inset-0 rounded-2xl overflow-hidden opacity-0"
-                            style="z-index:10;transform:translateX(80px);background:#1a0a2e;border:1px solid rgba(139,92,246,0.35);"
+                            style="z-index:10;transform:translateX(80px);background:#1a1200;border:1px solid rgba(245,158,11,0.35);"
                             id="card-1">
+                            <div style="height:3px;background:linear-gradient(90deg,#d97706,#fbbf24);"></div>
+                            <div class="flex flex-col justify-center p-7 h-full">
+                                <div class="w-9 h-9 rounded-lg overflow-hidden mb-4">
+                                    <img src="assets/gifs/idea.gif" alt="Recognition"
+                                        style="width:36px;height:36px;object-fit:cover;" />
+                                </div>
+                                <span class="text-amber-400 text-xs font-bold uppercase tracking-widest mb-1">NEP
+                                    2020</span>
+                                <h4 class="font-bold text-white text-xl leading-tight mb-3">NEP Compliant</h4>
+                                <p class="text-gray-300 text-sm leading-relaxed">IFT integrates critical thinking,
+                                    creativity, collaboration, entrepreneurship, and real-world application, supporting
+                                    schools in delivering future-ready outcomes within national curriculum guidelines.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Card 2 — New 2 (Old 1: 21st Century) -->
+                        <div class="absolute inset-0 rounded-2xl overflow-hidden opacity-0"
+                            style="z-index:20;transform:translateX(80px);background:#1a0a2e;border:1px solid rgba(139,92,246,0.35);"
+                            id="card-2">
                             <div style="height:3px;background:linear-gradient(90deg,#7c3aed,#a78bfa);"></div>
                             <div class="flex flex-col justify-center p-7 h-full">
                                 <div class="w-9 h-9 rounded-lg overflow-hidden mb-4">
-                                    <img src="assets/gifs/idea.gif" alt="Innovation"
+                                    <img src="assets/gifs/mentorship.gif" alt="Innovation"
                                         style="width:36px;height:36px;object-fit:cover;" />
                                 </div>
-                                <span class="text-purple-400 text-xs font-bold uppercase tracking-widest mb-1">NEP
-                                    2020</span>
-                                <h4 class="font-bold text-white text-xl leading-tight mb-3">NEP Compliant</h4>
+                                <span class="text-purple-400 text-xs font-bold uppercase tracking-widest mb-1">21st
+                                    Century</span>
+                                <h4 class="font-bold text-white text-xl leading-tight mb-3">Future Ready</h4>
                                 <p class="text-gray-300 text-sm leading-relaxed">Build problem-solving, creativity,
                                     collaboration, and digital fluency through real-world mentorship, hands-on projects,
                                     and national innovation challenges that turn classrooms into launchpads.</p>
                             </div>
                         </div>
 
-                        <!-- Card 2 — Future Ready -->
+                        <!-- Card 3 — New 3 (Old 2: Nationwide) -->
                         <div class="absolute inset-0 rounded-2xl overflow-hidden opacity-0"
-                            style="z-index:20;transform:translateX(80px);background:#4f3119;border:1px solid rgba(59,130,246,0.35);"
-                            id="card-2">
+                            style="z-index:30;transform:translateX(80px);background:#4f3119;border:1px solid rgba(59,130,246,0.35);"
+                            id="card-3">
                             <div style="height:3px;background:#c08a5e;"></div>
                             <div class="flex flex-col justify-center p-7 h-full">
                                 <div class="w-9 h-9 rounded-lg overflow-hidden mb-4">
-                                    <img src="assets/gifs/mentorship.gif" alt="Mentorship"
-                                        style="width:36px;height:36px;object-fit:cover;" />
-                                </div>
-                                <span class="[color:#c08a5e] text-xs font-bold uppercase tracking-widest mb-1">21st
-                                    Century</span>
-                                <h4 class="font-bold text-white text-xl leading-tight mb-3">Future Ready</h4>
-                                <p class="text-gray-300 text-sm leading-relaxed">Empower learners to turn concepts into
-                                    solutions while gaining exposure to industry experts, peer innovators, and funding
-                                    pathways that validate their potential.</p>
-                            </div>
-                        </div>
-
-                        <!-- Card 3 — National Recognition -->
-                        <div class="absolute inset-0 rounded-2xl overflow-hidden opacity-0"
-                            style="z-index:30;transform:translateX(80px);background:#1a1200;border:1px solid rgba(245,158,11,0.35);"
-                            id="card-3">
-                            <div style="height:3px;background:linear-gradient(90deg,#d97706,#fbbf24);"></div>
-                            <div class="flex flex-col justify-center p-7 h-full">
-                                <div class="w-9 h-9 rounded-lg overflow-hidden mb-4">
-                                    <img src="assets/gifs/recognition.gif" alt="Recognition"
+                                    <img src="assets/gifs/recognition.gif" alt="Mentorship"
                                         style="width:36px;height:36px;object-fit:cover;" />
                                 </div>
                                 <span
-                                    class="text-amber-400 text-xs font-bold uppercase tracking-widest mb-1">Nationwide</span>
+                                    class="[color:#c08a5e] text-xs font-bold uppercase tracking-widest mb-1">Nationwide</span>
                                 <h4 class="font-bold text-white text-xl leading-tight mb-3">National Recognition</h4>
-                                <p class="text-gray-300 text-sm leading-relaxed">IFT integrates critical thinking,
-                                    creativity, collaboration, entrepreneurship, and real-world application, supporting
-                                    schools in delivering future-ready outcomes within national curriculum guidelines.
-                                </p>
+                                <p class="text-gray-300 text-sm leading-relaxed">Empower learners to turn concepts into
+                                    solutions while gaining exposure to industry experts, peer innovators, and funding
+                                    pathways that validate their potential.</p>
                             </div>
                         </div>
 
@@ -1850,17 +2095,19 @@
                         <span class="material-icons">palette</span>
                     </div>
                     <h3 class="mentor-name">Kaustubh Dhargalkar</h3>
-                    <p class="mentor-role">Design Thinking</p>
+                    <p class="mentor-role">Design Thinking Coach | Stanford Seed</p>
+                    <div class="mentor-tag">Design Thinking</div>
                 </div>
 
                 <!-- Card 2 -->
                 <div class="mentor-card">
-                    <img src="assets/Mentors/MANDAR MHATRE - Tech.png" alt="Mandar Mhatre" class="mentor-avatar" />
+                    <img src="assets/Mentors/ramanathan.jpg" alt="Ramanathan Ramanan" class="mentor-avatar" />
                     <div class="mentor-icon">
-                        <span class="material-icons">code</span>
+                        <span class="material-icons">lightbulb</span>
                     </div>
-                    <h3 class="mentor-name">Mandar Mhatre</h3>
-                    <p class="mentor-role">Tech</p>
+                    <h3 class="mentor-name">Ramanathan Ramanan</h3>
+                    <p class="mentor-role">First Mission Director (AIM) NITI Aayog</p>
+                    <div class="mentor-tag">Innovation</div>
                 </div>
 
                 <!-- Card 3 -->
@@ -1871,7 +2118,8 @@
                         <span class="material-icons">lightbulb</span>
                     </div>
                     <h3 class="mentor-name">Nimisha Nagarsekar</h3>
-                    <p class="mentor-role">Finance</p>
+                    <p class="mentor-role">Co-founder & Partner, Sixth Sense Ventures</p>
+                    <div class="mentor-tag">Finance</div>
                 </div>
 
                 <!-- Card 4 -->
@@ -1881,7 +2129,8 @@
                         <span class="material-icons">computer</span>
                     </div>
                     <h3 class="mentor-name">Rajendra Bhat</h3>
-                    <p class="mentor-role">Tech</p>
+                    <p class="mentor-role">Advisor, Incubation & Acceleration at IIT Mandi iHUb & HCI Foundation</p>
+                    <div class="mentor-tag">Tech</div>
                 </div>
 
             </div>
@@ -2488,12 +2737,25 @@
                 <span class="text-gray-500 text-sm">Designed & Developed By Techinfinity</span>
             </div>
             <div class="flex space-x-6">
-                <a class="text-gray-500 hover:text-primary transition-colors" href="#"><span
-                        class="material-icons">language</span></a>
-                <a class="text-gray-500 hover:text-primary transition-colors" href="#"><span
-                        class="material-icons">mail</span></a>
-                <a class="text-gray-500 hover:text-primary transition-colors" href="#"><span
-                        class="material-icons">videocam</span></a>
+                <!-- Facebook -->
+                <a class="text-gray-500 hover:text-primary transition-colors"
+                    href="https://www.facebook.com/indiafuturetycoons" target="_blank" title="Follow us on Facebook">
+                    <span class="material-icons">facebook</span>
+                </a>
+                <!-- Instagram (using provided link) -->
+                <a class="text-gray-500 hover:text-primary transition-colors"
+                    href="https://drive.google.com/file/d/1AkIqBAv3xsY5nAKZq7doF-5NCsyFg5-t/view?usp=sharing"
+                    target="_blank" title="Follow us on Instagram">
+                    <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                        <path
+                            d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                    </svg>
+                </a>
+                <!-- Email (Keeping for contact) -->
+                <a class="text-gray-500 hover:text-primary transition-colors" href="mailto:contact@enlearning.in"
+                    title="Email Us">
+                    <span class="material-icons">mail</span>
+                </a>
             </div>
         </div>
     </footer>
