@@ -3464,13 +3464,34 @@
         });
     </script>
 
+    <!-- Contact Form Popup -->
+    <div id="formPopup" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);align-items:center;justify-content:center;">
+        <div style="background:#1a1a2e;border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:40px 36px;max-width:420px;width:90%;text-align:center;position:relative;box-shadow:0 24px 60px rgba(0,0,0,0.5);">
+            <div id="popupIcon" style="font-size:48px;margin-bottom:16px;"></div>
+            <h3 id="popupTitle" style="color:#fff;font-size:20px;font-weight:700;margin:0 0 10px;font-family:sans-serif;"></h3>
+            <p id="popupMsg" style="color:#9ca3af;font-size:14px;margin:0 0 28px;font-family:sans-serif;line-height:1.6;"></p>
+            <button onclick="document.getElementById('formPopup').style.display='none';"
+                style="background:#f59e0b;color:#1a1a2e;font-weight:700;padding:10px 32px;border:none;border-radius:8px;font-size:14px;cursor:pointer;">
+                OK
+            </button>
+        </div>
+    </div>
+
     <!-- Zeptomail Integration -->
     <script>
         const ZEPTOMAIL_TOKEN = 'PHtE6r1eQeu/2m56phQJ5fXqE8H1MNgt+r5uLAARs40WDKdQFk0GrtovmmTi+R1+B/QRFaTPndhqt7rJ5+zWLG+4MWcaWGqyqK3sx/VYSPOZsbq6x00at1kTcEbeUIPpcdJt3CPXuNbZNA==';
         const RECIPIENT_EMAIL = 'info@enlearning.in';
         const FROM_EMAIL = 'info@enlearning.in';
 
-        async function sendZeptomail(subject, htmlBody, btn) {
+        function showPopup(success, message) {
+            document.getElementById('popupIcon').textContent = success ? '✅' : '❌';
+            document.getElementById('popupTitle').textContent = success ? 'Submitted Successfully!' : 'Submission Failed';
+            document.getElementById('popupMsg').textContent = message;
+            const popup = document.getElementById('formPopup');
+            popup.style.display = 'flex';
+        }
+
+        async function sendZeptomail(subject, htmlBody, btn, originalLabel) {
             try {
                 const res = await fetch('https://api.zeptomail.in/v1.1/email', {
                     method: 'POST',
@@ -3486,16 +3507,25 @@
                         htmlbody: htmlBody
                     })
                 });
+
+                const data = await res.json().catch(() => ({}));
+
                 if (res.ok) {
-                    btn.innerHTML = '<span class="relative z-10">Thank you! We\'ll be in touch soon.</span>';
-                    btn.disabled = true;
-                    btn.classList.add('opacity-70');
+                    btn.querySelector('.relative').textContent = originalLabel;
+                    btn.disabled = false;
+                    showPopup(true, 'Thank you for reaching out! Our team will get back to you within 24 hours.');
                 } else {
-                    throw new Error('Send failed');
+                    const errMsg = data?.message || data?.error?.message || `Error ${res.status}`;
+                    console.error('Zeptomail error:', data);
+                    btn.querySelector('.relative').textContent = originalLabel;
+                    btn.disabled = false;
+                    showPopup(false, `Could not send your inquiry. Please try again or email us directly at ${RECIPIENT_EMAIL}.\n\nError: ${errMsg}`);
                 }
             } catch (e) {
-                btn.innerHTML = '<span class="relative z-10">Something went wrong. Please try again.</span>';
+                console.error('Network error:', e);
+                btn.querySelector('.relative').textContent = originalLabel;
                 btn.disabled = false;
+                showPopup(false, `Network error. Please check your connection and try again, or email us at ${RECIPIENT_EMAIL}.`);
             }
         }
 
@@ -3507,7 +3537,7 @@
             const school = document.getElementById('school-name').value.trim();
 
             if (!name || !email || !phone || !school) {
-                alert('Please fill in all required fields.');
+                showPopup(false, 'Please fill in all required fields before submitting.');
                 return;
             }
 
@@ -3523,7 +3553,7 @@
                     <tr><td style="padding:6px 16px 6px 0;color:#555;"><b>School Name &amp; City</b></td><td style="padding:6px 0;">${school}</td></tr>
                 </table>`;
 
-            await sendZeptomail('New School Inquiry — IFT Website', html, btn);
+            await sendZeptomail('New School Inquiry — IFT Website', html, btn, 'Submit Inquiry');
         }
 
         async function submitSponsorForm(btn) {
@@ -3533,7 +3563,7 @@
             const phone = document.getElementById('sponsor-phone').value.trim();
 
             if (!org || !email || !phone) {
-                alert('Please fill in all required fields.');
+                showPopup(false, 'Please fill in all required fields before submitting.');
                 return;
             }
 
@@ -3548,7 +3578,7 @@
                     <tr><td style="padding:6px 16px 6px 0;color:#555;"><b>Contact Number</b></td><td style="padding:6px 0;">${phone}</td></tr>
                 </table>`;
 
-            await sendZeptomail('New Partner Inquiry — IFT Website', html, btn);
+            await sendZeptomail('New Partner Inquiry — IFT Website', html, btn, 'Submit');
         }
     </script>
 </body>
