@@ -3479,9 +3479,7 @@
 
     <!-- Zeptomail Integration -->
     <script>
-        const ZEPTOMAIL_TOKEN = 'PHtE6r1eQeu/2m56phQJ5fXqE8H1MNgt+r5uLAARs40WDKdQFk0GrtovmmTi+R1+B/QRFaTPndhqt7rJ5+zWLG+4MWcaWGqyqK3sx/VYSPOZsbq6x00at1kTcEbeUIPpcdJt3CPXuNbZNA==';
         const RECIPIENT_EMAIL = 'info@enlearning.in';
-        const FROM_EMAIL = 'info@enlearning.in';
 
         function showPopup(success, message) {
             document.getElementById('popupIcon').textContent = success ? '✅' : '❌';
@@ -3493,19 +3491,10 @@
 
         async function sendZeptomail(subject, htmlBody, btn, originalLabel) {
             try {
-                const res = await fetch('https://api.zeptomail.in/v1.1/email', {
+                const res = await fetch('/send-mail.php', {
                     method: 'POST',
-                    headers: {
-                        'accept': 'application/json',
-                        'content-type': 'application/json',
-                        'authorization': `Zoho-enczapikey ${ZEPTOMAIL_TOKEN}`
-                    },
-                    body: JSON.stringify({
-                        from: { address: FROM_EMAIL, name: 'IFT Website' },
-                        to: [{ email_address: { address: RECIPIENT_EMAIL, name: 'IFT Team' } }],
-                        subject: subject,
-                        htmlbody: htmlBody
-                    })
+                    headers: { 'content-type': 'application/json' },
+                    body: JSON.stringify({ subject, htmlbody: htmlBody })
                 });
 
                 const data = await res.json().catch(() => ({}));
@@ -3519,7 +3508,7 @@
                     console.error('Zeptomail error:', data);
                     btn.querySelector('.relative').textContent = originalLabel;
                     btn.disabled = false;
-                    showPopup(false, `Could not send your inquiry. Please try again or email us directly at ${RECIPIENT_EMAIL}.\n\nError: ${errMsg}`);
+                    showPopup(false, `Could not send your inquiry. Please try again or email us directly at ${RECIPIENT_EMAIL}. (${errMsg})`);
                 }
             } catch (e) {
                 console.error('Network error:', e);
