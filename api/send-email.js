@@ -7,7 +7,7 @@ const PORT = 3002;
 
 // ====== ZEPTO MAIL CONFIG ======
 const ZEPTO_API_TOKEN = process.env.ZEPTO_API_KEY || 'Zoho-enczapikey PHtE6r1eQeu/2m56phQJ5fXqE8H1MNgt+r5uLAARs40WDKdQFk0GrtovmmTi+R1+B/QRFaTPndhqt7rJ5+zWLG+4MWcaWGqyqK3sx/VYSPOZsbq6x00at1kTcEbeUIPpcdJt3CPXuNbZNA==';
-const FROM_EMAIL = 'info@enlearning.in';
+const FROM_EMAIL = 'noreply@enpower-school.com';
 const FROM_NAME = "India's Future Tycoons";
 
 const INBOX = {
