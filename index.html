@@ -3485,30 +3485,26 @@
             document.getElementById('popupIcon').textContent = success ? '✅' : '❌';
             document.getElementById('popupTitle').textContent = success ? 'Submitted Successfully!' : 'Submission Failed';
             document.getElementById('popupMsg').textContent = message;
-            const popup = document.getElementById('formPopup');
-            popup.style.display = 'flex';
+            document.getElementById('formPopup').style.display = 'flex';
         }
 
-        async function sendZeptomail(subject, htmlBody, btn, originalLabel) {
+        async function postInquiry(endpoint, payload, btn, originalLabel) {
             try {
-                const res = await fetch('/send-mail.php', {
+                const res = await fetch(endpoint, {
                     method: 'POST',
                     headers: { 'content-type': 'application/json' },
-                    body: JSON.stringify({ subject, htmlbody: htmlBody })
+                    body: JSON.stringify(payload)
                 });
 
                 const data = await res.json().catch(() => ({}));
+                btn.querySelector('.relative').textContent = originalLabel;
+                btn.disabled = false;
 
-                if (res.ok) {
-                    btn.querySelector('.relative').textContent = originalLabel;
-                    btn.disabled = false;
+                if (res.ok && data.success) {
                     showPopup(true, 'Thank you for reaching out! Our team will get back to you within 24 hours.');
                 } else {
-                    const errMsg = data?.message || data?.error?.message || `Error ${res.status}`;
-                    console.error('Zeptomail error:', data);
-                    btn.querySelector('.relative').textContent = originalLabel;
-                    btn.disabled = false;
-                    showPopup(false, `Could not send your inquiry. Please try again or email us directly at ${RECIPIENT_EMAIL}. (${errMsg})`);
+                    console.error('API error:', data);
+                    showPopup(false, `Could not send your inquiry. Please try again or email us directly at ${RECIPIENT_EMAIL}.`);
                 }
             } catch (e) {
                 console.error('Network error:', e);
@@ -3522,10 +3518,10 @@
             const name = document.getElementById('school-fullname').value.trim();
             const role = document.getElementById('school-role').value;
             const email = document.getElementById('school-email').value.trim();
-            const phone = document.getElementById('school-phone').value.trim();
+            const contact = document.getElementById('school-phone').value.trim();
             const school = document.getElementById('school-name').value.trim();
 
-            if (!name || !email || !phone || !school) {
+            if (!name || !email || !contact || !school) {
                 showPopup(false, 'Please fill in all required fields before submitting.');
                 return;
             }
@@ -3533,25 +3529,16 @@
             btn.querySelector('.relative').textContent = 'Sending...';
             btn.disabled = true;
 
-            const html = `<h2 style="color:#1a1a2e;font-family:sans-serif;">New School Inquiry — IFT Website</h2>
-                <table style="font-family:sans-serif;font-size:15px;border-collapse:collapse;">
-                    <tr><td style="padding:6px 16px 6px 0;color:#555;"><b>Full Name</b></td><td style="padding:6px 0;">${name}</td></tr>
-                    <tr><td style="padding:6px 16px 6px 0;color:#555;"><b>Role</b></td><td style="padding:6px 0;">${role}</td></tr>
-                    <tr><td style="padding:6px 16px 6px 0;color:#555;"><b>Email</b></td><td style="padding:6px 0;">${email}</td></tr>
-                    <tr><td style="padding:6px 16px 6px 0;color:#555;"><b>Contact Number</b></td><td style="padding:6px 0;">${phone}</td></tr>
-                    <tr><td style="padding:6px 16px 6px 0;color:#555;"><b>School Name &amp; City</b></td><td style="padding:6px 0;">${school}</td></tr>
-                </table>`;
-
-            await sendZeptomail('New School Inquiry — IFT Website', html, btn, 'Submit Inquiry');
+            await postInquiry('/api/school-inquiry', { name, role, email, contact, school }, btn, 'Submit Inquiry');
         }
 
         async function submitSponsorForm(btn) {
-            const org = document.getElementById('sponsor-org').value.trim();
+            const organization = document.getElementById('sponsor-org').value.trim();
             const designation = document.getElementById('sponsor-designation').value.trim();
             const email = document.getElementById('sponsor-email').value.trim();
-            const phone = document.getElementById('sponsor-phone').value.trim();
+            const contact = document.getElementById('sponsor-phone').value.trim();
 
-            if (!org || !email || !phone) {
+            if (!organization || !email || !contact) {
                 showPopup(false, 'Please fill in all required fields before submitting.');
                 return;
             }
@@ -3559,15 +3546,7 @@
             btn.querySelector('.relative').textContent = 'Sending...';
             btn.disabled = true;
 
-            const html = `<h2 style="color:#1a1a2e;font-family:sans-serif;">New Partner Inquiry — IFT Website</h2>
-                <table style="font-family:sans-serif;font-size:15px;border-collapse:collapse;">
-                    <tr><td style="padding:6px 16px 6px 0;color:#555;"><b>Organization</b></td><td style="padding:6px 0;">${org}</td></tr>
-                    <tr><td style="padding:6px 16px 6px 0;color:#555;"><b>Designation</b></td><td style="padding:6px 0;">${designation}</td></tr>
-                    <tr><td style="padding:6px 16px 6px 0;color:#555;"><b>Email</b></td><td style="padding:6px 0;">${email}</td></tr>
-                    <tr><td style="padding:6px 16px 6px 0;color:#555;"><b>Contact Number</b></td><td style="padding:6px 0;">${phone}</td></tr>
-                </table>`;
-
-            await sendZeptomail('New Partner Inquiry — IFT Website', html, btn, 'Submit');
+            await postInquiry('/api/partner-inquiry', { organization, designation, email, contact }, btn, 'Submit');
         }
     </script>
 </body>

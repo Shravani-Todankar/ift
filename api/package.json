@@ -1,0 +1,13 @@
+{
+  "name": "ift-api",
+  "version": "1.0.0",
+  "description": "IFT Website - Email API (Zepto Mail)",
+  "main": "send-email.js",
+  "scripts": {
+    "start": "node send-email.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  }
+}

@@ -31,16 +31,27 @@ git fetch origin
 git reset --hard origin/$BRANCH
 
 # Set correct permissions
-echo "[2/4] Setting file permissions..."
+echo "[2/6] Setting file permissions..."
 chown -R www-data:www-data "$REPO_DIR"
 chmod -R 755 "$REPO_DIR"
 
+# Install API dependencies
+echo "[3/6] Installing API dependencies..."
+cd "$REPO_DIR/api"
+npm install --production
+cd "$REPO_DIR"
+
+# Restart Node.js API via PM2
+echo "[4/6] Restarting IFT API (PM2)..."
+pm2 restart ift-api 2>/dev/null || pm2 start "$REPO_DIR/api/send-email.js" --name ift-api
+pm2 save
+
 # Test nginx config
-echo "[3/4] Testing Nginx config..."
+echo "[5/6] Testing Nginx config..."
 nginx -t
 
 # Restart nginx
-echo "[4/4] Restarting Nginx..."
+echo "[6/6] Restarting Nginx..."
 systemctl restart nginx
 
 echo "=============================="
