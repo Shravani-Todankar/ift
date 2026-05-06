@@ -2467,20 +2467,20 @@
                 </div>
                 <!-- School Form -->
                 <div class="p-8 md:p-12 contact-form" id="form-school">
-                    <form class="space-y-6">
+                    <form class="space-y-6" id="schoolForm">
                         <div class="grid md:grid-cols-2 gap-6">
                             <div>
                                 <label
                                     class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Full
                                     Name</label>
-                                <input
+                                <input id="school-fullname"
                                     class="w-full bg-bg-dark/60 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
                                     placeholder="Your Name" type="text" />
                             </div>
                             <div>
                                 <label
                                     class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Role</label>
-                                <select
+                                <select id="school-role"
                                     class="w-full bg-bg-dark/60 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors">
                                     <option>Teacher</option>
                                     <option>Principal</option>
@@ -2494,7 +2494,7 @@
                                 <label
                                     class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Email
                                     ID</label>
-                                <input
+                                <input id="school-email"
                                     class="w-full bg-bg-dark/60 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
                                     placeholder="you@school.com" type="email" />
                             </div>
@@ -2502,7 +2502,7 @@
                                 <label
                                     class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Contact
                                     Number</label>
-                                <input
+                                <input id="school-phone"
                                     class="w-full bg-bg-dark/60 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
                                     placeholder="+91 98765 43210" type="tel" />
                             </div>
@@ -2511,34 +2511,34 @@
                             <label
                                 class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">School
                                 Name &amp; City</label>
-                            <input
+                            <input id="school-name"
                                 class="w-full bg-bg-dark/60 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
                                 placeholder="St. Mary's High School, Mumbai" type="text" />
                         </div>
                         <button
                             class="btn-glow-hover w-full py-4 bg-accent hover:bg-accent-dark text-bg-dark font-bold rounded-lg glow-gold transition-all mt-4 relative overflow-hidden"
                             type="button"
-                            onclick="this.textContent='Thank you for reaching out!';this.disabled=true;this.classList.add('opacity-70')">
+                            onclick="submitSchoolForm(this)">
                             <span class="btn-glow-shine"></span>
                             <span class="relative z-10">Submit Inquiry</span></button>
                     </form>
                 </div>
                 <!-- Sponsor Form -->
                 <div class="p-8 md:p-12 contact-form hidden" id="form-sponsor">
-                    <form class="space-y-6">
+                    <form class="space-y-6" id="sponsorForm">
                         <div class="grid md:grid-cols-2 gap-6">
                             <div>
                                 <label
                                     class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Organization
                                     / Foundation</label>
-                                <input
+                                <input id="sponsor-org"
                                     class="w-full bg-bg-dark/60 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
                                     placeholder="Organization Name" type="text" />
                             </div>
                             <div>
                                 <label
                                     class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Designation</label>
-                                <input
+                                <input id="sponsor-designation"
                                     class="w-full bg-bg-dark/60 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
                                     placeholder="Your Designation" type="text" />
                             </div>
@@ -2548,7 +2548,7 @@
                                 <label
                                     class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Email
                                     ID</label>
-                                <input
+                                <input id="sponsor-email"
                                     class="w-full bg-bg-dark/60 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
                                     placeholder="you@company.com" type="email" />
                             </div>
@@ -2556,7 +2556,7 @@
                                 <label
                                     class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Contact
                                     Number</label>
-                                <input
+                                <input id="sponsor-phone"
                                     class="w-full bg-bg-dark/60 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
                                     placeholder="+91 98765 43210" type="tel" />
                             </div>
@@ -2564,7 +2564,7 @@
                         <button
                             class="btn-glow-hover w-full py-4 bg-accent hover:bg-accent-dark text-bg-dark font-bold rounded-lg glow-gold transition-all mt-4 relative overflow-hidden"
                             type="button"
-                            onclick="this.textContent='Thank you for reaching out!';this.disabled=true;this.classList.add('opacity-70')">
+                            onclick="submitSponsorForm(this)">
                             <span class="btn-glow-shine"></span>
                             <span class="relative z-10">Submit</span></button>
                     </form>
@@ -3462,6 +3462,94 @@
                 card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
             });
         });
+    </script>
+
+    <!-- Zeptomail Integration -->
+    <script>
+        const ZEPTOMAIL_TOKEN = 'PHtE6r1eQeu/2m56phQJ5fXqE8H1MNgt+r5uLAARs40WDKdQFk0GrtovmmTi+R1+B/QRFaTPndhqt7rJ5+zWLG+4MWcaWGqyqK3sx/VYSPOZsbq6x00at1kTcEbeUIPpcdJt3CPXuNbZNA==';
+        const RECIPIENT_EMAIL = 'info@enlearning.in';
+        const FROM_EMAIL = 'info@enlearning.in';
+
+        async function sendZeptomail(subject, htmlBody, btn) {
+            try {
+                const res = await fetch('https://api.zeptomail.in/v1.1/email', {
+                    method: 'POST',
+                    headers: {
+                        'accept': 'application/json',
+                        'content-type': 'application/json',
+                        'authorization': `Zoho-enczapikey ${ZEPTOMAIL_TOKEN}`
+                    },
+                    body: JSON.stringify({
+                        from: { address: FROM_EMAIL, name: 'IFT Website' },
+                        to: [{ email_address: { address: RECIPIENT_EMAIL, name: 'IFT Team' } }],
+                        subject: subject,
+                        htmlbody: htmlBody
+                    })
+                });
+                if (res.ok) {
+                    btn.innerHTML = '<span class="relative z-10">Thank you! We\'ll be in touch soon.</span>';
+                    btn.disabled = true;
+                    btn.classList.add('opacity-70');
+                } else {
+                    throw new Error('Send failed');
+                }
+            } catch (e) {
+                btn.innerHTML = '<span class="relative z-10">Something went wrong. Please try again.</span>';
+                btn.disabled = false;
+            }
+        }
+
+        async function submitSchoolForm(btn) {
+            const name = document.getElementById('school-fullname').value.trim();
+            const role = document.getElementById('school-role').value;
+            const email = document.getElementById('school-email').value.trim();
+            const phone = document.getElementById('school-phone').value.trim();
+            const school = document.getElementById('school-name').value.trim();
+
+            if (!name || !email || !phone || !school) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            btn.querySelector('.relative').textContent = 'Sending...';
+            btn.disabled = true;
+
+            const html = `<h2 style="color:#1a1a2e;font-family:sans-serif;">New School Inquiry — IFT Website</h2>
+                <table style="font-family:sans-serif;font-size:15px;border-collapse:collapse;">
+                    <tr><td style="padding:6px 16px 6px 0;color:#555;"><b>Full Name</b></td><td style="padding:6px 0;">${name}</td></tr>
+                    <tr><td style="padding:6px 16px 6px 0;color:#555;"><b>Role</b></td><td style="padding:6px 0;">${role}</td></tr>
+                    <tr><td style="padding:6px 16px 6px 0;color:#555;"><b>Email</b></td><td style="padding:6px 0;">${email}</td></tr>
+                    <tr><td style="padding:6px 16px 6px 0;color:#555;"><b>Contact Number</b></td><td style="padding:6px 0;">${phone}</td></tr>
+                    <tr><td style="padding:6px 16px 6px 0;color:#555;"><b>School Name &amp; City</b></td><td style="padding:6px 0;">${school}</td></tr>
+                </table>`;
+
+            await sendZeptomail('New School Inquiry — IFT Website', html, btn);
+        }
+
+        async function submitSponsorForm(btn) {
+            const org = document.getElementById('sponsor-org').value.trim();
+            const designation = document.getElementById('sponsor-designation').value.trim();
+            const email = document.getElementById('sponsor-email').value.trim();
+            const phone = document.getElementById('sponsor-phone').value.trim();
+
+            if (!org || !email || !phone) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            btn.querySelector('.relative').textContent = 'Sending...';
+            btn.disabled = true;
+
+            const html = `<h2 style="color:#1a1a2e;font-family:sans-serif;">New Partner Inquiry — IFT Website</h2>
+                <table style="font-family:sans-serif;font-size:15px;border-collapse:collapse;">
+                    <tr><td style="padding:6px 16px 6px 0;color:#555;"><b>Organization</b></td><td style="padding:6px 0;">${org}</td></tr>
+                    <tr><td style="padding:6px 16px 6px 0;color:#555;"><b>Designation</b></td><td style="padding:6px 0;">${designation}</td></tr>
+                    <tr><td style="padding:6px 16px 6px 0;color:#555;"><b>Email</b></td><td style="padding:6px 0;">${email}</td></tr>
+                    <tr><td style="padding:6px 16px 6px 0;color:#555;"><b>Contact Number</b></td><td style="padding:6px 0;">${phone}</td></tr>
+                </table>`;
+
+            await sendZeptomail('New Partner Inquiry — IFT Website', html, btn);
+        }
     </script>
 </body>
 
