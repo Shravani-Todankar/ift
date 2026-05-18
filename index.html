@@ -2089,98 +2089,48 @@
             const next = document.getElementById('ss-next');
             const current = document.getElementById('ss-current');
             const progress = document.getElementById('ss-progress');
-            const originalCards = Array.from(track.querySelectorAll('.ss-card'));
-            const total = originalCards.length;
-            const STEP_DURATION = 2500; // ms per card slide (continuous, no pause)
-
-            // Clone all original cards once so we can scroll smoothly past the last,
-            // then snap back to start invisibly.
-            function openVideo(card) {
-                const id = card.getAttribute('data-video');
-                const modal = document.getElementById('ss-modal');
-                const iframe = document.getElementById('ss-iframe');
-                iframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1';
-                modal.style.display = 'flex';
-                stopAuto();
-            }
-            originalCards.forEach(card => card.addEventListener('click', () => openVideo(card)));
-            originalCards.forEach(card => {
-                const clone = card.cloneNode(true);
-                clone.setAttribute('aria-hidden', 'true');
-                clone.addEventListener('click', () => openVideo(clone));
-                track.appendChild(clone);
-            });
-
+            const cards = Array.from(track.querySelectorAll('.ss-card'));
+            const total = cards.length;
+            const AUTO_INTERVAL = 3500;
             let activeIndex = 0;
-            let rafId = null;
-            let isRunning = false;
+            let autoTimer = null;
             let sectionVisible = false;
             let isHover = false;
 
-            function cardStep() {
-                return originalCards[0].offsetWidth + 24;
-            }
-
-            function updateCounter() {
-                const idx = ((activeIndex % total) + total) % total;
-                current.textContent = String(idx + 1).padStart(2, '0');
-                progress.style.width = ((idx + 1) / total * 100) + '%';
-            }
-
-            function animateScroll(targetLeft, duration, onComplete) {
-                const startLeft = track.scrollLeft;
-                const startTime = performance.now();
-                function step(now) {
-                    if (!isRunning) return;
-                    const t = Math.min((now - startTime) / duration, 1);
-                    const eased = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; // easeInOut
-                    track.scrollLeft = startLeft + (targetLeft - startLeft) * eased;
-                    if (t < 1) {
-                        rafId = requestAnimationFrame(step);
-                    } else if (onComplete) {
-                        onComplete();
-                    }
-                }
-                rafId = requestAnimationFrame(step);
-            }
-
-            function advance() {
-                if (!isRunning) return;
-                activeIndex++;
-                updateCounter();
-                if (activeIndex >= total) {
-                    // Animate to the cloned position (visually = card 0)
-                    animateScroll(total * cardStep(), STEP_DURATION, () => {
-                        // Snap invisibly back to real card 0
-                        track.scrollLeft = 0;
-                        activeIndex = 0;
-                        updateCounter();
-                        advance();
-                    });
-                } else {
-                    animateScroll(activeIndex * cardStep(), STEP_DURATION, advance);
-                }
+            function scrollToIndex(i) {
+                activeIndex = ((i % total) + total) % total;
+                cards[activeIndex].scrollIntoView({
+                    behavior: 'smooth', block: 'nearest', inline: 'start'
+                });
+                current.textContent = String(activeIndex + 1).padStart(2, '0');
+                progress.style.width = ((activeIndex + 1) / total * 100) + '%';
             }
 
             function startAuto() {
-                if (isRunning || isHover) return;
-                isRunning = true;
-                advance();
+                if (autoTimer || isHover) return;
+                autoTimer = setInterval(() => scrollToIndex(activeIndex + 1), AUTO_INTERVAL);
             }
             function stopAuto() {
-                isRunning = false;
-                if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+                if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
+            }
+            function restartAuto() {
+                stopAuto();
+                if (sectionVisible && !isHover) startAuto();
             }
 
-            function manualJump(delta) {
-                stopAuto();
-                activeIndex = ((activeIndex + delta) % total + total) % total;
-                track.scrollLeft = activeIndex * cardStep();
-                updateCounter();
-                setTimeout(() => { if (sectionVisible && !isHover) startAuto(); }, 600);
-            }
-            prev.addEventListener('click', () => manualJump(-1));
-            next.addEventListener('click', () => manualJump(1));
+            prev.addEventListener('click', () => { scrollToIndex(activeIndex - 1); restartAuto(); });
+            next.addEventListener('click', () => { scrollToIndex(activeIndex + 1); restartAuto(); });
+
+            cards.forEach(card => {
+                card.addEventListener('click', () => {
+                    stopAuto();
+                    const id = card.getAttribute('data-video');
+                    const modal = document.getElementById('ss-modal');
+                    const iframe = document.getElementById('ss-iframe');
+                    iframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1';
+                    modal.style.display = 'flex';
+                });
+            });
 
             section.addEventListener('mouseenter', () => { isHover = true; stopAuto(); });
             section.addEventListener('mouseleave', () => { isHover = false; if (sectionVisible) startAuto(); });
