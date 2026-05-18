@@ -2089,82 +2089,48 @@
             const next = document.getElementById('ss-next');
             const current = document.getElementById('ss-current');
             const progress = document.getElementById('ss-progress');
-            const originalCards = Array.from(track.querySelectorAll('.ss-card'));
-            const total = originalCards.length;
-            const SPEED = 0.6; // pixels per frame (continuous flow)
-
-            // Clone cards once for seamless infinite loop
-            function openVideo(card) {
-                const id = card.getAttribute('data-video');
-                const modal = document.getElementById('ss-modal');
-                const iframe = document.getElementById('ss-iframe');
-                iframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1';
-                modal.style.display = 'flex';
-                stopAuto();
-            }
-            originalCards.forEach(card => card.addEventListener('click', () => openVideo(card)));
-            originalCards.forEach(card => {
-                const clone = card.cloneNode(true);
-                clone.setAttribute('aria-hidden', 'true');
-                clone.addEventListener('click', () => openVideo(clone));
-                track.appendChild(clone);
-            });
-
-            let originalSetWidth = 0;
-            let scrollPos = 0;
-            function recalc() {
-                if (originalCards.length === 0) return;
-                originalSetWidth = (originalCards[0].offsetWidth + 24) * total;
-            }
-            recalc();
-            window.addEventListener('resize', recalc);
-            window.addEventListener('load', recalc);
-
-            let isRunning = false;
-            let rafId = null;
+            const cards = Array.from(track.querySelectorAll('.ss-card'));
+            const total = cards.length;
+            const AUTO_INTERVAL = 3500;
+            let activeIndex = 0;
+            let autoTimer = null;
             let sectionVisible = false;
             let isHover = false;
 
-            function animate() {
-                if (!isRunning) return;
-                if (originalSetWidth === 0) recalc();
-                scrollPos += SPEED;
-                if (scrollPos >= originalSetWidth) scrollPos -= originalSetWidth;
-                track.scrollLeft = scrollPos;
-                updateCounter();
-                rafId = requestAnimationFrame(animate);
-            }
-
-            function updateCounter() {
-                const cardWidth = originalCards[0].offsetWidth + 24;
-                const index = Math.round(track.scrollLeft / cardWidth) % total;
-                current.textContent = String(index + 1).padStart(2, '0');
-                progress.style.width = ((index + 1) / total * 100) + '%';
+            function scrollToIndex(i) {
+                activeIndex = ((i % total) + total) % total;
+                cards[activeIndex].scrollIntoView({
+                    behavior: 'smooth', block: 'nearest', inline: 'start'
+                });
+                current.textContent = String(activeIndex + 1).padStart(2, '0');
+                progress.style.width = ((activeIndex + 1) / total * 100) + '%';
             }
 
             function startAuto() {
-                if (isRunning || isHover) return;
-                isRunning = true;
-                animate();
+                if (autoTimer || isHover) return;
+                autoTimer = setInterval(() => scrollToIndex(activeIndex + 1), AUTO_INTERVAL);
             }
             function stopAuto() {
-                isRunning = false;
-                if (rafId) cancelAnimationFrame(rafId);
-                rafId = null;
+                if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
+            }
+            function restartAuto() {
+                stopAuto();
+                if (sectionVisible && !isHover) startAuto();
             }
 
-            // Manual nav: instantly jump by one card width then resume
-            function nudge(delta) {
-                stopAuto();
-                scrollPos += delta * (originalCards[0].offsetWidth + 24);
-                if (scrollPos < 0) scrollPos += originalSetWidth;
-                if (scrollPos >= originalSetWidth) scrollPos -= originalSetWidth;
-                track.scrollLeft = scrollPos;
-                updateCounter();
-                setTimeout(() => { if (sectionVisible && !isHover) startAuto(); }, 800);
-            }
-            prev.addEventListener('click', () => nudge(-1));
-            next.addEventListener('click', () => nudge(1));
+            prev.addEventListener('click', () => { scrollToIndex(activeIndex - 1); restartAuto(); });
+            next.addEventListener('click', () => { scrollToIndex(activeIndex + 1); restartAuto(); });
+
+            cards.forEach(card => {
+                card.addEventListener('click', () => {
+                    stopAuto();
+                    const id = card.getAttribute('data-video');
+                    const modal = document.getElementById('ss-modal');
+                    const iframe = document.getElementById('ss-iframe');
+                    iframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1';
+                    modal.style.display = 'flex';
+                });
+            });
 
             section.addEventListener('mouseenter', () => { isHover = true; stopAuto(); });
             section.addEventListener('mouseleave', () => { isHover = false; if (sectionVisible) startAuto(); });
