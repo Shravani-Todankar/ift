@@ -2111,12 +2111,14 @@
             });
 
             let originalSetWidth = 0;
+            let scrollPos = 0;
             function recalc() {
                 if (originalCards.length === 0) return;
                 originalSetWidth = (originalCards[0].offsetWidth + 24) * total;
             }
             recalc();
             window.addEventListener('resize', recalc);
+            window.addEventListener('load', recalc);
 
             let isRunning = false;
             let rafId = null;
@@ -2125,10 +2127,10 @@
 
             function animate() {
                 if (!isRunning) return;
-                track.scrollLeft += SPEED;
-                if (track.scrollLeft >= originalSetWidth) {
-                    track.scrollLeft -= originalSetWidth;
-                }
+                if (originalSetWidth === 0) recalc();
+                scrollPos += SPEED;
+                if (scrollPos >= originalSetWidth) scrollPos -= originalSetWidth;
+                track.scrollLeft = scrollPos;
                 updateCounter();
                 rafId = requestAnimationFrame(animate);
             }
@@ -2154,9 +2156,10 @@
             // Manual nav: instantly jump by one card width then resume
             function nudge(delta) {
                 stopAuto();
-                track.scrollLeft += delta * (originalCards[0].offsetWidth + 24);
-                if (track.scrollLeft < 0) track.scrollLeft += originalSetWidth;
-                if (track.scrollLeft >= originalSetWidth) track.scrollLeft -= originalSetWidth;
+                scrollPos += delta * (originalCards[0].offsetWidth + 24);
+                if (scrollPos < 0) scrollPos += originalSetWidth;
+                if (scrollPos >= originalSetWidth) scrollPos -= originalSetWidth;
+                track.scrollLeft = scrollPos;
                 updateCounter();
                 setTimeout(() => { if (sectionVisible && !isHover) startAuto(); }, 800);
             }
