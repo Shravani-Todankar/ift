@@ -2089,26 +2089,73 @@
             const next = document.getElementById('ss-next');
             const current = document.getElementById('ss-current');
             const progress = document.getElementById('ss-progress');
-            const cards = Array.from(track.querySelectorAll('.ss-card'));
-            const total = cards.length;
+            const originalCards = Array.from(track.querySelectorAll('.ss-card'));
+            const total = originalCards.length;
             const AUTO_INTERVAL = 3500;
-            let activeIndex = 0;
+            const SCROLL_SETTLE = 700; // ms to wait for smooth scroll to finish
+
+            // Clone cards once for seamless wrap-around
+            function openVideo(card) {
+                const id = card.getAttribute('data-video');
+                const modal = document.getElementById('ss-modal');
+                const iframe = document.getElementById('ss-iframe');
+                iframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1';
+                modal.style.display = 'flex';
+                stopAuto();
+            }
+            originalCards.forEach(card => card.addEventListener('click', () => openVideo(card)));
+            originalCards.forEach(card => {
+                const clone = card.cloneNode(true);
+                clone.setAttribute('aria-hidden', 'true');
+                clone.addEventListener('click', () => openVideo(clone));
+                track.appendChild(clone);
+            });
+
+            const cards = Array.from(track.querySelectorAll('.ss-card'));
+            let activeIndex = 0; // 0..total-1 (logical, of original set)
+            let scrollIndex = 0; // 0..2*total-1 (physical, into cards including clones)
             let autoTimer = null;
             let sectionVisible = false;
             let isHover = false;
 
-            function scrollToIndex(i) {
-                activeIndex = ((i % total) + total) % total;
-                cards[activeIndex].scrollIntoView({
-                    behavior: 'smooth', block: 'nearest', inline: 'start'
-                });
+            function updateCounter() {
                 current.textContent = String(activeIndex + 1).padStart(2, '0');
                 progress.style.width = ((activeIndex + 1) / total * 100) + '%';
             }
 
+            function goToNext() {
+                scrollIndex++;
+                activeIndex = (activeIndex + 1) % total;
+                cards[scrollIndex].scrollIntoView({
+                    behavior: 'smooth', block: 'nearest', inline: 'start'
+                });
+                updateCounter();
+                // If we just scrolled into the clone of card 0, snap back to real card 0
+                if (scrollIndex >= total) {
+                    setTimeout(() => {
+                        track.scrollLeft = 0;
+                        scrollIndex = 0;
+                    }, SCROLL_SETTLE);
+                }
+            }
+
+            function goToPrev() {
+                if (scrollIndex === 0) {
+                    // Jump invisibly to clone-of-real-card-0 position, then animate back
+                    track.scrollLeft = (cards[0].offsetWidth + 24) * total;
+                    scrollIndex = total;
+                }
+                scrollIndex--;
+                activeIndex = (activeIndex - 1 + total) % total;
+                cards[scrollIndex].scrollIntoView({
+                    behavior: 'smooth', block: 'nearest', inline: 'start'
+                });
+                updateCounter();
+            }
+
             function startAuto() {
                 if (autoTimer || isHover) return;
-                autoTimer = setInterval(() => scrollToIndex(activeIndex + 1), AUTO_INTERVAL);
+                autoTimer = setInterval(goToNext, AUTO_INTERVAL);
             }
             function stopAuto() {
                 if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
@@ -2118,19 +2165,8 @@
                 if (sectionVisible && !isHover) startAuto();
             }
 
-            prev.addEventListener('click', () => { scrollToIndex(activeIndex - 1); restartAuto(); });
-            next.addEventListener('click', () => { scrollToIndex(activeIndex + 1); restartAuto(); });
-
-            cards.forEach(card => {
-                card.addEventListener('click', () => {
-                    stopAuto();
-                    const id = card.getAttribute('data-video');
-                    const modal = document.getElementById('ss-modal');
-                    const iframe = document.getElementById('ss-iframe');
-                    iframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1';
-                    modal.style.display = 'flex';
-                });
-            });
+            prev.addEventListener('click', () => { goToPrev(); restartAuto(); });
+            next.addEventListener('click', () => { goToNext(); restartAuto(); });
 
             section.addEventListener('mouseenter', () => { isHover = true; stopAuto(); });
             section.addEventListener('mouseleave', () => { isHover = false; if (sectionVisible) startAuto(); });
