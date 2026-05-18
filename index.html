@@ -3691,6 +3691,20 @@
             y: 25, opacity: 0, duration: 1.2, ease: 'power3.out'
         });
 
+        // "For Schools" nav link: scroll a bit past the pinned section start so
+        // the cinematic animation has already revealed narrative-1 + card-1.
+        document.querySelectorAll('a[href="#schools"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const target = document.getElementById('schools');
+                if (!target) return;
+                e.preventDefault();
+                const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
+                const offset = isDesktop ? 500 : 0;
+                const top = target.getBoundingClientRect().top + window.scrollY + offset;
+                window.scrollTo({ top, behavior: 'smooth' });
+            });
+        });
+
         // ===== FAQ ACCORDION =====
         function toggleFaq(btn) {
             const answer = btn.nextElementSibling;
