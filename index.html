@@ -2152,14 +2152,15 @@
                 progress.style.width = ((activeIndex + 1) / total * 100) + '%';
             }
 
+            function cardStep() {
+                return cards[0].offsetWidth + 24;
+            }
+
             function goToNext() {
                 scrollIndex++;
                 activeIndex = (activeIndex + 1) % total;
-                cards[scrollIndex].scrollIntoView({
-                    behavior: 'smooth', block: 'nearest', inline: 'start'
-                });
+                track.scrollTo({ left: scrollIndex * cardStep(), behavior: 'smooth' });
                 updateCounter();
-                // If we just scrolled into the clone of card 0, snap back to real card 0
                 if (scrollIndex >= total) {
                     setTimeout(() => {
                         track.scrollLeft = 0;
@@ -2170,15 +2171,12 @@
 
             function goToPrev() {
                 if (scrollIndex === 0) {
-                    // Jump invisibly to clone-of-real-card-0 position, then animate back
-                    track.scrollLeft = (cards[0].offsetWidth + 24) * total;
+                    track.scrollLeft = cardStep() * total;
                     scrollIndex = total;
                 }
                 scrollIndex--;
                 activeIndex = (activeIndex - 1 + total) % total;
-                cards[scrollIndex].scrollIntoView({
-                    behavior: 'smooth', block: 'nearest', inline: 'start'
-                });
+                track.scrollTo({ left: scrollIndex * cardStep(), behavior: 'smooth' });
                 updateCounter();
             }
 
