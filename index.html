@@ -2090,24 +2090,29 @@
             const progress = document.getElementById('ss-progress');
             const cards = track.querySelectorAll('.ss-card');
             const total = cards.length;
+            let activeIndex = 0;
 
-            function updateState() {
+            function scrollToIndex(i) {
+                activeIndex = Math.min(Math.max(i, 0), total - 1);
+                cards[activeIndex].scrollIntoView({
+                    behavior: 'smooth', block: 'nearest', inline: 'start'
+                });
+                current.textContent = String(activeIndex + 1).padStart(2, '0');
+                progress.style.width = ((activeIndex + 1) / total * 100) + '%';
+            }
+
+            function onScroll() {
                 const cardWidth = cards[0].offsetWidth + 24;
                 const index = Math.round(track.scrollLeft / cardWidth);
                 const clamped = Math.min(Math.max(index, 0), total - 1);
+                activeIndex = clamped;
                 current.textContent = String(clamped + 1).padStart(2, '0');
                 progress.style.width = ((clamped + 1) / total * 100) + '%';
             }
 
-            prev.addEventListener('click', () => {
-                const cardWidth = cards[0].offsetWidth + 24;
-                track.scrollBy({ left: -cardWidth, behavior: 'smooth' });
-            });
-            next.addEventListener('click', () => {
-                const cardWidth = cards[0].offsetWidth + 24;
-                track.scrollBy({ left: cardWidth, behavior: 'smooth' });
-            });
-            track.addEventListener('scroll', updateState);
+            prev.addEventListener('click', () => scrollToIndex(activeIndex - 1));
+            next.addEventListener('click', () => scrollToIndex(activeIndex + 1));
+            track.addEventListener('scroll', onScroll);
 
             cards.forEach(card => {
                 card.addEventListener('click', () => {
@@ -2118,8 +2123,6 @@
                     modal.style.display = 'flex';
                 });
             });
-
-            updateState();
         })();
 
         function closeSSModal() {
