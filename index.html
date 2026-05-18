@@ -2083,6 +2083,7 @@
 
     <script>
         (function () {
+            const section = document.getElementById('success-stories');
             const track = document.getElementById('ss-track');
             const prev = document.getElementById('ss-prev');
             const next = document.getElementById('ss-next');
@@ -2091,9 +2092,11 @@
             const cards = track.querySelectorAll('.ss-card');
             const total = cards.length;
             let activeIndex = 0;
+            let autoTimer = null;
+            const AUTO_INTERVAL = 4000;
 
             function scrollToIndex(i) {
-                activeIndex = Math.min(Math.max(i, 0), total - 1);
+                activeIndex = ((i % total) + total) % total; // wrap around
                 cards[activeIndex].scrollIntoView({
                     behavior: 'smooth', block: 'nearest', inline: 'start'
                 });
@@ -2110,12 +2113,29 @@
                 progress.style.width = ((clamped + 1) / total * 100) + '%';
             }
 
-            prev.addEventListener('click', () => scrollToIndex(activeIndex - 1));
-            next.addEventListener('click', () => scrollToIndex(activeIndex + 1));
+            function startAuto() {
+                if (autoTimer) return;
+                autoTimer = setInterval(() => scrollToIndex(activeIndex + 1), AUTO_INTERVAL);
+            }
+
+            function stopAuto() {
+                if (autoTimer) {
+                    clearInterval(autoTimer);
+                    autoTimer = null;
+                }
+            }
+
+            prev.addEventListener('click', () => { stopAuto(); scrollToIndex(activeIndex - 1); });
+            next.addEventListener('click', () => { stopAuto(); scrollToIndex(activeIndex + 1); });
             track.addEventListener('scroll', onScroll);
+            section.addEventListener('mouseenter', stopAuto);
+            section.addEventListener('mouseleave', () => {
+                if (sectionVisible) startAuto();
+            });
 
             cards.forEach(card => {
                 card.addEventListener('click', () => {
+                    stopAuto();
                     const id = card.getAttribute('data-video');
                     const modal = document.getElementById('ss-modal');
                     const iframe = document.getElementById('ss-iframe');
@@ -2123,6 +2143,17 @@
                     modal.style.display = 'flex';
                 });
             });
+
+            // Auto-start when section enters viewport, stop when it leaves
+            let sectionVisible = false;
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    sectionVisible = entry.isIntersecting;
+                    if (sectionVisible) startAuto();
+                    else stopAuto();
+                });
+            }, { threshold: 0.3 });
+            observer.observe(section);
         })();
 
         function closeSSModal() {
