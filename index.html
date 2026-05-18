@@ -1910,7 +1910,7 @@
                 <!-- Right: Carousel -->
                 <div class="lg:col-span-8 relative">
                     <div id="ss-track"
-                        class="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-6 scroll-smooth ss-track-scroll">
+                        class="flex gap-6 overflow-x-auto pb-6 ss-track-scroll">
                         <button data-video="EnN1iCuekO4" class="ss-card">
                             <img src="https://img.youtube.com/vi/EnN1iCuekO4/hqdefault.jpg" alt="Success Story 1"
                                 class="absolute inset-0 w-full h-full object-cover" />
@@ -2089,70 +2089,90 @@
             const next = document.getElementById('ss-next');
             const current = document.getElementById('ss-current');
             const progress = document.getElementById('ss-progress');
-            const cards = track.querySelectorAll('.ss-card');
-            const total = cards.length;
-            let activeIndex = 0;
-            let autoTimer = null;
-            const AUTO_INTERVAL = 4000;
+            const originalCards = Array.from(track.querySelectorAll('.ss-card'));
+            const total = originalCards.length;
+            const SPEED = 0.6; // pixels per frame (continuous flow)
 
-            function scrollToIndex(i) {
-                activeIndex = ((i % total) + total) % total; // wrap around
-                cards[activeIndex].scrollIntoView({
-                    behavior: 'smooth', block: 'nearest', inline: 'start'
-                });
-                current.textContent = String(activeIndex + 1).padStart(2, '0');
-                progress.style.width = ((activeIndex + 1) / total * 100) + '%';
+            // Clone cards once for seamless infinite loop
+            function openVideo(card) {
+                const id = card.getAttribute('data-video');
+                const modal = document.getElementById('ss-modal');
+                const iframe = document.getElementById('ss-iframe');
+                iframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1';
+                modal.style.display = 'flex';
+                stopAuto();
+            }
+            originalCards.forEach(card => card.addEventListener('click', () => openVideo(card)));
+            originalCards.forEach(card => {
+                const clone = card.cloneNode(true);
+                clone.setAttribute('aria-hidden', 'true');
+                clone.addEventListener('click', () => openVideo(clone));
+                track.appendChild(clone);
+            });
+
+            let originalSetWidth = 0;
+            function recalc() {
+                if (originalCards.length === 0) return;
+                originalSetWidth = (originalCards[0].offsetWidth + 24) * total;
+            }
+            recalc();
+            window.addEventListener('resize', recalc);
+
+            let isRunning = false;
+            let rafId = null;
+            let sectionVisible = false;
+            let isHover = false;
+
+            function animate() {
+                if (!isRunning) return;
+                track.scrollLeft += SPEED;
+                if (track.scrollLeft >= originalSetWidth) {
+                    track.scrollLeft -= originalSetWidth;
+                }
+                updateCounter();
+                rafId = requestAnimationFrame(animate);
             }
 
-            function onScroll() {
-                const cardWidth = cards[0].offsetWidth + 24;
-                const index = Math.round(track.scrollLeft / cardWidth);
-                const clamped = Math.min(Math.max(index, 0), total - 1);
-                activeIndex = clamped;
-                current.textContent = String(clamped + 1).padStart(2, '0');
-                progress.style.width = ((clamped + 1) / total * 100) + '%';
+            function updateCounter() {
+                const cardWidth = originalCards[0].offsetWidth + 24;
+                const index = Math.round(track.scrollLeft / cardWidth) % total;
+                current.textContent = String(index + 1).padStart(2, '0');
+                progress.style.width = ((index + 1) / total * 100) + '%';
             }
 
             function startAuto() {
-                if (autoTimer) return;
-                autoTimer = setInterval(() => scrollToIndex(activeIndex + 1), AUTO_INTERVAL);
+                if (isRunning || isHover) return;
+                isRunning = true;
+                animate();
             }
-
             function stopAuto() {
-                if (autoTimer) {
-                    clearInterval(autoTimer);
-                    autoTimer = null;
-                }
+                isRunning = false;
+                if (rafId) cancelAnimationFrame(rafId);
+                rafId = null;
             }
 
-            prev.addEventListener('click', () => { stopAuto(); scrollToIndex(activeIndex - 1); });
-            next.addEventListener('click', () => { stopAuto(); scrollToIndex(activeIndex + 1); });
-            track.addEventListener('scroll', onScroll);
-            section.addEventListener('mouseenter', stopAuto);
-            section.addEventListener('mouseleave', () => {
-                if (sectionVisible) startAuto();
-            });
+            // Manual nav: instantly jump by one card width then resume
+            function nudge(delta) {
+                stopAuto();
+                track.scrollLeft += delta * (originalCards[0].offsetWidth + 24);
+                if (track.scrollLeft < 0) track.scrollLeft += originalSetWidth;
+                if (track.scrollLeft >= originalSetWidth) track.scrollLeft -= originalSetWidth;
+                updateCounter();
+                setTimeout(() => { if (sectionVisible && !isHover) startAuto(); }, 800);
+            }
+            prev.addEventListener('click', () => nudge(-1));
+            next.addEventListener('click', () => nudge(1));
 
-            cards.forEach(card => {
-                card.addEventListener('click', () => {
-                    stopAuto();
-                    const id = card.getAttribute('data-video');
-                    const modal = document.getElementById('ss-modal');
-                    const iframe = document.getElementById('ss-iframe');
-                    iframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1';
-                    modal.style.display = 'flex';
-                });
-            });
+            section.addEventListener('mouseenter', () => { isHover = true; stopAuto(); });
+            section.addEventListener('mouseleave', () => { isHover = false; if (sectionVisible) startAuto(); });
 
-            // Auto-start when section enters viewport, stop when it leaves
-            let sectionVisible = false;
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     sectionVisible = entry.isIntersecting;
                     if (sectionVisible) startAuto();
                     else stopAuto();
                 });
-            }, { threshold: 0.3 });
+            }, { threshold: 0.2 });
             observer.observe(section);
         })();
 
