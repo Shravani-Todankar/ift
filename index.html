@@ -1904,8 +1904,9 @@
 
                 <!-- Right: Carousel -->
                 <div class="lg:col-span-8 relative">
+                    <div class="ss-viewport">
                     <div id="ss-track"
-                        class="flex gap-6 overflow-x-auto pb-6 ss-track-scroll">
+                        class="flex gap-6 pb-6 ss-track-scroll">
                         <div data-video="EnN1iCuekO4" class="ss-card">
                             <img src="https://img.youtube.com/vi/EnN1iCuekO4/hqdefault.jpg" alt="Success Story 1"
                                 class="absolute inset-0 w-full h-full object-cover" />
@@ -1970,6 +1971,7 @@
                             <span class="ss-play"><span class="material-icons">play_arrow</span></span>
                         </div>
                     </div>
+                    </div>
                     <div class="h-1 bg-white/10 rounded-full overflow-hidden mt-4 max-w-[200px]">
                         <div id="ss-progress" class="h-full bg-accent transition-all duration-500"
                             style="width: 11.11%;"></div>
@@ -1992,14 +1994,28 @@
     </div>
 
     <style>
-        .ss-track-scroll::-webkit-scrollbar {
-            display: none;
+        .ss-viewport {
+            overflow: hidden;
+            width: 100%;
         }
 
         .ss-track-scroll {
-            scrollbar-width: none;
-            touch-action: pan-x;
-            -webkit-overflow-scrolling: touch;
+            transform: translate3d(0, 0, 0);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
+            touch-action: pan-y;
+            user-select: none;
+            -webkit-user-select: none;
+            cursor: grab;
+        }
+
+        .ss-track-scroll.is-dragging {
+            transition: none;
+            cursor: grabbing;
+        }
+
+        .ss-track-scroll.is-dragging .ss-card {
+            pointer-events: none;
         }
 
         .ss-card {
@@ -2123,9 +2139,7 @@
             const originalCards = Array.from(track.querySelectorAll('.ss-card'));
             const total = originalCards.length;
             const AUTO_INTERVAL = 3500;
-            const SCROLL_SETTLE = 700; // ms to wait for smooth scroll to finish
 
-            // Clone cards once for seamless wrap-around
             function openVideo(card) {
                 const id = card.getAttribute('data-video');
                 const modal = document.getElementById('ss-modal');
@@ -2135,6 +2149,7 @@
                 stopAuto();
             }
             originalCards.forEach(card => card.addEventListener('click', () => openVideo(card)));
+            // Clone for seamless wrap-around
             originalCards.forEach(card => {
                 const clone = card.cloneNode(true);
                 clone.setAttribute('aria-hidden', 'true');
@@ -2143,42 +2158,58 @@
             });
 
             const cards = Array.from(track.querySelectorAll('.ss-card'));
-            let activeIndex = 0; // 0..total-1 (logical, of original set)
-            let scrollIndex = 0; // 0..2*total-1 (physical, into cards including clones)
+            let activeIndex = 0;
+            let scrollIndex = 0;
+            let position = 0; // current translateX in px (negative)
             let autoTimer = null;
             let sectionVisible = false;
             let isHover = false;
+
+            function cardStep() { return cards[0].offsetWidth + 24; }
+
+            function setTransform(px, animate) {
+                position = px;
+                track.style.transition = animate ? '' : 'none';
+                track.style.transform = 'translate3d(' + px + 'px,0,0)';
+                if (!animate) {
+                    // restore transition next frame
+                    requestAnimationFrame(() => { track.style.transition = ''; });
+                }
+            }
 
             function updateCounter() {
                 current.textContent = String(activeIndex + 1).padStart(2, '0');
                 progress.style.width = ((activeIndex + 1) / total * 100) + '%';
             }
 
-            function cardStep() {
-                return cards[0].offsetWidth + 24;
+            function goToIndex(idx, animate) {
+                scrollIndex = idx;
+                setTransform(-scrollIndex * cardStep(), animate !== false);
             }
 
             function goToNext() {
                 scrollIndex++;
                 activeIndex = (activeIndex + 1) % total;
-                track.scrollTo({ left: scrollIndex * cardStep(), behavior: 'smooth' });
+                setTransform(-scrollIndex * cardStep(), true);
                 updateCounter();
                 if (scrollIndex >= total) {
                     setTimeout(() => {
-                        track.scrollLeft = 0;
                         scrollIndex = 0;
-                    }, SCROLL_SETTLE);
+                        setTransform(0, false);
+                    }, 550);
                 }
             }
 
             function goToPrev() {
                 if (scrollIndex === 0) {
-                    track.scrollLeft = cardStep() * total;
                     scrollIndex = total;
+                    setTransform(-scrollIndex * cardStep(), false);
+                    // force reflow so next transform animates
+                    void track.offsetWidth;
                 }
                 scrollIndex--;
                 activeIndex = (activeIndex - 1 + total) % total;
-                track.scrollTo({ left: scrollIndex * cardStep(), behavior: 'smooth' });
+                setTransform(-scrollIndex * cardStep(), true);
                 updateCounter();
             }
 
@@ -2200,19 +2231,61 @@
             section.addEventListener('mouseenter', () => { isHover = true; stopAuto(); });
             section.addEventListener('mouseleave', () => { isHover = false; if (sectionVisible) startAuto(); });
 
-            // Touch: pause auto while user swipes, sync state after release
-            let touchTimer = null;
-            track.addEventListener('touchstart', () => { stopAuto(); }, { passive: true });
-            track.addEventListener('touchend', () => {
-                clearTimeout(touchTimer);
-                touchTimer = setTimeout(() => {
+            // ===== Pointer drag (works for touch + mouse) =====
+            let dragStartX = 0, dragStartY = 0, dragStartPos = 0;
+            let dragging = false, axisLocked = false, axis = null;
+            const DRAG_THRESHOLD = 8;
+
+            function onPointerDown(e) {
+                if (e.pointerType === 'mouse' && e.button !== 0) return;
+                dragging = true;
+                axisLocked = false;
+                axis = null;
+                dragStartX = e.clientX;
+                dragStartY = e.clientY;
+                dragStartPos = position;
+                stopAuto();
+                track.setPointerCapture && track.setPointerCapture(e.pointerId);
+            }
+            function onPointerMove(e) {
+                if (!dragging) return;
+                const dx = e.clientX - dragStartX;
+                const dy = e.clientY - dragStartY;
+                if (!axisLocked) {
+                    if (Math.abs(dx) < DRAG_THRESHOLD && Math.abs(dy) < DRAG_THRESHOLD) return;
+                    axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+                    axisLocked = true;
+                    if (axis === 'x') track.classList.add('is-dragging');
+                }
+                if (axis !== 'x') return;
+                e.preventDefault();
+                setTransform(dragStartPos + dx, false);
+            }
+            function onPointerUp(e) {
+                if (!dragging) return;
+                dragging = false;
+                track.classList.remove('is-dragging');
+                if (axis === 'x') {
                     const step = cardStep();
-                    scrollIndex = Math.round(track.scrollLeft / step);
-                    activeIndex = ((scrollIndex % total) + total) % total;
-                    updateCounter();
-                    if (sectionVisible && !isHover) startAuto();
-                }, 600);
-            }, { passive: true });
+                    const delta = position - dragStartPos;
+                    let move = 0;
+                    if (Math.abs(delta) > step * 0.2) {
+                        move = delta < 0 ? 1 : -1;
+                    }
+                    if (move === 1) { goToNext(); }
+                    else if (move === -1) { goToPrev(); }
+                    else { setTransform(dragStartPos, true); }
+                }
+                restartAuto();
+            }
+
+            track.addEventListener('pointerdown', onPointerDown);
+            track.addEventListener('pointermove', onPointerMove);
+            track.addEventListener('pointerup', onPointerUp);
+            track.addEventListener('pointercancel', onPointerUp);
+            track.addEventListener('dragstart', (e) => e.preventDefault());
+
+            window.addEventListener('resize', () => { goToIndex(scrollIndex, false); });
 
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
