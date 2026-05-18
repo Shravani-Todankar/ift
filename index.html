@@ -1998,6 +1998,8 @@
 
         .ss-track-scroll {
             scrollbar-width: none;
+            touch-action: pan-x;
+            -webkit-overflow-scrolling: touch;
         }
 
         .ss-card {
@@ -2197,6 +2199,20 @@
 
             section.addEventListener('mouseenter', () => { isHover = true; stopAuto(); });
             section.addEventListener('mouseleave', () => { isHover = false; if (sectionVisible) startAuto(); });
+
+            // Touch: pause auto while user swipes, sync state after release
+            let touchTimer = null;
+            track.addEventListener('touchstart', () => { stopAuto(); }, { passive: true });
+            track.addEventListener('touchend', () => {
+                clearTimeout(touchTimer);
+                touchTimer = setTimeout(() => {
+                    const step = cardStep();
+                    scrollIndex = Math.round(track.scrollLeft / step);
+                    activeIndex = ((scrollIndex % total) + total) % total;
+                    updateCounter();
+                    if (sectionVisible && !isHover) startAuto();
+                }, 600);
+            }, { passive: true });
 
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
