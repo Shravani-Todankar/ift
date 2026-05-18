@@ -1876,16 +1876,16 @@
     </section>
 
     <!-- IFT Success Stories -->
-    <section class="py-24 relative overflow-hidden" id="success-stories">
+    <section class="py-16 md:py-24 relative overflow-hidden" id="success-stories">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-12 gap-10 items-start">
+            <div class="grid lg:grid-cols-12 gap-6 lg:gap-10 items-start">
                 <!-- Left: Heading + Nav -->
                 <div class="lg:col-span-4">
-                    <div class="flex items-center gap-4 mb-6">
+                    <div class="flex items-center gap-4 mb-4 md:mb-6">
                         <div class="flex items-baseline gap-2">
-                            <span id="ss-current" class="text-5xl font-black text-white tabular-nums">01</span>
-                            <span class="text-2xl text-gray-500">/</span>
-                            <span class="text-2xl text-gray-500 tabular-nums">09</span>
+                            <span id="ss-current" class="ss-counter-num font-black text-white tabular-nums">01</span>
+                            <span class="ss-counter-sep text-gray-500">/</span>
+                            <span class="ss-counter-sep text-gray-500 tabular-nums">09</span>
                         </div>
                         <div class="flex gap-3 ml-2">
                             <button id="ss-prev" class="ss-nav-btn">
@@ -1896,8 +1896,8 @@
                             </button>
                         </div>
                     </div>
-                    <h2 class="font-bold text-white" style="font-size:3.25rem;line-height:3.5rem;">IFT Success</h2>
-                    <h2 class="font-bold italic" style="font-size:3.25rem;line-height:3.5rem;">
+                    <h2 class="ss-heading font-bold text-white">IFT Success</h2>
+                    <h2 class="ss-heading font-bold italic">
                         <span class="text-primary-soft text-gradient">Stories</span>
                     </h2>
                 </div>
@@ -2055,8 +2055,8 @@
         }
 
         .ss-nav-btn {
-            width: 48px;
-            height: 48px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             background: linear-gradient(135deg, rgba(245, 198, 70, 0.18) 0%, rgba(245, 198, 70, 0.05) 100%);
             border: 1px solid rgba(245, 198, 70, 0.4);
@@ -2073,6 +2073,40 @@
             border-color: #f5c646;
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(245, 198, 70, 0.25);
+        }
+
+        .ss-counter-num {
+            font-size: 2.5rem;
+            line-height: 1;
+        }
+
+        .ss-counter-sep {
+            font-size: 1.25rem;
+        }
+
+        .ss-heading {
+            font-size: 2rem;
+            line-height: 2.25rem;
+        }
+
+        @media (min-width: 768px) {
+            .ss-nav-btn {
+                width: 48px;
+                height: 48px;
+            }
+
+            .ss-counter-num {
+                font-size: 3rem;
+            }
+
+            .ss-counter-sep {
+                font-size: 1.5rem;
+            }
+
+            .ss-heading {
+                font-size: 3.25rem;
+                line-height: 3.5rem;
+            }
         }
     </style>
 
