@@ -2148,12 +2148,10 @@
                 modal.style.display = 'flex';
                 stopAuto();
             }
-            originalCards.forEach(card => card.addEventListener('click', () => openVideo(card)));
-            // Clone for seamless wrap-around
+            // Clone for seamless wrap-around. Click handled via pointerup (capture suppresses native click).
             originalCards.forEach(card => {
                 const clone = card.cloneNode(true);
                 clone.setAttribute('aria-hidden', 'true');
-                clone.addEventListener('click', () => openVideo(clone));
                 track.appendChild(clone);
             });
 
@@ -2275,6 +2273,10 @@
                     if (move === 1) { goToNext(); }
                     else if (move === -1) { goToPrev(); }
                     else { setTransform(dragStartPos, true); }
+                } else {
+                    // No drag = tap. Manually open video (pointer capture suppresses native click).
+                    const card = e.target && e.target.closest && e.target.closest('.ss-card');
+                    if (card) openVideo(card);
                 }
                 restartAuto();
             }
