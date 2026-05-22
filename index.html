@@ -1885,7 +1885,7 @@
                         <div class="flex items-baseline gap-2">
                             <span id="ss-current" class="ss-counter-num font-black text-white tabular-nums">01</span>
                             <span class="ss-counter-sep text-gray-500">/</span>
-                            <span class="ss-counter-sep text-gray-500 tabular-nums">09</span>
+                            <span class="ss-counter-sep text-gray-500 tabular-nums">14</span>
                         </div>
                         <div class="flex gap-3 ml-2">
                             <button id="ss-prev" class="ss-nav-btn">
@@ -1965,6 +1965,41 @@
                         </div>
                         <div data-video="ajvZfk_NpXI" class="ss-card">
                             <img src="https://img.youtube.com/vi/ajvZfk_NpXI/hqdefault.jpg" alt="Success Story 9"
+                                class="absolute inset-0 w-full h-full object-cover" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-bg-dark/80 via-transparent to-transparent">
+                            </div>
+                            <span class="ss-play"><span class="material-icons">play_arrow</span></span>
+                        </div>
+                        <div data-video="NPay9NdDqPs" class="ss-card">
+                            <img src="https://img.youtube.com/vi/NPay9NdDqPs/hqdefault.jpg" alt="Success Story 10"
+                                class="absolute inset-0 w-full h-full object-cover" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-bg-dark/80 via-transparent to-transparent">
+                            </div>
+                            <span class="ss-play"><span class="material-icons">play_arrow</span></span>
+                        </div>
+                        <div data-video="ZIuQ1-4KEkE" class="ss-card">
+                            <img src="https://img.youtube.com/vi/ZIuQ1-4KEkE/hqdefault.jpg" alt="Success Story 11"
+                                class="absolute inset-0 w-full h-full object-cover" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-bg-dark/80 via-transparent to-transparent">
+                            </div>
+                            <span class="ss-play"><span class="material-icons">play_arrow</span></span>
+                        </div>
+                        <div data-video="TqVj_70hI18" class="ss-card">
+                            <img src="https://img.youtube.com/vi/TqVj_70hI18/hqdefault.jpg" alt="Success Story 12"
+                                class="absolute inset-0 w-full h-full object-cover" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-bg-dark/80 via-transparent to-transparent">
+                            </div>
+                            <span class="ss-play"><span class="material-icons">play_arrow</span></span>
+                        </div>
+                        <div data-video="P84CbiAhDqk" class="ss-card">
+                            <img src="https://img.youtube.com/vi/P84CbiAhDqk/hqdefault.jpg" alt="Success Story 13"
+                                class="absolute inset-0 w-full h-full object-cover" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-bg-dark/80 via-transparent to-transparent">
+                            </div>
+                            <span class="ss-play"><span class="material-icons">play_arrow</span></span>
+                        </div>
+                        <div data-video="ssXEcRjjd6w" class="ss-card">
+                            <img src="https://img.youtube.com/vi/ssXEcRjjd6w/hqdefault.jpg" alt="Success Story 14"
                                 class="absolute inset-0 w-full h-full object-cover" />
                             <div class="absolute inset-0 bg-gradient-to-t from-bg-dark/80 via-transparent to-transparent">
                             </div>
@@ -2231,6 +2266,7 @@
 
             // ===== Pointer drag (works for touch + mouse) =====
             let dragStartX = 0, dragStartY = 0, dragStartPos = 0;
+            let dragStartTarget = null;
             let dragging = false, axisLocked = false, axis = null;
             const DRAG_THRESHOLD = 8;
 
@@ -2242,6 +2278,7 @@
                 dragStartX = e.clientX;
                 dragStartY = e.clientY;
                 dragStartPos = position;
+                dragStartTarget = e.target;
                 stopAuto();
                 track.setPointerCapture && track.setPointerCapture(e.pointerId);
             }
@@ -2274,10 +2311,11 @@
                     else if (move === -1) { goToPrev(); }
                     else { setTransform(dragStartPos, true); }
                 } else {
-                    // No drag = tap. Manually open video (pointer capture suppresses native click).
-                    const card = e.target && e.target.closest && e.target.closest('.ss-card');
+                    // No drag = tap. Use stored down-target (pointer capture redirects later events to track).
+                    const card = dragStartTarget && dragStartTarget.closest && dragStartTarget.closest('.ss-card');
                     if (card) openVideo(card);
                 }
+                dragStartTarget = null;
                 restartAuto();
             }
 
