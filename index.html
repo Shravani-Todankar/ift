@@ -2638,8 +2638,12 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:grid-rows-2 gap-5">
                 <!-- Card 01: Tycoon's Rewards (tall) -->
                 <div class="reward-anim-border group relative overflow-hidden rounded-2xl border border-white/10 hover:border-accent/40 transition-colors lg:row-span-2 min-h-[300px] flex">
-                    <img src="assets/Tycoon-Image.jpeg" alt="Tycoon rewards"
-                        class="absolute inset-0 w-full h-full object-cover opacity-25 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />
+                    <img src="assets/Tycoon-Image.jpeg" alt="Student rewards" style="opacity:.25"
+                        class="reward-slide absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-all duration-500" />
+                    <img src="assets/Hero-section-img.jpeg" alt="" style="opacity:0"
+                        class="reward-slide absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-all duration-500" />
+                    <img src="assets/video-thumbs/Team%20Innovation.jpg" alt="" style="opacity:0"
+                        class="reward-slide absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-all duration-500" />
                     <div class="absolute inset-0 bg-gradient-to-t from-bg-dark via-bg-dark/90 to-bg-dark/50 group-hover:opacity-0 transition-opacity duration-300"></div>
                     <div class="relative z-10 p-8 flex flex-col justify-end w-full group-hover:opacity-0 transition-opacity duration-300">
                         <div>
@@ -2656,8 +2660,10 @@
 
                 <!-- Card 02: School's Rewards -->
                 <div class="reward-anim-border group relative overflow-hidden rounded-2xl border border-white/10 hover:border-accent/40 transition-colors min-h-[260px] flex">
-                    <img src="assets/School-Image.jpeg" alt="School rewards"
-                        class="absolute inset-0 w-full h-full object-cover opacity-25 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />
+                    <img src="assets/School-Image.jpeg" alt="School rewards" style="opacity:.25"
+                        class="reward-slide absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-all duration-500" />
+                    <img src="assets/video-thumbs/Team%20Bloom.jpg" alt="" style="opacity:0"
+                        class="reward-slide absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-all duration-500" />
                     <div class="absolute inset-0 bg-gradient-to-t from-bg-dark via-bg-dark/90 to-bg-dark/50 group-hover:opacity-0 transition-opacity duration-300"></div>
                     <div class="relative z-10 p-8 flex flex-col justify-end w-full group-hover:opacity-0 transition-opacity duration-300">
                         <div>
@@ -2673,8 +2679,10 @@
 
                 <!-- Card 03: Principal's Rewards -->
                 <div class="reward-anim-border group relative overflow-hidden rounded-2xl border border-white/10 hover:border-accent/40 transition-colors min-h-[260px] flex">
-                    <img src="assets/Principal-Image.jpeg" alt="Principal rewards"
-                        class="absolute inset-0 w-full h-full object-cover opacity-25 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />
+                    <img src="assets/Principal-Image.jpeg" alt="Principal rewards" style="opacity:.25"
+                        class="reward-slide absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-all duration-500" />
+                    <img src="assets/Parth-and-Divya.png" alt="" style="opacity:0"
+                        class="reward-slide absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-all duration-500" />
                     <div class="absolute inset-0 bg-gradient-to-t from-bg-dark via-bg-dark/90 to-bg-dark/50 group-hover:opacity-0 transition-opacity duration-300"></div>
                     <div class="relative z-10 p-8 flex flex-col justify-end w-full group-hover:opacity-0 transition-opacity duration-300">
                         <div>
@@ -2689,8 +2697,10 @@
 
                 <!-- Card 04: Teacher's Rewards (wide) -->
                 <div class="reward-anim-border group relative overflow-hidden rounded-2xl border border-white/10 hover:border-accent/40 transition-colors lg:col-span-2 min-h-[260px] flex">
-                    <img src="assets/Teacher-Image.jpeg" alt="Teacher rewards"
-                        class="absolute inset-0 w-full h-full object-cover opacity-25 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />
+                    <img src="assets/Teacher-Image.jpeg" alt="Teacher rewards" style="opacity:.25"
+                        class="reward-slide absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-all duration-500" />
+                    <img src="assets/Mentors/KAUSTUBH%20DHARGALKAR%20-%20Design%20Thinking.jpg" alt="" style="opacity:0"
+                        class="reward-slide absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-all duration-500" />
                     <div class="absolute inset-0 bg-gradient-to-t from-bg-dark via-bg-dark/90 to-bg-dark/50 group-hover:opacity-0 transition-opacity duration-300"></div>
                     <div class="relative z-10 p-8 flex flex-col justify-end w-full group-hover:opacity-0 transition-opacity duration-300">
                         <div>
@@ -2706,6 +2716,28 @@
             </div>
         </div>
     </section>
+    <script>
+        // Auto crossfade slideshow of card background images on hover
+        (function () {
+            document.querySelectorAll('#rewards-bento .reward-anim-border').forEach(function (card) {
+                var slides = card.querySelectorAll('.reward-slide');
+                if (!slides.length) return;
+                var idx = 0, timer = null;
+                function show(n) { slides.forEach(function (s, i) { s.style.opacity = i === n ? '1' : '0'; }); }
+                function reset() { slides.forEach(function (s, i) { s.style.opacity = i === 0 ? '0.25' : '0'; }); }
+                card.addEventListener('mouseenter', function () {
+                    idx = 0; show(0);
+                    if (slides.length > 1) {
+                        timer = setInterval(function () { idx = (idx + 1) % slides.length; show(idx); }, 1400);
+                    }
+                });
+                card.addEventListener('mouseleave', function () {
+                    if (timer) { clearInterval(timer); timer = null; }
+                    idx = 0; reset();
+                });
+            });
+        })();
+    </script>
 
     <!-- Mentors & Jury -->
     <section class="py-24 bg-bg-dark" id="mentors">
