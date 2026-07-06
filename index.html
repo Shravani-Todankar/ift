@@ -593,6 +593,26 @@
             }
         }
 
+        /* Animated gradient border for reward bento cards */
+        .reward-anim-border::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 1rem;
+            padding: 1.5px;
+            background: conic-gradient(from var(--glow-angle),
+                    transparent 0deg,
+                    #F5C518 70deg,
+                    #7B2D8E 160deg,
+                    transparent 300deg);
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: rotateBorderGlow 4s linear infinite;
+            z-index: 15;
+            pointer-events: none;
+        }
+
         /* Mentor Cards with 3D Tilt */
         .mentor-card {
             position: relative;
@@ -1469,7 +1489,6 @@
                         <div class="text-left md:text-right md:pr-2">
                             <h3 class="text-xl font-bold text-white">Registration, Learning &amp; Idea Submission</h3>
                             <p class="text-gray-400 text-sm mt-2">29th July - 15th Oct</p>
-                            <span class="[color:#f5c646] text-xs font-bold mt-2 block tracking-widest">PHASE 1</span>
                         </div>
                     </div>
                     <div class="timeline-dot absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full border-2 border-primary/30 z-20 flex items-center justify-center"
@@ -1490,7 +1509,6 @@
                         <div class="text-left md:text-left md:pl-2">
                             <h3 class="text-xl font-bold text-white">TOP 400 Ideas</h3>
                             <p class="text-gray-400 text-sm mt-2">31st Oct</p>
-                            <span class="[color:#f5c646] text-xs font-bold mt-2 block tracking-widest">PHASE 2</span>
                         </div>
                         <div class="flex-shrink-0 opacity-90 group-hover:scale-110 transition-transform duration-300">
                             <!-- Custom Idea Submission Icon -->
@@ -1561,7 +1579,6 @@
                         <div class="text-left md:text-right md:pr-2">
                             <h3 class="text-xl font-bold text-white">Online Mentorship</h3>
                             <p class="text-gray-400 text-sm mt-2">10th Nov - 15th Nov</p>
-                            <span class="[color:#f5c646] text-xs font-bold mt-2 block tracking-widest">PHASE 3</span>
                         </div>
                     </div>
                     <div class="timeline-dot absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full border-2 border-primary/30 z-20 flex items-center justify-center"
@@ -1582,7 +1599,6 @@
                         <div class="text-left md:text-left md:pl-2">
                             <h3 class="text-xl font-bold text-white">TOP 100 Ideas</h3>
                             <p class="text-gray-400 text-sm mt-2">25th Nov</p>
-                            <span class="[color:#f5c646] text-xs font-bold mt-2 block tracking-widest">PHASE 4</span>
                         </div>
                         <div class="flex-shrink-0 opacity-90 group-hover:scale-110 transition-transform duration-300">
                             <!-- Custom Easel Icon -->
@@ -1641,7 +1657,6 @@
                         <div class="text-left md:text-right md:pr-2">
                             <h3 class="text-xl font-bold text-white">Zonal Evaluation</h3>
                             <p class="text-gray-400 text-sm mt-2">2nd Dec - 10th Dec</p>
-                            <span class="[color:#f5c646] text-xs font-bold mt-2 block tracking-widest">PHASE 5</span>
                         </div>
                     </div>
                     <div class="timeline-dot absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full border-2 border-primary/30 z-20 flex items-center justify-center"
@@ -1662,7 +1677,6 @@
                         <div class="text-left md:text-left md:pl-2">
                             <h3 class="text-xl font-bold text-white">(TOP 12) Hall Of Fame</h3>
                             <p class="text-gray-400 text-sm mt-2">10th Dec</p>
-                            <span class="[color:#f5c646] text-xs font-bold mt-2 block tracking-widest">PHASE 6</span>
                         </div>
                         <div class="flex-shrink-0 opacity-90 group-hover:scale-110 transition-transform duration-300">
                             <!-- Custom Box Icon -->
@@ -1724,7 +1738,6 @@
                         <div class="text-left md:text-right md:pr-2">
                             <h3 class="text-xl font-bold text-white">Residential Bootcamp</h3>
                             <p class="text-gray-400 text-sm mt-2">26th Dec - 27th Dec</p>
-                            <span class="[color:#f5c646] text-xs font-bold mt-2 block tracking-widest">PHASE 7</span>
                         </div>
                     </div>
                     <div class="timeline-dot absolute left-1/2 transform -translate-x-1/2 w-10 h-10 rounded-full border-2 border-primary/30 z-20 flex items-center justify-center"
@@ -1746,8 +1759,6 @@
                         <div class="text-left md:text-left md:pl-2">
                             <h3 class="text-xl font-bold text-white">Grand Finale &amp; National Recognition</h3>
                             <p class="text-gray-400 text-sm mt-2">28th Dec</p>
-                            <span class="text-xs font-bold mt-2 block tracking-widest"
-                                style="color:#f5c646;">PHASE 8</span>
                         </div>
                         <div class="flex-shrink-0 opacity-90 group-hover:scale-110 transition-transform duration-300">
                             <!-- Custom Globe Icon -->
@@ -2691,6 +2702,85 @@
                             </ul>
                         </li>
                     </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rewards & Recognition - Bento Grid -->
+    <section class="hidden py-24 relative overflow-hidden bg-bg-dark" id="rewards-bento">
+        <div class="absolute inset-0 bg-gradient-to-b from-bg-dark via-primary/5 to-bg-dark opacity-60 z-0"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-14">
+                <h2 class="text-3xl md:text-4xl font-bold text-white">Get Rewarded. <span
+                        class="text-primary-soft text-gradient">Earn Recognition.</span></h2>
+                <p class="text-gray-400 mt-3 max-w-2xl mx-auto">Every Participant. Every School. Every Achievement
+                    Recognized.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:grid-rows-2 gap-5">
+                <!-- Card 01: Tycoon's Rewards (tall) -->
+                <div class="reward-anim-border group relative overflow-hidden rounded-2xl border border-white/10 hover:border-accent/40 transition-colors lg:row-span-2 min-h-[300px] flex">
+                    <img src="assets/Hero-section-img.jpeg" alt="Tycoon rewards"
+                        class="absolute inset-0 w-full h-full object-cover opacity-25 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-bg-dark via-bg-dark/90 to-bg-dark/50 group-hover:opacity-0 transition-opacity duration-300"></div>
+                    <div class="relative z-10 p-8 flex flex-col justify-end w-full group-hover:opacity-0 transition-opacity duration-300">
+                        <div>
+                            <h3 class="text-xl md:text-2xl font-bold text-white mb-4">Tycoon's Rewards</h3>
+                            <ul class="space-y-2.5 text-gray-200 text-sm">
+                                <li class="flex gap-2.5"><span class="material-icons text-accent text-base mt-0.5">check_circle</span>Win a National Trophy, Gift Hamper &amp; Certificates</li>
+                                <li class="flex gap-2.5"><span class="material-icons text-accent text-base mt-0.5">check_circle</span>Secure Seed Funding Up To ₹2,00,000</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 02: School's Rewards -->
+                <div class="reward-anim-border group relative overflow-hidden rounded-2xl border border-white/10 hover:border-accent/40 transition-colors min-h-[260px] flex">
+                    <img src="assets/video-thumbs/Team%20Innovation.jpg" alt="School rewards"
+                        class="absolute inset-0 w-full h-full object-cover opacity-25 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-bg-dark via-bg-dark/90 to-bg-dark/50 group-hover:opacity-0 transition-opacity duration-300"></div>
+                    <div class="relative z-10 p-8 flex flex-col justify-end w-full group-hover:opacity-0 transition-opacity duration-300">
+                        <div>
+                            <h3 class="text-xl md:text-2xl font-bold text-white mb-4">School's Rewards</h3>
+                            <ul class="space-y-2.5 text-gray-200 text-sm">
+                                <li class="flex gap-2.5"><span class="material-icons text-accent text-base mt-0.5">check_circle</span>National Trophy &amp; Certificates For Winning School</li>
+                                <li class="flex gap-2.5"><span class="material-icons text-accent text-base mt-0.5">check_circle</span>Student Participation Recognition Badges</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 03: Teacher's Rewards -->
+                <div class="reward-anim-border group relative overflow-hidden rounded-2xl border border-white/10 hover:border-accent/40 transition-colors min-h-[260px] flex">
+                    <img src="assets/Mentors/KAUSTUBH%20DHARGALKAR%20-%20Design%20Thinking.jpg" alt="Teacher rewards"
+                        class="absolute inset-0 w-full h-full object-cover opacity-25 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-bg-dark via-bg-dark/90 to-bg-dark/50 group-hover:opacity-0 transition-opacity duration-300"></div>
+                    <div class="relative z-10 p-8 flex flex-col justify-end w-full group-hover:opacity-0 transition-opacity duration-300">
+                        <div>
+                            <h3 class="text-xl md:text-2xl font-bold text-white mb-4">Teacher's Rewards</h3>
+                            <ul class="space-y-2.5 text-gray-200 text-sm">
+                                <li class="flex gap-2.5"><span class="material-icons text-accent text-base mt-0.5">check_circle</span>Nurturing Young Changemakers Award</li>
+                                <li class="flex gap-2.5"><span class="material-icons text-accent text-base mt-0.5">check_circle</span>2-Hour Design Thinking Workshop by ENpower</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 04: Principal's Rewards (chosen based on website, wide) -->
+                <div class="reward-anim-border group relative overflow-hidden rounded-2xl border border-white/10 hover:border-accent/40 transition-colors lg:col-span-2 min-h-[260px] flex">
+                    <img src="assets/video-thumbs/Team%20Bloom.jpg" alt="Principal rewards"
+                        class="absolute inset-0 w-full h-full object-cover opacity-25 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-bg-dark via-bg-dark/90 to-bg-dark/50 group-hover:opacity-0 transition-opacity duration-300"></div>
+                    <div class="relative z-10 p-8 flex flex-col justify-end w-full group-hover:opacity-0 transition-opacity duration-300">
+                        <div>
+                            <h3 class="text-xl md:text-2xl font-bold text-white mb-4">Principal's Rewards</h3>
+                            <ul class="space-y-2.5 text-gray-200 text-sm">
+                                <li class="flex gap-2.5"><span class="material-icons text-accent text-base mt-0.5">check_circle</span>Future-ready School Leaders Award for Winning Principal</li>
+                                <li class="flex gap-2.5"><span class="material-icons text-accent text-base mt-0.5">check_circle</span>Recognition as an IFT Partner Institution</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
